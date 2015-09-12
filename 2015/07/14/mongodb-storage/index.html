@@ -1,0 +1,677 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="talk about technology, DevOps, programming (python, nodejs), and database (mysql, mongodb, postgres)" />
+
+
+
+  <meta name="keywords" content="mongodb," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kakashi's Notes" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab 這篇  和自己一些經驗心得。
+MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原文不同，我稍微做了點修改)
+
+假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp;amp; B)，而基本上會被這樣儲存，test.0 &amp;a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mongodb Storage 的架構和問題解法">
+<meta property="og:url" content="http://kkc.github.io/2015/07/14/mongodb-storage/index.html">
+<meta property="og:site_name" content="Kakashi's Notes">
+<meta property="og:description" content="Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab 這篇  和自己一些經驗心得。
+MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原文不同，我稍微做了點修改)
+
+假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp;amp; B)，而基本上會被這樣儲存，test.0 &amp;a">
+<meta property="og:image" content="http://kkc.github.io/img/mongodb_storage.png">
+<meta property="og:updated_time" content="2015-09-12T06:03:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mongodb Storage 的架構和問題解法">
+<meta name="twitter:description" content="Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab 這篇  和自己一些經驗心得。
+MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原文不同，我稍微做了點修改)
+
+假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp;amp; B)，而基本上會被這樣儲存，test.0 &amp;a">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Mongodb Storage 的架構和問題解法 | Kakashi's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-64932988-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Kakashi's Notes</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Mongodb Storage 的架構和問題解法
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          發表於
+          <time itemprop="dateCreated" datetime="2015-07-14T12:05:29+08:00" content="2015-07-14">
+            2015-07-14
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/07/14/mongodb-storage/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/07/14/mongodb-storage/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab <a href="http://blog.mongolab.com/2014/01/how-big-is-your-mongodb/" target="_blank" rel="external">這篇 </a> 和自己一些經驗心得。</p>
+<h2 id="MongoDB_storage_架構">MongoDB storage 架構 </h2><h3 id="Database_and_Extents">Database and Extents</h3><p> 首先參考下面這張圖(與原文不同，我稍微做了點修改)</p>
+<p><img src="/img/mongodb_storage.png" alt="mongodb_storage"></p>
+<p>假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp; B)，而基本上會被這樣儲存，test.0 &amp; test.1 這些 data files 就是真正佔據硬碟的空間，mongodb 會先 preallocate 這些空間，主要有兩個好處：</p>
+<ol>
+<li>減少 disk 空間分配的 fragmentation</li>
+<li>減少寫入時，再去跟硬碟要空間分配的動作</li>
+</ol>
+<p>缺點是不知道一開始要 allocate 多少空間才是最完美的，allocate 太少就少了第二點好處，allocate 太多沒用完又會浪費硬碟空間。 mongodb 預設採用的方式是 db.0 為 64mb，db.1 為 128mb，db.2 為 256mb，一直到了 db.5 才會變成 2G， 而這些根據需求都可以另外設定。</p>
+<p>每個 data file 又有很多的 extent，index 和 data extents 會分開存放，然後存不下的時候，才會被放到新的 data file。</p>
+<h3 id="觀察 Database 大小">觀察 Database 大小 </h3><p> 使用 mongodb 的人一定要學會用 db.stats() 去觀察資料大小，而 db.stats() 又包含了三個觀測指標 dataSize、storageSize 和 fileSize。</p>
+<h4 id="DataSize">DataSize</h4><p>所謂 datasize，指的是上面橘色的部分，其中包含了全部的 documents + padding 的空間。</p>
+<p>當砍掉 document 的時候，datasize 的值會下降，而改變 document 的內容（包含減少 key）則不會改變 datasize 的大小。另外要注意的是，增加 document 的大小時，如果超過 padding (預先分配) 的大小， 會重新找一塊比較大的區域插入，因為 document 通常是連續插入的，如果 document 的大小不一， 原本刪除的地方，有很大的機率會留下洞，也就是新的 document 就無法插入，該區域就浪費了。</p>
+<p>這邊想要再補充一下，因為 mongodb 是利用 mmap 的方式讀取資料進入 memory ，而這些 document 的洞，也會變成 memory 上面的洞 (fragmentation)， 所以我們最好要避免這些洞，進而去減少 page fault 發生的機率。</p>
+<h4 id="StorageSize">StorageSize</h4><p>Storage Size 指的是上圖藍色的部分，也就是 database 中，所有預先分配給 document 儲存的地方。 所以在刪除 document 時，Storage size 並不會減少， 而當增加 document 時，如果原本欲分配的空間不足時， 其大小才有可能會增加。</p>
+<h4 id="FileSize">FileSize</h4><p>File Size 就更簡單了，就是整個 database 佔據的大小，包含了 data &amp; index 的空間，而 FileSize 只有在砍掉 database 時才會減少，刪除 collection、document、index 對他都不會有任何的影響。</p>
+<h2 id="問題">問題 </h2><h3 id="collection_裡面的 fragmentation">collection 裡面的 fragmentation</h3><p> 在講解 Datasize 的時候有提到，砍掉舊的 document 時，要是新的 document 太肥塞不進去，就會造成 fragmentation ， 甚至會變成 memory 上面的 fragmentation ，進而影響 mongodb 的效能，一般我們會去看 DataSize 和 StorageSize 是不是差距過大去 確認是否有這個問題。</p>
+<p>要解決這樣的問題，其中一個方法是使用 compact，但是這個指令會 block 整台機器。另外一個方法就是插入 document 時，都是用同樣大小的 size，這樣刪除 document 後才有機會被 reuse。</p>
+<h3 id="清_fragmentation_的其他方法">清 fragmentation 的其他方法</h3><ol>
+<li><p>除了 compact 和 db.repairDatabase 外，還有個可以清除 fragmentation 的方式，其實是建立新的 replica set node ， 因為在建立 replica set 的時候，資料會重新寫入，所以資料空間可以有比較好的利用率，減少不必要的 fragmentation ， 不過使用這招也是有點麻煩，因為在建立 replica 的時候， mongodb 會吃掉大半的 Disk IOPS, 反應會變得比較慢， 而且 mongodb 的資料都沒有壓縮過，所以要 sync 全部的資料庫，需要非常久的時間。</p>
+</li>
+<li><p>將 secondary replica node 下線後, 先拿來清 fragmentation ，接著再讓他上線 sync 完資料後，切換成 master。</p>
+</li>
+<li><p>Migrate 舊的 database 成為新的 database，優點是不需要人工操作太多 mongodb replica 的工，但缺點是 database migration 需要考慮會不會影響線上的服務，如果是 24/7 的服務，程式碼要就要同時讀取舊的資料庫和新的資料庫，確保資料同步。</p>
+</li>
+</ol>
+<h2 id="結語">結語 </h2><p> 很多使用 mongodb 的人不知道自己的 db fragmentation 情況很嚴重，往往機器變慢了也不知道原因，最好的方式是要定期檢查上面 三個指標，注意 DataSize 遠小於 StorageSize，或是 StorageSize + index Size 遠小於 FileSize 的情況，然後盡量把 document 的大小固定， 相信可以有效地改善這些問題。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mongodb/" rel="tag">#mongodb</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/21/mongodb-memory-structure/" rel="prev">Mongodb 如何使用 Memory 和 Tuning 的小技巧</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/" rel="next">Python 的時間還有時區處理</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Kakashi" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Kakashi</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">talk about technology, DevOps, programming (python, nodejs), and database (mysql, mongodb, postgres)</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分類</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/kkc" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/kakashiliu" target="_blank">twitter</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB_storage_架構"><span class="nav-number">1.</span> <span class="nav-text">MongoDB storage 架構 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Database_and_Extents"><span class="nav-number">1.1.</span> <span class="nav-text">Database and Extents</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#觀察 Database 大小"><span class="nav-number">1.2.</span> <span class="nav-text">觀察 Database 大小 </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DataSize"><span class="nav-number">1.2.1.</span> <span class="nav-text">DataSize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#StorageSize"><span class="nav-number">1.2.2.</span> <span class="nav-text">StorageSize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FileSize"><span class="nav-number">1.2.3.</span> <span class="nav-text">FileSize</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#問題"><span class="nav-number">2.</span> <span class="nav-text">問題 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#collection_裡面的 fragmentation"><span class="nav-number">2.1.</span> <span class="nav-text">collection 裡面的 fragmentation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清_fragmentation_的其他方法"><span class="nav-number">2.2.</span> <span class="nav-text">清 fragmentation 的其他方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#結語"><span class="nav-number">3.</span> <span class="nav-text">結語 </span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kakashi</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'kkcliu';
+      var disqus_identifier = '2015/07/14/mongodb-storage/';
+      var disqus_title = 'Mongodb Storage 的架構和問題解法';
+      var disqus_url = 'http://kkc.github.io/2015/07/14/mongodb-storage/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
