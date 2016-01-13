@@ -1,0 +1,740 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="docker," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kakashi's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="前言  最近公司也採用自己搭建 docker registry，完成 CI/CD 的最後一厘路，這邊做個簡單的安裝紀錄。
+安裝  安裝 docker registry先把 image 從 dockerhub 上面撈下來，我是用 2.1 這個 version，不過官方版本好像到 2.2.1 了。1docker pull registry:2.1
+先建立好 config，然後主要是要把 images">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker Registry 的簡單安裝紀錄">
+<meta property="og:url" content="http://kkc.github.io/2016/01/14/docker-registry-installation/index.html">
+<meta property="og:site_name" content="Kakashi's Notes">
+<meta property="og:description" content="前言  最近公司也採用自己搭建 docker registry，完成 CI/CD 的最後一厘路，這邊做個簡單的安裝紀錄。
+安裝  安裝 docker registry先把 image 從 dockerhub 上面撈下來，我是用 2.1 這個 version，不過官方版本好像到 2.2.1 了。1docker pull registry:2.1
+先建立好 config，然後主要是要把 images">
+<meta property="og:image" content="http://kkc.github.io/img/docker_registry.png">
+<meta property="og:updated_time" content="2016-01-13T23:13:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker Registry 的簡單安裝紀錄">
+<meta name="twitter:description" content="前言  最近公司也採用自己搭建 docker registry，完成 CI/CD 的最後一厘路，這邊做個簡單的安裝紀錄。
+安裝  安裝 docker registry先把 image 從 dockerhub 上面撈下來，我是用 2.1 這個 version，不過官方版本好像到 2.2.1 了。1docker pull registry:2.1
+先建立好 config，然後主要是要把 images">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Docker Registry 的簡單安裝紀錄 | Kakashi's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-64932988-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kakashi's Notes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">喜歡深入實作不當太空人</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Docker Registry 的簡單安裝紀錄
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-01-14T06:12:08+08:00" content="2016-01-14">
+              2016-01-14
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/14/docker-registry-installation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/01/14/docker-registry-installation/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/img/docker_registry.png" alt="docker_registry"></p>
+<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言 </h2><p> 最近公司也採用自己搭建 docker registry，完成 CI/CD 的最後一厘路，這邊做個簡單的安裝紀錄。</p>
+<h2 id="u5B89_u88DD"><a href="#u5B89_u88DD" class="headerlink" title="安裝"></a>安裝 </h2><h3 id="u5B89_u88DD_docker_registry"><a href="#u5B89_u88DD_docker_registry" class="headerlink" title="安裝 docker registry"></a> 安裝 docker registry</h3><p>先把 image 從 dockerhub 上面撈下來，我是用 2.1 這個 version，不過官方版本好像到 2.2.1 了。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">docker</span> <span class="tag">pull</span> <span class="tag">registry</span><span class="pseudo">:2</span><span class="class">.1</span></span><br></pre></td></tr></table></figure></p>
+<p>先建立好 config，然後主要是要把 images 都推上 s3，記得要先去建立好相對應的 IAM user，建立好 accesskey 和 secretkey，其實我會更推薦使用 IAM role 搭配 EC2 ，這樣 accesskey 和 secretkey 就可以留下 “”<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">version</span>: <span class="number">0.1</span></span><br><span class="line"><span class="attribute">log</span>:</span><br><span class="line">  <span class="attribute">level</span>: debug</span><br><span class="line">  <span class="attribute">formatter</span>: text</span><br><span class="line">  <span class="attribute">fields</span>:</span><br><span class="line">    <span class="attribute">service</span>: registry</span><br><span class="line">    <span class="attribute">environment</span>: staging</span><br><span class="line">  <span class="attribute">hooks</span>:</span><br><span class="line">    - <span class="attribute">type</span>: mail</span><br><span class="line">      <span class="attribute">disabled</span>: true</span><br><span class="line">      <span class="attribute">levels</span>:</span><br><span class="line">        - panic</span><br><span class="line">      <span class="attribute">options</span>:</span><br><span class="line">        <span class="attribute">smtp</span>:</span><br><span class="line">          <span class="attribute">addr</span>: mail.example.<span class="attribute">com</span>:<span class="number">25</span></span><br><span class="line">          <span class="attribute">username</span>: mailuser</span><br><span class="line">          <span class="attribute">password</span>: password</span><br><span class="line">          <span class="attribute">insecure</span>: true</span><br><span class="line">        <span class="attribute">from</span>: sender<span class="variable">@example</span>.com</span><br><span class="line">        <span class="attribute">to</span>:</span><br><span class="line">          - errors<span class="variable">@example</span>.com</span><br><span class="line"><span class="attribute">loglevel</span>: debug # <span class="attribute">deprecated</span>: use <span class="string">"log"</span></span><br><span class="line"><span class="attribute">storage</span>:</span><br><span class="line">  <span class="attribute">cache</span>:</span><br><span class="line">    <span class="attribute">blobdescriptor</span>: inmemory</span><br><span class="line">  <span class="attribute">s3</span>:</span><br><span class="line">    <span class="attribute">accesskey</span>: <span class="string">""</span></span><br><span class="line">    <span class="attribute">secretkey</span>: <span class="string">""</span></span><br><span class="line">    <span class="attribute">region</span>: your-region-name</span><br><span class="line">    <span class="attribute">bucket</span>: your-bucket-name</span><br><span class="line">    <span class="attribute">encrypt</span>: true</span><br><span class="line">    <span class="attribute">secure</span>: true</span><br><span class="line">    <span class="attribute">v4auth</span>: true</span><br><span class="line">    <span class="attribute">chunksize</span>: <span class="number">5242880</span></span><br><span class="line">    <span class="attribute">rootdirectory</span>: /</span><br><span class="line">  <span class="attribute">redirect</span>:</span><br><span class="line">    <span class="attribute">disable</span>: true</span><br><span class="line"><span class="attribute">http</span>:</span><br><span class="line">    <span class="attribute">addr</span>: :<span class="number">5000</span></span><br><span class="line">    <span class="attribute">headers</span>:</span><br><span class="line">        <span class="attribute">X-Content-Type-Options</span>: [nosniff]</span><br><span class="line"><span class="attribute">health</span>:</span><br><span class="line">  <span class="attribute">storagedriver</span>:</span><br><span class="line">    <span class="attribute">enabled</span>: true</span><br><span class="line">    <span class="attribute">interval</span>: <span class="number">10s</span></span><br><span class="line">    <span class="attribute">threshold</span>: <span class="number">3</span></span><br></pre></td></tr></table></figure></p>
+<p>啟動<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -<span class="tag">p</span> <span class="number">5000</span>:<span class="number">5000</span> --restart=always --name registry -v `pwd`/config<span class="class">.yml</span>:/etc/docker/registry/config<span class="class">.yml</span> registry:<span class="number">2.1</span></span><br></pre></td></tr></table></figure></p>
+<p>測試一下 registry 是否有正常運作，首先把已經有的 image 打上 tag，在試著推上去撈下來<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">tag</span> ubuntu localhos<span class="variable">t:5000</span>/ubuntu</span><br><span class="line">docker pull localhos<span class="variable">t:5000</span>/ubuntu</span><br><span class="line">docker push localhos<span class="variable">t:5000</span>/ubuntu</span><br></pre></td></tr></table></figure></p>
+<h3 id="u5B89_u88DD_nginx"><a href="#u5B89_u88DD_nginx" class="headerlink" title="安裝 nginx"></a>安裝 nginx</h3><p>這邊要用 nginx 安裝 reverse proxy，主要是因為外面的 request 進來，我們想要用 https 的方式，<br>加上 nginx 也可以 serve 簡單的認證功能，不過 nginx 的版本要高一點，要不然無法使用 <code>add_header</code>。</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="instruction"> add-apt-repository </span>ppa:nginx/stable</span><br><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
+<p>編輯 /etc/nginx/sites-enabled/registry<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">upstream docker-registry &#123;</span><br><span class="line">  server <span class="number">127.0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">5000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">  listen <span class="number">443</span> ssl;</span><br><span class="line">  server_name registry.umbocv.com;</span><br><span class="line"></span><br><span class="line">  # SSL</span><br><span class="line">  ssl_certificate /etc/nginx/bundle.crt;</span><br><span class="line">  ssl_certificate_key /etc/nginx/certificate.key;</span><br><span class="line"></span><br><span class="line">  # disable any limits to avoid HTTP <span class="number">413</span> for large image uploads</span><br><span class="line">  client_max_body_size <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  # required to avoid HTTP <span class="number">411</span>: see Issue #<span class="number">1486</span> (https://github.com/docker/docker/issues/<span class="number">1486</span>)</span><br><span class="line">  chunked_transfer_encoding on;</span><br><span class="line"></span><br><span class="line">  location /v2/ &#123;</span><br><span class="line">    # Do not allow connections from docker <span class="number">1.5</span> and earlier</span><br><span class="line">    # docker pre-<span class="number">1.6</span>.<span class="number">0</span> did not properly set the user agent on ping, catch <span class="string">"Go *"</span> user agents</span><br><span class="line">    if (<span class="variable">$http</span>_user_agent ~ <span class="string">"^(docker\/1\.(3|4|5(?!\.[0-9]-dev))|Go ).*\$"</span> ) &#123;</span><br><span class="line">      return <span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # To add basic authentication to v2 use auth_basic setting plus add_header</span><br><span class="line">    auth_basic <span class="string">"Registry realm"</span>;</span><br><span class="line">    auth_basic_user_file /etc/nginx/htpasswd;</span><br><span class="line">    add_header <span class="string">'Docker-Distribution-Api-Version'</span> <span class="string">'registry/2.0'</span> always;</span><br><span class="line"></span><br><span class="line">    proxy_pass                          http://docker-registry;</span><br><span class="line">    proxy_set_header  Host              <span class="variable">$http</span>_host;   # required for docker client<span class="string">'s sake</span><br><span class="line">    proxy_set_header  X-Real-IP         $remote_addr; # pass on real client'</span>s IP</span><br><span class="line">    proxy_set_header  X-Forwarded-For   <span class="variable">$proxy</span>_add_x_forwarded_for;</span><br><span class="line">    proxy_set_header  X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">    proxy_read_timeout                  <span class="number">900</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>產生 /etc/nginx/htpasswd，建立 user &amp; password ，然後重新啟動 nginx<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo htpasswd -c <span class="regexp">/etc/</span>nginx/htpasswd exampleuser</span><br><span class="line">sudo servie nginx restart</span><br></pre></td></tr></table></figure></p>
+<p>驗證登入<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker login your_registry<span class="class">.domain_name</span><span class="class">.com</span></span><br></pre></td></tr></table></figure></p>
+<p>應該就會看到要求輸入帳號密碼</p>
+<h2 id="trouble_shooting"><a href="#trouble_shooting" class="headerlink" title="trouble shooting"></a>trouble shooting</h2><p>可以看到 ssl 是不是有問題<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -<span class="tag">i</span> -k -v https:<span class="comment">//account:password@your_registry.domain_name.com/v2/</span></span><br></pre></td></tr></table></figure></p>
+<p>檢查 push 上面的 images 有沒有存在<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -i -k -v <span class="string">https:</span><span class="comment">//account:password@your_registry.domain_name.com/v2/_catalog</span></span><br><span class="line">&#123;<span class="string">"repositories"</span>:[<span class="string">"ubuntu"</span>]&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag">#docker</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/05/monitoring-with-graphite/" rel="next" title="使用 Statsd + Graphite 的 Monitoring 心得">
+                <i class="fa fa-chevron-left"></i> 使用 Statsd + Graphite 的 Monitoring 心得
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/default_avatar.jpg"
+               alt="Kakashi" />
+          <p class="site-author-name" itemprop="name">Kakashi</p>
+          <p class="site-description motion-element" itemprop="description">talk about technology, DevOps, programming (python, nodejs), and database (mysql, mongodb, postgres)</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分類</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/kkc" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/kakashiliu" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u524D_u8A00"><span class="nav-number">1.</span> <span class="nav-text">前言 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5B89_u88DD"><span class="nav-number">2.</span> <span class="nav-text">安裝 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#u5B89_u88DD_docker_registry"><span class="nav-number">2.1.</span> <span class="nav-text"> 安裝 docker registry</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5B89_u88DD_nginx"><span class="nav-number">2.2.</span> <span class="nav-text">安裝 nginx</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trouble_shooting"><span class="nav-number">3.</span> <span class="nav-text">trouble shooting</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kakashi</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'kkcliu';
+      var disqus_identifier = '2016/01/14/docker-registry-installation/';
+      var disqus_title = 'Docker Registry 的簡單安裝紀錄';
+      var disqus_url = 'http://kkc.github.io/2016/01/14/docker-registry-installation/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+
+  
+  
+
+
+</body>
+</html>

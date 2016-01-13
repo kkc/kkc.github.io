@@ -1,0 +1,781 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mongodb," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kakashi's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="開始翻以前在 evernote 的連結，發現這篇對於 mongodb 如何使用 memory 的介紹算是簡單易懂，這邊做個小筆記
+    MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen   from MongoDB 
+mmap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mongodb 如何使用 Memory 和 Tuning 的小技巧">
+<meta property="og:url" content="http://kkc.github.io/2015/07/21/mongodb-memory-structure/index.html">
+<meta property="og:site_name" content="Kakashi's Notes">
+<meta property="og:description" content="開始翻以前在 evernote 的連結，發現這篇對於 mongodb 如何使用 memory 的介紹算是簡單易懂，這邊做個小筆記
+    MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen   from MongoDB 
+mmap">
+<meta property="og:updated_time" content="2015-09-12T06:03:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mongodb 如何使用 Memory 和 Tuning 的小技巧">
+<meta name="twitter:description" content="開始翻以前在 evernote 的連結，發現這篇對於 mongodb 如何使用 memory 的介紹算是簡單易懂，這邊做個小筆記
+    MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen   from MongoDB 
+mmap">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Mongodb 如何使用 Memory 和 Tuning 的小技巧 | Kakashi's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-64932988-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kakashi's Notes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">喜歡深入實作不當太空人</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Mongodb 如何使用 Memory 和 Tuning 的小技巧
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-07-21T13:34:36+08:00" content="2015-07-21">
+              2015-07-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/21/mongodb-memory-structure/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/07/21/mongodb-memory-structure/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>開始翻以前在 evernote 的連結，發現這篇對於 mongodb 如何使用 memory 的介紹算是簡單易懂，這邊做個小筆記</p>
+<p><iframe src="//www.slideshare.net/slideshow/embed_code/key/J7LaXFlwQkAgM" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/mongodb/mongodb-london-2013understanding-mongodb-storage-for-performance-and-data-safety-by-christian-kvalheim-10gen" title="MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen" target="_blank">MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen </a> </strong> from <strong><a href="//www.slideshare.net/mongodb" target="_blank">MongoDB</a></strong> </div></p>
+<h2 id="mmap"><a href="#mmap" class="headerlink" title="mmap"></a>mmap</h2><p>Mongodb 的設計是利用 <code>mmap</code> 方式映射檔案文件到 memory 中，直接透過操作 memory 來存取資料，好處有下列幾點:</p>
+<ol>
+<li>簡化設計，省略最複雜的 memory 和硬碟管理，讓 Mongodb 的開發變得容易許多。</li>
+<li>OS 可以對不同文件系統 (ext3, ext4) 的類型做 cache。</li>
+<li>原生的 OS LRU cache 機制。</li>
+<li>Mongodb 重開後可以繼續使用 file cache 裡面的資料。</li>
+</ol>
+<p>而缺點也很明顯:</p>
+<ol>
+<li>因為檔案系統和 memory 是一對一映射，就如前篇所說的，檔案系統內的 fragment 會一同被複製到 memory 中, 造成 memory 的浪費。</li>
+<li>太大的 Linux <code>readahead</code> 會對 memory 的使用造成影響。readahead 指的是一種 prefetching 技術，在檔案讀取中，因為 data 會有 spatial locality (空間局部性)，所以當我們讀取資料時，會一次讀一大段連續資料進來，類似一次讀 16k 或 32k 進入 page cache，去減少硬碟速度過慢造成的影響，然後增加檔案的速度。</li>
+<li>LRU 的 cache 方式，不能夠去設定 Priority，像是 index 這類資料，也是會被 LRU 方式被 swap out。</li>
+</ol>
+<h2 id="Resident_memory"><a href="#Resident_memory" class="headerlink" title="Resident memory"></a>Resident memory</h2><p>通常我們會想知道 data 到底使用了多少 memory，而比較好的指標是 Resident memory，基於 Mongodb 是用 share memory 的機制， 查看每個 Mongodb 的 process 的 Resident memory 都會是一樣的。</p>
+<p>Resident memory 的組合如下</p>
+<blockquote><p>Resident memory = process overhead + File system pages 被 access 的部分<br>process overhead = connection + heap</p>
+</blockquote>
+<p>有些人去檢查後會覺得很奇怪，為什麼 Resident memory 相對於全部 memory 而言少那麼多，以為 Mongodb 沒有完整的使用 memory， 其實不用擔心，mongodb 會把資料都讀入 file cache ，這點可以用 <code>free -m</code> 來檢查，是否 <code>cached</code> 那欄吃了不少 memory ， 而 resident 裡面會顯示的空間，則是 mongodb 真正有 access 到的檔案，這部分的數據會被 memory fragment 和 readahead 影響, 如果發現 Resident memory 過低, 應該是要想辦法減少 memory fragment 或是調整 readahead 的大小， 讓讀進來的資料都是需要的, 減少發生 page fault 的機率。</p>
+<h2 id="Working_set__26amp_3B_page_fault"><a href="#Working_set__26amp_3B_page_fault" class="headerlink" title="Working set &amp; page fault"></a>Working set &amp; page fault</h2><p>常聽人說 Mongodb 需要大量的 memory， 最好是 memory 要能夠 fit working set，但大家常以為 working set 就代表全部資料的大小，這是個錯誤觀念。實際上 working set 指得是 mongodb 完成所有操作要取用的 data 和 index 大小。例如資料庫內不是每筆資料都常常被 access，舉 Blog 來說三年前的資料就不會那麼常被存取, 那 working set 裡面就不需要包含那麼古老的資料。</p>
+<p>查看 working set 的指令<code>db.runCommand({ serverStatus: 1, workingSet: 1} )</code></p>
+<p>在 mongodb 中， working set 的資料如果不在 memory 中，就會引發 page fault，這個時候就要去觀察 page fault 的大小， page fault 如果超過一定值(ex. 200 以上)， 然後 latency 又受到影響， 你的系統可能就需要一些調整了，有可能是要加 RAM，也有可能是資料沒有上到 index 而造成 Table scan， 而下一節我也有列出一些平常我會調整的部分。</p>
+<h2 id="Tunning"><a href="#Tunning" class="headerlink" title="Tunning"></a>Tunning</h2><p>以下是我在 AWS EC2 平台上的一些調整方法</p>
+<h3 id="u8A18_u61B6_u9AD4"><a href="#u8A18_u61B6_u9AD4" class="headerlink" title="記憶體"></a>記憶體</h3><ol>
+<li><p>設定 swap（預設為 60, 當系統使用到超過 40% memory, 就會嘗試使用 swap）</p>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w vm.swappiness=<span class="number">1</span>   <span class="preprocessor"># from <span class="number">60</span> -&gt; <span class="number">1</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Huge Page (especially THP) for mongodb: <a href="https://jira.mongodb.org/browse/DOCS-2131" target="_blank" rel="external">https://jira.mongodb.org/browse/DOCS-2131</a></p>
+ <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo never &gt; <span class="regexp">/sys/kernel</span><span class="regexp">/mm/transparent</span>_hugepage/enabled</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="File_System"><a href="#File_System" class="headerlink" title="File System"></a>File System</h3><ol>
+<li><p>File system flush issues (有興趣可以查看 <a href="http://blog.littlero.se/post/linux-tuning-for-write-heavy-system/" target="_blank" rel="external"> 這篇</a>)</p>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"># vm.dirty_ratio = <span class="number">80</span>                  # from <span class="number">40</span></span></span><br><span class="line"><span class="preprocessor"># vm.dirty_background_ratio = <span class="number">5</span>        # from <span class="number">10</span></span></span><br><span class="line"><span class="preprocessor"># vm.dirty_expire_centisecs = <span class="number">12000</span>    # from <span class="number">3000</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>For Mongodb Disk Mounting</p>
+<p> modify <code>/etc/fstab</code><br> 把 journal 和一般的 data 掛在不同的 disk 上面, 因為我是用 SSD 硬碟, 所以取消 atime, 然後加上 discard 的指令, 讓 SSD 開始 Trim 的功能</p>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/dev/xvdf /mongodb_data ext4 defaults,<span class="keyword">auto</span>,discard,noatime,noexec <span class="number">0</span> <span class="number">0</span></span><br><span class="line">/dev/xvdg /journal ext4 defaults,<span class="keyword">auto</span>,discard,noatime,noexec <span class="number">0</span> <span class="number">0</span></span><br><span class="line">/dev/xvdh /<span class="built_in">log</span> ext4 defaults,<span class="keyword">auto</span>,discard,noatime,noexec <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>設定 Readahead</p>
+<p> Readahead 根據資料不同, 需要有不同的調整, mongodb 官網是建議在 32k 以下, 而最後不要低於 16k, 因為 Mongodb 的 index bucket 的大小就是 8k, 調整太低可能會失去一些好處。</p>
+ <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo blockdev <span class="comment">--setra 32 /dev/xvdf</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ulimit</p>
+<p> 修改<code>/etc/security/limits.conf</code></p>
+ <figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">* </span>soft nofile 64000</span><br><span class="line"><span class="bullet">* </span>hard nofile 64000</span><br><span class="line"><span class="bullet">* </span>soft nproc 32000</span><br><span class="line"><span class="bullet">* </span>hard nproc 32000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>IO scheduler 因為是使用 SSD based 的硬碟, 採用 Noop</p>
+ <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo noop | sudo tee <span class="regexp">/sys/</span>block<span class="regexp">/xvdf/</span>queue<span class="regexp">/scheduler</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mongodb/" rel="tag">#mongodb</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/14/mongodb-storage/" rel="next" title="Mongodb Storage 的架構和問題解法">
+                <i class="fa fa-chevron-left"></i> Mongodb Storage 的架構和問題解法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/16/RDBMS-course/" rel="prev" title="RDBMS 先修課程筆記">
+                RDBMS 先修課程筆記 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/default_avatar.jpg"
+               alt="Kakashi" />
+          <p class="site-author-name" itemprop="name">Kakashi</p>
+          <p class="site-description motion-element" itemprop="description">talk about technology, DevOps, programming (python, nodejs), and database (mysql, mongodb, postgres)</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分類</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/kkc" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/kakashiliu" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mmap"><span class="nav-number">1.</span> <span class="nav-text">mmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resident_memory"><span class="nav-number">2.</span> <span class="nav-text">Resident memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Working_set__26amp_3B_page_fault"><span class="nav-number">3.</span> <span class="nav-text">Working set & page fault</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tunning"><span class="nav-number">4.</span> <span class="nav-text">Tunning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#u8A18_u61B6_u9AD4"><span class="nav-number">4.1.</span> <span class="nav-text">記憶體</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#File_System"><span class="nav-number">4.2.</span> <span class="nav-text">File System</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kakashi</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'kkcliu';
+      var disqus_identifier = '2015/07/21/mongodb-memory-structure/';
+      var disqus_title = 'Mongodb 如何使用 Memory 和 Tuning 的小技巧';
+      var disqus_url = 'http://kkc.github.io/2015/07/21/mongodb-memory-structure/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+
+  
+  
+
+
+</body>
+</html>
