@@ -200,100 +200,15 @@
 
     
     
+      
+      
+        
+        
+        
+      
 
+      
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/18/sentry-installation/" itemprop="url">
-                  Sentry 簡單安裝指南
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-01-18T08:34:10+08:00" content="2016-01-18">
-              2016-01-18
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/18/sentry-installation/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/01/18/sentry-installation/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Sentry 是我們拿來記錄 web service error logging 的好工具，主要的優點是界面漂亮，支援多種主要語言的 client ，跟 email &amp; slack 的整合都很完整，目前是由 <a href="https://github.com/dcramer" target="_blank" rel="external">David Cramer</a> 和創造 Flask 的 <a href="https://github.com/mitsuhiko" target="_blank" rel="external">Armin Ronacher</a>  為主要 maintainer ，之前有人問過我跟 ELK stack 的比較，我會說 Sentry 對 OP 來說會比較省事，比 ELK 好安裝也好管理，而且也有 SaaS 的服務可以直接用，價格也算蠻便宜的，不過這篇文章主要是想挑戰自己安裝，在業務量不大的情況下，採用 AWS t2.micro 也可以撐住不少 exception log 。</p>
-<h2 id="u5B89_u88DD"><a href="#u5B89_u88DD" class="headerlink" title="安裝"></a>安裝 </h2><p> 基本上這篇文章是參考 <a href="https://docs.getsentry.com/on-premise/server/installation/" target="_blank" rel="external">https://docs.getsentry.com/on-premise/server/installation/</a></p>
-<p>新版的 sentry 8.0.0 已經不支援 MYSQL，而是使用 PostgresSQL or SQLite。</p>
-<p>安裝 virtaulenv，並且建立資料夾<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="operator"><span class="keyword">install</span> -U virtualenv</span><br><span class="line">virtualenv /www/sentry/</span><br><span class="line"><span class="keyword">source</span> /www/sentry/<span class="keyword">bin</span>/<span class="keyword">activate</span></span></span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
 
     
       
@@ -746,7 +661,7 @@
               
                 
                 <a class="post-title-link" href="/2015/07/21/mongodb-memory-structure/" itemprop="url">
-                  Mongodb 如何使用 Memory 和 tuning 的小技巧
+                  Mongodb 如何使用 Memory 和 Tuning 的小技巧
                 </a>
               
             
@@ -1223,7 +1138,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
