@@ -1,295 +1,316 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[Kakashi's Notes]]></title>
-  <subtitle><![CDATA[啊啊啊啊啊 (想發 10x 界王拳)]]></subtitle>
+  <title>Kakashi&#39;s Notes</title>
+  <subtitle>啊啊啊啊啊 (想發 10x 界王拳)</subtitle>
   <link href="/atom.xml" rel="self"/>
+  
   <link href="http://kkc.github.io/"/>
-  <updated>2016-07-03T14:49:11.000Z</updated>
+  <updated>2016-07-03T19:18:19.000Z</updated>
   <id>http://kkc.github.io/</id>
   
   <author>
-    <name><![CDATA[Kakashi]]></name>
+    <name>Kakashi</name>
     
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[Golang X CI X CD]]></title>
+    <title>Golang X CI X CD</title>
     <link href="http://kkc.github.io/2016/07/03/golang-ci/"/>
     <id>http://kkc.github.io/2016/07/03/golang-ci/</id>
     <published>2016-07-02T18:05:15.000Z</published>
-    <updated>2016-07-03T14:49:11.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言 </h2><p> 最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。</p>
-<h2 id="u554A_u554A_u554A_uFF0C_u4F7F_u7528_u5230_u7684_DevOps__u5DE5_u5177"><a href="#u554A_u554A_u554A_uFF0C_u4F7F_u7528_u5230_u7684_DevOps__u5DE5_u5177" class="headerlink" title="啊啊啊，使用到的 DevOps 工具"></a>啊啊啊，使用到的 DevOps 工具 </h2><p> 雖然不是沽名釣譽之徒，但是流行用語還是要提一下 XD</p>
-<ul>
-<li>Git 我最熟悉的版本控制系統</li>
-<li>Github 全世界最大工程師社交平台</li>
-<li>Jenkins 老爺爺來幫你做 CI &amp; CD，叫他幫你做 build code, testing, 和 deploy 就對了啊（握拳）</li>
-<li>Docker 載得動很多鐵箱子的鯨魚（實在厲害）</li>
-</ul>
-<h2 id="u4E00_u5207_u7684_u8D77_u6E90_uFF0C_u8A2D_u5B9A_Github__u8207_jenkins__u7684_u9023_u52D5"><a href="#u4E00_u5207_u7684_u8D77_u6E90_uFF0C_u8A2D_u5B9A_Github__u8207_jenkins__u7684_u9023_u52D5" class="headerlink" title="一切的起源，設定 Github 與 jenkins 的連動"></a>一切的起源，設定 Github 與 jenkins 的連動 </h2><p> 公司專案習慣使用 <a href="https://ihower.tw/blog/archives/5140" target="_blank" rel="external">Github flow</a>，依照慣例要發出 Pull Request (PR) 給同事 Review 前，需要確保這個 PR 不會讓 Staging branch 爛掉，這邊就需要採用老爺爺的力量了，流程如下：</p>
-<ol>
-<li>起手式，要確保 Jenkins 上面需要的 plugins 有裝好</li>
-</ol>
-<ul>
-<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin" target="_blank" rel="external">Git plugin</a></li>
-<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin" target="_blank" rel="external">GitHub+Plugin</a></li>
-<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank" rel="external">GitHub+pull+request+builder+plugin</a></li>
-<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Plugin" target="_blank" rel="external">JUnit+Plugin</a></li>
-<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin" target="_blank" rel="external">Cobertura Plugin</a></li>
-</ul>
-<ol>
-<li>在 Jenkins 上面建立一個 ProjectName-PR 的專案，在原始碼控制那邊填上 Github 的網址</li>
-</ol>
-<p><img src="/img/2016-07/jenkins_config.png" alt="jenkins_config"></p>
-<p>記得將 Branches to build 這邊改成 <code>${ghprbActualCommit}</code></p>
-<ol>
-<li>在 jenkins -&gt; config settings 那邊修改 GitHub Pull Request Builder ，記得要使用可以讀取該 Repo 的帳號，增加好後可以用 Test Credentials 去測試到底能不能連接。</li>
-</ol>
-<p><img src="/img/2016-07/jenkins_pull_request_builder.png" alt="jenkins_pull_request_builder"></p>
-<ol>
-<li>在建構觸發程序那邊，使用 Github pull request builder</li>
-</ol>
-<p><img src="/img/2016-07/jenkins_trigger.png" alt="jenkins_trigger"></p>
-<ol>
-<li>在 Github 中設定好 jenkins 的 webhook</li>
-</ol>
-<p><img src="/img/2016-07/github_1.png" alt="github_webhook"></p>
-<p>記得選擇 trigger by Pull request</p>
-<p>5 接著就可以發個 PR 看看 jenkins 有沒有反應惹</p>
-<h2 id="Golang__u7684_testing__26amp_3B_coverage"><a href="#Golang__u7684_testing__26amp_3B_coverage" class="headerlink" title="Golang 的 testing &amp; coverage"></a>Golang 的 testing &amp; coverage</h2><p>我們公司的 Golang project 的建置，基本上是用 makefile 去管理，這邊有如何產生 testing &amp; coverage 的飯粒：</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">testgen:</span><br><span class="line">    go get github.com/tebeka/go2xunit</span><br><span class="line">    go test $(TEST_PACKAGES) -v | tee test_output</span><br><span class="line">    go2xunit -fail -input test_output -output tests.<span class="keyword">xml</span></span><br><span class="line"></span><br><span class="line"><span class="title">covgen</span>:</span><br><span class="line">    go get github.com/axw/gocov/gocov</span><br><span class="line">    go get github.com/AlekSi/gocov-<span class="keyword">xml</span></span><br><span class="line">    <span class="title">gocov</span> test $(TEST_PACKAGES) | gocov-<span class="keyword">xml</span> <span class="title">&gt; coverage</span>.xml</span><br></pre></td></tr></table></figure>
-<p>使用 go2xunit 產生 Jenkins/Hudson 可以吃的 xunit report，另外用 gocov &amp; gocov-xml 產生 Cobertura 格式，但實測結果發現只能產生 coverage 的 % 數，卻沒辦法看到是哪一行，這邊還要找時間修一下。</p>
-<h2 id="u642D_u914D_Docker__u7522_u751F_report"><a href="#u642D_u914D_Docker__u7522_u751F_report" class="headerlink" title="搭配 Docker 產生 report"></a>搭配 Docker 產生 report</h2><p>在 Jenkins 裡面的建置使用鯨魚招式:</p>
-<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -v <span class="variable">$WORKSPACE</span>:/mnt/<span class="variable">$WORKSPACE</span> -w /mnt/<span class="variable">$WORKSPACE</span> --rm=<span class="literal">true</span> golang:<span class="number">1.6</span>-onbuild bash -c <span class="string">"\</span><br><span class="line">    make clean; \</span><br><span class="line">    make; \</span><br><span class="line">    make test; \</span><br><span class="line">    make covgen;"</span></span><br></pre></td></tr></table></figure>
-<p>最後把 report 生出來並且將狀態打回 github &amp; slack 上。</p>
-<h2 id="u9032_u5165_CD__u7684_u7BC0_u594F"><a href="#u9032_u5165_CD__u7684_u7BC0_u594F" class="headerlink" title="進入 CD 的節奏"></a>進入 CD 的節奏 </h2><p> 昨天才看到一段話覺得很有意思</p>
-<pre><code>continuous delivery doesn’t mean every change is deployed to production ASAP.
+    <updated>2016-07-03T19:18:19.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;# 前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言 &lt;/h2&gt;&lt;p&gt; 最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp;amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。&lt;/p&gt;
+&lt;h2 id=&quot;啊啊啊，使用到的 -DevOps- 工具&quot;&gt;&lt;a href=&quot;# 啊啊啊，使用到的 -DevOps- 工具&quot; class=&quot;headerlink&quot; title=&quot;啊啊啊，使用到的 DevOps 工具&quot;&gt;&lt;/a&gt;啊啊啊，使用到的 DevOps 工具 &lt;/h2&gt;&lt;p&gt; 雖然不是沽名釣譽之徒，但是流行用語還是要提一下 XD&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Git 我最熟悉的版本控制系統&lt;/li&gt;
+&lt;li&gt;Github 全世界最大工程師社交平台&lt;/li&gt;
+&lt;li&gt;Jenkins 老爺爺來幫你做 CI &amp;amp; CD，叫他幫你做 build code, testing, 和 deploy 就對了啊（握拳）&lt;/li&gt;
+&lt;li&gt;Docker 載得動很多鐵箱子的鯨魚（實在厲害）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;一切的起源，設定 -Github- 與 -jenkins- 的連動&quot;&gt;&lt;a href=&quot;# 一切的起源，設定 -Github- 與 -jenkins- 的連動&quot; class=&quot;headerlink&quot; title=&quot;一切的起源，設定 Github 與 jenkins 的連動&quot;&gt;&lt;/a&gt;一切的起源，設定 Github 與 jenkins 的連動 &lt;/h2&gt;&lt;p&gt; 公司專案習慣使用 &lt;a href=&quot;https://ihower.tw/blog/archives/5140&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github flow&lt;/a&gt;，依照慣例要發出 Pull Request (PR) 給同事 Review 前，需要確保這個 PR 不會讓 Staging branch 爛掉，這邊就需要採用老爺爺的力量了，流程如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;起手式，要確保 Jenkins 上面需要的 plugins 有裝好&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Git plugin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub+Plugin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub+pull+request+builder+plugin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Plugin&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;JUnit+Plugin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Cobertura Plugin&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;在 Jenkins 上面建立一個 ProjectName-PR 的專案，在原始碼控制那邊填上 Github 的網址&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;/img/2016-07/jenkins_config.png&quot; alt=&quot;jenkins_config&quot;&gt;&lt;/p&gt;
+&lt;p&gt;記得將 Branches to build 這邊改成 &lt;code&gt;${ghprbActualCommit}&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在 jenkins -&amp;gt; config settings 那邊修改 GitHub Pull Request Builder ，記得要使用可以讀取該 Repo 的帳號，增加好後可以用 Test Credentials 去測試到底能不能連接。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;/img/2016-07/jenkins_pull_request_builder.png&quot; alt=&quot;jenkins_pull_request_builder&quot;&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在建構觸發程序那邊，使用 Github pull request builder&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;/img/2016-07/jenkins_trigger.png&quot; alt=&quot;jenkins_trigger&quot;&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在 Github 中設定好 jenkins 的 webhook&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;/img/2016-07/github_1.png&quot; alt=&quot;github_webhook&quot;&gt;&lt;/p&gt;
+&lt;p&gt;記得選擇 trigger by Pull request&lt;/p&gt;
+&lt;p&gt;5 接著就可以發個 PR 看看 jenkins 有沒有反應惹&lt;/p&gt;
+&lt;h2 id=&quot;Golang- 的 -testing-amp-coverage&quot;&gt;&lt;a href=&quot;#Golang- 的 -testing-amp-coverage&quot; class=&quot;headerlink&quot; title=&quot;Golang 的 testing &amp;amp; coverage&quot;&gt;&lt;/a&gt;Golang 的 testing &amp;amp; coverage&lt;/h2&gt;&lt;p&gt;我們公司的 Golang project 的建置，基本上是用 makefile 去管理，這邊有如何產生 testing &amp;amp; coverage 的飯粒：&lt;/p&gt;
+&lt;figure class=&quot;highlight vim&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;testgen:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;go&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; github.&lt;span class=&quot;keyword&quot;&gt;com&lt;/span&gt;/tebeka/go2xunit&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;go&lt;/span&gt; test $(TEST_PACKAGES) -v | tee test_output&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    go2xunit -fail -&lt;span class=&quot;built_in&quot;&gt;input&lt;/span&gt; test_output -output tests.xml&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;covgen:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;go&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; github.&lt;span class=&quot;keyword&quot;&gt;com&lt;/span&gt;/axw/gocov/gocov&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;go&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;get&lt;/span&gt; github.&lt;span class=&quot;keyword&quot;&gt;com&lt;/span&gt;/AlekSi/gocov-xml&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    gocov test $(TEST_PACKAGES) | gocov-xml &amp;gt; coverage.xml&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;使用 go2xunit 產生 Jenkins/Hudson 可以吃的 xunit report，另外用 gocov &amp;amp; gocov-xml 產生 Cobertura 格式，但實測結果發現只能產生 coverage 的 % 數，卻沒辦法看到是哪一行，這邊還要找時間修一下。&lt;/p&gt;
+&lt;h2 id=&quot;搭配 -Docker- 產生 -report&quot;&gt;&lt;a href=&quot;# 搭配 -Docker- 產生 -report&quot; class=&quot;headerlink&quot; title=&quot;搭配 Docker 產生 report&quot;&gt;&lt;/a&gt;搭配 Docker 產生 report&lt;/h2&gt;&lt;p&gt;在 Jenkins 裡面的建置使用鯨魚招式:&lt;/p&gt;
+&lt;figure class=&quot;highlight elixir&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;docker run -v &lt;span class=&quot;variable&quot;&gt;$WORKSPACE&lt;/span&gt;&lt;span class=&quot;symbol&quot;&gt;:/mnt/&lt;/span&gt;&lt;span class=&quot;variable&quot;&gt;$WORKSPACE&lt;/span&gt; -w /mnt/&lt;span class=&quot;variable&quot;&gt;$WORKSPACE&lt;/span&gt; --rm=&lt;span class=&quot;keyword&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;symbol&quot;&gt;golang:&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;1.6&lt;/span&gt;-onbuild bash -c &lt;span class=&quot;string&quot;&gt;&quot;\&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    make clean; \&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    make; \&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    make test; \&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    make covgen;&quot;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;最後把 report 生出來並且將狀態打回 github &amp;amp; slack 上。&lt;/p&gt;
+&lt;h2 id=&quot;進入 -CD- 的節奏&quot;&gt;&lt;a href=&quot;# 進入 -CD- 的節奏&quot; class=&quot;headerlink&quot; title=&quot;進入 CD 的節奏&quot;&gt;&lt;/a&gt;進入 CD 的節奏 &lt;/h2&gt;&lt;p&gt; 昨天才看到一段話覺得很有意思&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;continuous delivery doesn’t mean every change is deployed to production ASAP.
 It means every change is proven to be deployable at any time.
-</code></pre><p>所以我們都要確保 testing 的品質高上大，程式碼壯壯才能真正達成 CD 這塊，而不是有做成自動化就好了！</p>
-<h2 id="u6D41_u7A0B"><a href="#u6D41_u7A0B" class="headerlink" title="流程"></a>流程</h2><p>PR merged 進 dev 後 -&gt; Github 通知 Jenkins 產生 Staging 的 Image -&gt; 部署到 Staging server 上</p>
-<p>會在 Jenkins 上面再開一個專案 ProjectName-staging 處理這個 task，記得 github 也要加上新的 webhook</p>
-<p><img src="/img/2016-07/github_2.png" alt="github_webhook"></p>
-<p>Jenkins 上面的建置觸發程序使用 <code>Build when a change is pushed to GitHub</code></p>
-<h2 id="u5EFA_u7F6E_Golang_image"><a href="#u5EFA_u7F6E_Golang_image" class="headerlink" title="建置 Golang image"></a>建置 Golang image</h2><p>建構 Golang image 其實是個蠻有趣的題目，在參考 <a href="https://blog.codeship.com/building-minimal-docker-containers-for-go-applications/" target="_blank" rel="external">building-minimal-docker-containers-for-go-applications</a> 後，我們也決定使用 static build 的 golang binary ，並且建構極小的 golang image，一來可以達成縮小 image 佔用的空間，二來可以達成快速部署的功效。</p>
-<p>我們一樣可以用剛剛樓上那招，只是 build binary 的時候加上以下參數</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CGO_ENABLED=<span class="number">0</span> GOOS=linux go build -<span class="tag">a</span> -installsuffix cgo -o main .</span><br></pre></td></tr></table></figure>
-<p>並且將 Dockerfile 寫成</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">FROM</span> scratch</span><br><span class="line"><span class="built_in">ADD</span> <span class="bash">main /</span><br><span class="line"></span><span class="built_in">CMD</span> <span class="bash">[<span class="string">"/main"</span>]</span></span><br></pre></td></tr></table></figure>
-<p>就可以產生出極小的 docker images (大約 10 ~ 20MB)，接著把這個 image 打上 jenkins build tag &amp; latest tag 後，推上 docker registry。</p>
-<h2 id="u90E8_u7F72"><a href="#u90E8_u7F72" class="headerlink" title="部署"></a>部署 </h2><p> 我們採用 Jenkins 的 <code>Send build artifacts to SSH</code> Plugin 連結到 staging server，並且讓他重拉新的 image，接著重啟該 container ，如此一來就完成整個 CI/CD 的流程。</p>
-<h2 id="u5F8C_u8A18"><a href="#u5F8C_u8A18" class="headerlink" title="後記"></a>後記 </h2><p> 這篇文章省掉很多 slack integration 的部分，單純是因為作者太懶，而這方面最近蠻流行的，大家一定都比我還熟（誤），這篇文主要是幫自己記憶一下該做哪些事情，如果有哪邊寫漏了，可以留言告知喔，感謝大家 &lt;(<em> </em>)&gt;</p>
-]]></content>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;所以我們都要確保 testing 的品質高上大，程式碼壯壯才能真正達成 CD 這塊，而不是有做成自動化就好了！&lt;/p&gt;
+&lt;h2 id=&quot;流程&quot;&gt;&lt;a href=&quot;# 流程&quot; class=&quot;headerlink&quot; title=&quot;流程&quot;&gt;&lt;/a&gt;流程&lt;/h2&gt;&lt;p&gt;PR merged 進 dev 後 -&amp;gt; Github 通知 Jenkins 產生 Staging 的 Image -&amp;gt; 部署到 Staging server 上&lt;/p&gt;
+&lt;p&gt;會在 Jenkins 上面再開一個專案 ProjectName-staging 處理這個 task，記得 github 也要加上新的 webhook&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/2016-07/github_2.png&quot; alt=&quot;github_webhook&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Jenkins 上面的建置觸發程序使用 &lt;code&gt;Build when a change is pushed to GitHub&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;建置 -Golang-image&quot;&gt;&lt;a href=&quot;# 建置 -Golang-image&quot; class=&quot;headerlink&quot; title=&quot;建置 Golang image&quot;&gt;&lt;/a&gt;建置 Golang image&lt;/h2&gt;&lt;p&gt;建構 Golang image 其實是個蠻有趣的題目，在參考 &lt;a href=&quot;https://blog.codeship.com/building-minimal-docker-containers-for-go-applications/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;building-minimal-docker-containers-for-go-applications&lt;/a&gt; 後，我們也決定使用 static build 的 golang binary ，並且建構極小的 golang image，一來可以達成縮小 image 佔用的空間，二來可以達成快速部署的功效。&lt;/p&gt;
+&lt;p&gt;我們一樣可以用剛剛樓上那招，只是 build binary 的時候加上以下參數&lt;/p&gt;
+&lt;figure class=&quot;highlight golang&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;CGO_ENABLED=&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; GOOS=linux &lt;span class=&quot;keyword&quot;&gt;go&lt;/span&gt; build -a -installsuffix cgo -o main .&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;並且將 Dockerfile 寫成&lt;/p&gt;
+&lt;figure class=&quot;highlight dockerfile&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;FROM&lt;/span&gt; scratch&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;bash&quot;&gt;main /&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;CMD&lt;/span&gt; &lt;span class=&quot;bash&quot;&gt;[&lt;span class=&quot;string&quot;&gt;&quot;/main&quot;&lt;/span&gt;]&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;就可以產生出極小的 docker images (大約 10 ~ 20MB)，接著把這個 image 打上 jenkins build tag &amp;amp; latest tag 後，推上 docker registry。&lt;/p&gt;
+&lt;h2 id=&quot;部署&quot;&gt;&lt;a href=&quot;# 部署&quot; class=&quot;headerlink&quot; title=&quot;部署&quot;&gt;&lt;/a&gt;部署 &lt;/h2&gt;&lt;p&gt; 我們採用 Jenkins 的 &lt;code&gt;Send build artifacts to SSH&lt;/code&gt; Plugin 連結到 staging server，並且讓他重拉新的 image，接著重啟該 container ，如此一來就完成整個 CI/CD 的流程。&lt;/p&gt;
+&lt;h2 id=&quot;後記&quot;&gt;&lt;a href=&quot;# 後記&quot; class=&quot;headerlink&quot; title=&quot;後記&quot;&gt;&lt;/a&gt;後記 &lt;/h2&gt;&lt;p&gt; 這篇文章省掉很多 slack integration 的部分，單純是因為作者太懶，而這方面最近蠻流行的，大家一定都比我還熟（誤），這篇文主要是幫自己記憶一下該做哪些事情，如果有哪邊寫漏了，可以留言告知喔，感謝大家 &amp;lt;(&lt;em&gt; &lt;/em&gt;)&amp;gt;&lt;/p&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言 </h2><p> 最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp; CD 這件事在軟體開發中已經算]]>
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;# 前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言 &lt;/h2&gt;&lt;p&gt; 最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp;amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 pyt
+    
     </summary>
+    
     
       <category term="golang" scheme="http://kkc.github.io/tags/golang/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Docker Registry 的簡單安裝紀錄]]></title>
+    <title>Docker Registry 的簡單安裝紀錄</title>
     <link href="http://kkc.github.io/2016/01/14/docker-registry-installation/"/>
     <id>http://kkc.github.io/2016/01/14/docker-registry-installation/</id>
     <published>2016-01-13T22:12:08.000Z</published>
     <updated>2016-01-26T05:20:54.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="/img/docker_registry.png" alt="docker_registry"></p>
-<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言 </h2><p> 最近公司也採用自己搭建 docker registry，完成 CI/CD 的最後一厘路，這邊做個簡單的安裝紀錄。</p>
-<h2 id="u5B89_u88DD"><a href="#u5B89_u88DD" class="headerlink" title="安裝"></a>安裝 </h2><h3 id="u5B89_u88DD_docker_registry"><a href="#u5B89_u88DD_docker_registry" class="headerlink" title="安裝 docker registry"></a> 安裝 docker registry</h3><p>先把 image 從 dockerhub 上面撈下來，我是用 2.1 這個 version，不過官方版本好像到 2.2.1 了。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">docker</span> <span class="tag">pull</span> <span class="tag">registry</span><span class="pseudo">:2</span><span class="class">.1</span></span><br></pre></td></tr></table></figure></p>
-<p>先建立好 config，然後主要是要把 images 都推上 s3，記得要先去建立好相對應的 IAM user，建立好 accesskey 和 secretkey，其實我會更推薦使用 IAM role 搭配 EC2 ，這樣 accesskey 和 secretkey 就可以留下 “”<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">version</span>: <span class="number">0.1</span></span><br><span class="line"><span class="attribute">log</span>:</span><br><span class="line">  <span class="attribute">level</span>: debug</span><br><span class="line">  <span class="attribute">formatter</span>: text</span><br><span class="line">  <span class="attribute">fields</span>:</span><br><span class="line">    <span class="attribute">service</span>: registry</span><br><span class="line">    <span class="attribute">environment</span>: staging</span><br><span class="line">  <span class="attribute">hooks</span>:</span><br><span class="line">    - <span class="attribute">type</span>: mail</span><br><span class="line">      <span class="attribute">disabled</span>: true</span><br><span class="line">      <span class="attribute">levels</span>:</span><br><span class="line">        - panic</span><br><span class="line">      <span class="attribute">options</span>:</span><br><span class="line">        <span class="attribute">smtp</span>:</span><br><span class="line">          <span class="attribute">addr</span>: mail.example.<span class="attribute">com</span>:<span class="number">25</span></span><br><span class="line">          <span class="attribute">username</span>: mailuser</span><br><span class="line">          <span class="attribute">password</span>: password</span><br><span class="line">          <span class="attribute">insecure</span>: true</span><br><span class="line">        <span class="attribute">from</span>: sender<span class="variable">@example</span>.com</span><br><span class="line">        <span class="attribute">to</span>:</span><br><span class="line">          - errors<span class="variable">@example</span>.com</span><br><span class="line"><span class="attribute">loglevel</span>: debug # <span class="attribute">deprecated</span>: use <span class="string">"log"</span></span><br><span class="line"><span class="attribute">storage</span>:</span><br><span class="line">  <span class="attribute">cache</span>:</span><br><span class="line">    <span class="attribute">blobdescriptor</span>: inmemory</span><br><span class="line">  <span class="attribute">s3</span>:</span><br><span class="line">    <span class="attribute">accesskey</span>: <span class="string">""</span></span><br><span class="line">    <span class="attribute">secretkey</span>: <span class="string">""</span></span><br><span class="line">    <span class="attribute">region</span>: your-region-name</span><br><span class="line">    <span class="attribute">bucket</span>: your-bucket-name</span><br><span class="line">    <span class="attribute">encrypt</span>: true</span><br><span class="line">    <span class="attribute">secure</span>: true</span><br><span class="line">    <span class="attribute">v4auth</span>: true</span><br><span class="line">    <span class="attribute">chunksize</span>: <span class="number">5242880</span></span><br><span class="line">    <span class="attribute">rootdirectory</span>: /</span><br><span class="line">  <span class="attribute">redirect</span>:</span><br><span class="line">    <span class="attribute">disable</span>: true</span><br><span class="line"><span class="attribute">http</span>:</span><br><span class="line">    <span class="attribute">addr</span>: :<span class="number">5000</span></span><br><span class="line">    <span class="attribute">headers</span>:</span><br><span class="line">        <span class="attribute">X-Content-Type-Options</span>: [nosniff]</span><br><span class="line"><span class="attribute">health</span>:</span><br><span class="line">  <span class="attribute">storagedriver</span>:</span><br><span class="line">    <span class="attribute">enabled</span>: true</span><br><span class="line">    <span class="attribute">interval</span>: <span class="number">10s</span></span><br><span class="line">    <span class="attribute">threshold</span>: <span class="number">3</span></span><br></pre></td></tr></table></figure></p>
-<p>啟動<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -<span class="tag">p</span> <span class="number">5000</span>:<span class="number">5000</span> --restart=always --name registry -v `pwd`/config<span class="class">.yml</span>:/etc/docker/registry/config<span class="class">.yml</span> registry:<span class="number">2.1</span></span><br></pre></td></tr></table></figure></p>
-<p>測試一下 registry 是否有正常運作，首先把已經有的 image 打上 tag，在試著推上去撈下來<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">tag</span> ubuntu localhos<span class="variable">t:5000</span>/ubuntu</span><br><span class="line">docker pull localhos<span class="variable">t:5000</span>/ubuntu</span><br><span class="line">docker push localhos<span class="variable">t:5000</span>/ubuntu</span><br></pre></td></tr></table></figure></p>
-<h3 id="u5B89_u88DD_nginx"><a href="#u5B89_u88DD_nginx" class="headerlink" title="安裝 nginx"></a>安裝 nginx</h3><p>這邊要用 nginx 安裝 reverse proxy，主要是因為我們想要走 https 加密的方式，加上 nginx 也可以 serve 簡單的認證功能，不過 nginx 的版本要高一點，要不然無法使用 <code>add_header</code>。</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="instruction"> add-apt-repository </span>ppa:nginx/stable</span><br><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
-<p>編輯 /etc/nginx/sites-enabled/registry<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">upstream docker-registry &#123;</span><br><span class="line">  server <span class="number">127.0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">5000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">  listen <span class="number">443</span> ssl;</span><br><span class="line">  server_name registry.your_domain.com;</span><br><span class="line"></span><br><span class="line">  # SSL</span><br><span class="line">  ssl_certificate /etc/nginx/bundle.crt;</span><br><span class="line">  ssl_certificate_key /etc/nginx/certificate.key;</span><br><span class="line"></span><br><span class="line">  # disable any limits to avoid HTTP <span class="number">413</span> for large image uploads</span><br><span class="line">  client_max_body_size <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  # required to avoid HTTP <span class="number">411</span>: see Issue #<span class="number">1486</span> (https://github.com/docker/docker/issues/<span class="number">1486</span>)</span><br><span class="line">  chunked_transfer_encoding on;</span><br><span class="line"></span><br><span class="line">  location /v2/ &#123;</span><br><span class="line">    # Do not allow connections from docker <span class="number">1.5</span> and earlier</span><br><span class="line">    # docker pre-<span class="number">1.6</span>.<span class="number">0</span> did not properly set the user agent on ping, catch <span class="string">"Go *"</span> user agents</span><br><span class="line">    if (<span class="variable">$http</span>_user_agent ~ <span class="string">"^(docker\/1\.(3|4|5(?!\.[0-9]-dev))|Go ).*\$"</span> ) &#123;</span><br><span class="line">      return <span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # To add basic authentication to v2 use auth_basic setting plus add_header</span><br><span class="line">    auth_basic <span class="string">"Registry realm"</span>;</span><br><span class="line">    auth_basic_user_file /etc/nginx/htpasswd;</span><br><span class="line">    add_header <span class="string">'Docker-Distribution-Api-Version'</span> <span class="string">'registry/2.0'</span> always;</span><br><span class="line"></span><br><span class="line">    proxy_pass                          http://docker-registry;</span><br><span class="line">    proxy_set_header  Host              <span class="variable">$http</span>_host;   # required for docker client<span class="string">'s sake</span><br><span class="line">    proxy_set_header  X-Real-IP         $remote_addr; # pass on real client'</span>s IP</span><br><span class="line">    proxy_set_header  X-Forwarded-For   <span class="variable">$proxy</span>_add_x_forwarded_for;</span><br><span class="line">    proxy_set_header  X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">    proxy_read_timeout                  <span class="number">900</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>產生 /etc/nginx/htpasswd，建立 user &amp; password ，然後重新啟動 nginx<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo htpasswd -c <span class="regexp">/etc/</span>nginx/htpasswd exampleuser</span><br><span class="line">sudo servie nginx restart</span><br></pre></td></tr></table></figure></p>
-<p>驗證登入<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker login your_registry<span class="class">.domain_name</span><span class="class">.com</span></span><br></pre></td></tr></table></figure></p>
-<p>應該就會看到要求輸入帳號密碼</p>
-<h2 id="trouble_shooting"><a href="#trouble_shooting" class="headerlink" title="trouble shooting"></a>trouble shooting</h2><p>可以看到 ssl 是不是有問題<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -<span class="tag">i</span> -k -v https:<span class="comment">//account:password@your_registry.domain_name.com/v2/</span></span><br></pre></td></tr></table></figure></p>
-<p>檢查 push 上面的 images 有沒有存在<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -i -k -v <span class="string">https:</span><span class="comment">//account:password@your_registry.domain_name.com/v2/_catalog</span></span><br><span class="line">&#123;<span class="string">"repositories"</span>:[<span class="string">"ubuntu"</span>]&#125;</span><br></pre></td></tr></table></figure></p>
-]]></content>
+    
+    <content type="html">&lt;p&gt;&lt;img src=&quot;/img/docker_registry.png&quot; alt=&quot;docker_registry&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;# 前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言 &lt;/h2&gt;&lt;p&gt; 最近公司也採用自己搭建 docker registry，完成 CI/CD 的最後一厘路，這邊做個簡單的安裝紀錄。&lt;/p&gt;
+&lt;h2 id=&quot;安裝&quot;&gt;&lt;a href=&quot;# 安裝&quot; class=&quot;headerlink&quot; title=&quot;安裝&quot;&gt;&lt;/a&gt;安裝 &lt;/h2&gt;&lt;h3 id=&quot;安裝 -docker-registry&quot;&gt;&lt;a href=&quot;# 安裝 -docker-registry&quot; class=&quot;headerlink&quot; title=&quot;安裝 docker registry&quot;&gt;&lt;/a&gt; 安裝 docker registry&lt;/h3&gt;&lt;p&gt;先把 image 從 dockerhub 上面撈下來，我是用 2.1 這個 version，不過官方版本好像到 2.2.1 了。&lt;br&gt;&lt;figure class=&quot;highlight css&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;docker&lt;/span&gt; &lt;span class=&quot;selector-tag&quot;&gt;pull&lt;/span&gt; &lt;span class=&quot;selector-tag&quot;&gt;registry&lt;/span&gt;&lt;span class=&quot;selector-pseudo&quot;&gt;:2.1&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;先建立好 config，然後主要是要把 images 都推上 s3，記得要先去建立好相對應的 IAM user，建立好 accesskey 和 secretkey，其實我會更推薦使用 IAM role 搭配 EC2 ，這樣 accesskey 和 secretkey 就可以留下 “”&lt;br&gt;&lt;figure class=&quot;highlight less&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;20&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;21&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;22&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;23&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;24&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;25&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;26&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;27&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;28&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;29&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;30&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;31&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;32&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;33&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;34&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;35&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;36&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;37&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;38&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;39&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;40&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;41&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;42&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;43&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;44&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;45&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;46&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;version&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;0.1&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;log&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;level&lt;/span&gt;: debug&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;formatter&lt;/span&gt;: text&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;fields&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;service&lt;/span&gt;: registry&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;environment&lt;/span&gt;: staging&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;hooks&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    - &lt;span class=&quot;attribute&quot;&gt;type&lt;/span&gt;: mail&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;      &lt;span class=&quot;attribute&quot;&gt;disabled&lt;/span&gt;: true&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;      &lt;span class=&quot;attribute&quot;&gt;levels&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        - panic&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;      &lt;span class=&quot;attribute&quot;&gt;options&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;attribute&quot;&gt;smtp&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;          &lt;span class=&quot;attribute&quot;&gt;addr&lt;/span&gt;: mail.example.&lt;span class=&quot;attribute&quot;&gt;com&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;25&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;          &lt;span class=&quot;attribute&quot;&gt;username&lt;/span&gt;: mailuser&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;          &lt;span class=&quot;attribute&quot;&gt;password&lt;/span&gt;: password&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;          &lt;span class=&quot;attribute&quot;&gt;insecure&lt;/span&gt;: true&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;attribute&quot;&gt;from&lt;/span&gt;: sender&lt;span class=&quot;variable&quot;&gt;@example&lt;/span&gt;.com&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;attribute&quot;&gt;to&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;          - errors&lt;span class=&quot;variable&quot;&gt;@example&lt;/span&gt;.com&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;loglevel&lt;/span&gt;: debug # &lt;span class=&quot;attribute&quot;&gt;deprecated&lt;/span&gt;: use &lt;span class=&quot;string&quot;&gt;&quot;log&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;storage&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;cache&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;blobdescriptor&lt;/span&gt;: inmemory&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;s3&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;accesskey&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;secretkey&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;region&lt;/span&gt;: your-region-name&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;bucket&lt;/span&gt;: your-bucket-name&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;encrypt&lt;/span&gt;: true&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;secure&lt;/span&gt;: true&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;v4auth&lt;/span&gt;: true&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;chunksize&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;5242880&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;rootdirectory&lt;/span&gt;: /&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;redirect&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;disable&lt;/span&gt;: true&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;http&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;addr&lt;/span&gt;: :&lt;span class=&quot;number&quot;&gt;5000&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;headers&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;attribute&quot;&gt;X-Content-Type-Options&lt;/span&gt;: [nosniff]&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;health&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;storagedriver&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;enabled&lt;/span&gt;: true&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;interval&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;10s&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;threshold&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;啟動&lt;br&gt;&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;docker run -d -&lt;span class=&quot;selector-tag&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;5000&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;5000&lt;/span&gt; --restart=always --name registry -v `pwd`/config&lt;span class=&quot;selector-class&quot;&gt;.yml&lt;/span&gt;:/etc/docker/registry/config&lt;span class=&quot;selector-class&quot;&gt;.yml&lt;/span&gt; registry:&lt;span class=&quot;number&quot;&gt;2.1&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;測試一下 registry 是否有正常運作，首先把已經有的 image 打上 tag，在試著推上去撈下來&lt;br&gt;&lt;figure class=&quot;highlight vim&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;docker &lt;span class=&quot;keyword&quot;&gt;tag&lt;/span&gt; ubuntu localhos&lt;span class=&quot;variable&quot;&gt;t:5000&lt;/span&gt;/ubuntu&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;docker pull localhos&lt;span class=&quot;variable&quot;&gt;t:5000&lt;/span&gt;/ubuntu&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;docker push localhos&lt;span class=&quot;variable&quot;&gt;t:5000&lt;/span&gt;/ubuntu&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;安裝 -nginx&quot;&gt;&lt;a href=&quot;# 安裝 -nginx&quot; class=&quot;headerlink&quot; title=&quot;安裝 nginx&quot;&gt;&lt;/a&gt;安裝 nginx&lt;/h3&gt;&lt;p&gt;這邊要用 nginx 安裝 reverse proxy，主要是因為我們想要走 https 加密的方式，加上 nginx 也可以 serve 簡單的認證功能，不過 nginx 的版本要高一點，要不然無法使用 &lt;code&gt;add_header&lt;/code&gt;。&lt;/p&gt;
+&lt;figure class=&quot;highlight smali&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;sudo&lt;span class=&quot;built_in&quot;&gt; add-apt-repository &lt;/span&gt;ppa:nginx/stable&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;sudo apt-get install nginx&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;編輯 /etc/nginx/sites-enabled/registry&lt;br&gt;&lt;figure class=&quot;highlight nginx&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;20&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;21&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;22&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;23&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;24&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;25&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;26&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;27&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;28&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;29&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;30&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;31&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;32&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;33&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;34&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;35&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;36&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;37&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;38&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;upstream&lt;/span&gt; docker-registry &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;127.0.0.1:5000&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;section&quot;&gt;server&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;listen&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;443&lt;/span&gt; ssl;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;server_name&lt;/span&gt; registry.your_domain.com;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;comment&quot;&gt;# SSL&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;ssl_certificate&lt;/span&gt; /etc/nginx/bundle.crt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;ssl_certificate_key&lt;/span&gt; /etc/nginx/certificate.key;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;comment&quot;&gt;# disable any limits to avoid HTTP 413 for large image uploads&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;client_max_body_size&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;comment&quot;&gt;# required to avoid HTTP 411: see Issue #1486 (https://github.com/docker/docker/issues/1486)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;chunked_transfer_encoding&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;on&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;location&lt;/span&gt; /v2/ &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;# Do not allow connections from docker 1.5 and earlier&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;# docker pre-1.6.0 did not properly set the user agent on ping, catch &quot;Go *&quot; user agents&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;variable&quot;&gt;$http_user_agent&lt;/span&gt; &lt;span class=&quot;regexp&quot;&gt;~ &quot;^(docker\/1\.(3|4|5(?!\.[0-9]-dev))|Go&lt;/span&gt; ).*\$&lt;span class=&quot;string&quot;&gt;&quot; ) &amp;#123;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;      return 404;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    # To add basic authentication to v2 use auth_basic setting plus add_header&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    auth_basic &quot;Registry realm&lt;span class=&quot;string&quot;&gt;&quot;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    auth_basic_user_file /etc/nginx/htpasswd;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    add_header &#39;Docker-Distribution-Api-Version&#39; &#39;registry/2.0&#39; always;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    proxy_pass                          http://docker-registry;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    proxy_set_header  Host              &lt;span class=&quot;variable&quot;&gt;$http_host&lt;/span&gt;;   # required for docker client&#39;s sake&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    proxy_set_header  X-Real-IP         &lt;span class=&quot;variable&quot;&gt;$remote_addr&lt;/span&gt;; # pass on real client&#39;s IP&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    proxy_set_header  X-Forwarded-For   &lt;span class=&quot;variable&quot;&gt;$proxy_add_x_forwarded_for&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    proxy_set_header  X-Forwarded-Proto &lt;span class=&quot;variable&quot;&gt;$scheme&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    proxy_read_timeout                  900;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;產生 /etc/nginx/htpasswd，建立 user &amp;amp; password ，然後重新啟動 nginx&lt;br&gt;&lt;figure class=&quot;highlight dts&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;sudo htpasswd -c &lt;span class=&quot;meta-keyword&quot;&gt;/etc/&lt;/span&gt;nginx/htpasswd exampleuser&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;sudo servie nginx restart&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;驗證登入&lt;br&gt;&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;docker login your_registry&lt;span class=&quot;selector-class&quot;&gt;.domain_name&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.com&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;應該就會看到要求輸入帳號密碼&lt;/p&gt;
+&lt;h2 id=&quot;trouble-shooting&quot;&gt;&lt;a href=&quot;#trouble-shooting&quot; class=&quot;headerlink&quot; title=&quot;trouble shooting&quot;&gt;&lt;/a&gt;trouble shooting&lt;/h2&gt;&lt;p&gt;可以看到 ssl 是不是有問題&lt;br&gt;&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;curl -&lt;span class=&quot;selector-tag&quot;&gt;i&lt;/span&gt; -k -v https:&lt;span class=&quot;comment&quot;&gt;//account:password@your_registry.domain_name.com/v2/&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;檢查 push 上面的 images 有沒有存在&lt;br&gt;&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;curl -&lt;span class=&quot;selector-tag&quot;&gt;i&lt;/span&gt; -k -v https:&lt;span class=&quot;comment&quot;&gt;//account:password@your_registry.domain_name.com/v2/_catalog&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#123;&lt;span class=&quot;string&quot;&gt;&quot;repositories&quot;&lt;/span&gt;:[&lt;span class=&quot;string&quot;&gt;&quot;ubuntu&quot;&lt;/span&gt;]&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<p><img src="/img/docker_registry.png" alt="docker_registry"></p>
-<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言">]]>
+    
+      &lt;p&gt;&lt;img src=&quot;/img/docker_registry.png&quot; alt=&quot;docker_registry&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;# 前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言 &lt;/h2&gt;&lt;p&gt; 最
+    
     </summary>
+    
     
       <category term="docker" scheme="http://kkc.github.io/tags/docker/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[使用 Statsd + Graphite 的 Monitoring 心得]]></title>
+    <title>使用 Statsd + Graphite 的 Monitoring 心得</title>
     <link href="http://kkc.github.io/2015/09/05/monitoring-with-graphite/"/>
     <id>http://kkc.github.io/2015/09/05/monitoring-with-graphite/</id>
     <published>2015-09-05T15:46:46.000Z</published>
     <updated>2015-09-12T06:03:31.000Z</updated>
-    <content type="html"><![CDATA[<p>上上個禮拜看到威廉大大在 DevOps conf 裡面發表了 <a href="http://www.slideshare.net/williamyeh/whoscall-realtime-monitoring" target="_blank" rel="external">Whoscall 的 Realtime Monitoring 經驗分享</a>，下面這張圖其實勾起我不少回憶，尤其是過去快兩年的時間內，親身體驗架起來的一些東西，有些是我曾經在內部分享過的，想說應該也要分享一下給大家。</p>
-<p><img src="/img/whoscall_monitoring.png" alt="whoscall_monitoring"></p>
-<h2 id="u7DE3_u8D77"><a href="#u7DE3_u8D77" class="headerlink" title="緣起"></a>緣起 </h2><p> 說來也蠻有趣的，當年使用 Graphite 的際遇其實是為了記錄 whoscall 的 Hitrate，而所謂的 Hitrate，一開始的需求是 <code> 查詢有結果的次數 / 查詢次數 </code> 來衡量服務品質，我加入時看到的架構是使用 Mongodb 去紀錄的:</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="tag">TW</span>: &#123;</span><br><span class="line">    <span class="tag">hit</span>: &#123;</span><br><span class="line">      <span class="tag">y</span>: <span class="tag">1000</span>,</span><br><span class="line">      <span class="tag">n</span>: <span class="tag">200</span></span><br><span class="line">    &#125;,</span><br><span class="line">  <span class="tag">KR</span>: &#123;</span><br><span class="line">    <span class="tag">hit</span>: &#123;</span><br><span class="line">      <span class="attribute">y</span>: <span class="number">500</span>,</span><br><span class="line">      <span class="attribute">n</span>: <span class="number">100</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attribute">createdAt</span>: <span class="function">ISODate</span>(<span class="string">'2015-09-05'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>每天產生一條紀錄，然後每個國家都記在同一個 document 內，這樣雖然解了燃眉之急，不過從這個架構來看，代表每接收一條 Request ，就要花一個寫入的 IO，久而久之 Disk 的 IOPS 消耗加劇，而且如果同時有 TW 和 KR 的 Request 發生，還會有寫入競爭的問題，讓 API server 回應給 client 的速度更慢，再者，我們之後想要加入更多的資訊，類似到底是命中什麼，沒有命中的原因是什麼，就這樣不得不尋找更好的方案。</p>
-<h2 id="u70BA_u4EC0_u9EBC_u9078_u64C7_Graphite"><a href="#u70BA_u4EC0_u9EBC_u9078_u64C7_Graphite" class="headerlink" title="為什麼選擇 Graphite"></a>為什麼選擇 Graphite</h2><p>在有這個問題後，我立刻向我的學長 <a href="https://www.facebook.com/titanjer" target="_blank" rel="external">@titanjer</a> 求助，他其實是一個不世出的高人，整天看內容農場和尾隨正妹，但技術實力實在太過於強大，總是有很不錯的 solution ，而在求助後他給了我一句話:</p>
-<blockquote><p>Measure Anything, Measure Everything, You should use Graphite.</p>
-</blockquote>
-<p>被當頭棒喝後，我開始疑問 Grapite 是啥？用這個有啥好處?</p>
-<h3 id="Graphite__u597D_u8655"><a href="#Graphite__u597D_u8655" class="headerlink" title="Graphite 好處"></a>Graphite 好處 </h3><p> 搜索之後發現了…</p>
-<ul>
-<li>RRD-liked service, 支援 Metrics 的精度遞減, 一天內 10s 一條, 七天內合成為 1m 一條, 一年內 1hr 一條</li>
-<li>有豐富的查詢函數, sum/min/max/avg … etc</li>
-<li>有完整的 ecosystem , , 簡單的 TCP/UDP 協議, 很容易可以插入數據</li>
-<li>有完整的 HA &amp; Scalable 方案 - Carbon-Relay</li>
-<li>有數據 aggregator 方案 - Carbon-aggregator</li>
-<li>支援 Restful-API, 可以利用 Grafana 顯示數據</li>
-<li>簡單的配置方式, 只要會修改 config, 就可以建構百萬數據收集的架構</li>
-<li>非常多的 <a href="http://graphite.readthedocs.org/en/latest/who-is-using.html" target="_blank" rel="external"> 公司 </a> 採用</li>
-</ul>
-<h3 id="u57FA_u672C_u67B6_u69CB"><a href="#u57FA_u672C_u67B6_u69CB" class="headerlink" title="基本架構"></a>基本架構</h3><p><img src="/img/graphite-architecture.png" alt="whoscall_monitoring"></p>
-<p>在架設前，先來搞懂架構長怎樣，這張圖我一直覺得畫得很棒，來自 whisper 的 github <a href="https://github.com/graphite-project/whisper" target="_blank" rel="external">頁面</a>，基本上 Graphite 的組件共有三項:</p>
-<ul>
-<li>Carbon: 負責接受數據，把數據暫存到記憶體中</li>
-<li>Whisper: Graphite 專用的 RRD-style database，而且是 fixed-size databases，也就是根據你設定的 retention，建立出來的資料庫就是多大，好處就是很容易估算要多少 disk 空間，但根據我的經驗是 Whisper 其實儲存所需要的空間很少。</li>
-<li>Graphite-Web: 開放一堆 API &amp; Web UI 給你去存取資料</li>
-</ul>
-<p>基本上 Carbon-cache 就是個 queue 的角色，會先把數據寫在 memory 裡面，等到時間到了後，一口氣 flush data 進到 whisper，然後 Carbon 可以設定 <code>MAX_UPDATES_PER_SECOND</code>，預設是 500，也就是一秒內呼叫多少次 whisper update 的 function ，這關係到你的 queue 內資料的多寡和 disk 的 IOPS，如果設定的太快，會導致 IOPS 上升，想要看資料也就是讀取時過慢(因為讀取有時候也需要做 aggregation) ，而設定太低又會讓 queue 內的資料來不及寫入 disk ，詳細的說明可以看這篇<a href="https://grey-boundary.io/minimizing-datapoint-lag-in-graphite/" target="_blank" rel="external">minimizing-datapoint-lag-in-graphite</a>。Whisper 基本上是 file based 的 database 系統，然後一個 time series 的 Metris 用一個 file 去紀錄，在每次寫入時都會去檢查 retention ，進而達成 RRD 的功效，Graphite-Web 則提供了 WebUI 還有一些 API 讓你去呼叫寫入的資料，當資料還在 carbon-cache 時，會直接去讀取 memory 內的資料，如果已經寫入 whisper ，則會去 disk 存取，當然也可以設定一些 cache，讓他不需要直接讀取 carbon 或是 whisper。</p>
-<p>這邊順便提一下 Optional 的組件:</p>
-<ul>
-<li>carbon-relay: 拿來處理 HA 的，可以想成是個 Router ，設定後可以做到水平或是垂直 scale 數據儲存。</li>
-<li>carbon-aggregator: 這個套件可以先預先寫好一些 Rule ，例如你可以寫 PRODUCTION.host.*.requests 要直接存成 PRODUCTION.host.all.requests, 去減少寫入的維度。</li>
-<li>memcached: 這應該就不用提了，提供 API 那部份的 cache。</li>
-</ul>
-<h3 id="u63A1_u7528_u7684Stack_3A_Statsd_+_Graphite_+_Grafana"><a href="#u63A1_u7528_u7684Stack_3A_Statsd_+_Graphite_+_Grafana" class="headerlink" title="採用的 Stack: Statsd + Graphite + Grafana"></a>採用的 Stack: Statsd + Graphite + Grafana</h3><p>而後來採用的方法，其實是在 carbon 前面多塞一個 statsd 當作緩衝，主要原因是 server-side 想利用 UDP 傳輸資料，而 Hitrate 這種屬於統計型態的資料，掉個幾筆其實並不會影響主要的趨勢，而利用 UDP 有個好處是，當 statsd + graphite 掛掉 server 也不會因此而卡住， statsd 提供的 library 蠻全面的，並且是 nodejs-based 的，對於這種大量連接的工作，處理的效率很好，而且國外也有許多 production 的案例，這也是採用的原因。</p>
-<p>紀錄的方法很簡單：<br>使用<a href="https://pypi.python.org/pypi/statsd" target="_blank" rel="external">python statsd</a> library，利用 <code>incr</code> 的呼叫去累加數字</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">statsd.<span class="function"><span class="title">incr</span><span class="params">(<span class="string">'TW.queryin.y'</span>)</span></span></span><br><span class="line">statsd.<span class="function"><span class="title">incr</span><span class="params">(<span class="string">'TW.queryin.n'</span>)</span></span></span><br><span class="line">statsd.<span class="function"><span class="title">incr</span><span class="params">(<span class="string">'TW.widget.y'</span>)</span></span></span><br><span class="line">statsd.<span class="function"><span class="title">incr</span><span class="params">(<span class="string">'TW.widget.n'</span>)</span></span></span><br><span class="line">statsd.<span class="function"><span class="title">incr</span><span class="params">(<span class="string">'KR.queryin.y'</span>)</span></span></span><br><span class="line">statsd.<span class="function"><span class="title">incr</span><span class="params">(<span class="string">'KR.queryin.n'</span>)</span></span></span><br></pre></td></tr></table></figure>
-<p>如此一來我們可以用<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">sumSeries</span><span class="params">(TW.*.*)</span></span> 來觀看總數是多少</span><br></pre></td></tr></table></figure></p>
-<p>再搭配 graphite 的 dashbaord，很簡單就可以看到下面這種圖<br><img src="/img/graphite_sample.png" alt="grpahite_sample"></p>
-<p>這邊也只是範例，當然實際的紀錄是比這個複雜許多，不過用這個方法，其實得到蠻多方便性和彈性，當然 API 的 performance 也有大幅的提升!</p>
-<h3 id="u9047_u5230_u7684_u554F_u984C"><a href="#u9047_u5230_u7684_u554F_u984C" class="headerlink" title="遇到的問題"></a>遇到的問題 </h3><p> 當然在採用這個方案時，也是有些坑要注意</p>
-<ol>
-<li>Carbon-cache 還沒寫入完成就被關閉，queue 裡面的資料會掉，怕的話可以用 Carbon-relay 做 HA。</li>
-<li>每個 Metric 都存在一個檔案裡面，當你要做 aggregator 動到太多數據時，其實是會同時打開這些檔案(想想看同時開啟 1000 個 file)。</li>
-<li>Python 的 GIL 問題，導致只能用一個 core 跑，這對 aggregator 的效率也是有影響。</li>
-<li>IOPS 的不足，同問題 1，因為寫入數據是寫到個別檔案，而 Whisper 每次最多才寫入 120 bytes，通常系統先會遇到 IO-bound。</li>
-<li>Statsd 和 Carbon-cache 的 flush-interval 要同步，像我們是都用 10s，這樣才不會寫入錯誤的資料，最下面會附上我的設定檔。</li>
-</ol>
-<h3 id="u7D50_u8A9E"><a href="#u7D50_u8A9E" class="headerlink" title="結語"></a>結語 </h3><p> 其實我用 statsd + graphite + grafana 覺得蠻不錯的，因為太好用了，後來還有導入一些數據:</p>
-<ol>
-<li>application 層面去紀錄每個 API 的次數還有呼叫時間</li>
-<li>每個 Queue worker 的執行時間還有 items 數量</li>
-<li><a href="https://twitter.com/suitingtseng" target="_blank" rel="external">@suiting</a> 大大還有幫忙導入 cloudwatch 的數據，因為 cloudwatch 只能儲存 2 周的資料，而導入後我們就可以看經年累月的資料比較了。</li>
-</ol>
-<p>最讓我驚艷的地方在於，從剛開始架設使用一台 AWS m3.medium 到現在，經過了一年半以上，公司的 request 量也早就成長一倍，居然還是非常堪用，CPU 使用率也維持在 25%~30% 中，Memory 大概吃 180 MB，然後到現在資料共佔了 13GB，雖然紀錄的資料部份是有經過 sampling 的，不過總體而已還是看得出趨勢，搭配 Grafana 很容易就可以看出是否有異常。</p>
-<h3 id="u8A2D_u5B9A_u6A94"><a href="#u8A2D_u5B9A_u6A94" class="headerlink" title="設定檔"></a>設定檔</h3><ol>
-<li><p>statsd<br><code>statsd/config.conf</code></p>
- <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">graphitePort</span>: <span class="string">2003</span></span><br><span class="line"><span class="attribute">graphiteHost</span>: <span class="string">"127.0.0.1"</span></span><br><span class="line"><span class="attribute">address</span>: <span class="string">"0.0.0.0"</span></span><br><span class="line"><span class="attribute">flushInterval</span>: <span class="string">10000</span></span><br><span class="line"><span class="attribute">port</span>: <span class="string">8125</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>carbon<br><code>storage-schemas.conf</code></p>
- <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[stats]</span><br><span class="line">pattern = *</span><br><span class="line">retentions = <span class="number">10</span>s:<span class="number">6</span>h,<span class="number">10</span>m:<span class="number">7</span>d,<span class="number">1</span>d:<span class="number">5</span>y</span><br></pre></td></tr></table></figure>
-<p> <code>carbon.conf</code></p>
- <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="setting">MAX_CACHE_SIZE = <span class="value">inf</span></span></span><br><span class="line"><span class="setting">MAX_UPDATES_PER_SECOND = <span class="value"><span class="number">400</span></span></span></span><br><span class="line"><span class="setting">WHISPER_AUTOFLUSH = <span class="value"><span class="keyword">False</span></span></span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-]]></content>
+    
+    <content type="html">&lt;p&gt;上上個禮拜看到威廉大大在 DevOps conf 裡面發表了 &lt;a href=&quot;http://www.slideshare.net/williamyeh/whoscall-realtime-monitoring&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Whoscall 的 Realtime Monitoring 經驗分享&lt;/a&gt;，下面這張圖其實勾起我不少回憶，尤其是過去快兩年的時間內，親身體驗架起來的一些東西，有些是我曾經在內部分享過的，想說應該也要分享一下給大家。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/whoscall_monitoring.png&quot; alt=&quot;whoscall_monitoring&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;緣起&quot;&gt;&lt;a href=&quot;# 緣起&quot; class=&quot;headerlink&quot; title=&quot;緣起&quot;&gt;&lt;/a&gt;緣起 &lt;/h2&gt;&lt;p&gt; 說來也蠻有趣的，當年使用 Graphite 的際遇其實是為了記錄 whoscall 的 Hitrate，而所謂的 Hitrate，一開始的需求是 &lt;code&gt; 查詢有結果的次數 / 查詢次數 &lt;/code&gt; 來衡量服務品質，我加入時看到的架構是使用 Mongodb 去紀錄的:&lt;/p&gt;
+&lt;figure class=&quot;highlight less&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;TW&lt;/span&gt;: &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;hit&lt;/span&gt;: &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;      &lt;span class=&quot;attribute&quot;&gt;y&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;1000&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;      &lt;span class=&quot;attribute&quot;&gt;n&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;200&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &amp;#125;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;KR&lt;/span&gt;: &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;attribute&quot;&gt;hit&lt;/span&gt;: &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;      &lt;span class=&quot;attribute&quot;&gt;y&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;500&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;      &lt;span class=&quot;attribute&quot;&gt;n&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &amp;#125;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;createdAt&lt;/span&gt;: ISODate(&lt;span class=&quot;string&quot;&gt;&#39;2015-09-05&#39;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;每天產生一條紀錄，然後每個國家都記在同一個 document 內，這樣雖然解了燃眉之急，不過從這個架構來看，代表每接收一條 Request ，就要花一個寫入的 IO，久而久之 Disk 的 IOPS 消耗加劇，而且如果同時有 TW 和 KR 的 Request 發生，還會有寫入競爭的問題，讓 API server 回應給 client 的速度更慢，再者，我們之後想要加入更多的資訊，類似到底是命中什麼，沒有命中的原因是什麼，就這樣不得不尋找更好的方案。&lt;/p&gt;
+&lt;h2 id=&quot;為什麼選擇 -Graphite&quot;&gt;&lt;a href=&quot;# 為什麼選擇 -Graphite&quot; class=&quot;headerlink&quot; title=&quot;為什麼選擇 Graphite&quot;&gt;&lt;/a&gt;為什麼選擇 Graphite&lt;/h2&gt;&lt;p&gt;在有這個問題後，我立刻向我的學長 &lt;a href=&quot;https://www.facebook.com/titanjer&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@titanjer&lt;/a&gt; 求助，他其實是一個不世出的高人，整天看內容農場和尾隨正妹，但技術實力實在太過於強大，總是有很不錯的 solution ，而在求助後他給了我一句話:&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;Measure Anything, Measure Everything, You should use Graphite.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;被當頭棒喝後，我開始疑問 Grapite 是啥？用這個有啥好處?&lt;/p&gt;
+&lt;h3 id=&quot;Graphite- 好處&quot;&gt;&lt;a href=&quot;#Graphite- 好處&quot; class=&quot;headerlink&quot; title=&quot;Graphite 好處&quot;&gt;&lt;/a&gt;Graphite 好處 &lt;/h3&gt;&lt;p&gt; 搜索之後發現了…&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RRD-liked service, 支援 Metrics 的精度遞減, 一天內 10s 一條, 七天內合成為 1m 一條, 一年內 1hr 一條&lt;/li&gt;
+&lt;li&gt;有豐富的查詢函數, sum/min/max/avg … etc&lt;/li&gt;
+&lt;li&gt;有完整的 ecosystem , , 簡單的 TCP/UDP 協議, 很容易可以插入數據&lt;/li&gt;
+&lt;li&gt;有完整的 HA &amp;amp; Scalable 方案 - Carbon-Relay&lt;/li&gt;
+&lt;li&gt;有數據 aggregator 方案 - Carbon-aggregator&lt;/li&gt;
+&lt;li&gt;支援 Restful-API, 可以利用 Grafana 顯示數據&lt;/li&gt;
+&lt;li&gt;簡單的配置方式, 只要會修改 config, 就可以建構百萬數據收集的架構&lt;/li&gt;
+&lt;li&gt;非常多的 &lt;a href=&quot;http://graphite.readthedocs.org/en/latest/who-is-using.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt; 公司 &lt;/a&gt; 採用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;基本架構&quot;&gt;&lt;a href=&quot;# 基本架構&quot; class=&quot;headerlink&quot; title=&quot;基本架構&quot;&gt;&lt;/a&gt;基本架構&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;/img/graphite-architecture.png&quot; alt=&quot;whoscall_monitoring&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在架設前，先來搞懂架構長怎樣，這張圖我一直覺得畫得很棒，來自 whisper 的 github &lt;a href=&quot;https://github.com/graphite-project/whisper&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;頁面&lt;/a&gt;，基本上 Graphite 的組件共有三項:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Carbon: 負責接受數據，把數據暫存到記憶體中&lt;/li&gt;
+&lt;li&gt;Whisper: Graphite 專用的 RRD-style database，而且是 fixed-size databases，也就是根據你設定的 retention，建立出來的資料庫就是多大，好處就是很容易估算要多少 disk 空間，但根據我的經驗是 Whisper 其實儲存所需要的空間很少。&lt;/li&gt;
+&lt;li&gt;Graphite-Web: 開放一堆 API &amp;amp; Web UI 給你去存取資料&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;基本上 Carbon-cache 就是個 queue 的角色，會先把數據寫在 memory 裡面，等到時間到了後，一口氣 flush data 進到 whisper，然後 Carbon 可以設定 &lt;code&gt;MAX_UPDATES_PER_SECOND&lt;/code&gt;，預設是 500，也就是一秒內呼叫多少次 whisper update 的 function ，這關係到你的 queue 內資料的多寡和 disk 的 IOPS，如果設定的太快，會導致 IOPS 上升，想要看資料也就是讀取時過慢(因為讀取有時候也需要做 aggregation) ，而設定太低又會讓 queue 內的資料來不及寫入 disk ，詳細的說明可以看這篇&lt;a href=&quot;https://grey-boundary.io/minimizing-datapoint-lag-in-graphite/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;minimizing-datapoint-lag-in-graphite&lt;/a&gt;。Whisper 基本上是 file based 的 database 系統，然後一個 time series 的 Metris 用一個 file 去紀錄，在每次寫入時都會去檢查 retention ，進而達成 RRD 的功效，Graphite-Web 則提供了 WebUI 還有一些 API 讓你去呼叫寫入的資料，當資料還在 carbon-cache 時，會直接去讀取 memory 內的資料，如果已經寫入 whisper ，則會去 disk 存取，當然也可以設定一些 cache，讓他不需要直接讀取 carbon 或是 whisper。&lt;/p&gt;
+&lt;p&gt;這邊順便提一下 Optional 的組件:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;carbon-relay: 拿來處理 HA 的，可以想成是個 Router ，設定後可以做到水平或是垂直 scale 數據儲存。&lt;/li&gt;
+&lt;li&gt;carbon-aggregator: 這個套件可以先預先寫好一些 Rule ，例如你可以寫 PRODUCTION.host.*.requests 要直接存成 PRODUCTION.host.all.requests, 去減少寫入的維度。&lt;/li&gt;
+&lt;li&gt;memcached: 這應該就不用提了，提供 API 那部份的 cache。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;採用的 Stack-Statsd-Graphite-Grafana&quot;&gt;&lt;a href=&quot;# 採用的 Stack-Statsd-Graphite-Grafana&quot; class=&quot;headerlink&quot; title=&quot;採用的 Stack: Statsd + Graphite + Grafana&quot;&gt;&lt;/a&gt;採用的 Stack: Statsd + Graphite + Grafana&lt;/h3&gt;&lt;p&gt;而後來採用的方法，其實是在 carbon 前面多塞一個 statsd 當作緩衝，主要原因是 server-side 想利用 UDP 傳輸資料，而 Hitrate 這種屬於統計型態的資料，掉個幾筆其實並不會影響主要的趨勢，而利用 UDP 有個好處是，當 statsd + graphite 掛掉 server 也不會因此而卡住， statsd 提供的 library 蠻全面的，並且是 nodejs-based 的，對於這種大量連接的工作，處理的效率很好，而且國外也有許多 production 的案例，這也是採用的原因。&lt;/p&gt;
+&lt;p&gt;紀錄的方法很簡單：&lt;br&gt;使用&lt;a href=&quot;https://pypi.python.org/pypi/statsd&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;python statsd&lt;/a&gt; library，利用 &lt;code&gt;incr&lt;/code&gt; 的呼叫去累加數字&lt;/p&gt;
+&lt;figure class=&quot;highlight less&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;statsd&lt;span class=&quot;selector-class&quot;&gt;.incr&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&#39;TW.queryin.y&#39;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;statsd&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.incr&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&#39;TW.queryin.n&#39;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;statsd&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.incr&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&#39;TW.widget.y&#39;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;statsd&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.incr&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&#39;TW.widget.n&#39;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;statsd&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.incr&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&#39;KR.queryin.y&#39;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;statsd&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.incr&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&#39;KR.queryin.n&#39;&lt;/span&gt;)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;如此一來我們可以用&lt;br&gt;&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;sumSeries&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(TW.*.*)&lt;/span&gt;&lt;/span&gt; 來觀看總數是多少&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;再搭配 graphite 的 dashbaord，很簡單就可以看到下面這種圖&lt;br&gt;&lt;img src=&quot;/img/graphite_sample.png&quot; alt=&quot;grpahite_sample&quot;&gt;&lt;/p&gt;
+&lt;p&gt;這邊也只是範例，當然實際的紀錄是比這個複雜許多，不過用這個方法，其實得到蠻多方便性和彈性，當然 API 的 performance 也有大幅的提升!&lt;/p&gt;
+&lt;h3 id=&quot;遇到的問題&quot;&gt;&lt;a href=&quot;# 遇到的問題&quot; class=&quot;headerlink&quot; title=&quot;遇到的問題&quot;&gt;&lt;/a&gt;遇到的問題 &lt;/h3&gt;&lt;p&gt; 當然在採用這個方案時，也是有些坑要注意&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Carbon-cache 還沒寫入完成就被關閉，queue 裡面的資料會掉，怕的話可以用 Carbon-relay 做 HA。&lt;/li&gt;
+&lt;li&gt;每個 Metric 都存在一個檔案裡面，當你要做 aggregator 動到太多數據時，其實是會同時打開這些檔案(想想看同時開啟 1000 個 file)。&lt;/li&gt;
+&lt;li&gt;Python 的 GIL 問題，導致只能用一個 core 跑，這對 aggregator 的效率也是有影響。&lt;/li&gt;
+&lt;li&gt;IOPS 的不足，同問題 1，因為寫入數據是寫到個別檔案，而 Whisper 每次最多才寫入 120 bytes，通常系統先會遇到 IO-bound。&lt;/li&gt;
+&lt;li&gt;Statsd 和 Carbon-cache 的 flush-interval 要同步，像我們是都用 10s，這樣才不會寫入錯誤的資料，最下面會附上我的設定檔。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;結語&quot;&gt;&lt;a href=&quot;# 結語&quot; class=&quot;headerlink&quot; title=&quot;結語&quot;&gt;&lt;/a&gt;結語 &lt;/h3&gt;&lt;p&gt; 其實我用 statsd + graphite + grafana 覺得蠻不錯的，因為太好用了，後來還有導入一些數據:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;application 層面去紀錄每個 API 的次數還有呼叫時間&lt;/li&gt;
+&lt;li&gt;每個 Queue worker 的執行時間還有 items 數量&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://twitter.com/suitingtseng&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@suiting&lt;/a&gt; 大大還有幫忙導入 cloudwatch 的數據，因為 cloudwatch 只能儲存 2 周的資料，而導入後我們就可以看經年累月的資料比較了。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;最讓我驚艷的地方在於，從剛開始架設使用一台 AWS m3.medium 到現在，經過了一年半以上，公司的 request 量也早就成長一倍，居然還是非常堪用，CPU 使用率也維持在 25%~30% 中，Memory 大概吃 180 MB，然後到現在資料共佔了 13GB，雖然紀錄的資料部份是有經過 sampling 的，不過總體而已還是看得出趨勢，搭配 Grafana 很容易就可以看出是否有異常。&lt;/p&gt;
+&lt;h3 id=&quot;設定檔&quot;&gt;&lt;a href=&quot;# 設定檔&quot; class=&quot;headerlink&quot; title=&quot;設定檔&quot;&gt;&lt;/a&gt;設定檔&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;statsd&lt;br&gt;&lt;code&gt;statsd/config.conf&lt;/code&gt;&lt;/p&gt;
+ &lt;figure class=&quot;highlight avrasm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;graphitePort:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;2003&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;graphiteHost:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;127.0.0.1&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;address:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;0.0.0.0&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;flushInterval:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;10000&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;port:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;8125&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;carbon&lt;br&gt;&lt;code&gt;storage-schemas.conf&lt;/code&gt;&lt;/p&gt;
+ &lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;section&quot;&gt;[stats]&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;pattern&lt;/span&gt; = *&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;retentions&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;s:&lt;span class=&quot;number&quot;&gt;6&lt;/span&gt;h,&lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;m:&lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;d,&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;d:&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;y&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt; &lt;code&gt;carbon.conf&lt;/code&gt;&lt;/p&gt;
+ &lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;MAX_CACHE_SIZE&lt;/span&gt; = inf&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;MAX_UPDATES_PER_SECOND&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;400&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;WHISPER_AUTOFLUSH&lt;/span&gt; = &lt;span class=&quot;literal&quot;&gt;False&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<p>上上個禮拜看到威廉大大在 DevOps conf 裡面發表了 <a href="http://www.slideshare.net/williamyeh/whoscall-realtime-monitoring" target="_blank" rel="external"]]>
+    
+      &lt;p&gt;上上個禮拜看到威廉大大在 DevOps conf 裡面發表了 &lt;a href=&quot;http://www.slideshare.net/williamyeh/whoscall-realtime-monitoring&quot; target=&quot;_blank&quot; rel=&quot;external&quot;
+    
     </summary>
     
-      <category term="graphite" scheme="http://kkc.github.io/tags/graphite/"/>
     
       <category term="monitoring" scheme="http://kkc.github.io/tags/monitoring/"/>
+    
+      <category term="graphite" scheme="http://kkc.github.io/tags/graphite/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[RDBMS 先修課程筆記]]></title>
+    <title>RDBMS 先修課程筆記</title>
     <link href="http://kkc.github.io/2015/08/16/RDBMS-course/"/>
     <id>http://kkc.github.io/2015/08/16/RDBMS-course/</id>
     <published>2015-08-16T06:46:34.000Z</published>
     <updated>2015-09-12T06:03:31.000Z</updated>
-    <content type="html"><![CDATA[<p>這個禮拜一放棄 DevOps 聚會, 跑去上 <a href="https://www.facebook.com/ho.s.fung?fref=ufi" target="_blank" rel="external">TritonHo</a> 的 RDBMS 先修課程, 感覺收穫頗多的, 可惜沒時間在平日的時候繼續上, 把不足的知識補起來, 其實類似的課程還蠻推薦大家參加的, 因為很少有大大會出來無私分享。</p>
-<p>以下是那天的投影片:</p>
-<iframe src="https://drive.google.com/file/d/0B-UTE7EObr6ydDZOZXNLRko5UTQ/preview" width="640" height="480"></iframe>
+    
+    <content type="html">&lt;p&gt;這個禮拜一放棄 DevOps 聚會, 跑去上 &lt;a href=&quot;https://www.facebook.com/ho.s.fung?fref=ufi&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;TritonHo&lt;/a&gt; 的 RDBMS 先修課程, 感覺收穫頗多的, 可惜沒時間在平日的時候繼續上, 把不足的知識補起來, 其實類似的課程還蠻推薦大家參加的, 因為很少有大大會出來無私分享。&lt;/p&gt;
+&lt;p&gt;以下是那天的投影片:&lt;/p&gt;
+&lt;iframe src=&quot;https://drive.google.com/file/d/0B-UTE7EObr6ydDZOZXNLRko5UTQ/preview&quot; width=&quot;640&quot; height=&quot;480&quot;&gt;&lt;/iframe&gt;
 
-<p>主要在談論 RDBMS 的一些基本概念, 還有這是一場破除 RDBMS 就是比 NoSQL 慢的演講, 講者談到幾個重點, 我個人覺得頗重要的:</p>
-<ol>
-<li>NoSQL 常常是犧牲一些東西來換取速度, 類似安全性和正確性</li>
-<li>如果你的數據沒有很大, 可以不要使用 NoSQL, 因為使用 NoSQL 的公司如 FB, twitter, 資料量都是 PB 計算的(主要是 data migration 的問題)</li>
-<li>沒有 Transation 很多事情會很難辦</li>
-</ol>
-<p>然後以下是我的筆記, 但感覺還是有點照抄投影片, 之後還想要補齊 NoSQL 做 Trasaction 的方法。</p>
-<h2 id="u70BA_u4F55_u9078_u64C7RDBMS"><a href="#u70BA_u4F55_u9078_u64C7RDBMS" class="headerlink" title="為何選擇 RDBMS"></a>為何選擇 RDBMS</h2><ol>
-<li>歷史悠久, 將近有 30 年歷史<br> a. 社群支援<br> b. 軟體錯誤較少<br> c. 有許多用在 production 的經驗</li>
-<li>使用 RDBMS 比 NoSQL 開發速度快 (這點我存疑, 因為一般人就受了 NoSQL 的快速開發好處 XD）</li>
-<li>中小型系統, 使用 RDBMS 效能就夠了(同意)</li>
-<li>使用 RDBMS 更安全</li>
-</ol>
-<h2 id="u5927_u90E8_u4EFD_u7CFB_u7D71_u9700_u8981atomic_2C_multi-record_2C_inter-dependent_u7684_u64CD_u4F5C"><a href="#u5927_u90E8_u4EFD_u7CFB_u7D71_u9700_u8981atomic_2C_multi-record_2C_inter-dependent_u7684_u64CD_u4F5C" class="headerlink" title="大部份系統需要 atomic, multi-record, inter-dependent 的操作"></a>大部份系統需要 atomic, multi-record, inter-dependent 的操作 </h2><p> 像是轉帳問題: A 扣掉十元, B 加上十元</p>
-<p><a href="http://stackoverflow.com/questions/10752993/how-do-you-do-atomic-multi-record-inter-dependent-operations-in-nosql" target="_blank" rel="external">這裏 </a> 找到有人在討論 Mongodb 怎麼做這件事情, 真是有夠麻煩啊（翻桌）</p>
-<h2 id="u7279_u5225_u6709_u8AC7_u5230_RDBMS__u652F_u63F4_u5341_u9032_u5236_u7684_numeric_2C__u8A08_u7B97_u91D1_u9322_u6578_u503C_u6642_u76F8_u7576_u6709_u7528"><a href="#u7279_u5225_u6709_u8AC7_u5230_RDBMS__u652F_u63F4_u5341_u9032_u5236_u7684_numeric_2C__u8A08_u7B97_u91D1_u9322_u6578_u503C_u6642_u76F8_u7576_u6709_u7528" class="headerlink" title="特別有談到 RDBMS 支援十進制的 numeric, 計算金錢數值時相當有用"></a>特別有談到 RDBMS 支援十進制的 numeric, 計算金錢數值時相當有用</h2><p>MySQL 是有 decimal 這個屬性, 在查詢或是運算都不會有誤差, 寫程式的時候其實蠻害怕遇到浮點數的, 所以這點算是幫助頗大。</p>
-<p><a href="http://stackoverflow.com/questions/7682714/does-mongodb-support-floating-point-types" target="_blank" rel="external">does-mongodb-support-floating-point-types</a><br>參考樓上這篇文章, Mongodb 有支援 int32 (4bytes), int64 (8 bytes), double (64-bit IEEE 754 floating point), 而一般可以把數值存在 double 中, 順便提一下在 mongodb 的 shell 中, 因為是使用 Javascript 引擎, 好像分辨不出來 int 和 double …Orz</p>
-<h2 id="u5982_u679C_u6578_u64DA_u898F_u6A21_u5C0F_u65BC100GB_2C__u4F7F_u7528RDBMS_u7576_u4F5C_u5831_u8868_u7CFB_u7D71_u5C31_u5920_u4E86"><a href="#u5982_u679C_u6578_u64DA_u898F_u6A21_u5C0F_u65BC100GB_2C__u4F7F_u7528RDBMS_u7576_u4F5C_u5831_u8868_u7CFB_u7D71_u5C31_u5920_u4E86" class="headerlink" title="如果數據規模小於 100GB, 使用 RDBMS 當作報表系統就夠了"></a>如果數據規模小於 100GB, 使用 RDBMS 當作報表系統就夠了</h2><ol>
-<li>Join &amp; sub query 可以滿足大部份需求</li>
-<li>內建函數可以多加利用 (AVG, SUM, COUNT)</li>
-</ol>
-<h2 id="u8CC7_u6599_u5B89_u5168_u6027"><a href="#u8CC7_u6599_u5B89_u5168_u6027" class="headerlink" title="資料安全性"></a>資料安全性</h2><p>RDBMS 所有返回 “成功” 的數據都確實寫到硬碟裡面了, 很多 NoSQL 的預設是只有寫到 memory, 講者特別要提 Mongodb… (不要再打臉啦, 腫腫的)</p>
-<blockquote>
-<p>Mongodb 需要在 application 的 driver 中調整 write concern, 還有要開啟 journaling, 但開啟後寫入效能會有 5%~30% 的下降</p>
-</blockquote>
-<h2 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h2><h3 id="Atomicity"><a href="#Atomicity" class="headerlink" title="Atomicity"></a>Atomicity</h3><ul>
-<li>RDBMS 的操作都是以 Transaction (Tx) 為單位</li>
-<li>一個 Tx 可以包含很多 SQL 指令</li>
-<li>同一個 Tx 的訊息, 要就是照順序改動完成, 要不然同一 Tx 之前的操作都要 rollback<blockquote>
-<p>from wiki: Atomicity requires that each transaction be “all or nothing”</p>
-</blockquote>
-</li>
-<li>當機時, 還沒有被 committed 的 Tx 全部會被 Rollback (這邊感覺跟 consistency 比較有關）</li>
-<li>當機後, 會依照 Tx 為單位, 重新復原資料庫</li>
-<li>不要以為系統不會當機</li>
-<li><p>在 Tx 中可以簡單做到帳戶轉帳 (只要簡單四行)</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">Update</span> user_balance <span class="keyword">set</span> balance = balance – amount <span class="keyword">where</span> username = <span class="string">'UserA'</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">Update</span> user_balance <span class="keyword">set</span> balance = balance + amount <span class="keyword">where</span> username = <span class="string">'UserB'</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">COMMIT</span>;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>NoSQL 沒有 transaction, 需要 implement 2 phase commit (要 9 個 step, 投影片裡面有)</p>
-</li>
-</ul>
-<h3 id="Consistency"><a href="#Consistency" class="headerlink" title="Consistency"></a>Consistency</h3><ul>
-<li>RDBMS 內有 unique constraint 和 用戶定義的 constraint, 在 Tx commit 時, 所有的 constraint 都要符合 (這邊要再查查有那些 constraint)</li>
-<li>不符合 constraint, RDBMS 會自動復原目前 Tx 的一切改動</li>
-<li>使用 RDBMS, 發生錯誤 (包含網路或主機問題) 而中斷一個 Tx, 只要無腦把 Tx rollback 到一致性的狀態而 NoSQL 採用 2PC, 在當機後要復原資料會很麻煩</li>
-</ul>
-<h3 id="Isolation"><a href="#Isolation" class="headerlink" title="Isolation"></a>Isolation</h3><ul>
-<li>同一筆資料, RDBMS 保障不會被兩個 Tx 同時改動</li>
-<li>Tx 可以同時進行, 但是每個 Tx 過程中要能看到一致的數據</li>
-<li>不同的 Isolation level, 能讓 application 看到應該看的資料（？）</li>
-<li>要避免 race condition, 上鎖 (LOCK) 是不能避免的, RDBMS 能自動處理</li>
-<li>沒有 isolation 的機制的話, 要自己手動管理 locking<blockquote>
-<p>這裏舉了一個例子, 用同個帳號在同個時間下去領同個帳戶內的錢,  如果帳戶沒有上鎖, 錢可能被領成負的。</p>
-</blockquote>
-</li>
-<li>而在 RDBMS 中, 使用 update 會自動對受影響的數據加上 write lock, 並且自動在 Tx 結束後釋放, 保證一份資料不會被同時改動</li>
-<li><p>RDBMS 也有支持 atomic check-and-set 模式, 所以檢查用戶是否有足夠錢和改動餘額的動作是 Atomicity 的</p>
-  <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> user set balance = balance - <span class="variable">$amount</span> <span class="keyword">where</span> user_id = <span class="variable">$user</span>_id and balance &gt;= <span class="variable">$amount</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>RDBMS 的 isolation 有包含全自動化的 lock management, 也有支持自動化的 deadlock detection</p>
-</li>
-</ul>
-<h3 id="Duration"><a href="#Duration" class="headerlink" title="Duration"></a>Duration</h3><ul>
-<li>一旦 committed 的資料改動, 除非儲存空間受損, 否則不會流失</li>
-<li>資料寫入時斷電, 如果已經寫入 redo log 內了, 在斷電後也可以復原資料</li>
-<li>MongoDB 的標準設定是沒有等待 Write 真正寫入成功</li>
-<li>在 RDBMS 裡面, 系統斷電後, 會利用 redo log 來做 data recovery, 經過那麼多年的 producton 測試, 應該比較有保障</li>
-</ul>
-<h2 id="ACID__u6211_u7684_u5C0F_u5FC3_u5F97"><a href="#ACID__u6211_u7684_u5C0F_u5FC3_u5F97" class="headerlink" title="ACID 我的小心得"></a>ACID 我的小心得</h2><ul>
-<li>Atomicity 保證系統能安全地移動到下個正確狀態</li>
-<li>Consistency 確保移動失敗時, 能夠正確的回復到原本的狀態</li>
-<li>Isolation 更改資料會自動上鎖, 不會發生杯具</li>
-<li>Duration 保證寫入成功的資料不會掉 (除非硬碟爆炸)</li>
-<li>RDBMS 能夠保證資料完整性</li>
-</ul>
-]]></content>
+&lt;p&gt;主要在談論 RDBMS 的一些基本概念, 還有這是一場破除 RDBMS 就是比 NoSQL 慢的演講, 講者談到幾個重點, 我個人覺得頗重要的:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;NoSQL 常常是犧牲一些東西來換取速度, 類似安全性和正確性&lt;/li&gt;
+&lt;li&gt;如果你的數據沒有很大, 可以不要使用 NoSQL, 因為使用 NoSQL 的公司如 FB, twitter, 資料量都是 PB 計算的(主要是 data migration 的問題)&lt;/li&gt;
+&lt;li&gt;沒有 Transation 很多事情會很難辦&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;然後以下是我的筆記, 但感覺還是有點照抄投影片, 之後還想要補齊 NoSQL 做 Trasaction 的方法。&lt;/p&gt;
+&lt;h2 id=&quot;為何選擇 RDBMS&quot;&gt;&lt;a href=&quot;# 為何選擇 RDBMS&quot; class=&quot;headerlink&quot; title=&quot;為何選擇 RDBMS&quot;&gt;&lt;/a&gt;為何選擇 RDBMS&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;歷史悠久, 將近有 30 年歷史&lt;br&gt; a. 社群支援&lt;br&gt; b. 軟體錯誤較少&lt;br&gt; c. 有許多用在 production 的經驗&lt;/li&gt;
+&lt;li&gt;使用 RDBMS 比 NoSQL 開發速度快 (這點我存疑, 因為一般人就受了 NoSQL 的快速開發好處 XD）&lt;/li&gt;
+&lt;li&gt;中小型系統, 使用 RDBMS 效能就夠了(同意)&lt;/li&gt;
+&lt;li&gt;使用 RDBMS 更安全&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;大部份系統需要 atomic-multi-record-inter-dependent 的操作&quot;&gt;&lt;a href=&quot;# 大部份系統需要 atomic-multi-record-inter-dependent 的操作&quot; class=&quot;headerlink&quot; title=&quot;大部份系統需要 atomic, multi-record, inter-dependent 的操作&quot;&gt;&lt;/a&gt;大部份系統需要 atomic, multi-record, inter-dependent 的操作 &lt;/h2&gt;&lt;p&gt; 像是轉帳問題: A 扣掉十元, B 加上十元&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/10752993/how-do-you-do-atomic-multi-record-inter-dependent-operations-in-nosql&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;這裏 &lt;/a&gt; 找到有人在討論 Mongodb 怎麼做這件事情, 真是有夠麻煩啊（翻桌）&lt;/p&gt;
+&lt;h2 id=&quot;特別有談到 -RDBMS- 支援十進制的 -numeric- 計算金錢數值時相當有用&quot;&gt;&lt;a href=&quot;# 特別有談到 -RDBMS- 支援十進制的 -numeric- 計算金錢數值時相當有用&quot; class=&quot;headerlink&quot; title=&quot;特別有談到 RDBMS 支援十進制的 numeric, 計算金錢數值時相當有用&quot;&gt;&lt;/a&gt;特別有談到 RDBMS 支援十進制的 numeric, 計算金錢數值時相當有用&lt;/h2&gt;&lt;p&gt;MySQL 是有 decimal 這個屬性, 在查詢或是運算都不會有誤差, 寫程式的時候其實蠻害怕遇到浮點數的, 所以這點算是幫助頗大。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/7682714/does-mongodb-support-floating-point-types&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;does-mongodb-support-floating-point-types&lt;/a&gt;&lt;br&gt;參考樓上這篇文章, Mongodb 有支援 int32 (4bytes), int64 (8 bytes), double (64-bit IEEE 754 floating point), 而一般可以把數值存在 double 中, 順便提一下在 mongodb 的 shell 中, 因為是使用 Javascript 引擎, 好像分辨不出來 int 和 double …Orz&lt;/p&gt;
+&lt;h2 id=&quot;如果數據規模小於 100GB- 使用 RDBMS 當作報表系統就夠了&quot;&gt;&lt;a href=&quot;# 如果數據規模小於 100GB- 使用 RDBMS 當作報表系統就夠了&quot; class=&quot;headerlink&quot; title=&quot;如果數據規模小於 100GB, 使用 RDBMS 當作報表系統就夠了&quot;&gt;&lt;/a&gt;如果數據規模小於 100GB, 使用 RDBMS 當作報表系統就夠了&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;Join &amp;amp; sub query 可以滿足大部份需求&lt;/li&gt;
+&lt;li&gt;內建函數可以多加利用 (AVG, SUM, COUNT)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;資料安全性&quot;&gt;&lt;a href=&quot;# 資料安全性&quot; class=&quot;headerlink&quot; title=&quot;資料安全性&quot;&gt;&lt;/a&gt;資料安全性&lt;/h2&gt;&lt;p&gt;RDBMS 所有返回 “成功” 的數據都確實寫到硬碟裡面了, 很多 NoSQL 的預設是只有寫到 memory, 講者特別要提 Mongodb… (不要再打臉啦, 腫腫的)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Mongodb 需要在 application 的 driver 中調整 write concern, 還有要開啟 journaling, 但開啟後寫入效能會有 5%~30% 的下降&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;ACID&quot;&gt;&lt;a href=&quot;#ACID&quot; class=&quot;headerlink&quot; title=&quot;ACID&quot;&gt;&lt;/a&gt;ACID&lt;/h2&gt;&lt;h3 id=&quot;Atomicity&quot;&gt;&lt;a href=&quot;#Atomicity&quot; class=&quot;headerlink&quot; title=&quot;Atomicity&quot;&gt;&lt;/a&gt;Atomicity&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;RDBMS 的操作都是以 Transaction (Tx) 為單位&lt;/li&gt;
+&lt;li&gt;一個 Tx 可以包含很多 SQL 指令&lt;/li&gt;
+&lt;li&gt;同一個 Tx 的訊息, 要就是照順序改動完成, 要不然同一 Tx 之前的操作都要 rollback&lt;blockquote&gt;
+&lt;p&gt;from wiki: Atomicity requires that each transaction be “all or nothing”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;當機時, 還沒有被 committed 的 Tx 全部會被 Rollback (這邊感覺跟 consistency 比較有關）&lt;/li&gt;
+&lt;li&gt;當機後, 會依照 Tx 為單位, 重新復原資料庫&lt;/li&gt;
+&lt;li&gt;不要以為系統不會當機&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在 Tx 中可以簡單做到帳戶轉帳 (只要簡單四行)&lt;/p&gt;
+&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;START&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;TRANSACTION&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;Update&lt;/span&gt; user_balance &lt;span class=&quot;keyword&quot;&gt;set&lt;/span&gt; balance = balance – amount &lt;span class=&quot;keyword&quot;&gt;where&lt;/span&gt; username = &lt;span class=&quot;string&quot;&gt;&#39;UserA&#39;&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;Update&lt;/span&gt; user_balance &lt;span class=&quot;keyword&quot;&gt;set&lt;/span&gt; balance = balance + amount &lt;span class=&quot;keyword&quot;&gt;where&lt;/span&gt; username = &lt;span class=&quot;string&quot;&gt;&#39;UserB&#39;&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;COMMIT&lt;/span&gt;;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;NoSQL 沒有 transaction, 需要 implement 2 phase commit (要 9 個 step, 投影片裡面有)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;Consistency&quot;&gt;&lt;a href=&quot;#Consistency&quot; class=&quot;headerlink&quot; title=&quot;Consistency&quot;&gt;&lt;/a&gt;Consistency&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;RDBMS 內有 unique constraint 和 用戶定義的 constraint, 在 Tx commit 時, 所有的 constraint 都要符合 (這邊要再查查有那些 constraint)&lt;/li&gt;
+&lt;li&gt;不符合 constraint, RDBMS 會自動復原目前 Tx 的一切改動&lt;/li&gt;
+&lt;li&gt;使用 RDBMS, 發生錯誤 (包含網路或主機問題) 而中斷一個 Tx, 只要無腦把 Tx rollback 到一致性的狀態而 NoSQL 採用 2PC, 在當機後要復原資料會很麻煩&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;Isolation&quot;&gt;&lt;a href=&quot;#Isolation&quot; class=&quot;headerlink&quot; title=&quot;Isolation&quot;&gt;&lt;/a&gt;Isolation&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;同一筆資料, RDBMS 保障不會被兩個 Tx 同時改動&lt;/li&gt;
+&lt;li&gt;Tx 可以同時進行, 但是每個 Tx 過程中要能看到一致的數據&lt;/li&gt;
+&lt;li&gt;不同的 Isolation level, 能讓 application 看到應該看的資料（？）&lt;/li&gt;
+&lt;li&gt;要避免 race condition, 上鎖 (LOCK) 是不能避免的, RDBMS 能自動處理&lt;/li&gt;
+&lt;li&gt;沒有 isolation 的機制的話, 要自己手動管理 locking&lt;blockquote&gt;
+&lt;p&gt;這裏舉了一個例子, 用同個帳號在同個時間下去領同個帳戶內的錢,  如果帳戶沒有上鎖, 錢可能被領成負的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;而在 RDBMS 中, 使用 update 會自動對受影響的數據加上 write lock, 並且自動在 Tx 結束後釋放, 保證一份資料不會被同時改動&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;RDBMS 也有支持 atomic check-and-set 模式, 所以檢查用戶是否有足夠錢和改動餘額的動作是 Atomicity 的&lt;/p&gt;
+  &lt;figure class=&quot;highlight lasso&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;update user &lt;span class=&quot;built_in&quot;&gt;set&lt;/span&gt; balance = balance - $amount &lt;span class=&quot;keyword&quot;&gt;where&lt;/span&gt; user_id = $user_id &lt;span class=&quot;keyword&quot;&gt;and&lt;/span&gt; balance &amp;gt;= $amount&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;RDBMS 的 isolation 有包含全自動化的 lock management, 也有支持自動化的 deadlock detection&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;Duration&quot;&gt;&lt;a href=&quot;#Duration&quot; class=&quot;headerlink&quot; title=&quot;Duration&quot;&gt;&lt;/a&gt;Duration&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;一旦 committed 的資料改動, 除非儲存空間受損, 否則不會流失&lt;/li&gt;
+&lt;li&gt;資料寫入時斷電, 如果已經寫入 redo log 內了, 在斷電後也可以復原資料&lt;/li&gt;
+&lt;li&gt;MongoDB 的標準設定是沒有等待 Write 真正寫入成功&lt;/li&gt;
+&lt;li&gt;在 RDBMS 裡面, 系統斷電後, 會利用 redo log 來做 data recovery, 經過那麼多年的 producton 測試, 應該比較有保障&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;ACID- 我的小心得&quot;&gt;&lt;a href=&quot;#ACID- 我的小心得&quot; class=&quot;headerlink&quot; title=&quot;ACID 我的小心得&quot;&gt;&lt;/a&gt;ACID 我的小心得&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Atomicity 保證系統能安全地移動到下個正確狀態&lt;/li&gt;
+&lt;li&gt;Consistency 確保移動失敗時, 能夠正確的回復到原本的狀態&lt;/li&gt;
+&lt;li&gt;Isolation 更改資料會自動上鎖, 不會發生杯具&lt;/li&gt;
+&lt;li&gt;Duration 保證寫入成功的資料不會掉 (除非硬碟爆炸)&lt;/li&gt;
+&lt;li&gt;RDBMS 能夠保證資料完整性&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<p>這個禮拜一放棄 DevOps 聚會, 跑去上 <a href="https://www.facebook.com/ho.s.fung?fref=ufi" target="_blank" rel="external">TritonHo</a> 的 RDBMS 先修課程, 感覺]]>
+    
+      &lt;p&gt;這個禮拜一放棄 DevOps 聚會, 跑去上 &lt;a href=&quot;https://www.facebook.com/ho.s.fung?fref=ufi&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;TritonHo&lt;/a&gt; 的 RDBMS 先修課程, 感覺
+    
     </summary>
+    
     
       <category term="mongodb" scheme="http://kkc.github.io/tags/mongodb/"/>
     
@@ -298,159 +319,179 @@ It means every change is proven to be deployable at any time.
   </entry>
   
   <entry>
-    <title><![CDATA[Mongodb 如何使用 Memory 和 tuning 的小技巧]]></title>
+    <title>Mongodb 如何使用 Memory 和 tuning 的小技巧</title>
     <link href="http://kkc.github.io/2015/07/21/mongodb-memory-structure/"/>
     <id>http://kkc.github.io/2015/07/21/mongodb-memory-structure/</id>
     <published>2015-07-21T05:34:36.000Z</published>
     <updated>2015-09-12T06:03:31.000Z</updated>
-    <content type="html"><![CDATA[<p>開始翻以前在 evernote 的連結，發現這篇對於 mongodb 如何使用 memory 的介紹算是簡單易懂，這邊做個小筆記</p>
-<p><iframe src="//www.slideshare.net/slideshow/embed_code/key/J7LaXFlwQkAgM" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/mongodb/mongodb-london-2013understanding-mongodb-storage-for-performance-and-data-safety-by-christian-kvalheim-10gen" title="MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen" target="_blank">MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen </a> </strong> from <strong><a href="//www.slideshare.net/mongodb" target="_blank">MongoDB</a></strong> </div></p>
-<h2 id="mmap"><a href="#mmap" class="headerlink" title="mmap"></a>mmap</h2><p>Mongodb 的設計是利用 <code>mmap</code> 方式映射檔案文件到 memory 中，直接透過操作 memory 來存取資料，好處有下列幾點:</p>
-<ol>
-<li>簡化設計，省略最複雜的 memory 和硬碟管理，讓 Mongodb 的開發變得容易許多。</li>
-<li>OS 可以對不同文件系統 (ext3, ext4) 的類型做 cache。</li>
-<li>原生的 OS LRU cache 機制。</li>
-<li>Mongodb 重開後可以繼續使用 file cache 裡面的資料。</li>
-</ol>
-<p>而缺點也很明顯:</p>
-<ol>
-<li>因為檔案系統和 memory 是一對一映射，就如前篇所說的，檔案系統內的 fragment 會一同被複製到 memory 中, 造成 memory 的浪費。</li>
-<li>太大的 Linux <code>readahead</code> 會對 memory 的使用造成影響。readahead 指的是一種 prefetching 技術，在檔案讀取中，因為 data 會有 spatial locality (空間局部性)，所以當我們讀取資料時，會一次讀一大段連續資料進來，類似一次讀 16k 或 32k 進入 page cache，去減少硬碟速度過慢造成的影響，然後增加檔案的速度。</li>
-<li>LRU 的 cache 方式，不能夠去設定 Priority，像是 index 這類資料，也是會被 LRU 方式被 swap out。</li>
-</ol>
-<h2 id="Resident_memory"><a href="#Resident_memory" class="headerlink" title="Resident memory"></a>Resident memory</h2><p>通常我們會想知道 data 到底使用了多少 memory，而比較好的指標是 Resident memory，基於 Mongodb 是用 share memory 的機制， 查看每個 Mongodb 的 process 的 Resident memory 都會是一樣的。</p>
-<p>Resident memory 的組合如下</p>
-<blockquote><p>Resident memory = process overhead + File system pages 被 access 的部分<br>process overhead = connection + heap</p>
-</blockquote>
-<p>有些人去檢查後會覺得很奇怪，為什麼 Resident memory 相對於全部 memory 而言少那麼多，以為 Mongodb 沒有完整的使用 memory， 其實不用擔心，mongodb 會把資料都讀入 file cache ，這點可以用 <code>free -m</code> 來檢查，是否 <code>cached</code> 那欄吃了不少 memory ， 而 resident 裡面會顯示的空間，則是 mongodb 真正有 access 到的檔案，這部分的數據會被 memory fragment 和 readahead 影響, 如果發現 Resident memory 過低, 應該是要想辦法減少 memory fragment 或是調整 readahead 的大小， 讓讀進來的資料都是需要的, 減少發生 page fault 的機率。</p>
-<h2 id="Working_set__26amp_3B_page_fault"><a href="#Working_set__26amp_3B_page_fault" class="headerlink" title="Working set &amp; page fault"></a>Working set &amp; page fault</h2><p>常聽人說 Mongodb 需要大量的 memory， 最好是 memory 要能夠 fit working set，但大家常以為 working set 就代表全部資料的大小，這是個錯誤觀念。實際上 working set 指得是 mongodb 完成所有操作要取用的 data 和 index 大小。例如資料庫內不是每筆資料都常常被 access，舉 Blog 來說三年前的資料就不會那麼常被存取, 那 working set 裡面就不需要包含那麼古老的資料。</p>
-<p>查看 working set 的指令<code>db.runCommand({ serverStatus: 1, workingSet: 1} )</code></p>
-<p>在 mongodb 中， working set 的資料如果不在 memory 中，就會引發 page fault，這個時候就要去觀察 page fault 的大小， page fault 如果超過一定值(ex. 200 以上)， 然後 latency 又受到影響， 你的系統可能就需要一些調整了，有可能是要加 RAM，也有可能是資料沒有上到 index 而造成 Table scan， 而下一節我也有列出一些平常我會調整的部分。</p>
-<h2 id="Tunning"><a href="#Tunning" class="headerlink" title="Tunning"></a>Tunning</h2><p>以下是我在 AWS EC2 平台上的一些調整方法</p>
-<h3 id="u8A18_u61B6_u9AD4"><a href="#u8A18_u61B6_u9AD4" class="headerlink" title="記憶體"></a>記憶體</h3><ol>
-<li><p>設定 swap（預設為 60, 當系統使用到超過 40% memory, 就會嘗試使用 swap）</p>
- <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w vm.swappiness=<span class="number">1</span>   <span class="preprocessor"># from <span class="number">60</span> -&gt; <span class="number">1</span></span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Huge Page (especially THP) for mongodb: <a href="https://jira.mongodb.org/browse/DOCS-2131" target="_blank" rel="external">https://jira.mongodb.org/browse/DOCS-2131</a></p>
- <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo never &gt; <span class="regexp">/sys/kernel</span><span class="regexp">/mm/transparent</span>_hugepage/enabled</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="File_System"><a href="#File_System" class="headerlink" title="File System"></a>File System</h3><ol>
-<li><p>File system flush issues (有興趣可以查看 <a href="http://blog.littlero.se/post/linux-tuning-for-write-heavy-system/" target="_blank" rel="external"> 這篇</a>)</p>
- <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"># vm.dirty_ratio = <span class="number">80</span>                  # from <span class="number">40</span></span></span><br><span class="line"><span class="preprocessor"># vm.dirty_background_ratio = <span class="number">5</span>        # from <span class="number">10</span></span></span><br><span class="line"><span class="preprocessor"># vm.dirty_expire_centisecs = <span class="number">12000</span>    # from <span class="number">3000</span></span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>For Mongodb Disk Mounting</p>
-<p> modify <code>/etc/fstab</code><br> 把 journal 和一般的 data 掛在不同的 disk 上面, 因為我是用 SSD 硬碟, 所以取消 atime, 然後加上 discard 的指令, 讓 SSD 開始 Trim 的功能</p>
- <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/dev/xvdf /mongodb_data ext4 defaults,<span class="keyword">auto</span>,discard,noatime,noexec <span class="number">0</span> <span class="number">0</span></span><br><span class="line">/dev/xvdg /journal ext4 defaults,<span class="keyword">auto</span>,discard,noatime,noexec <span class="number">0</span> <span class="number">0</span></span><br><span class="line">/dev/xvdh /<span class="built_in">log</span> ext4 defaults,<span class="keyword">auto</span>,discard,noatime,noexec <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>設定 Readahead</p>
-<p> Readahead 根據資料不同, 需要有不同的調整, mongodb 官網是建議在 32k 以下, 而最後不要低於 16k, 因為 Mongodb 的 index bucket 的大小就是 8k, 調整太低可能會失去一些好處。</p>
- <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo blockdev <span class="comment">--setra 32 /dev/xvdf</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>ulimit</p>
-<p> 修改<code>/etc/security/limits.conf</code></p>
- <figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">* </span>soft nofile 64000</span><br><span class="line"><span class="bullet">* </span>hard nofile 64000</span><br><span class="line"><span class="bullet">* </span>soft nproc 32000</span><br><span class="line"><span class="bullet">* </span>hard nproc 32000</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>IO scheduler 因為是使用 SSD based 的硬碟, 採用 Noop</p>
- <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo noop | sudo tee <span class="regexp">/sys/</span>block<span class="regexp">/xvdf/</span>queue<span class="regexp">/scheduler</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-]]></content>
+    
+    <content type="html">&lt;p&gt;開始翻以前在 evernote 的連結，發現這篇對於 mongodb 如何使用 memory 的介紹算是簡單易懂，這邊做個小筆記&lt;/p&gt;
+&lt;p&gt;&lt;iframe src=&quot;//www.slideshare.net/slideshow/embed_code/key/J7LaXFlwQkAgM&quot; width=&quot;425&quot; height=&quot;355&quot; frameborder=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; scrolling=&quot;no&quot; style=&quot;border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;&quot; allowfullscreen&gt; &lt;/iframe&gt; &lt;div style=&quot;margin-bottom:5px&quot;&gt; &lt;strong&gt; &lt;a href=&quot;//www.slideshare.net/mongodb/mongodb-london-2013understanding-mongodb-storage-for-performance-and-data-safety-by-christian-kvalheim-10gen&quot; title=&quot;MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen&quot; target=&quot;_blank&quot;&gt;MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen &lt;/a&gt; &lt;/strong&gt; from &lt;strong&gt;&lt;a href=&quot;//www.slideshare.net/mongodb&quot; target=&quot;_blank&quot;&gt;MongoDB&lt;/a&gt;&lt;/strong&gt; &lt;/div&gt;&lt;/p&gt;
+&lt;h2 id=&quot;mmap&quot;&gt;&lt;a href=&quot;#mmap&quot; class=&quot;headerlink&quot; title=&quot;mmap&quot;&gt;&lt;/a&gt;mmap&lt;/h2&gt;&lt;p&gt;Mongodb 的設計是利用 &lt;code&gt;mmap&lt;/code&gt; 方式映射檔案文件到 memory 中，直接透過操作 memory 來存取資料，好處有下列幾點:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;簡化設計，省略最複雜的 memory 和硬碟管理，讓 Mongodb 的開發變得容易許多。&lt;/li&gt;
+&lt;li&gt;OS 可以對不同文件系統 (ext3, ext4) 的類型做 cache。&lt;/li&gt;
+&lt;li&gt;原生的 OS LRU cache 機制。&lt;/li&gt;
+&lt;li&gt;Mongodb 重開後可以繼續使用 file cache 裡面的資料。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;而缺點也很明顯:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;因為檔案系統和 memory 是一對一映射，就如前篇所說的，檔案系統內的 fragment 會一同被複製到 memory 中, 造成 memory 的浪費。&lt;/li&gt;
+&lt;li&gt;太大的 Linux &lt;code&gt;readahead&lt;/code&gt; 會對 memory 的使用造成影響。readahead 指的是一種 prefetching 技術，在檔案讀取中，因為 data 會有 spatial locality (空間局部性)，所以當我們讀取資料時，會一次讀一大段連續資料進來，類似一次讀 16k 或 32k 進入 page cache，去減少硬碟速度過慢造成的影響，然後增加檔案的速度。&lt;/li&gt;
+&lt;li&gt;LRU 的 cache 方式，不能夠去設定 Priority，像是 index 這類資料，也是會被 LRU 方式被 swap out。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;Resident-memory&quot;&gt;&lt;a href=&quot;#Resident-memory&quot; class=&quot;headerlink&quot; title=&quot;Resident memory&quot;&gt;&lt;/a&gt;Resident memory&lt;/h2&gt;&lt;p&gt;通常我們會想知道 data 到底使用了多少 memory，而比較好的指標是 Resident memory，基於 Mongodb 是用 share memory 的機制， 查看每個 Mongodb 的 process 的 Resident memory 都會是一樣的。&lt;/p&gt;
+&lt;p&gt;Resident memory 的組合如下&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;Resident memory = process overhead + File system pages 被 access 的部分&lt;br&gt;process overhead = connection + heap&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;有些人去檢查後會覺得很奇怪，為什麼 Resident memory 相對於全部 memory 而言少那麼多，以為 Mongodb 沒有完整的使用 memory， 其實不用擔心，mongodb 會把資料都讀入 file cache ，這點可以用 &lt;code&gt;free -m&lt;/code&gt; 來檢查，是否 &lt;code&gt;cached&lt;/code&gt; 那欄吃了不少 memory ， 而 resident 裡面會顯示的空間，則是 mongodb 真正有 access 到的檔案，這部分的數據會被 memory fragment 和 readahead 影響, 如果發現 Resident memory 過低, 應該是要想辦法減少 memory fragment 或是調整 readahead 的大小， 讓讀進來的資料都是需要的, 減少發生 page fault 的機率。&lt;/p&gt;
+&lt;h2 id=&quot;Working-set-amp-page-fault&quot;&gt;&lt;a href=&quot;#Working-set-amp-page-fault&quot; class=&quot;headerlink&quot; title=&quot;Working set &amp;amp; page fault&quot;&gt;&lt;/a&gt;Working set &amp;amp; page fault&lt;/h2&gt;&lt;p&gt;常聽人說 Mongodb 需要大量的 memory， 最好是 memory 要能夠 fit working set，但大家常以為 working set 就代表全部資料的大小，這是個錯誤觀念。實際上 working set 指得是 mongodb 完成所有操作要取用的 data 和 index 大小。例如資料庫內不是每筆資料都常常被 access，舉 Blog 來說三年前的資料就不會那麼常被存取, 那 working set 裡面就不需要包含那麼古老的資料。&lt;/p&gt;
+&lt;p&gt;查看 working set 的指令&lt;code&gt;db.runCommand({ serverStatus: 1, workingSet: 1} )&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在 mongodb 中， working set 的資料如果不在 memory 中，就會引發 page fault，這個時候就要去觀察 page fault 的大小， page fault 如果超過一定值(ex. 200 以上)， 然後 latency 又受到影響， 你的系統可能就需要一些調整了，有可能是要加 RAM，也有可能是資料沒有上到 index 而造成 Table scan， 而下一節我也有列出一些平常我會調整的部分。&lt;/p&gt;
+&lt;h2 id=&quot;Tunning&quot;&gt;&lt;a href=&quot;#Tunning&quot; class=&quot;headerlink&quot; title=&quot;Tunning&quot;&gt;&lt;/a&gt;Tunning&lt;/h2&gt;&lt;p&gt;以下是我在 AWS EC2 平台上的一些調整方法&lt;/p&gt;
+&lt;h3 id=&quot;記憶體&quot;&gt;&lt;a href=&quot;# 記憶體&quot; class=&quot;headerlink&quot; title=&quot;記憶體&quot;&gt;&lt;/a&gt;記憶體&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;設定 swap（預設為 60, 當系統使用到超過 40% memory, 就會嘗試使用 swap）&lt;/p&gt;
+ &lt;figure class=&quot;highlight lsl&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;sysctl -w vm.swappiness=&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;   # from &lt;span class=&quot;number&quot;&gt;60&lt;/span&gt; -&amp;gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Huge Page (especially THP) for mongodb: &lt;a href=&quot;https://jira.mongodb.org/browse/DOCS-2131&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://jira.mongodb.org/browse/DOCS-2131&lt;/a&gt;&lt;/p&gt;
+ &lt;figure class=&quot;highlight crystal&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;echo never &amp;gt; &lt;span class=&quot;regexp&quot;&gt;/sys/kernel&lt;/span&gt;&lt;span class=&quot;regexp&quot;&gt;/mm/transparent&lt;/span&gt;_hugepage/enabled&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;File-System&quot;&gt;&lt;a href=&quot;#File-System&quot; class=&quot;headerlink&quot; title=&quot;File System&quot;&gt;&lt;/a&gt;File System&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;File system flush issues (有興趣可以查看 &lt;a href=&quot;http://blog.littlero.se/post/linux-tuning-for-write-heavy-system/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt; 這篇&lt;/a&gt;)&lt;/p&gt;
+ &lt;figure class=&quot;highlight gcode&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;# vm.dirty_ratio = 80&lt;/span&gt;                  &lt;span class=&quot;attr&quot;&gt;# from 40&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;# vm.dirty_background_ratio = 5&lt;/span&gt;        &lt;span class=&quot;attr&quot;&gt;# from 10&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;# vm.dirty_expire_centisecs = 12000&lt;/span&gt;    &lt;span class=&quot;attr&quot;&gt;# from 3000&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;For Mongodb Disk Mounting&lt;/p&gt;
+&lt;p&gt; modify &lt;code&gt;/etc/fstab&lt;/code&gt;&lt;br&gt; 把 journal 和一般的 data 掛在不同的 disk 上面, 因為我是用 SSD 硬碟, 所以取消 atime, 然後加上 discard 的指令, 讓 SSD 開始 Trim 的功能&lt;/p&gt;
+ &lt;figure class=&quot;highlight lsl&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;/dev/xvdf /mongodb_data ext4 defaults,auto,discard,noatime,noexec &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;/dev/xvdg /journal ext4 defaults,auto,discard,noatime,noexec &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;/dev/xvdh /log ext4 defaults,auto,discard,noatime,noexec &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;設定 Readahead&lt;/p&gt;
+&lt;p&gt; Readahead 根據資料不同, 需要有不同的調整, mongodb 官網是建議在 32k 以下, 而最後不要低於 16k, 因為 Mongodb 的 index bucket 的大小就是 8k, 調整太低可能會失去一些好處。&lt;/p&gt;
+ &lt;figure class=&quot;highlight ada&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;sudo blockdev &lt;span class=&quot;comment&quot;&gt;--setra 32 /dev/xvdf&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;ulimit&lt;/p&gt;
+&lt;p&gt; 修改&lt;code&gt;/etc/security/limits.conf&lt;/code&gt;&lt;/p&gt;
+ &lt;figure class=&quot;highlight asciidoc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;bullet&quot;&gt;* &lt;/span&gt;soft nofile 64000&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;bullet&quot;&gt;* &lt;/span&gt;hard nofile 64000&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;bullet&quot;&gt;* &lt;/span&gt;soft nproc 32000&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;bullet&quot;&gt;* &lt;/span&gt;hard nproc 32000&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;IO scheduler 因為是使用 SSD based 的硬碟, 採用 Noop&lt;/p&gt;
+ &lt;figure class=&quot;highlight dts&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;echo noop | sudo tee &lt;span class=&quot;meta-keyword&quot;&gt;/sys/&lt;/span&gt;block&lt;span class=&quot;meta-keyword&quot;&gt;/xvdf/&lt;/span&gt;queue/scheduler&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<p>開始翻以前在 evernote 的連結，發現這篇對於 mongodb 如何使用 memory 的介紹算是簡單易懂，這邊做個小筆記</p>
-<p><iframe src="//www.slideshare.net/slideshow/embed_code/key/J7LaXF]]>
+    
+      &lt;p&gt;開始翻以前在 evernote 的連結，發現這篇對於 mongodb 如何使用 memory 的介紹算是簡單易懂，這邊做個小筆記&lt;/p&gt;
+&lt;p&gt;&lt;iframe src=&quot;//www.slideshare.net/slideshow/embed_code/key/J7LaXF
+    
     </summary>
+    
     
       <category term="mongodb" scheme="http://kkc.github.io/tags/mongodb/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Mongodb Storage 的架構和問題解法]]></title>
+    <title>Mongodb Storage 的架構和問題解法</title>
     <link href="http://kkc.github.io/2015/07/14/mongodb-storage/"/>
     <id>http://kkc.github.io/2015/07/14/mongodb-storage/</id>
     <published>2015-07-14T04:05:29.000Z</published>
     <updated>2015-09-12T06:03:31.000Z</updated>
-    <content type="html"><![CDATA[<p>Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab <a href="http://blog.mongolab.com/2014/01/how-big-is-your-mongodb/" target="_blank" rel="external">這篇 </a> 和自己一些經驗心得。</p>
-<h2 id="MongoDB_storage__u67B6_u69CB"><a href="#MongoDB_storage__u67B6_u69CB" class="headerlink" title="MongoDB storage 架構"></a>MongoDB storage 架構 </h2><h3 id="Database_and_Extents"><a href="#Database_and_Extents" class="headerlink" title="Database and Extents"></a>Database and Extents</h3><p> 首先參考下面這張圖(與原文不同，我稍微做了點修改)</p>
-<p><img src="/img/mongodb_storage.png" alt="mongodb_storage"></p>
-<p>假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp; B)，而基本上會被這樣儲存，test.0 &amp; test.1 這些 data files 就是真正佔據硬碟的空間，mongodb 會先 preallocate 這些空間，主要有兩個好處：</p>
-<ol>
-<li>減少 disk 空間分配的 fragmentation</li>
-<li>減少寫入時，再去跟硬碟要空間分配的動作</li>
-</ol>
-<p>缺點是不知道一開始要 allocate 多少空間才是最完美的，allocate 太少就少了第二點好處，allocate 太多沒用完又會浪費硬碟空間。 mongodb 預設採用的方式是 db.0 為 64mb，db.1 為 128mb，db.2 為 256mb，一直到了 db.5 才會變成 2G， 而這些根據需求都可以另外設定。</p>
-<p>每個 data file 又有很多的 extent，index 和 data extents 會分開存放，然後存不下的時候，才會被放到新的 data file。</p>
-<h3 id="u89C0_u5BDFDatabase_u5927_u5C0F"><a href="#u89C0_u5BDFDatabase_u5927_u5C0F" class="headerlink" title="觀察 Database 大小"></a>觀察 Database 大小 </h3><p> 使用 mongodb 的人一定要學會用 db.stats() 去觀察資料大小，而 db.stats() 又包含了三個觀測指標 dataSize、storageSize 和 fileSize。</p>
-<h4 id="DataSize"><a href="#DataSize" class="headerlink" title="DataSize"></a>DataSize</h4><p>所謂 datasize，指的是上面橘色的部分，其中包含了全部的 documents + padding 的空間。</p>
-<p>當砍掉 document 的時候，datasize 的值會下降，而改變 document 的內容（包含減少 key）則不會改變 datasize 的大小。另外要注意的是，增加 document 的大小時，如果超過 padding (預先分配) 的大小， 會重新找一塊比較大的區域插入，因為 document 通常是連續插入的，如果 document 的大小不一， 原本刪除的地方，有很大的機率會留下洞，也就是新的 document 就無法插入，該區域就浪費了。</p>
-<p>這邊想要再補充一下，因為 mongodb 是利用 mmap 的方式讀取資料進入 memory ，而這些 document 的洞，也會變成 memory 上面的洞 (fragmentation)， 所以我們最好要避免這些洞，進而去減少 page fault 發生的機率。</p>
-<h4 id="StorageSize"><a href="#StorageSize" class="headerlink" title="StorageSize"></a>StorageSize</h4><p>Storage Size 指的是上圖藍色的部分，也就是 database 中，所有預先分配給 document 儲存的地方。 所以在刪除 document 時，Storage size 並不會減少， 而當增加 document 時，如果原本欲分配的空間不足時， 其大小才有可能會增加。</p>
-<h4 id="FileSize"><a href="#FileSize" class="headerlink" title="FileSize"></a>FileSize</h4><p>File Size 就更簡單了，就是整個 database 佔據的大小，包含了 data &amp; index 的空間，而 FileSize 只有在砍掉 database 時才會減少，刪除 collection、document、index 對他都不會有任何的影響。</p>
-<h2 id="u554F_u984C"><a href="#u554F_u984C" class="headerlink" title="問題"></a>問題 </h2><h3 id="collection__u88E1_u9762_u7684fragmentation"><a href="#collection__u88E1_u9762_u7684fragmentation" class="headerlink" title="collection 裡面的 fragmentation"></a>collection 裡面的 fragmentation</h3><p> 在講解 Datasize 的時候有提到，砍掉舊的 document 時，要是新的 document 太肥塞不進去，就會造成 fragmentation ， 甚至會變成 memory 上面的 fragmentation ，進而影響 mongodb 的效能，一般我們會去看 DataSize 和 StorageSize 是不是差距過大去 確認是否有這個問題。</p>
-<p>要解決這樣的問題，其中一個方法是使用 compact，但是這個指令會 block 整台機器。另外一個方法就是插入 document 時，都是用同樣大小的 size，這樣刪除 document 後才有機會被 reuse。</p>
-<h3 id="u6E05_fragmentation__u7684_u5176_u4ED6_u65B9_u6CD5"><a href="#u6E05_fragmentation__u7684_u5176_u4ED6_u65B9_u6CD5" class="headerlink" title="清 fragmentation 的其他方法"></a>清 fragmentation 的其他方法</h3><ol>
-<li><p>除了 compact 和 db.repairDatabase 外，還有個可以清除 fragmentation 的方式，其實是建立新的 replica set node ， 因為在建立 replica set 的時候，資料會重新寫入，所以資料空間可以有比較好的利用率，減少不必要的 fragmentation ， 不過使用這招也是有點麻煩，因為在建立 replica 的時候， mongodb 會吃掉大半的 Disk IOPS, 反應會變得比較慢， 而且 mongodb 的資料都沒有壓縮過，所以要 sync 全部的資料庫，需要非常久的時間。</p>
-</li>
-<li><p>將 secondary replica node 下線後, 先拿來清 fragmentation ，接著再讓他上線 sync 完資料後，切換成 master。</p>
-</li>
-<li><p>Migrate 舊的 database 成為新的 database，優點是不需要人工操作太多 mongodb replica 的工，但缺點是 database migration 需要考慮會不會影響線上的服務，如果是 24/7 的服務，程式碼要就要同時讀取舊的資料庫和新的資料庫，確保資料同步。</p>
-</li>
-</ol>
-<h2 id="u7D50_u8A9E"><a href="#u7D50_u8A9E" class="headerlink" title="結語"></a>結語 </h2><p> 很多使用 mongodb 的人不知道自己的 db fragmentation 情況很嚴重，往往機器變慢了也不知道原因，最好的方式是要定期檢查上面 三個指標，注意 DataSize 遠小於 StorageSize，或是 StorageSize + index Size 遠小於 FileSize 的情況，然後盡量把 document 的大小固定， 相信可以有效地改善這些問題。</p>
-]]></content>
+    
+    <content type="html">&lt;p&gt;Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab &lt;a href=&quot;http://blog.mongolab.com/2014/01/how-big-is-your-mongodb/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;這篇 &lt;/a&gt; 和自己一些經驗心得。&lt;/p&gt;
+&lt;h2 id=&quot;MongoDB-storage- 架構&quot;&gt;&lt;a href=&quot;#MongoDB-storage- 架構&quot; class=&quot;headerlink&quot; title=&quot;MongoDB storage 架構&quot;&gt;&lt;/a&gt;MongoDB storage 架構 &lt;/h2&gt;&lt;h3 id=&quot;Database-and-Extents&quot;&gt;&lt;a href=&quot;#Database-and-Extents&quot; class=&quot;headerlink&quot; title=&quot;Database and Extents&quot;&gt;&lt;/a&gt;Database and Extents&lt;/h3&gt;&lt;p&gt; 首先參考下面這張圖(與原文不同，我稍微做了點修改)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/mongodb_storage.png&quot; alt=&quot;mongodb_storage&quot;&gt;&lt;/p&gt;
+&lt;p&gt;假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp;amp; B)，而基本上會被這樣儲存，test.0 &amp;amp; test.1 這些 data files 就是真正佔據硬碟的空間，mongodb 會先 preallocate 這些空間，主要有兩個好處：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;減少 disk 空間分配的 fragmentation&lt;/li&gt;
+&lt;li&gt;減少寫入時，再去跟硬碟要空間分配的動作&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;缺點是不知道一開始要 allocate 多少空間才是最完美的，allocate 太少就少了第二點好處，allocate 太多沒用完又會浪費硬碟空間。 mongodb 預設採用的方式是 db.0 為 64mb，db.1 為 128mb，db.2 為 256mb，一直到了 db.5 才會變成 2G， 而這些根據需求都可以另外設定。&lt;/p&gt;
+&lt;p&gt;每個 data file 又有很多的 extent，index 和 data extents 會分開存放，然後存不下的時候，才會被放到新的 data file。&lt;/p&gt;
+&lt;h3 id=&quot;觀察 Database 大小&quot;&gt;&lt;a href=&quot;# 觀察 Database 大小&quot; class=&quot;headerlink&quot; title=&quot;觀察 Database 大小&quot;&gt;&lt;/a&gt;觀察 Database 大小 &lt;/h3&gt;&lt;p&gt; 使用 mongodb 的人一定要學會用 db.stats() 去觀察資料大小，而 db.stats() 又包含了三個觀測指標 dataSize、storageSize 和 fileSize。&lt;/p&gt;
+&lt;h4 id=&quot;DataSize&quot;&gt;&lt;a href=&quot;#DataSize&quot; class=&quot;headerlink&quot; title=&quot;DataSize&quot;&gt;&lt;/a&gt;DataSize&lt;/h4&gt;&lt;p&gt;所謂 datasize，指的是上面橘色的部分，其中包含了全部的 documents + padding 的空間。&lt;/p&gt;
+&lt;p&gt;當砍掉 document 的時候，datasize 的值會下降，而改變 document 的內容（包含減少 key）則不會改變 datasize 的大小。另外要注意的是，增加 document 的大小時，如果超過 padding (預先分配) 的大小， 會重新找一塊比較大的區域插入，因為 document 通常是連續插入的，如果 document 的大小不一， 原本刪除的地方，有很大的機率會留下洞，也就是新的 document 就無法插入，該區域就浪費了。&lt;/p&gt;
+&lt;p&gt;這邊想要再補充一下，因為 mongodb 是利用 mmap 的方式讀取資料進入 memory ，而這些 document 的洞，也會變成 memory 上面的洞 (fragmentation)， 所以我們最好要避免這些洞，進而去減少 page fault 發生的機率。&lt;/p&gt;
+&lt;h4 id=&quot;StorageSize&quot;&gt;&lt;a href=&quot;#StorageSize&quot; class=&quot;headerlink&quot; title=&quot;StorageSize&quot;&gt;&lt;/a&gt;StorageSize&lt;/h4&gt;&lt;p&gt;Storage Size 指的是上圖藍色的部分，也就是 database 中，所有預先分配給 document 儲存的地方。 所以在刪除 document 時，Storage size 並不會減少， 而當增加 document 時，如果原本欲分配的空間不足時， 其大小才有可能會增加。&lt;/p&gt;
+&lt;h4 id=&quot;FileSize&quot;&gt;&lt;a href=&quot;#FileSize&quot; class=&quot;headerlink&quot; title=&quot;FileSize&quot;&gt;&lt;/a&gt;FileSize&lt;/h4&gt;&lt;p&gt;File Size 就更簡單了，就是整個 database 佔據的大小，包含了 data &amp;amp; index 的空間，而 FileSize 只有在砍掉 database 時才會減少，刪除 collection、document、index 對他都不會有任何的影響。&lt;/p&gt;
+&lt;h2 id=&quot;問題&quot;&gt;&lt;a href=&quot;# 問題&quot; class=&quot;headerlink&quot; title=&quot;問題&quot;&gt;&lt;/a&gt;問題 &lt;/h2&gt;&lt;h3 id=&quot;collection- 裡面的 fragmentation&quot;&gt;&lt;a href=&quot;#collection- 裡面的 fragmentation&quot; class=&quot;headerlink&quot; title=&quot;collection 裡面的 fragmentation&quot;&gt;&lt;/a&gt;collection 裡面的 fragmentation&lt;/h3&gt;&lt;p&gt; 在講解 Datasize 的時候有提到，砍掉舊的 document 時，要是新的 document 太肥塞不進去，就會造成 fragmentation ， 甚至會變成 memory 上面的 fragmentation ，進而影響 mongodb 的效能，一般我們會去看 DataSize 和 StorageSize 是不是差距過大去 確認是否有這個問題。&lt;/p&gt;
+&lt;p&gt;要解決這樣的問題，其中一個方法是使用 compact，但是這個指令會 block 整台機器。另外一個方法就是插入 document 時，都是用同樣大小的 size，這樣刪除 document 後才有機會被 reuse。&lt;/p&gt;
+&lt;h3 id=&quot;清 -fragmentation- 的其他方法&quot;&gt;&lt;a href=&quot;# 清 -fragmentation- 的其他方法&quot; class=&quot;headerlink&quot; title=&quot;清 fragmentation 的其他方法&quot;&gt;&lt;/a&gt;清 fragmentation 的其他方法&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;除了 compact 和 db.repairDatabase 外，還有個可以清除 fragmentation 的方式，其實是建立新的 replica set node ， 因為在建立 replica set 的時候，資料會重新寫入，所以資料空間可以有比較好的利用率，減少不必要的 fragmentation ， 不過使用這招也是有點麻煩，因為在建立 replica 的時候， mongodb 會吃掉大半的 Disk IOPS, 反應會變得比較慢， 而且 mongodb 的資料都沒有壓縮過，所以要 sync 全部的資料庫，需要非常久的時間。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;將 secondary replica node 下線後, 先拿來清 fragmentation ，接著再讓他上線 sync 完資料後，切換成 master。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Migrate 舊的 database 成為新的 database，優點是不需要人工操作太多 mongodb replica 的工，但缺點是 database migration 需要考慮會不會影響線上的服務，如果是 24/7 的服務，程式碼要就要同時讀取舊的資料庫和新的資料庫，確保資料同步。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;結語&quot;&gt;&lt;a href=&quot;# 結語&quot; class=&quot;headerlink&quot; title=&quot;結語&quot;&gt;&lt;/a&gt;結語 &lt;/h2&gt;&lt;p&gt; 很多使用 mongodb 的人不知道自己的 db fragmentation 情況很嚴重，往往機器變慢了也不知道原因，最好的方式是要定期檢查上面 三個指標，注意 DataSize 遠小於 StorageSize，或是 StorageSize + index Size 遠小於 FileSize 的情況，然後盡量把 document 的大小固定， 相信可以有效地改善這些問題。&lt;/p&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<p>Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab <a href="http://blog.mongolab.com/2014/01/how-big-is-your-mongodb/" target="_blank" rel="ext]]>
+    
+      &lt;p&gt;Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab &lt;a href=&quot;http://blog.mongolab.com/2014/01/how-big-is-your-mongodb/&quot; target=&quot;_blank&quot; rel=&quot;ext
+    
     </summary>
+    
     
       <category term="mongodb" scheme="http://kkc.github.io/tags/mongodb/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Python 的時間還有時區處理]]></title>
+    <title>Python 的時間還有時區處理</title>
     <link href="http://kkc.github.io/2015/07/08/dealing-with-datetime-and-timezone-in-python/"/>
     <id>http://kkc.github.io/2015/07/08/dealing-with-datetime-and-timezone-in-python/</id>
     <published>2015-07-08T05:46:12.000Z</published>
     <updated>2015-09-12T06:03:31.000Z</updated>
-    <content type="html"><![CDATA[<p>身為一個程式設計師，很容易就會碰到時間處理的問題，如果你的服務是跨國的應用，也會需要瞭解怎麼去換算時區。<br>舉個例子來說，David 在美西時間的 20:00 (GMT-8) 發表了一則留言，而他在台灣的女朋友 Mary 看到的時間應該是 12:00 (GMT+8)。</p>
-<h2 id="Python_u7684_u6642_u9593_u8655_u7406"><a href="#Python_u7684_u6642_u9593_u8655_u7406" class="headerlink" title="Python 的時間處理"></a>Python 的時間處理</h2><p>python 的時間處理其實頗簡單</p>
-<h3 id="u5229_u7528_timestamp__u7522_u751F_python_datetime__u7269_u4EF6"><a href="#u5229_u7528_timestamp__u7522_u751F_python_datetime__u7269_u4EF6" class="headerlink" title="利用 timestamp 產生 python datetime 物件"></a>利用 timestamp 產生 python datetime 物件</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="comment"># timestamp</span></span><br><span class="line">t = time.time()</span><br><span class="line"><span class="comment"># datetime 物件</span></span><br><span class="line">dt = datetime.datetime.fromtimestamp(t)</span><br></pre></td></tr></table></figure>
-<h3 id="u5229_u7528_u5B57_u4E32_u7522_u751F_python_datetime__u7269_u4EF6"><a href="#u5229_u7528_u5B57_u4E32_u7522_u751F_python_datetime__u7269_u4EF6" class="headerlink" title="利用字串產生 python datetime 物件"></a>利用字串產生 python datetime 物件</h3><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.strptime(‘<span class="number">2015</span>-<span class="number">07</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">20</span>:<span class="number">28</span><span class="string">','</span><span class="variable">%Y</span>-<span class="variable">%m</span>-<span class="variable">%d</span> <span class="variable">%H</span>:<span class="variable">%M</span>:<span class="variable">%S</span><span class="string">')</span></span><br></pre></td></tr></table></figure>
-<h3 id="u5229_u7528_python_datetime__u7269_u4EF6_u7522_u751F_u5B57_u4E32"><a href="#u5229_u7528_python_datetime__u7269_u4EF6_u7522_u751F_u5B57_u4E32" class="headerlink" title="利用 python datetime 物件產生字串"></a>利用 python datetime 物件產生字串</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">datetime.datetime.fromtimestamp(t).strftime('%Y-%<span class="keyword">m</span>-%<span class="keyword">d</span> %<span class="keyword">H</span>:%<span class="keyword">M</span>:%S')</span><br><span class="line"># Output -&gt; '2015-07-08 11:20:28'</span><br></pre></td></tr></table></figure>
-<h3 id="u5229_u7528_python_datetime__u7269_u4EF6_u7522_u751F_timestamp"><a href="#u5229_u7528_python_datetime__u7269_u4EF6_u7522_u751F_timestamp" class="headerlink" title="利用 python datetime 物件產生 timestamp"></a>利用 python datetime 物件產生 timestamp</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">time</span><span class="class">.mktime</span>(<span class="tag">dt</span><span class="class">.timetuple</span>()) + 1<span class="tag">e-6</span> * <span class="tag">dt</span><span class="class">.microsecond</span></span><br></pre></td></tr></table></figure>
-<h2 id="Python_u7684_u6642_u5340_u8655_u7406"><a href="#Python_u7684_u6642_u5340_u8655_u7406" class="headerlink" title="Python 的時區處理"></a>Python 的時區處理 </h2><h3 id="u66F4_u6539_u6642_u5340"><a href="#u66F4_u6539_u6642_u5340" class="headerlink" title="更改時區"></a> 更改時區 </h3><p> 利用 pytz 來更改時區，以下我們先拿來得出美西時間的 2015-07-03 20:25</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import pytz</span><br><span class="line"><span class="keyword">us</span> = pytz.timezone('<span class="keyword">US</span>/Pacific')</span><br><span class="line">dt = datetime.datetime.strptime('2015-07-03 20:25', '%Y-%<span class="keyword">m</span>-%<span class="keyword">d</span> %<span class="keyword">H</span>:%<span class="keyword">M</span>').<span class="keyword">replace</span>(tzinfo=<span class="keyword">us</span>)</span><br><span class="line"># 物件為 datetime.datetime(2015, 7, 3, 20, 25, tzinfo=&lt;DstTzInfo '<span class="keyword">US</span>/Pacific' PST-1 day, 16:00:00 STD&gt;)</span><br></pre></td></tr></table></figure>
-<h3 id="u4E5F_u53EF_u4EE5_u5229_u7528asttimezone_u66F4_u6539_u6642_u5340"><a href="#u4E5F_u53EF_u4EE5_u5229_u7528asttimezone_u66F4_u6539_u6642_u5340" class="headerlink" title="也可以利用 asttimezone 更改時區"></a>也可以利用 asttimezone 更改時區</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dt.astimezone(pytz.utc)</span><br><span class="line"><span class="preprocessor"># 物件為 datetime.datetime(<span class="number">2015</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">25</span>, tzinfo=&lt;UTC&gt;)</span></span><br></pre></td></tr></table></figure>
-<p>在處理時區問題時，我們會推薦要儲存 UTC 的時間 (timestamp)，等到 User 存取資料時在去換時區， 而儲存時間也是一樣，要先把 User 傳上來的資料轉成 UTC 的時間，這時我們要注意在 python 中， datetime 物件的 timetuple 其實是沒有帶時區的資訊，<code>time.mktime</code> 是利用你本地端電腦的時區 轉出 timestamp，而 <code>calendar.timegm</code> 是不會自動幫你加時區的，這也是很多人沒搞懂的地方。</p>
-<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.strptime(<span class="string">'2015-07-03 20:25'</span>, <span class="string">'%Y-%m-%d %H:%M'</span>)</span><br><span class="line">time.mktime(dt.timetuple())</span><br><span class="line"><span class="preprocessor"># 1435926300 =&gt; 2015-07-03 12:25 GMT</span></span><br><span class="line">calendar.timegm(dt.timetuple())</span><br><span class="line"><span class="preprocessor"># 1435955100 =&gt; 2015-07-03 20:25 GMT</span></span><br></pre></td></tr></table></figure>
-<p>下面這個例子，我們先更換時區，在產生出 timestamp，可以拿來跟樓上的例子比較</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.strptime(<span class="string">'2015-07-03 20:25'</span>, <span class="string">'%Y-%m-%d %H:%M'</span>).<span class="built_in">replace</span>(tzinfo=us)</span><br><span class="line"><span class="built_in">time</span>.mktime(dt.timetuple())</span><br><span class="line"><span class="comment"># 1435926300 =&gt; 2015-07-03 12:25 GMT</span></span><br><span class="line">calendar.timegm(dt.timetuple())</span><br><span class="line"><span class="comment"># 1435955100 =&gt; 2015-07-03 20:25 GMT</span></span><br></pre></td></tr></table></figure>
-<p>tamp 還是跟先前一樣， 就是因為 timetuple 不會有 timezone 資訊，所以我們要利用<code>utctimetuple</code>， 讓他對應到正確的 UTC 時間的 timestamp。</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.strptime(<span class="string">'2015-07-03 20:25'</span>, <span class="string">'%Y-%m-%d %H:%M'</span>).<span class="built_in">replace</span>(tzinfo=us)</span><br><span class="line"><span class="built_in">time</span>.mktime(dt.utctimetuple())</span><br><span class="line"><span class="comment"># 1435955100 =&gt; 2015-07-03 20:25 GMT</span></span><br><span class="line">calendar.timegm(dt.utctimetuple())</span><br><span class="line"><span class="comment"># 1435983900 =&gt; 2015-07-04 04:25 GMT</span></span><br></pre></td></tr></table></figure>
-<p>從上面的過程中，我們最後可以得出，在轉換時區後，要取得正確的 timestamp， 必須要將 <code>calendar.timegm</code> 和<code>utctimetuple</code>一起服用，或是利用<code>dt.astimezone(pytz.utc)</code> 把時區先轉成 UTC 時間，才能得到我們真正想要的。</p>
-]]></content>
+    
+    <content type="html">&lt;p&gt;身為一個程式設計師，很容易就會碰到時間處理的問題，如果你的服務是跨國的應用，也會需要瞭解怎麼去換算時區。&lt;br&gt;舉個例子來說，David 在美西時間的 20:00 (GMT-8) 發表了一則留言，而他在台灣的女朋友 Mary 看到的時間應該是 12:00 (GMT+8)。&lt;/p&gt;
+&lt;h2 id=&quot;Python 的時間處理&quot;&gt;&lt;a href=&quot;#Python 的時間處理&quot; class=&quot;headerlink&quot; title=&quot;Python 的時間處理&quot;&gt;&lt;/a&gt;Python 的時間處理&lt;/h2&gt;&lt;p&gt;python 的時間處理其實頗簡單&lt;/p&gt;
+&lt;h3 id=&quot;利用 -timestamp- 產生 -python-datetime- 物件&quot;&gt;&lt;a href=&quot;# 利用 -timestamp- 產生 -python-datetime- 物件&quot; class=&quot;headerlink&quot; title=&quot;利用 timestamp 產生 python datetime 物件&quot;&gt;&lt;/a&gt;利用 timestamp 產生 python datetime 物件&lt;/h3&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; time&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; datetime&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# timestamp&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;t = time.time()&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# datetime 物件&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;dt = datetime.datetime.fromtimestamp(t)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;利用字串產生 -python-datetime- 物件&quot;&gt;&lt;a href=&quot;# 利用字串產生 -python-datetime- 物件&quot; class=&quot;headerlink&quot; title=&quot;利用字串產生 python datetime 物件&quot;&gt;&lt;/a&gt;利用字串產生 python datetime 物件&lt;/h3&gt;&lt;figure class=&quot;highlight mel&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;dt = datetime.datetime.strptime(‘&lt;span class=&quot;number&quot;&gt;2015&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;-07&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;-08&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;11&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;20&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;&lt;span class=&quot;string&quot;&gt;&#39;,&#39;&lt;/span&gt;%Y-%m-%d %H:%M:%S&lt;span class=&quot;string&quot;&gt;&#39;)&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;利用 -python-datetime- 物件產生字串&quot;&gt;&lt;a href=&quot;# 利用 -python-datetime- 物件產生字串&quot; class=&quot;headerlink&quot; title=&quot;利用 python datetime 物件產生字串&quot;&gt;&lt;/a&gt;利用 python datetime 物件產生字串&lt;/h3&gt;&lt;figure class=&quot;highlight cos&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;datetime.datetime.fromtimestamp(t).strftime(&#39;&lt;span class=&quot;built_in&quot;&gt;%Y&lt;/span&gt;-&lt;span class=&quot;built_in&quot;&gt;%m&lt;/span&gt;-&lt;span class=&quot;built_in&quot;&gt;%d&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;%H&lt;/span&gt;:&lt;span class=&quot;built_in&quot;&gt;%M&lt;/span&gt;:&lt;span class=&quot;built_in&quot;&gt;%S&lt;/span&gt;&#39;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;# Output -&amp;gt; &#39;&lt;span class=&quot;number&quot;&gt;2015&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;08&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;11&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;20&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;&#39;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;利用 -python-datetime- 物件產生 -timestamp&quot;&gt;&lt;a href=&quot;# 利用 -python-datetime- 物件產生 -timestamp&quot; class=&quot;headerlink&quot; title=&quot;利用 python datetime 物件產生 timestamp&quot;&gt;&lt;/a&gt;利用 python datetime 物件產生 timestamp&lt;/h3&gt;&lt;figure class=&quot;highlight css&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.mktime&lt;/span&gt;(&lt;span class=&quot;selector-tag&quot;&gt;dt&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.timetuple&lt;/span&gt;()) + 1&lt;span class=&quot;selector-tag&quot;&gt;e-6&lt;/span&gt; * &lt;span class=&quot;selector-tag&quot;&gt;dt&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.microsecond&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;Python 的時區處理&quot;&gt;&lt;a href=&quot;#Python 的時區處理&quot; class=&quot;headerlink&quot; title=&quot;Python 的時區處理&quot;&gt;&lt;/a&gt;Python 的時區處理 &lt;/h2&gt;&lt;h3 id=&quot;更改時區&quot;&gt;&lt;a href=&quot;# 更改時區&quot; class=&quot;headerlink&quot; title=&quot;更改時區&quot;&gt;&lt;/a&gt; 更改時區 &lt;/h3&gt;&lt;p&gt; 利用 pytz 來更改時區，以下我們先拿來得出美西時間的 2015-07-03 20:25&lt;/p&gt;
+&lt;figure class=&quot;highlight processing&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; pytz&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;us = pytz.timezone(&lt;span class=&quot;string&quot;&gt;&#39;US/Pacific&#39;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;dt = datetime.datetime.strptime(&lt;span class=&quot;string&quot;&gt;&#39;2015-07-03 20:25&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;%Y-%m-%d %H:%M&#39;&lt;/span&gt;).replace(tzinfo=us)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;# 物件為 datetime.datetime(&lt;span class=&quot;number&quot;&gt;2015&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;20&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;25&lt;/span&gt;, tzinfo=&amp;lt;DstTzInfo &lt;span class=&quot;string&quot;&gt;&#39;US/Pacific&#39;&lt;/span&gt; PST&lt;span class=&quot;number&quot;&gt;-1&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;day&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;16&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt; STD&amp;gt;)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;也可以利用 asttimezone 更改時區&quot;&gt;&lt;a href=&quot;# 也可以利用 asttimezone 更改時區&quot; class=&quot;headerlink&quot; title=&quot;也可以利用 asttimezone 更改時區&quot;&gt;&lt;/a&gt;也可以利用 asttimezone 更改時區&lt;/h3&gt;&lt;figure class=&quot;highlight lsl&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;dt.astimezone(pytz.utc)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;# 物件為 datetime.datetime(&lt;span class=&quot;number&quot;&gt;2015&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;25&lt;/span&gt;, tzinfo=&amp;lt;UTC&amp;gt;)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;在處理時區問題時，我們會推薦要儲存 UTC 的時間 (timestamp)，等到 User 存取資料時在去換時區， 而儲存時間也是一樣，要先把 User 傳上來的資料轉成 UTC 的時間，這時我們要注意在 python 中， datetime 物件的 timetuple 其實是沒有帶時區的資訊，&lt;code&gt;time.mktime&lt;/code&gt; 是利用你本地端電腦的時區 轉出 timestamp，而 &lt;code&gt;calendar.timegm&lt;/code&gt; 是不會自動幫你加時區的，這也是很多人沒搞懂的地方。&lt;/p&gt;
+&lt;figure class=&quot;highlight vala&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;dt = datetime.datetime.strptime(&lt;span class=&quot;string&quot;&gt;&#39;2015-07-03 20:25&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;%Y-%m-%d %H:%M&#39;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;time.mktime(dt.timetuple())&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;# 1435926300 =&amp;gt; 2015-07-03 12:25 GMT&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;calendar.timegm(dt.timetuple())&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;# 1435955100 =&amp;gt; 2015-07-03 20:25 GMT&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;下面這個例子，我們先更換時區，在產生出 timestamp，可以拿來跟樓上的例子比較&lt;/p&gt;
+&lt;figure class=&quot;highlight livecodeserver&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;dt = datetime.datetime.strptime(&lt;span class=&quot;string&quot;&gt;&#39;2015-07-03 20:25&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;%Y-%m-%d %H:%M&#39;&lt;/span&gt;).&lt;span class=&quot;built_in&quot;&gt;replace&lt;/span&gt;(tzinfo=us)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;time&lt;/span&gt;.mktime(dt.timetuple())&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 1435926300 =&amp;gt; 2015-07-03 12:25 GMT&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;calendar.timegm(dt.timetuple())&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 1435955100 =&amp;gt; 2015-07-03 20:25 GMT&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;tamp 還是跟先前一樣， 就是因為 timetuple 不會有 timezone 資訊，所以我們要利用&lt;code&gt;utctimetuple&lt;/code&gt;， 讓他對應到正確的 UTC 時間的 timestamp。&lt;/p&gt;
+&lt;figure class=&quot;highlight livecodeserver&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;dt = datetime.datetime.strptime(&lt;span class=&quot;string&quot;&gt;&#39;2015-07-03 20:25&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;%Y-%m-%d %H:%M&#39;&lt;/span&gt;).&lt;span class=&quot;built_in&quot;&gt;replace&lt;/span&gt;(tzinfo=us)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;time&lt;/span&gt;.mktime(dt.utctimetuple())&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 1435955100 =&amp;gt; 2015-07-03 20:25 GMT&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;calendar.timegm(dt.utctimetuple())&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 1435983900 =&amp;gt; 2015-07-04 04:25 GMT&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;從上面的過程中，我們最後可以得出，在轉換時區後，要取得正確的 timestamp， 必須要將 &lt;code&gt;calendar.timegm&lt;/code&gt; 和&lt;code&gt;utctimetuple&lt;/code&gt;一起服用，或是利用&lt;code&gt;dt.astimezone(pytz.utc)&lt;/code&gt; 把時區先轉成 UTC 時間，才能得到我們真正想要的。&lt;/p&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<p>身為一個程式設計師，很容易就會碰到時間處理的問題，如果你的服務是跨國的應用，也會需要瞭解怎麼去換算時區。<br>舉個例子來說，David 在美西時間的 20:00 (GMT-8) 發表了一則留言，而他在台灣的女朋友 Mary 看到的時間應該是 12:00 (GMT+8)。<]]>
+    
+      &lt;p&gt;身為一個程式設計師，很容易就會碰到時間處理的問題，如果你的服務是跨國的應用，也會需要瞭解怎麼去換算時區。&lt;br&gt;舉個例子來說，David 在美西時間的 20:00 (GMT-8) 發表了一則留言，而他在台灣的女朋友 Mary 看到的時間應該是 12:00 (GMT+8)。&lt;
+    
     </summary>
+    
     
       <category term="python" scheme="http://kkc.github.io/tags/python/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Hell-Hexo]]></title>
+    <title>Hell-Hexo</title>
     <link href="http://kkc.github.io/2015/07/08/hello-hexo/"/>
     <id>http://kkc.github.io/2015/07/08/hello-hexo/</id>
     <published>2015-07-08T04:09:06.000Z</published>
     <updated>2015-09-12T06:03:31.000Z</updated>
-    <content type="html"><![CDATA[<p>Hello Hexo !!!</p>
-<p> 一直想要把 Blog 轉到比較好書寫的平台, 在使用過 Blogspot 還有 Medium 後, 覺得還是要自己架架看 static blog, 之前原本是想用 spf13 開發的 <a href="http://gohugo.io/" target="_blank" rel="external">Hugo</a>, 不過後來有人推薦我 Hexo, 而讓人感到熱血的地方, 就是 Hexo 是台灣的 Developer 開發的, 加上蠻多人在使用, 就毅然決然跳過來嚕, 希望之後能夠好好寫文章, 不要再發懶了。</p>
-]]></content>
+    
+    <content type="html">&lt;p&gt;Hello Hexo !!!&lt;/p&gt;
+&lt;p&gt; 一直想要把 Blog 轉到比較好書寫的平台, 在使用過 Blogspot 還有 Medium 後, 覺得還是要自己架架看 static blog, 之前原本是想用 spf13 開發的 &lt;a href=&quot;http://gohugo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hugo&lt;/a&gt;, 不過後來有人推薦我 Hexo, 而讓人感到熱血的地方, 就是 Hexo 是台灣的 Developer 開發的, 加上蠻多人在使用, 就毅然決然跳過來嚕, 希望之後能夠好好寫文章, 不要再發懶了。&lt;/p&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<p>Hello Hexo !!!</p>
-<p> 一直想要把 Blog 轉到比較好書寫的平台, 在使用過 Blogspot 還有 Medium 後, 覺得還是要自己架架看 static blog, 之前原本是想用 spf13 開發的 <a href="http://gohugo]]>
+    
+      &lt;p&gt;Hello Hexo !!!&lt;/p&gt;
+&lt;p&gt; 一直想要把 Blog 轉到比較好書寫的平台, 在使用過 Blogspot 還有 Medium 後, 覺得還是要自己架架看 static blog, 之前原本是想用 spf13 開發的 &lt;a href=&quot;http://gohugo
+    
     </summary>
+    
     
   </entry>
   

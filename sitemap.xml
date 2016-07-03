@@ -3,47 +3,65 @@
   
   <url>
     <loc>http://kkc.github.io/2016/07/03/golang-ci/</loc>
-    <lastmod>2016-07-03T14:49:11.000Z</lastmod>
+    
+    <lastmod>2016-07-03T19:18:19.000Z</lastmod>
+    
   </url>
   
   <url>
     <loc>http://kkc.github.io/2016/01/14/docker-registry-installation/</loc>
+    
     <lastmod>2016-01-26T05:20:54.000Z</lastmod>
+    
   </url>
   
   <url>
     <loc>http://kkc.github.io/tags/index.html</loc>
+    
     <lastmod>2015-09-12T06:31:50.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://kkc.github.io/2015/09/05/monitoring-with-graphite/</loc>
-    <lastmod>2015-09-12T06:03:31.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://kkc.github.io/2015/08/16/RDBMS-course/</loc>
-    <lastmod>2015-09-12T06:03:31.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://kkc.github.io/2015/07/21/mongodb-memory-structure/</loc>
-    <lastmod>2015-09-12T06:03:31.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://kkc.github.io/2015/07/14/mongodb-storage/</loc>
-    <lastmod>2015-09-12T06:03:31.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://kkc.github.io/2015/07/08/hello-hexo/</loc>
-    <lastmod>2015-09-12T06:03:31.000Z</lastmod>
+    
   </url>
   
   <url>
     <loc>http://kkc.github.io/2015/07/08/dealing-with-datetime-and-timezone-in-python/</loc>
+    
     <lastmod>2015-09-12T06:03:31.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2015/07/14/mongodb-storage/</loc>
+    
+    <lastmod>2015-09-12T06:03:31.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2015/07/08/hello-hexo/</loc>
+    
+    <lastmod>2015-09-12T06:03:31.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2015/07/21/mongodb-memory-structure/</loc>
+    
+    <lastmod>2015-09-12T06:03:31.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2015/08/16/RDBMS-course/</loc>
+    
+    <lastmod>2015-09-12T06:03:31.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2015/09/05/monitoring-with-graphite/</loc>
+    
+    <lastmod>2015-09-12T06:03:31.000Z</lastmod>
+    
   </url>
   
 </urlset>

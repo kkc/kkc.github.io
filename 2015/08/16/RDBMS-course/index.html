@@ -283,21 +283,21 @@
 <li>沒有 Transation 很多事情會很難辦</li>
 </ol>
 <p>然後以下是我的筆記, 但感覺還是有點照抄投影片, 之後還想要補齊 NoSQL 做 Trasaction 的方法。</p>
-<h2 id="u70BA_u4F55_u9078_u64C7RDBMS"><a href="#u70BA_u4F55_u9078_u64C7RDBMS" class="headerlink" title="為何選擇 RDBMS"></a>為何選擇 RDBMS</h2><ol>
+<h2 id="為何選擇 RDBMS"><a href="# 為何選擇 RDBMS" class="headerlink" title="為何選擇 RDBMS"></a>為何選擇 RDBMS</h2><ol>
 <li>歷史悠久, 將近有 30 年歷史<br> a. 社群支援<br> b. 軟體錯誤較少<br> c. 有許多用在 production 的經驗</li>
 <li>使用 RDBMS 比 NoSQL 開發速度快 (這點我存疑, 因為一般人就受了 NoSQL 的快速開發好處 XD）</li>
 <li>中小型系統, 使用 RDBMS 效能就夠了(同意)</li>
 <li>使用 RDBMS 更安全</li>
 </ol>
-<h2 id="u5927_u90E8_u4EFD_u7CFB_u7D71_u9700_u8981atomic_2C_multi-record_2C_inter-dependent_u7684_u64CD_u4F5C"><a href="#u5927_u90E8_u4EFD_u7CFB_u7D71_u9700_u8981atomic_2C_multi-record_2C_inter-dependent_u7684_u64CD_u4F5C" class="headerlink" title="大部份系統需要 atomic, multi-record, inter-dependent 的操作"></a>大部份系統需要 atomic, multi-record, inter-dependent 的操作 </h2><p> 像是轉帳問題: A 扣掉十元, B 加上十元</p>
+<h2 id="大部份系統需要 atomic-multi-record-inter-dependent 的操作"><a href="# 大部份系統需要 atomic-multi-record-inter-dependent 的操作" class="headerlink" title="大部份系統需要 atomic, multi-record, inter-dependent 的操作"></a>大部份系統需要 atomic, multi-record, inter-dependent 的操作 </h2><p> 像是轉帳問題: A 扣掉十元, B 加上十元</p>
 <p><a href="http://stackoverflow.com/questions/10752993/how-do-you-do-atomic-multi-record-inter-dependent-operations-in-nosql" target="_blank" rel="external">這裏 </a> 找到有人在討論 Mongodb 怎麼做這件事情, 真是有夠麻煩啊（翻桌）</p>
-<h2 id="u7279_u5225_u6709_u8AC7_u5230_RDBMS__u652F_u63F4_u5341_u9032_u5236_u7684_numeric_2C__u8A08_u7B97_u91D1_u9322_u6578_u503C_u6642_u76F8_u7576_u6709_u7528"><a href="#u7279_u5225_u6709_u8AC7_u5230_RDBMS__u652F_u63F4_u5341_u9032_u5236_u7684_numeric_2C__u8A08_u7B97_u91D1_u9322_u6578_u503C_u6642_u76F8_u7576_u6709_u7528" class="headerlink" title="特別有談到 RDBMS 支援十進制的 numeric, 計算金錢數值時相當有用"></a>特別有談到 RDBMS 支援十進制的 numeric, 計算金錢數值時相當有用</h2><p>MySQL 是有 decimal 這個屬性, 在查詢或是運算都不會有誤差, 寫程式的時候其實蠻害怕遇到浮點數的, 所以這點算是幫助頗大。</p>
+<h2 id="特別有談到 -RDBMS- 支援十進制的 -numeric- 計算金錢數值時相當有用"><a href="# 特別有談到 -RDBMS- 支援十進制的 -numeric- 計算金錢數值時相當有用" class="headerlink" title="特別有談到 RDBMS 支援十進制的 numeric, 計算金錢數值時相當有用"></a>特別有談到 RDBMS 支援十進制的 numeric, 計算金錢數值時相當有用</h2><p>MySQL 是有 decimal 這個屬性, 在查詢或是運算都不會有誤差, 寫程式的時候其實蠻害怕遇到浮點數的, 所以這點算是幫助頗大。</p>
 <p><a href="http://stackoverflow.com/questions/7682714/does-mongodb-support-floating-point-types" target="_blank" rel="external">does-mongodb-support-floating-point-types</a><br>參考樓上這篇文章, Mongodb 有支援 int32 (4bytes), int64 (8 bytes), double (64-bit IEEE 754 floating point), 而一般可以把數值存在 double 中, 順便提一下在 mongodb 的 shell 中, 因為是使用 Javascript 引擎, 好像分辨不出來 int 和 double …Orz</p>
-<h2 id="u5982_u679C_u6578_u64DA_u898F_u6A21_u5C0F_u65BC100GB_2C__u4F7F_u7528RDBMS_u7576_u4F5C_u5831_u8868_u7CFB_u7D71_u5C31_u5920_u4E86"><a href="#u5982_u679C_u6578_u64DA_u898F_u6A21_u5C0F_u65BC100GB_2C__u4F7F_u7528RDBMS_u7576_u4F5C_u5831_u8868_u7CFB_u7D71_u5C31_u5920_u4E86" class="headerlink" title="如果數據規模小於 100GB, 使用 RDBMS 當作報表系統就夠了"></a>如果數據規模小於 100GB, 使用 RDBMS 當作報表系統就夠了</h2><ol>
+<h2 id="如果數據規模小於 100GB- 使用 RDBMS 當作報表系統就夠了"><a href="# 如果數據規模小於 100GB- 使用 RDBMS 當作報表系統就夠了" class="headerlink" title="如果數據規模小於 100GB, 使用 RDBMS 當作報表系統就夠了"></a>如果數據規模小於 100GB, 使用 RDBMS 當作報表系統就夠了</h2><ol>
 <li>Join &amp; sub query 可以滿足大部份需求</li>
 <li>內建函數可以多加利用 (AVG, SUM, COUNT)</li>
 </ol>
-<h2 id="u8CC7_u6599_u5B89_u5168_u6027"><a href="#u8CC7_u6599_u5B89_u5168_u6027" class="headerlink" title="資料安全性"></a>資料安全性</h2><p>RDBMS 所有返回 “成功” 的數據都確實寫到硬碟裡面了, 很多 NoSQL 的預設是只有寫到 memory, 講者特別要提 Mongodb… (不要再打臉啦, 腫腫的)</p>
+<h2 id="資料安全性"><a href="# 資料安全性" class="headerlink" title="資料安全性"></a>資料安全性</h2><p>RDBMS 所有返回 “成功” 的數據都確實寫到硬碟裡面了, 很多 NoSQL 的預設是只有寫到 memory, 講者特別要提 Mongodb… (不要再打臉啦, 腫腫的)</p>
 <blockquote>
 <p>Mongodb 需要在 application 的 driver 中調整 write concern, 還有要開啟 journaling, 但開啟後寫入效能會有 5%~30% 的下降</p>
 </blockquote>
@@ -312,7 +312,7 @@
 <li>當機後, 會依照 Tx 為單位, 重新復原資料庫</li>
 <li>不要以為系統不會當機</li>
 <li><p>在 Tx 中可以簡單做到帳戶轉帳 (只要簡單四行)</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">Update</span> user_balance <span class="keyword">set</span> balance = balance – amount <span class="keyword">where</span> username = <span class="string">'UserA'</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">Update</span> user_balance <span class="keyword">set</span> balance = balance + amount <span class="keyword">where</span> username = <span class="string">'UserB'</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">COMMIT</span>;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</div><div class="line"><span class="keyword">Update</span> user_balance <span class="keyword">set</span> balance = balance – amount <span class="keyword">where</span> username = <span class="string">'UserA'</span>;</div><div class="line"><span class="keyword">Update</span> user_balance <span class="keyword">set</span> balance = balance + amount <span class="keyword">where</span> username = <span class="string">'UserB'</span>;</div><div class="line"><span class="keyword">COMMIT</span>;</div></pre></td></tr></table></figure>
 </li>
 <li><p>NoSQL 沒有 transaction, 需要 implement 2 phase commit (要 9 個 step, 投影片裡面有)</p>
 </li>
@@ -333,7 +333,7 @@
 </li>
 <li>而在 RDBMS 中, 使用 update 會自動對受影響的數據加上 write lock, 並且自動在 Tx 結束後釋放, 保證一份資料不會被同時改動</li>
 <li><p>RDBMS 也有支持 atomic check-and-set 模式, 所以檢查用戶是否有足夠錢和改動餘額的動作是 Atomicity 的</p>
-  <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> user set balance = balance - <span class="variable">$amount</span> <span class="keyword">where</span> user_id = <span class="variable">$user</span>_id and balance &gt;= <span class="variable">$amount</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">update user <span class="built_in">set</span> balance = balance - $amount <span class="keyword">where</span> user_id = $user_id <span class="keyword">and</span> balance &gt;= $amount</div></pre></td></tr></table></figure>
 </li>
 <li><p>RDBMS 的 isolation 有包含全自動化的 lock management, 也有支持自動化的 deadlock detection</p>
 </li>
@@ -344,7 +344,7 @@
 <li>MongoDB 的標準設定是沒有等待 Write 真正寫入成功</li>
 <li>在 RDBMS 裡面, 系統斷電後, 會利用 redo log 來做 data recovery, 經過那麼多年的 producton 測試, 應該比較有保障</li>
 </ul>
-<h2 id="ACID__u6211_u7684_u5C0F_u5FC3_u5F97"><a href="#ACID__u6211_u7684_u5C0F_u5FC3_u5F97" class="headerlink" title="ACID 我的小心得"></a>ACID 我的小心得</h2><ul>
+<h2 id="ACID- 我的小心得"><a href="#ACID- 我的小心得" class="headerlink" title="ACID 我的小心得"></a>ACID 我的小心得</h2><ul>
 <li>Atomicity 保證系統能安全地移動到下個正確狀態</li>
 <li>Consistency 確保移動失敗時, 能夠正確的回復到原本的狀態</li>
 <li>Isolation 更改資料會自動上鎖, 不會發生杯具</li>
@@ -526,7 +526,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u70BA_u4F55_u9078_u64C7RDBMS"><span class="nav-number">1.</span> <span class="nav-text">為何選擇 RDBMS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5927_u90E8_u4EFD_u7CFB_u7D71_u9700_u8981atomic_2C_multi-record_2C_inter-dependent_u7684_u64CD_u4F5C"><span class="nav-number">2.</span> <span class="nav-text">大部份系統需要 atomic, multi-record, inter-dependent 的操作 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u7279_u5225_u6709_u8AC7_u5230_RDBMS__u652F_u63F4_u5341_u9032_u5236_u7684_numeric_2C__u8A08_u7B97_u91D1_u9322_u6578_u503C_u6642_u76F8_u7576_u6709_u7528"><span class="nav-number">3.</span> <span class="nav-text">特別有談到 RDBMS 支援十進制的 numeric, 計算金錢數值時相當有用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5982_u679C_u6578_u64DA_u898F_u6A21_u5C0F_u65BC100GB_2C__u4F7F_u7528RDBMS_u7576_u4F5C_u5831_u8868_u7CFB_u7D71_u5C31_u5920_u4E86"><span class="nav-number">4.</span> <span class="nav-text">如果數據規模小於 100GB, 使用 RDBMS 當作報表系統就夠了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u8CC7_u6599_u5B89_u5168_u6027"><span class="nav-number">5.</span> <span class="nav-text">資料安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ACID"><span class="nav-number">6.</span> <span class="nav-text">ACID</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Atomicity"><span class="nav-number">6.1.</span> <span class="nav-text">Atomicity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consistency"><span class="nav-number">6.2.</span> <span class="nav-text">Consistency</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Isolation"><span class="nav-number">6.3.</span> <span class="nav-text">Isolation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Duration"><span class="nav-number">6.4.</span> <span class="nav-text">Duration</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ACID__u6211_u7684_u5C0F_u5FC3_u5F97"><span class="nav-number">7.</span> <span class="nav-text">ACID 我的小心得</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#為何選擇 RDBMS"><span class="nav-number">1.</span> <span class="nav-text">為何選擇 RDBMS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大部份系統需要 atomic-multi-record-inter-dependent 的操作"><span class="nav-number">2.</span> <span class="nav-text">大部份系統需要 atomic, multi-record, inter-dependent 的操作 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特別有談到 -RDBMS- 支援十進制的 -numeric- 計算金錢數值時相當有用"><span class="nav-number">3.</span> <span class="nav-text">特別有談到 RDBMS 支援十進制的 numeric, 計算金錢數值時相當有用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果數據規模小於 100GB- 使用 RDBMS 當作報表系統就夠了"><span class="nav-number">4.</span> <span class="nav-text">如果數據規模小於 100GB, 使用 RDBMS 當作報表系統就夠了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#資料安全性"><span class="nav-number">5.</span> <span class="nav-text">資料安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ACID"><span class="nav-number">6.</span> <span class="nav-text">ACID</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Atomicity"><span class="nav-number">6.1.</span> <span class="nav-text">Atomicity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consistency"><span class="nav-number">6.2.</span> <span class="nav-text">Consistency</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Isolation"><span class="nav-number">6.3.</span> <span class="nav-text">Isolation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Duration"><span class="nav-number">6.4.</span> <span class="nav-text">Duration</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ACID- 我的小心得"><span class="nav-number">7.</span> <span class="nav-text">ACID 我的小心得</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
