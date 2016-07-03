@@ -129,7 +129,7 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">喜歡深入實作不當太空人</p>
+  <p class="site-subtitle">啊啊啊啊啊 (想發 10x 界王拳)</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -200,15 +200,156 @@
 
     
     
+
+    
       
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/03/golang-ci/" itemprop="url">
+                  Golang X CI X CD
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-07-03T02:05:15+08:00" content="2016-07-03">
+              2016-07-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/03/golang-ci/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/03/golang-ci/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
       
-        
-        
-        
       
 
       
-    
+        
+          
+            <h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言 </h2><p> 最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。</p>
+<h2 id="u554A_u554A_u554A_uFF0C_u4F7F_u7528_u5230_u7684_DevOps__u5DE5_u5177"><a href="#u554A_u554A_u554A_uFF0C_u4F7F_u7528_u5230_u7684_DevOps__u5DE5_u5177" class="headerlink" title="啊啊啊，使用到的 DevOps 工具"></a>啊啊啊，使用到的 DevOps 工具 </h2><p> 雖然不是沽名釣譽之徒，但是流行用語還是要提一下 XD</p>
+<ul>
+<li>Git 我最熟悉的版本控制系統</li>
+<li>Github 全世界最大工程師社交平台</li>
+<li>Jenkins 老爺爺來幫你做 CI &amp; CD，叫他幫你做 build code, testing, 和 deploy 就對了啊（握拳）</li>
+<li>Docker 載得動很多鐵箱子的鯨魚（實在厲害）</li>
+</ul>
+<h2 id="u4E00_u5207_u7684_u8D77_u6E90_uFF0C_u8A2D_u5B9A_Github__u8207_jenkins__u7684_u9023_u52D5"><a href="#u4E00_u5207_u7684_u8D77_u6E90_uFF0C_u8A2D_u5B9A_Github__u8207_jenkins__u7684_u9023_u52D5" class="headerlink" title="一切的起源，設定 Github 與 jenkins 的連動"></a>一切的起源，設定 Github 與 jenkins 的連動 </h2><p> 公司專案習慣使用 <a href="https://ihower.tw/blog/archives/5140" target="_blank" rel="external">Github flow</a>，依照慣例要發出 Pull Request (PR) 給同事 Review 前，需要確保這個 PR 不會讓 Staging branch 爛掉，這邊就需要採用老爺爺的力量了，流程如下：</p>
+<ol>
+<li>起手式，要確保 Jenkins 上面需要的 plugins 有裝好</li>
+</ol>
+<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin" target="_blank" rel="external">Git plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin" target="_blank" rel="external">GitHub+Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank" rel="external">GitHub+pull+request+builder+plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Plugin" target="_blank" rel="external">JUnit+Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin" target="_blank" rel="external">Cobertura Plugin</a></li>
+</ul>
+<ol>
+<li>在 Jenkins 上面建立一個 ProjectName-PR 的專案，在原始碼控制那邊填上 Github 的網址</li>
+</ol>
+<p><img src="/img/2016-07/jenkins_config.png" alt="jenkins_config"></p>
+<p>記得將 Branches to build 這邊改成 <code>${ghprbActualCommit}</code></p>
+<ol>
+<li>在 jenkins -&gt; config settings 那邊修改 GitHub Pull Request Builder ，記得要使用可以讀取該 Repo 的帳號，增加好後可以用 Test Credentials 去測試到底能不能連接。</li>
+</ol>
+<p><img src="/img/2016-07/jenkins_pull_request_builder.png" alt="jenkins_pull_request_builder"></p>
+<ol>
+<li>在建構觸發程序那邊，使用 Github pull request builder</li>
+</ol>
+<p><img src="/img/2016-07/jenkins_trigger.png" alt="jenkins_trigger"></p>
+<ol>
+<li>在 Github 中設定好 jenkins 的 webhook</li>
+</ol>
+<p><img src="/img/2016-07/github_1.png" alt="github_webhook"></p>
+<p>記得選擇 trigger by Pull request</p>
+<p>5 接著就可以發個 PR 看看 jenkins 有沒有反應惹</p>
+<h2 id="Golang__u7684_testing__26amp_3B_coverage"><a href="#Golang__u7684_testing__26amp_3B_coverage" class="headerlink" title="Golang 的 testing &amp; coverage"></a>Golang 的 testing &amp; coverage</h2><p>我們公司的 Golang project 的建置，基本上是用 makefile 去管理，這邊有如何產生 testing &amp; coverage 的飯粒：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">testgen:</span><br><span class="line">    go get github.com/tebeka/go2xunit</span><br><span class="line">    go test $(TEST_PACKAGES) -v | tee test_output</span><br><span class="line">    go2xunit -fail -input test_output -output tests.<span class="keyword">xml</span></span><br><span class="line"></span><br><span class="line"><span class="title">covgen</span>:</span><br><span class="line">    go get github.com/axw/gocov/gocov</span><br><span class="line">    go get github.com/AlekSi/gocov-<span class="keyword">xml</span></span><br><span class="line">    <span class="title">gocov</span> test $(TEST_PACKAGES) | gocov-<span class="keyword">xml</span> <span class="title">&gt; coverage</span>.xml</span><br></pre></td></tr></table></figure>
+<p>使用 go2xunit 產生 Jenkins/Hudson 可以吃的 xunit report，另外用 gocov &amp; gocov-xml 產生 Cobertura 格式，但實測結果發現只能產生 coverage 的 % 數，卻沒辦法看到是哪一行，這邊還要找時間修一下。</p>
+<h2 id="u642D_u914D_Docker__u7522_u751F_report"><a href="#u642D_u914D_Docker__u7522_u751F_report" class="headerlink" title="搭配 Docker 產生 report"></a>搭配 Docker 產生 report</h2><p>在 Jenkins 裡面的建置使用鯨魚招式:</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -v <span class="variable">$WORKSPACE</span>:/mnt/<span class="variable">$WORKSPACE</span> -w /mnt/<span class="variable">$WORKSPACE</span> --rm=<span class="literal">true</span> golang:<span class="number">1.6</span>-onbuild bash -c <span class="string">"\</span><br><span class="line">    make clean; \</span><br><span class="line">    make; \</span><br><span class="line">    make test; \</span><br><span class="line">    make covgen;"</span></span><br></pre></td></tr></table></figure>
+<p>最後把 report 生出來並且將狀態打回 github &amp; slack 上。</p>
+<h2 id="u9032_u5165_CD__u7684_u7BC0_u594F"><a href="#u9032_u5165_CD__u7684_u7BC0_u594F" class="headerlink" title="進入 CD 的節奏"></a>進入 CD 的節奏 </h2><p> 昨天才看到一段話覺得很有意思</p>
+<pre><code>continuous delivery doesn’t mean every change is deployed to production ASAP.
+It means every change is proven to be deployable at any time.
+</code></pre><p>所以我們都要確保 testing 的品質高上大，程式碼壯壯才能真正達成 CD 這塊，而不是有做成自動化就好了！</p>
+<h2 id="u6D41_u7A0B"><a href="#u6D41_u7A0B" class="headerlink" title="流程"></a>流程</h2><p>PR merged 進 dev 後 -&gt; Github 通知 Jenkins 產生 Staging 的 Image -&gt; 部署到 Staging server 上</p>
+<p>會在 Jenkins 上面再開一個專案 ProjectName-staging 處理這個 task，記得 github 也要加上新的 webhook</p>
+<p><img src="/img/2016-07/github_2.png" alt="github_webhook"></p>
+<p>Jenkins 上面的建置觸發程序使用 <code>Build when a change is pushed to GitHub</code></p>
+<h2 id="u5EFA_u7F6E_Golang_image"><a href="#u5EFA_u7F6E_Golang_image" class="headerlink" title="建置 Golang image"></a>建置 Golang image</h2><p>建構 Golang image 其實是個蠻有趣的題目，在參考 <a href="https://blog.codeship.com/building-minimal-docker-containers-for-go-applications/" target="_blank" rel="external">building-minimal-docker-containers-for-go-applications</a> 後，我們也決定使用 static build 的 golang binary ，並且建構極小的 golang image，一來可以達成縮小 image 佔用的空間，二來可以達成快速部署的功效。</p>
+<p>我們一樣可以用剛剛樓上那招，只是 build binary 的時候加上以下參數</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CGO_ENABLED=<span class="number">0</span> GOOS=linux go build -<span class="tag">a</span> -installsuffix cgo -o main .</span><br></pre></td></tr></table></figure>
+<p>並且將 Dockerfile 寫成</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">FROM</span> scratch</span><br><span class="line"><span class="built_in">ADD</span> <span class="bash">main /</span><br><span class="line"></span><span class="built_in">CMD</span> <span class="bash">[<span class="string">"/main"</span>]</span></span><br></pre></td></tr></table></figure>
+<p>就可以產生出極小的 docker images (大約 10 ~ 20MB)，接著把這個 image 打上 jenkins build tag &amp; latest tag 後，推上 docker registry。</p>
+<h2 id="u90E8_u7F72"><a href="#u90E8_u7F72" class="headerlink" title="部署"></a>部署 </h2><p> 我們採用 Jenkins 的 <code>Send build artifacts to SSH</code> Plugin 連結到 staging server，並且讓他重拉新的 image，接著重啟該 container ，如此一來就完成整個 CI/CD 的流程。</p>
+<h2 id="u5F8C_u8A18"><a href="#u5F8C_u8A18" class="headerlink" title="後記"></a>後記 </h2><p> 這篇文章省掉很多 slack integration 的部分，單純是因為作者太懶，而這方面最近蠻流行的，大家一定都比我還熟（誤），這篇文主要是幫自己記憶一下該做哪些事情，如果有哪邊寫漏了，可以留言告知喔，感謝大家 &lt;(<em> </em>)&gt;</p>
+
+          
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -661,7 +802,7 @@
               
                 
                 <a class="post-title-link" href="/2015/07/21/mongodb-memory-structure/" itemprop="url">
-                  Mongodb 如何使用 Memory 和 Tuning 的小技巧
+                  Mongodb 如何使用 Memory 和 tuning 的小技巧
                 </a>
               
             
@@ -1138,7 +1279,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1152,7 +1293,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>

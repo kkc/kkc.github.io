@@ -43,7 +43,7 @@
 <link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="mongodb," />
+  <meta name="keywords" content="golang," />
 
 
 
@@ -61,26 +61,30 @@
 
 
 
-<meta name="description" content="Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab 這篇  和自己一些經驗心得。
-MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原文不同，我稍微做了點修改)
+<meta name="description" content="前言  最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp;amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。
+啊啊啊，使用到的 DevOps 工具  雖然不是沽名釣譽之徒，但是流行用語還是要提一下 XD
 
-假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp;amp; B)，而基本上會被這樣儲存，test.0 &amp;a">
+Git">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mongodb Storage 的架構和問題解法">
-<meta property="og:url" content="http://kkc.github.io/2015/07/14/mongodb-storage/index.html">
+<meta property="og:title" content="Golang X CI X CD">
+<meta property="og:url" content="http://kkc.github.io/2016/07/03/golang-ci/index.html">
 <meta property="og:site_name" content="Kakashi's Notes">
-<meta property="og:description" content="Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab 這篇  和自己一些經驗心得。
-MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原文不同，我稍微做了點修改)
+<meta property="og:description" content="前言  最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp;amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。
+啊啊啊，使用到的 DevOps 工具  雖然不是沽名釣譽之徒，但是流行用語還是要提一下 XD
 
-假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp;amp; B)，而基本上會被這樣儲存，test.0 &amp;a">
-<meta property="og:image" content="http://kkc.github.io/img/mongodb_storage.png">
-<meta property="og:updated_time" content="2015-09-12T06:03:31.000Z">
+Git">
+<meta property="og:image" content="http://kkc.github.io/img/2016-07/jenkins_config.png">
+<meta property="og:image" content="http://kkc.github.io/img/2016-07/jenkins_pull_request_builder.png">
+<meta property="og:image" content="http://kkc.github.io/img/2016-07/jenkins_trigger.png">
+<meta property="og:image" content="http://kkc.github.io/img/2016-07/github_1.png">
+<meta property="og:image" content="http://kkc.github.io/img/2016-07/github_2.png">
+<meta property="og:updated_time" content="2016-07-03T14:49:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mongodb Storage 的架構和問題解法">
-<meta name="twitter:description" content="Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab 這篇  和自己一些經驗心得。
-MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原文不同，我稍微做了點修改)
+<meta name="twitter:title" content="Golang X CI X CD">
+<meta name="twitter:description" content="前言  最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp;amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。
+啊啊啊，使用到的 DevOps 工具  雖然不是沽名釣譽之徒，但是流行用語還是要提一下 XD
 
-假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp;amp; B)，而基本上會被這樣儲存，test.0 &amp;a">
+Git">
 
 
 
@@ -98,7 +102,7 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
   };
 </script>
 
-  <title> Mongodb Storage 的架構和問題解法 | Kakashi's Notes </title>
+  <title> Golang X CI X CD | Kakashi's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
@@ -225,7 +229,7 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
             
             
               
-                Mongodb Storage 的架構和問題解法
+                Golang X CI X CD
               
             
           </h1>
@@ -237,8 +241,8 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-07-14T12:05:29+08:00" content="2015-07-14">
-              2015-07-14
+            <time itemprop="dateCreated" datetime="2016-07-03T02:05:15+08:00" content="2016-07-03">
+              2016-07-03
             </time>
           </span>
 
@@ -248,8 +252,8 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/07/14/mongodb-storage/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/07/14/mongodb-storage/" itemprop="commentsCount"></span>
+                <a href="/2016/07/03/golang-ci/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/03/golang-ci/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -270,33 +274,66 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
       
 
       
-        <p>Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab <a href="http://blog.mongolab.com/2014/01/how-big-is-your-mongodb/" target="_blank" rel="external">這篇 </a> 和自己一些經驗心得。</p>
-<h2 id="MongoDB_storage__u67B6_u69CB"><a href="#MongoDB_storage__u67B6_u69CB" class="headerlink" title="MongoDB storage 架構"></a>MongoDB storage 架構 </h2><h3 id="Database_and_Extents"><a href="#Database_and_Extents" class="headerlink" title="Database and Extents"></a>Database and Extents</h3><p> 首先參考下面這張圖(與原文不同，我稍微做了點修改)</p>
-<p><img src="/img/mongodb_storage.png" alt="mongodb_storage"></p>
-<p>假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp; B)，而基本上會被這樣儲存，test.0 &amp; test.1 這些 data files 就是真正佔據硬碟的空間，mongodb 會先 preallocate 這些空間，主要有兩個好處：</p>
+        <h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言 </h2><p> 最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。</p>
+<h2 id="u554A_u554A_u554A_uFF0C_u4F7F_u7528_u5230_u7684_DevOps__u5DE5_u5177"><a href="#u554A_u554A_u554A_uFF0C_u4F7F_u7528_u5230_u7684_DevOps__u5DE5_u5177" class="headerlink" title="啊啊啊，使用到的 DevOps 工具"></a>啊啊啊，使用到的 DevOps 工具 </h2><p> 雖然不是沽名釣譽之徒，但是流行用語還是要提一下 XD</p>
+<ul>
+<li>Git 我最熟悉的版本控制系統</li>
+<li>Github 全世界最大工程師社交平台</li>
+<li>Jenkins 老爺爺來幫你做 CI &amp; CD，叫他幫你做 build code, testing, 和 deploy 就對了啊（握拳）</li>
+<li>Docker 載得動很多鐵箱子的鯨魚（實在厲害）</li>
+</ul>
+<h2 id="u4E00_u5207_u7684_u8D77_u6E90_uFF0C_u8A2D_u5B9A_Github__u8207_jenkins__u7684_u9023_u52D5"><a href="#u4E00_u5207_u7684_u8D77_u6E90_uFF0C_u8A2D_u5B9A_Github__u8207_jenkins__u7684_u9023_u52D5" class="headerlink" title="一切的起源，設定 Github 與 jenkins 的連動"></a>一切的起源，設定 Github 與 jenkins 的連動 </h2><p> 公司專案習慣使用 <a href="https://ihower.tw/blog/archives/5140" target="_blank" rel="external">Github flow</a>，依照慣例要發出 Pull Request (PR) 給同事 Review 前，需要確保這個 PR 不會讓 Staging branch 爛掉，這邊就需要採用老爺爺的力量了，流程如下：</p>
 <ol>
-<li>減少 disk 空間分配的 fragmentation</li>
-<li>減少寫入時，再去跟硬碟要空間分配的動作</li>
+<li>起手式，要確保 Jenkins 上面需要的 plugins 有裝好</li>
 </ol>
-<p>缺點是不知道一開始要 allocate 多少空間才是最完美的，allocate 太少就少了第二點好處，allocate 太多沒用完又會浪費硬碟空間。 mongodb 預設採用的方式是 db.0 為 64mb，db.1 為 128mb，db.2 為 256mb，一直到了 db.5 才會變成 2G， 而這些根據需求都可以另外設定。</p>
-<p>每個 data file 又有很多的 extent，index 和 data extents 會分開存放，然後存不下的時候，才會被放到新的 data file。</p>
-<h3 id="u89C0_u5BDFDatabase_u5927_u5C0F"><a href="#u89C0_u5BDFDatabase_u5927_u5C0F" class="headerlink" title="觀察 Database 大小"></a>觀察 Database 大小 </h3><p> 使用 mongodb 的人一定要學會用 db.stats() 去觀察資料大小，而 db.stats() 又包含了三個觀測指標 dataSize、storageSize 和 fileSize。</p>
-<h4 id="DataSize"><a href="#DataSize" class="headerlink" title="DataSize"></a>DataSize</h4><p>所謂 datasize，指的是上面橘色的部分，其中包含了全部的 documents + padding 的空間。</p>
-<p>當砍掉 document 的時候，datasize 的值會下降，而改變 document 的內容（包含減少 key）則不會改變 datasize 的大小。另外要注意的是，增加 document 的大小時，如果超過 padding (預先分配) 的大小， 會重新找一塊比較大的區域插入，因為 document 通常是連續插入的，如果 document 的大小不一， 原本刪除的地方，有很大的機率會留下洞，也就是新的 document 就無法插入，該區域就浪費了。</p>
-<p>這邊想要再補充一下，因為 mongodb 是利用 mmap 的方式讀取資料進入 memory ，而這些 document 的洞，也會變成 memory 上面的洞 (fragmentation)， 所以我們最好要避免這些洞，進而去減少 page fault 發生的機率。</p>
-<h4 id="StorageSize"><a href="#StorageSize" class="headerlink" title="StorageSize"></a>StorageSize</h4><p>Storage Size 指的是上圖藍色的部分，也就是 database 中，所有預先分配給 document 儲存的地方。 所以在刪除 document 時，Storage size 並不會減少， 而當增加 document 時，如果原本欲分配的空間不足時， 其大小才有可能會增加。</p>
-<h4 id="FileSize"><a href="#FileSize" class="headerlink" title="FileSize"></a>FileSize</h4><p>File Size 就更簡單了，就是整個 database 佔據的大小，包含了 data &amp; index 的空間，而 FileSize 只有在砍掉 database 時才會減少，刪除 collection、document、index 對他都不會有任何的影響。</p>
-<h2 id="u554F_u984C"><a href="#u554F_u984C" class="headerlink" title="問題"></a>問題 </h2><h3 id="collection__u88E1_u9762_u7684fragmentation"><a href="#collection__u88E1_u9762_u7684fragmentation" class="headerlink" title="collection 裡面的 fragmentation"></a>collection 裡面的 fragmentation</h3><p> 在講解 Datasize 的時候有提到，砍掉舊的 document 時，要是新的 document 太肥塞不進去，就會造成 fragmentation ， 甚至會變成 memory 上面的 fragmentation ，進而影響 mongodb 的效能，一般我們會去看 DataSize 和 StorageSize 是不是差距過大去 確認是否有這個問題。</p>
-<p>要解決這樣的問題，其中一個方法是使用 compact，但是這個指令會 block 整台機器。另外一個方法就是插入 document 時，都是用同樣大小的 size，這樣刪除 document 後才有機會被 reuse。</p>
-<h3 id="u6E05_fragmentation__u7684_u5176_u4ED6_u65B9_u6CD5"><a href="#u6E05_fragmentation__u7684_u5176_u4ED6_u65B9_u6CD5" class="headerlink" title="清 fragmentation 的其他方法"></a>清 fragmentation 的其他方法</h3><ol>
-<li><p>除了 compact 和 db.repairDatabase 外，還有個可以清除 fragmentation 的方式，其實是建立新的 replica set node ， 因為在建立 replica set 的時候，資料會重新寫入，所以資料空間可以有比較好的利用率，減少不必要的 fragmentation ， 不過使用這招也是有點麻煩，因為在建立 replica 的時候， mongodb 會吃掉大半的 Disk IOPS, 反應會變得比較慢， 而且 mongodb 的資料都沒有壓縮過，所以要 sync 全部的資料庫，需要非常久的時間。</p>
-</li>
-<li><p>將 secondary replica node 下線後, 先拿來清 fragmentation ，接著再讓他上線 sync 完資料後，切換成 master。</p>
-</li>
-<li><p>Migrate 舊的 database 成為新的 database，優點是不需要人工操作太多 mongodb replica 的工，但缺點是 database migration 需要考慮會不會影響線上的服務，如果是 24/7 的服務，程式碼要就要同時讀取舊的資料庫和新的資料庫，確保資料同步。</p>
-</li>
+<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin" target="_blank" rel="external">Git plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin" target="_blank" rel="external">GitHub+Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank" rel="external">GitHub+pull+request+builder+plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Plugin" target="_blank" rel="external">JUnit+Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin" target="_blank" rel="external">Cobertura Plugin</a></li>
+</ul>
+<ol>
+<li>在 Jenkins 上面建立一個 ProjectName-PR 的專案，在原始碼控制那邊填上 Github 的網址</li>
 </ol>
-<h2 id="u7D50_u8A9E"><a href="#u7D50_u8A9E" class="headerlink" title="結語"></a>結語 </h2><p> 很多使用 mongodb 的人不知道自己的 db fragmentation 情況很嚴重，往往機器變慢了也不知道原因，最好的方式是要定期檢查上面 三個指標，注意 DataSize 遠小於 StorageSize，或是 StorageSize + index Size 遠小於 FileSize 的情況，然後盡量把 document 的大小固定， 相信可以有效地改善這些問題。</p>
+<p><img src="/img/2016-07/jenkins_config.png" alt="jenkins_config"></p>
+<p>記得將 Branches to build 這邊改成 <code>${ghprbActualCommit}</code></p>
+<ol>
+<li>在 jenkins -&gt; config settings 那邊修改 GitHub Pull Request Builder ，記得要使用可以讀取該 Repo 的帳號，增加好後可以用 Test Credentials 去測試到底能不能連接。</li>
+</ol>
+<p><img src="/img/2016-07/jenkins_pull_request_builder.png" alt="jenkins_pull_request_builder"></p>
+<ol>
+<li>在建構觸發程序那邊，使用 Github pull request builder</li>
+</ol>
+<p><img src="/img/2016-07/jenkins_trigger.png" alt="jenkins_trigger"></p>
+<ol>
+<li>在 Github 中設定好 jenkins 的 webhook</li>
+</ol>
+<p><img src="/img/2016-07/github_1.png" alt="github_webhook"></p>
+<p>記得選擇 trigger by Pull request</p>
+<p>5 接著就可以發個 PR 看看 jenkins 有沒有反應惹</p>
+<h2 id="Golang__u7684_testing__26amp_3B_coverage"><a href="#Golang__u7684_testing__26amp_3B_coverage" class="headerlink" title="Golang 的 testing &amp; coverage"></a>Golang 的 testing &amp; coverage</h2><p>我們公司的 Golang project 的建置，基本上是用 makefile 去管理，這邊有如何產生 testing &amp; coverage 的飯粒：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">testgen:</span><br><span class="line">    go get github.com/tebeka/go2xunit</span><br><span class="line">    go test $(TEST_PACKAGES) -v | tee test_output</span><br><span class="line">    go2xunit -fail -input test_output -output tests.<span class="keyword">xml</span></span><br><span class="line"></span><br><span class="line"><span class="title">covgen</span>:</span><br><span class="line">    go get github.com/axw/gocov/gocov</span><br><span class="line">    go get github.com/AlekSi/gocov-<span class="keyword">xml</span></span><br><span class="line">    <span class="title">gocov</span> test $(TEST_PACKAGES) | gocov-<span class="keyword">xml</span> <span class="title">&gt; coverage</span>.xml</span><br></pre></td></tr></table></figure>
+<p>使用 go2xunit 產生 Jenkins/Hudson 可以吃的 xunit report，另外用 gocov &amp; gocov-xml 產生 Cobertura 格式，但實測結果發現只能產生 coverage 的 % 數，卻沒辦法看到是哪一行，這邊還要找時間修一下。</p>
+<h2 id="u642D_u914D_Docker__u7522_u751F_report"><a href="#u642D_u914D_Docker__u7522_u751F_report" class="headerlink" title="搭配 Docker 產生 report"></a>搭配 Docker 產生 report</h2><p>在 Jenkins 裡面的建置使用鯨魚招式:</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -v <span class="variable">$WORKSPACE</span>:/mnt/<span class="variable">$WORKSPACE</span> -w /mnt/<span class="variable">$WORKSPACE</span> --rm=<span class="literal">true</span> golang:<span class="number">1.6</span>-onbuild bash -c <span class="string">"\</span><br><span class="line">    make clean; \</span><br><span class="line">    make; \</span><br><span class="line">    make test; \</span><br><span class="line">    make covgen;"</span></span><br></pre></td></tr></table></figure>
+<p>最後把 report 生出來並且將狀態打回 github &amp; slack 上。</p>
+<h2 id="u9032_u5165_CD__u7684_u7BC0_u594F"><a href="#u9032_u5165_CD__u7684_u7BC0_u594F" class="headerlink" title="進入 CD 的節奏"></a>進入 CD 的節奏 </h2><p> 昨天才看到一段話覺得很有意思</p>
+<pre><code>continuous delivery doesn’t mean every change is deployed to production ASAP.
+It means every change is proven to be deployable at any time.
+</code></pre><p>所以我們都要確保 testing 的品質高上大，程式碼壯壯才能真正達成 CD 這塊，而不是有做成自動化就好了！</p>
+<h2 id="u6D41_u7A0B"><a href="#u6D41_u7A0B" class="headerlink" title="流程"></a>流程</h2><p>PR merged 進 dev 後 -&gt; Github 通知 Jenkins 產生 Staging 的 Image -&gt; 部署到 Staging server 上</p>
+<p>會在 Jenkins 上面再開一個專案 ProjectName-staging 處理這個 task，記得 github 也要加上新的 webhook</p>
+<p><img src="/img/2016-07/github_2.png" alt="github_webhook"></p>
+<p>Jenkins 上面的建置觸發程序使用 <code>Build when a change is pushed to GitHub</code></p>
+<h2 id="u5EFA_u7F6E_Golang_image"><a href="#u5EFA_u7F6E_Golang_image" class="headerlink" title="建置 Golang image"></a>建置 Golang image</h2><p>建構 Golang image 其實是個蠻有趣的題目，在參考 <a href="https://blog.codeship.com/building-minimal-docker-containers-for-go-applications/" target="_blank" rel="external">building-minimal-docker-containers-for-go-applications</a> 後，我們也決定使用 static build 的 golang binary ，並且建構極小的 golang image，一來可以達成縮小 image 佔用的空間，二來可以達成快速部署的功效。</p>
+<p>我們一樣可以用剛剛樓上那招，只是 build binary 的時候加上以下參數</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CGO_ENABLED=<span class="number">0</span> GOOS=linux go build -<span class="tag">a</span> -installsuffix cgo -o main .</span><br></pre></td></tr></table></figure>
+<p>並且將 Dockerfile 寫成</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">FROM</span> scratch</span><br><span class="line"><span class="built_in">ADD</span> <span class="bash">main /</span><br><span class="line"></span><span class="built_in">CMD</span> <span class="bash">[<span class="string">"/main"</span>]</span></span><br></pre></td></tr></table></figure>
+<p>就可以產生出極小的 docker images (大約 10 ~ 20MB)，接著把這個 image 打上 jenkins build tag &amp; latest tag 後，推上 docker registry。</p>
+<h2 id="u90E8_u7F72"><a href="#u90E8_u7F72" class="headerlink" title="部署"></a>部署 </h2><p> 我們採用 Jenkins 的 <code>Send build artifacts to SSH</code> Plugin 連結到 staging server，並且讓他重拉新的 image，接著重啟該 container ，如此一來就完成整個 CI/CD 的流程。</p>
+<h2 id="u5F8C_u8A18"><a href="#u5F8C_u8A18" class="headerlink" title="後記"></a>後記 </h2><p> 這篇文章省掉很多 slack integration 的部分，單純是因為作者太懶，而這方面最近蠻流行的，大家一定都比我還熟（誤），這篇文主要是幫自己記憶一下該做哪些事情，如果有哪邊寫漏了，可以留言告知喔，感謝大家 &lt;(<em> </em>)&gt;</p>
 
       
     </div>
@@ -305,7 +342,7 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
       
         <div class="post-tags">
           
-            <a href="/tags/mongodb/" rel="tag">#mongodb</a>
+            <a href="/tags/golang/" rel="tag">#golang</a>
           
         </div>
       
@@ -314,17 +351,13 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/" rel="next" title="Python 的時間還有時區處理">
-                <i class="fa fa-chevron-left"></i> Python 的時間還有時區處理
+              <a href="/2016/01/14/docker-registry-installation/" rel="next" title="Docker Registry 的簡單安裝紀錄">
+                <i class="fa fa-chevron-left"></i> Docker Registry 的簡單安裝紀錄
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/07/21/mongodb-memory-structure/" rel="prev" title="Mongodb 如何使用 Memory 和 tuning 的小技巧">
-                Mongodb 如何使用 Memory 和 tuning 的小技巧 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -470,7 +503,7 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB_storage__u67B6_u69CB"><span class="nav-number">1.</span> <span class="nav-text">MongoDB storage 架構 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Database_and_Extents"><span class="nav-number">1.1.</span> <span class="nav-text">Database and Extents</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u89C0_u5BDFDatabase_u5927_u5C0F"><span class="nav-number">1.2.</span> <span class="nav-text">觀察 Database 大小 </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DataSize"><span class="nav-number">1.2.1.</span> <span class="nav-text">DataSize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#StorageSize"><span class="nav-number">1.2.2.</span> <span class="nav-text">StorageSize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FileSize"><span class="nav-number">1.2.3.</span> <span class="nav-text">FileSize</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u554F_u984C"><span class="nav-number">2.</span> <span class="nav-text">問題 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#collection__u88E1_u9762_u7684fragmentation"><span class="nav-number">2.1.</span> <span class="nav-text">collection 裡面的 fragmentation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u6E05_fragmentation__u7684_u5176_u4ED6_u65B9_u6CD5"><span class="nav-number">2.2.</span> <span class="nav-text">清 fragmentation 的其他方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u7D50_u8A9E"><span class="nav-number">3.</span> <span class="nav-text">結語 </span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u524D_u8A00"><span class="nav-number">1.</span> <span class="nav-text">前言 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u554A_u554A_u554A_uFF0C_u4F7F_u7528_u5230_u7684_DevOps__u5DE5_u5177"><span class="nav-number">2.</span> <span class="nav-text">啊啊啊，使用到的 DevOps 工具 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u4E00_u5207_u7684_u8D77_u6E90_uFF0C_u8A2D_u5B9A_Github__u8207_jenkins__u7684_u9023_u52D5"><span class="nav-number">3.</span> <span class="nav-text">一切的起源，設定 Github 與 jenkins 的連動 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Golang__u7684_testing__26amp_3B_coverage"><span class="nav-number">4.</span> <span class="nav-text">Golang 的 testing & coverage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u642D_u914D_Docker__u7522_u751F_report"><span class="nav-number">5.</span> <span class="nav-text">搭配 Docker 產生 report</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u9032_u5165_CD__u7684_u7BC0_u594F"><span class="nav-number">6.</span> <span class="nav-text">進入 CD 的節奏 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u6D41_u7A0B"><span class="nav-number">7.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5EFA_u7F6E_Golang_image"><span class="nav-number">8.</span> <span class="nav-text">建置 Golang image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u90E8_u7F72"><span class="nav-number">9.</span> <span class="nav-text">部署 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5F8C_u8A18"><span class="nav-number">10.</span> <span class="nav-text">後記 </span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -728,9 +761,9 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
 
     <script type="text/javascript">
       var disqus_shortname = 'kkcliu';
-      var disqus_identifier = '2015/07/14/mongodb-storage/';
-      var disqus_title = 'Mongodb Storage 的架構和問題解法';
-      var disqus_url = 'http://kkc.github.io/2015/07/14/mongodb-storage/';
+      var disqus_identifier = '2016/07/03/golang-ci/';
+      var disqus_title = 'Golang X CI X CD';
+      var disqus_url = 'http://kkc.github.io/2016/07/03/golang-ci/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
