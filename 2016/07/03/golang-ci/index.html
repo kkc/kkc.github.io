@@ -1,0 +1,799 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="golang," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kakashi's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言  最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp;amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。
+啊啊啊，使用到的 DevOps 工具  流行用語還是要提一下!!!
+
+Git 我最熟悉的版本控制系統">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang X CI X CD">
+<meta property="og:url" content="http://kkc.github.io/2016/07/03/golang-ci/index.html">
+<meta property="og:site_name" content="Kakashi's Notes">
+<meta property="og:description" content="前言  最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp;amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。
+啊啊啊，使用到的 DevOps 工具  流行用語還是要提一下!!!
+
+Git 我最熟悉的版本控制系統">
+<meta property="og:image" content="http://kkc.github.io/img/2016-07/jenkins_config.png">
+<meta property="og:image" content="http://kkc.github.io/img/2016-07/jenkins_pull_request_builder.png">
+<meta property="og:image" content="http://kkc.github.io/img/2016-07/jenkins_trigger.png">
+<meta property="og:image" content="http://kkc.github.io/img/2016-07/github_1.png">
+<meta property="og:image" content="http://kkc.github.io/img/2016-07/github_2.png">
+<meta property="og:updated_time" content="2017-02-13T15:37:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Golang X CI X CD">
+<meta name="twitter:description" content="前言  最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp;amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。
+啊啊啊，使用到的 DevOps 工具  流行用語還是要提一下!!!
+
+Git 我最熟悉的版本控制系統">
+<meta name="twitter:image" content="http://kkc.github.io/img/2016-07/jenkins_config.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://kkc.github.io/2016/07/03/golang-ci/"/>
+
+
+
+
+
+  <title> Golang X CI X CD | Kakashi's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-64932988-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kakashi's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">啊啊啊啊啊 (想發 10x 界王拳)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://kkc.github.io/2016/07/03/golang-ci/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Kakashi">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Kakashi's Notes">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Kakashi's Notes" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Golang X CI X CD
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2016-07-03T02:05:15+08:00">
+                2016-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/07/03/golang-ci/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/03/golang-ci/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言 </h2><p> 最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。</p>
+<h2 id="啊啊啊，使用到的 -DevOps- 工具"><a href="# 啊啊啊，使用到的 -DevOps- 工具" class="headerlink" title="啊啊啊，使用到的 DevOps 工具"></a>啊啊啊，使用到的 DevOps 工具 </h2><p> 流行用語還是要提一下!!!</p>
+<ul>
+<li>Git 我最熟悉的版本控制系統</li>
+<li>Github 全世界最大工程師社交平台</li>
+<li>Jenkins 老爺爺來幫你做 CI &amp; CD，叫他幫你做 build code, testing, 和 deploy 就對了啊（握拳）</li>
+<li>Docker 載得動很多鐵箱子的鯨魚（實在厲害）</li>
+</ul>
+<h2 id="一切的起源，設定 -Github- 與 -jenkins- 的連動"><a href="# 一切的起源，設定 -Github- 與 -jenkins- 的連動" class="headerlink" title="一切的起源，設定 Github 與 jenkins 的連動"></a>一切的起源，設定 Github 與 jenkins 的連動 </h2><p> 公司專案習慣使用 <a href="https://ihower.tw/blog/archives/5140" target="_blank" rel="external">Github flow</a>，依照慣例要發出 Pull Request (PR) 給同事 Review 前，需要確保這個 PR 不會讓 Staging branch 爛掉，這邊就需要採用老爺爺的力量了，流程如下：</p>
+<ol>
+<li><p>起手式，要確保 Jenkins 上面需要的 plugins 有裝好</p>
+<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin" target="_blank" rel="external">Git plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin" target="_blank" rel="external">GitHub+Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank" rel="external">GitHub+pull+request+builder+plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Plugin" target="_blank" rel="external">JUnit+Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin" target="_blank" rel="external">Cobertura Plugin</a></li>
+</ul>
+</li>
+<li><p>在 Jenkins 上面建立一個 ProjectName-PR 的專案，在原始碼控制那邊填上 Github 的網址</p>
+<p><img src="/img/2016-07/jenkins_config.png" alt="jenkins_config"></p>
+<p>記得將 Branches to build 這邊改成 <code>${ghprbActualCommit}</code></p>
+</li>
+<li><p>在 jenkins -&gt; config settings 那邊修改 GitHub Pull Request Builder ，記得要使用可以讀取該 Repo 的帳號，增加好後可以用 Test Credentials 去測試到底能不能連接。</p>
+<p><img src="/img/2016-07/jenkins_pull_request_builder.png" alt="jenkins_pull_request_builder"></p>
+</li>
+<li><p>在建構觸發程序那邊，使用 Github pull request builder</p>
+<p><img src="/img/2016-07/jenkins_trigger.png" alt="jenkins_trigger"></p>
+</li>
+<li><p>在 Github 中設定好 jenkins 的 webhook</p>
+<p><img src="/img/2016-07/github_1.png" alt="github_webhook"></p>
+<p>記得選擇 trigger by <code>Pull request</code> (很重要！！！！）</p>
+</li>
+<li><p>接著就可以發個 PR 看看 jenkins 有沒有反應惹!</p>
+</li>
+</ol>
+<h2 id="Golang- 的 -testing-amp-coverage"><a href="#Golang- 的 -testing-amp-coverage" class="headerlink" title="Golang 的 testing &amp; coverage"></a>Golang 的 testing &amp; coverage</h2><p>我們公司的 Golang project 的建置，基本上是用 makefile 去管理，這邊有如何產生 testing &amp; coverage 的飯粒：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">testgen:</div><div class="line">    <span class="keyword">go</span> <span class="built_in">get</span> github.<span class="keyword">com</span>/tebeka/go2xunit</div><div class="line">    <span class="keyword">go</span> test $(TEST_PACKAGES) -v | tee test_output</div><div class="line">    go2xunit -fail -<span class="built_in">input</span> test_output -output tests.xml</div><div class="line"></div><div class="line">covgen:</div><div class="line">    <span class="keyword">go</span> <span class="built_in">get</span> github.<span class="keyword">com</span>/axw/gocov/gocov</div><div class="line">    <span class="keyword">go</span> <span class="built_in">get</span> github.<span class="keyword">com</span>/AlekSi/gocov-xml</div><div class="line">    gocov test $(TEST_PACKAGES) | gocov-xml &gt; coverage.xml</div></pre></td></tr></table></figure>
+<p>使用 <code>go2xunit</code> 套件產生 Jenkins/Hudson 可以吃的 xunit report，另外用 <code>gocov</code> &amp; <code>gocov-xml</code> 產生 Cobertura 格式，但實測結果發現只能產生 coverage 的 % 數，卻沒辦法看到是哪一行，這邊還要找時間修一下。</p>
+<h2 id="搭配 -Docker- 產生 -report"><a href="# 搭配 -Docker- 產生 -report" class="headerlink" title="搭配 Docker 產生 report"></a>搭配 Docker 產生 report</h2><p>在 Jenkins 裡面的建置使用鯨魚招式:</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">docker run -v <span class="variable">$WORKSPACE</span><span class="symbol">:/mnt/</span><span class="variable">$WORKSPACE</span> -w /mnt/<span class="variable">$WORKSPACE</span> --rm=<span class="keyword">true</span> <span class="symbol">golang:</span><span class="number">1.6</span>-onbuild bash -c <span class="string">"\</span></div><div class="line">    make clean; \</div><div class="line">    make; \</div><div class="line">    make test; \</div><div class="line">    make covgen;"</div></pre></td></tr></table></figure>
+<p>最後把 report 生出來並且將狀態打回 github &amp; slack 上。</p>
+<hr>
+<h2 id="進入 -CD- 的節奏"><a href="# 進入 -CD- 的節奏" class="headerlink" title="進入 CD 的節奏"></a>進入 CD 的節奏 </h2><p> 昨天才看到一段話覺得很有意思</p>
+<blockquote>
+<p>continuous delivery doesn’t mean every change is deployed to production ASAP.<br>It means every change is proven to be deployable at any time.</p>
+</blockquote>
+<p>所以我們都要確保 testing 的品質高上大，程式碼壯壯才能真正達成 CD 這塊，而不是有做成自動化就好了！</p>
+<h2 id="流程"><a href="# 流程" class="headerlink" title="流程"></a>流程</h2><p>PR merged 進 Dev branch 後 -&gt; Github 通知 Jenkins 產生 Staging 的 Image -&gt; 部署到 Staging server 上</p>
+<p>會在 Jenkins 上面再開一個專案 ProjectName-staging 處理這個 task，記得 github 也要加上新的 webhook</p>
+<p><img src="/img/2016-07/github_2.png" alt="github_webhook"></p>
+<p>Jenkins 上面的建置觸發程序使用 <code>Build when a change is pushed to GitHub</code></p>
+<h2 id="建置 -Golang-image"><a href="# 建置 -Golang-image" class="headerlink" title="建置 Golang image"></a>建置 Golang image</h2><p>建構 Golang image 其實是個蠻有趣的題目，在參考 <a href="https://blog.codeship.com/building-minimal-docker-containers-for-go-applications/" target="_blank" rel="external">building-minimal-docker-containers-for-go-applications</a> 後，我們也決定使用 static build 的 golang binary ，並且建構極小的 golang image，一來可以達成縮小 image 佔用的空間，二來可以達成快速部署的功效。</p>
+<p>我們一樣可以用剛剛樓上那招，只是 build binary 的時候加上以下參數</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CGO_ENABLED=<span class="number">0</span> GOOS=linux <span class="keyword">go</span> build -a -installsuffix cgo -o main .</div></pre></td></tr></table></figure>
+<p>並且將 Dockerfile 寫成</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FROM</span> scratch</div><div class="line"><span class="keyword">ADD</span><span class="bash"> main /</span></div><div class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"/main"</span>]</span></div></pre></td></tr></table></figure>
+<p>就可以產生出極小的 docker images (大約 10 ~ 20MB)，接著把這個 image 打上 jenkins build tag &amp; latest tag 後，推上 docker registry。</p>
+<h2 id="部署"><a href="# 部署" class="headerlink" title="部署"></a>部署 </h2><p> 我們採用 Jenkins 的 <code>Send build artifacts to SSH</code> Plugin 連結到 staging server，並且讓他重拉新的 image，接著重啟該 container ，如此一來就完成整個 CI/CD 的流程。</p>
+<h2 id="後記"><a href="# 後記" class="headerlink" title="後記"></a>後記 </h2><p> 這篇文章省掉很多 slack integration 的部分，單純是因為作者太懶，而這方面最近蠻流行的，大家一定都比我還熟（誤），這篇文主要是幫自己記憶一下該做哪些事情，如果有哪邊寫漏了，可以留言告知喔，感謝大家 &lt;($ $)&gt;</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/golang/" rel="tag"># golang</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/14/docker-registry-installation/" rel="next" title="Docker Registry 的簡單安裝紀錄">
+                <i class="fa fa-chevron-left"></i> Docker Registry 的簡單安裝紀錄
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/02/Consistent-Hashing/" rel="prev" title="Consistent Hashing">
+                Consistent Hashing <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Kakashi" />
+          <p class="site-author-name" itemprop="name">Kakashi</p>
+           
+              <p class="site-description motion-element" itemprop="description">talk about technology, DevOps, programming (python, nodejs), and database (mysql, mongodb, postgres)</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">文章</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/kkc" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/kakashiliu" target="_blank" title="twitter">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#啊啊啊，使用到的 -DevOps- 工具"><span class="nav-number">2.</span> <span class="nav-text">啊啊啊，使用到的 DevOps 工具 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一切的起源，設定 -Github- 與 -jenkins- 的連動"><span class="nav-number">3.</span> <span class="nav-text">一切的起源，設定 Github 與 jenkins 的連動 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Golang- 的 -testing-amp-coverage"><span class="nav-number">4.</span> <span class="nav-text">Golang 的 testing & coverage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭配 -Docker- 產生 -report"><span class="nav-number">5.</span> <span class="nav-text">搭配 Docker 產生 report</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#進入 -CD- 的節奏"><span class="nav-number">6.</span> <span class="nav-text">進入 CD 的節奏 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程"><span class="nav-number">7.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建置 -Golang-image"><span class="nav-number">8.</span> <span class="nav-text">建置 Golang image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署"><span class="nav-number">9.</span> <span class="nav-text">部署 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">10.</span> <span class="nav-text">後記 </span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kakashi</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'kkcliu';
+      var disqus_identifier = '2016/07/03/golang-ci/';
+
+      var disqus_title = "Golang X CI X CD";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

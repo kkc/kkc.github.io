@@ -1,0 +1,762 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kakashi's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言Consistent Hashing 算是前陣子在看的一個分布式演算法，在以往採用 Load Balance 的演算法有許多種，像是 Round Robin，HASH，Least Connection，Response Time，Weighted，而 Consistent Hashing 這種方式可以應用在某個經典場景：
+舉 Cache 的例子來看，假如你有三個 Node {A, B, C}，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Consistent Hashing">
+<meta property="og:url" content="http://kkc.github.io/2016/08/02/Consistent-Hashing/index.html">
+<meta property="og:site_name" content="Kakashi's Notes">
+<meta property="og:description" content="前言Consistent Hashing 算是前陣子在看的一個分布式演算法，在以往採用 Load Balance 的演算法有許多種，像是 Round Robin，HASH，Least Connection，Response Time，Weighted，而 Consistent Hashing 這種方式可以應用在某個經典場景：
+舉 Cache 的例子來看，假如你有三個 Node {A, B, C}，">
+<meta property="og:image" content="http://kkc.github.io/img/2016-08/consistent_hashing_3.png">
+<meta property="og:image" content="http://kkc.github.io/img/2016-08/consistent_hashing_4.png">
+<meta property="og:image" content="http://kkc.github.io/img/2016-08/virtual.jpg">
+<meta property="og:updated_time" content="2017-02-13T15:37:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Consistent Hashing">
+<meta name="twitter:description" content="前言Consistent Hashing 算是前陣子在看的一個分布式演算法，在以往採用 Load Balance 的演算法有許多種，像是 Round Robin，HASH，Least Connection，Response Time，Weighted，而 Consistent Hashing 這種方式可以應用在某個經典場景：
+舉 Cache 的例子來看，假如你有三個 Node {A, B, C}，">
+<meta name="twitter:image" content="http://kkc.github.io/img/2016-08/consistent_hashing_3.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://kkc.github.io/2016/08/02/Consistent-Hashing/"/>
+
+
+
+
+
+  <title> Consistent Hashing | Kakashi's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-64932988-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kakashi's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">啊啊啊啊啊 (想發 10x 界王拳)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://kkc.github.io/2016/08/02/Consistent-Hashing/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Kakashi">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Kakashi's Notes">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Kakashi's Notes" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Consistent Hashing
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2016-08-02T10:57:52+08:00">
+                2016-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/08/02/Consistent-Hashing/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/02/Consistent-Hashing/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言</h2><p>Consistent Hashing 算是前陣子在看的一個分布式演算法，在以往採用 Load Balance 的演算法有許多種，像是 Round Robin，HASH，Least Connection，Response Time，Weighted，而 Consistent Hashing 這種方式可以應用在某個經典場景：</p>
+<p>舉 Cache 的例子來看，假如你有三個 Node {A, B, C}，然後有 {1, 2, 3, 4, 5, 6} 這六筆資料，一般而言我們會很直覺想把他們平均打散在 cache server 上面，所以會採用 % 3 的方式，而資料也會被映射為</p>
+<pre><code>A, {1 4}
+B, {2 5}
+C, {3 6}
+</code></pre><p>但現在問題來了，假如我現在想多增加一個 Node，根據我們之前的演算法將會變成</p>
+<pre><code>A, {1 5}
+B, {2 6}
+C, {3}
+D, {4}
+</code></pre><p>如果這個時候刪除 B 這個 Node</p>
+<pre><code>A, {1 4}
+C, {2 5}
+D, {3 6}
+</code></pre><p>大家可以發現資料搬移量很大，我們必須要把資料移來移去，而這種情況在資料大的時候，非常不利於 Cache Server 的 Performance。</p>
+<h2 id="解決方案 -Consistent-Hashing"><a href="# 解決方案 -Consistent-Hashing" class="headerlink" title="解決方案 Consistent Hashing"></a>解決方案 Consistent Hashing</h2><p>Consistent hashing is a special kind of hashing such that when a hash table is resized and consistent hashing is used, only K/n keys need to be remapped on average, where K is the number of keys, and n is the number of slots.<br>Source: <a href="https://en.wikipedia.org/wiki/Consistent_hashing" target="_blank" rel="external">https://en.wikipedia.org/wiki/Consistent_hashing</a></p>
+<p>利用 Consistent Hashing 的概念就是，要減少資料的搬移量，而演算法的概念也很簡單，我們會將 Node &amp; Data 對應到一個 0～2^32 的環（continuum）上面</p>
+<p><img src="/img/2016-08/consistent_hashing_3.png" alt="consistent_hash1"></p>
+<p>然後透過 Hash function 轉換，然後 Data 會存在順時針方向上面的 Node</p>
+<p><img src="/img/2016-08/consistent_hashing_4.png" alt="consistent_hash2"></p>
+<p>新增節點時，需要 remap Data 到新的 Node 上面</p>
+<p>取自「<a href="http://michaelnielsen.org/blog/consistent-hashing/" target="_blank" rel="external">Consistent hashing</a>」這裡</p>
+<h2 id="實作"><a href="# 實作" class="headerlink" title="實作"></a>實作 </h2><p> 為了更瞭解 Consistent Hashing，這邊有個小小的用 golang 寫的 <a href="https://github.com/kkc/consistenthash" target="_blank" rel="external"> 實作</a>。</p>
+<p>基本上我先定義出我們的環還有上面的節點</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> <span class="type">Ring</span> struct &#123;</div><div class="line">    <span class="type">Nodes</span>            <span class="type">Nodes</span></div><div class="line">    <span class="type">NumberOfReplicas</span> int</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">type</span> <span class="type">Nodes</span> []*<span class="type">Node</span></div><div class="line"></div><div class="line">// <span class="type">Node</span> is a single entity <span class="keyword">in</span> a ring.</div><div class="line"><span class="keyword">type</span> <span class="type">Node</span> struct &#123;</div><div class="line">    <span class="type">Id</span>     string</div><div class="line">    <span class="type">HashId</span> uint32</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>而每一個 Node 上面都有記錄自己的 HashId</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">func</span> (<span class="selector-tag">r</span> *<span class="selector-tag">Ring</span>) <span class="selector-tag">AddNode</span>(<span class="selector-tag">id</span> <span class="selector-tag">string</span>) &#123;</div><div class="line">    <span class="attribute">node </span>:= <span class="built_in">NewNode</span>(id)</div><div class="line">    r.Nodes = <span class="built_in">append</span>(r.Nodes, node)</div><div class="line">    sort.<span class="built_in">Sort</span>(r.Nodes)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我們在新增節點時，會對 HashId 去做 Sorting ，這樣一來就可以得到一個排列好的 r.Nodes，而在 Golang 裡面要完成 Sort，只需要提供以下介面</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// implement sort.Interface</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n Nodes)</span> <span class="title">Len</span><span class="params">()</span> <span class="title">int</span></span>           &#123; <span class="keyword">return</span> <span class="built_in">len</span>(n) &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n Nodes)</span> <span class="title">Less</span><span class="params">(i, j <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123; <span class="keyword">return</span> n[i].HashId &lt; n[j].HashId &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n Nodes)</span> <span class="title">Swap</span><span class="params">(i, j <span class="keyword">int</span>)</span></span>      &#123; n[i], n[j] = n[j], n[i] &#125;</div></pre></td></tr></table></figure>
+<p>接著我們在實作 Get ，主要會把 Data 的值通過 Hash 後，找到順時針對應的節點。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">func (r *Ring) Get(key string) string &#123;</div><div class="line">    searchfn := func(<span class="selector-tag">i</span> int) bool &#123;</div><div class="line">        return r<span class="selector-class">.Nodes</span>[i]<span class="selector-class">.HashId</span> &gt;= crc32.ChecksumIEEE([]byte(key))</div><div class="line">    &#125;</div><div class="line">    <span class="selector-tag">i</span> := sort.Search(r<span class="selector-class">.Nodes</span><span class="selector-class">.Len</span>(), searchfn)</div><div class="line">    <span class="keyword">if</span> <span class="selector-tag">i</span> &gt;= r<span class="selector-class">.Nodes</span><span class="selector-class">.Len</span>() &#123;</div><div class="line">        <span class="selector-tag">i</span> = <span class="number">0</span></div><div class="line">    &#125;</div><div class="line">    return r<span class="selector-class">.Nodes</span>[i]<span class="selector-class">.Id</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="虛擬節點"><a href="# 虛擬節點" class="headerlink" title="虛擬節點"></a>虛擬節點 </h2><p> 這個演算法真的在實作時，如果 Node 數量太少，其實透過 Hash function 很有可能會 map 到鄰近的位置，導致數據分佈變得極不平均，而就有了虛擬節點這個解法，可以看到下圖，每個 Node 其實都有四個虛擬節點，這樣一來可以更平均的覆蓋這個環</p>
+<p><img src="/img/2016-08/virtual.jpg" alt="consistent_hash1"></p>
+<p>取自「<a href="http://www.slideshare.net/frodriguezolivera/nosql-essentials-cassandra-15625311" target="_blank" rel="external">NoSQL Essentials: Cassandra</a>」這裡</p>
+<h2 id="結論"><a href="# 結論" class="headerlink" title="結論"></a>結論</h2><p>Consistent Hashing 盡力地減少 Hash 過的 Data 重新分布，而真正實作上，免不了要利用 Virtual Node 才能達成平均覆蓋環的功用。</p>
+<p>另外 gslin 大大提到的 <a href="https://blog.gslin.org/archives/2016/07/26/6688/google-%E6%8F%90%E5%87%BA%E7%9A%84-jump-consistent-hash/" target="_blank" rel="external">jump-consistent-hash</a> 也很有趣，可以更有效的提升速度和解決平均性的問題，只是那段 Magic Number 實在太妙了，真的要 K 一下 paper 才看得懂。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://medium.com/@sent0hil/consistent-hashing-a-guide-go-implementation-fe3421ac3e8f#.d67hxnv1l" target="_blank" rel="external">Consistent hashing, a guide &amp; Go library</a><br><a href="http://my.oschina.net/xianggao/blog/394545" target="_blank" rel="external">一致性 Hash 算法（Consistent Hash)</a><br><a href="https://github.com/golang/groupcache/blob/master/consistenthash/consistenthash.go" target="_blank" rel="external">groupcache</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/03/golang-ci/" rel="next" title="Golang X CI X CD">
+                <i class="fa fa-chevron-left"></i> Golang X CI X CD
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/22/ubuntu16-04-docker-aufs/" rel="prev" title="ubuntu16.04-Docker-Aufs">
+                ubuntu16.04-Docker-Aufs <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Kakashi" />
+          <p class="site-author-name" itemprop="name">Kakashi</p>
+           
+              <p class="site-description motion-element" itemprop="description">talk about technology, DevOps, programming (python, nodejs), and database (mysql, mongodb, postgres)</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">文章</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/kkc" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/kakashiliu" target="_blank" title="twitter">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決方案 -Consistent-Hashing"><span class="nav-number">2.</span> <span class="nav-text">解決方案 Consistent Hashing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#實作"><span class="nav-number">3.</span> <span class="nav-text">實作 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虛擬節點"><span class="nav-number">4.</span> <span class="nav-text">虛擬節點 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#結論"><span class="nav-number">5.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kakashi</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'kkcliu';
+      var disqus_identifier = '2016/08/02/Consistent-Hashing/';
+
+      var disqus_title = "Consistent Hashing";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
