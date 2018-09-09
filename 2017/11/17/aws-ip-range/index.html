@@ -13,7 +13,7 @@
 
     <title>
         
-          retrieving AWS IP range - Kakashi&#39;s Blog
+          Retrieving AWS IP range - Kakashi&#39;s Blog
         
     </title>
 
@@ -154,10 +154,10 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#aws" title="aws">aws</a>
+                          <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
                         
                     </div>
-                    <h1>retrieving AWS IP range</h1>
+                    <h1>Retrieving AWS IP range</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Kakashi on
@@ -180,7 +180,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>It’s a simple note that how to get notification while AWS IP range change</p>
+                <p>It’s a simple note that how to get notifications while AWS IP range changed</p>
 <h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><p><a href="http://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html" target="_blank" rel="noopener">http://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html</a></p>
 <p>AWS provides the ip range file, you can download from <a href="https://ip-ranges.amazonaws.com/ip-ranges.json" target="_blank" rel="noopener">ip-ranges.json</a></p>
 <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">jq  <span class="string">'.prefixes[] | select(.region=="us-east-1")'</span> &lt; ipranges.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"ip_prefix"</span>: <span class="string">"23.20.0.0/14"</span>,</span><br><span class="line">  <span class="string">"region"</span>: <span class="string">"us-east-1"</span>,</span><br><span class="line">  <span class="string">"service"</span>: <span class="string">"AMAZON"</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"ip_prefix"</span>: <span class="string">"50.16.0.0/15"</span>,</span><br><span class="line">  <span class="string">"region"</span>: <span class="string">"us-east-1"</span>,</span><br><span class="line">  <span class="string">"service"</span>: <span class="string">"AMAZON"</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"ip_prefix"</span>: <span class="string">"50.19.0.0/16"</span>,</span><br><span class="line">  <span class="string">"region"</span>: <span class="string">"us-east-1"</span>,</span><br><span class="line">  <span class="string">"service"</span>: <span class="string">"AMAZON"</span></span><br><span class="line">&#125;,</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
@@ -240,7 +240,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#aws" title="aws">aws</a>
+                          <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
                         
                     </div>
                 </section>
