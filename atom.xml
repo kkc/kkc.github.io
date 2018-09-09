@@ -18,8 +18,8 @@
   
   <entry>
     <title>Build a better client</title>
-    <link href="http://kkc.github.io/2018/08/26/2018-08-26-build-a-better-client/"/>
-    <id>http://kkc.github.io/2018/08/26/2018-08-26-build-a-better-client/</id>
+    <link href="http://kkc.github.io/2018/08/26/build-a-better-client/"/>
+    <id>http://kkc.github.io/2018/08/26/build-a-better-client/</id>
     <published>2018-08-26T12:36:29.000Z</published>
     <updated>2018-09-09T12:44:49.477Z</updated>
     
@@ -41,8 +41,8 @@
   
   <entry>
     <title>記一次 Elasticsearch troubleshooting 的歷程</title>
-    <link href="http://kkc.github.io/2018/08/15/2018-08-15-lesson-learn-of-elasticsearch-outage/"/>
-    <id>http://kkc.github.io/2018/08/15/2018-08-15-lesson-learn-of-elasticsearch-outage/</id>
+    <link href="http://kkc.github.io/2018/08/15/lesson-learn-of-elasticsearch-outage/"/>
+    <id>http://kkc.github.io/2018/08/15/lesson-learn-of-elasticsearch-outage/</id>
     <published>2018-08-15T14:57:44.000Z</published>
     <updated>2018-09-09T12:44:49.477Z</updated>
     
@@ -64,8 +64,8 @@
   
   <entry>
     <title>Compassionate code</title>
-    <link href="http://kkc.github.io/2018/07/24/2018-07-24-thoughts-on-compassionate-code/"/>
-    <id>http://kkc.github.io/2018/07/24/2018-07-24-thoughts-on-compassionate-code/</id>
+    <link href="http://kkc.github.io/2018/07/24/thoughts-on-compassionate-code/"/>
+    <id>http://kkc.github.io/2018/07/24/thoughts-on-compassionate-code/</id>
     <published>2018-07-24T01:46:28.000Z</published>
     <updated>2018-09-09T12:44:49.476Z</updated>
     
@@ -86,8 +86,8 @@
   
   <entry>
     <title>Gracefully Shutdown Docker Container</title>
-    <link href="http://kkc.github.io/2018/06/06/2018-06-06-gracefully-shutdown-docker-container/"/>
-    <id>http://kkc.github.io/2018/06/06/2018-06-06-gracefully-shutdown-docker-container/</id>
+    <link href="http://kkc.github.io/2018/06/06/gracefully-shutdown-docker-container/"/>
+    <id>http://kkc.github.io/2018/06/06/gracefully-shutdown-docker-container/</id>
     <published>2018-06-06T15:26:34.000Z</published>
     <updated>2018-09-09T12:44:49.476Z</updated>
     
@@ -109,8 +109,8 @@
   
   <entry>
     <title>用 docker 改善開發流程筆記</title>
-    <link href="http://kkc.github.io/2018/04/28/2018-04-28-docker-note/"/>
-    <id>http://kkc.github.io/2018/04/28/2018-04-28-docker-note/</id>
+    <link href="http://kkc.github.io/2018/04/28/docker-note/"/>
+    <id>http://kkc.github.io/2018/04/28/docker-note/</id>
     <published>2018-04-27T16:05:18.000Z</published>
     <updated>2018-09-09T12:44:49.476Z</updated>
     
@@ -132,8 +132,8 @@
   
   <entry>
     <title>IPSec 筆記</title>
-    <link href="http://kkc.github.io/2018/03/21/2018-03-21-IPSEC-note/"/>
-    <id>http://kkc.github.io/2018/03/21/2018-03-21-IPSEC-note/</id>
+    <link href="http://kkc.github.io/2018/03/21/IPSEC-note/"/>
+    <id>http://kkc.github.io/2018/03/21/IPSEC-note/</id>
     <published>2018-03-21T12:49:34.000Z</published>
     <updated>2018-09-09T12:44:49.476Z</updated>
     
@@ -155,8 +155,8 @@
   
   <entry>
     <title>AWS VPN with RouterBoard</title>
-    <link href="http://kkc.github.io/2018/03/14/2018-03-14-AWS-VPN-with-RouterBoard/"/>
-    <id>http://kkc.github.io/2018/03/14/2018-03-14-AWS-VPN-with-RouterBoard/</id>
+    <link href="http://kkc.github.io/2018/03/14/AWS-VPN-with-RouterBoard/"/>
+    <id>http://kkc.github.io/2018/03/14/AWS-VPN-with-RouterBoard/</id>
     <published>2018-03-14T08:37:16.000Z</published>
     <updated>2018-09-09T12:44:49.475Z</updated>
     
@@ -178,8 +178,8 @@
   
   <entry>
     <title>TCP Network Performance Tuning 筆記</title>
-    <link href="http://kkc.github.io/2017/12/18/2017-12-18-Network-Performance-Tuning/"/>
-    <id>http://kkc.github.io/2017/12/18/2017-12-18-Network-Performance-Tuning/</id>
+    <link href="http://kkc.github.io/2017/12/18/Network-Performance-Tuning/"/>
+    <id>http://kkc.github.io/2017/12/18/Network-Performance-Tuning/</id>
     <published>2017-12-18T01:26:17.000Z</published>
     <updated>2018-09-09T12:44:49.475Z</updated>
     
@@ -201,8 +201,8 @@
   
   <entry>
     <title>AWS fargate 的簡短筆記</title>
-    <link href="http://kkc.github.io/2017/12/03/2017-12-03-aws-fargate/"/>
-    <id>http://kkc.github.io/2017/12/03/2017-12-03-aws-fargate/</id>
+    <link href="http://kkc.github.io/2017/12/03/aws-fargate/"/>
+    <id>http://kkc.github.io/2017/12/03/aws-fargate/</id>
     <published>2017-12-03T08:32:48.000Z</published>
     <updated>2018-09-09T12:44:49.475Z</updated>
     
@@ -224,8 +224,8 @@
   
   <entry>
     <title>retrieving AWS IP range</title>
-    <link href="http://kkc.github.io/2017/11/17/2017-11-17-aws-ip-range/"/>
-    <id>http://kkc.github.io/2017/11/17/2017-11-17-aws-ip-range/</id>
+    <link href="http://kkc.github.io/2017/11/17/aws-ip-range/"/>
+    <id>http://kkc.github.io/2017/11/17/aws-ip-range/</id>
     <published>2017-11-16T19:39:05.000Z</published>
     <updated>2018-09-09T12:44:49.474Z</updated>
     
@@ -248,8 +248,8 @@
   
   <entry>
     <title>Transaction 筆記</title>
-    <link href="http://kkc.github.io/2017/10/08/2017-10-08-transaction-note/"/>
-    <id>http://kkc.github.io/2017/10/08/2017-10-08-transaction-note/</id>
+    <link href="http://kkc.github.io/2017/10/08/transaction-note/"/>
+    <id>http://kkc.github.io/2017/10/08/transaction-note/</id>
     <published>2017-10-08T04:48:47.000Z</published>
     <updated>2018-09-09T12:44:49.474Z</updated>
     
@@ -271,8 +271,8 @@
   
   <entry>
     <title>淺談 Asynchronous Programming</title>
-    <link href="http://kkc.github.io/2017/09/01/2017-09-01-asynchronous-programming/"/>
-    <id>http://kkc.github.io/2017/09/01/2017-09-01-asynchronous-programming/</id>
+    <link href="http://kkc.github.io/2017/09/01/asynchronous-programming/"/>
+    <id>http://kkc.github.io/2017/09/01/asynchronous-programming/</id>
     <published>2017-09-01T14:08:31.000Z</published>
     <updated>2018-09-09T12:44:49.473Z</updated>
     
@@ -294,8 +294,8 @@
   
   <entry>
     <title>Coscup Golang 社群議程主持人之簡短心得！</title>
-    <link href="http://kkc.github.io/2017/08/06/2017-08-06-coscup-2017/"/>
-    <id>http://kkc.github.io/2017/08/06/2017-08-06-coscup-2017/</id>
+    <link href="http://kkc.github.io/2017/08/06/coscup-2017/"/>
+    <id>http://kkc.github.io/2017/08/06/coscup-2017/</id>
     <published>2017-08-06T15:58:19.000Z</published>
     <updated>2018-09-09T12:44:49.473Z</updated>
     
@@ -317,8 +317,8 @@
   
   <entry>
     <title>AWS route53 multivalue 筆記</title>
-    <link href="http://kkc.github.io/2017/07/23/2017-07-23-aws-route-53-multivalue/"/>
-    <id>http://kkc.github.io/2017/07/23/2017-07-23-aws-route-53-multivalue/</id>
+    <link href="http://kkc.github.io/2017/07/23/aws-route-53-multivalue/"/>
+    <id>http://kkc.github.io/2017/07/23/aws-route-53-multivalue/</id>
     <published>2017-07-23T06:02:36.000Z</published>
     <updated>2018-09-09T12:44:49.473Z</updated>
     
@@ -340,8 +340,8 @@
   
   <entry>
     <title>MySQL partition 筆記</title>
-    <link href="http://kkc.github.io/2017/07/07/2017-07-07-mysql-partitioning/"/>
-    <id>http://kkc.github.io/2017/07/07/2017-07-07-mysql-partitioning/</id>
+    <link href="http://kkc.github.io/2017/07/07/mysql-partitioning/"/>
+    <id>http://kkc.github.io/2017/07/07/mysql-partitioning/</id>
     <published>2017-07-07T15:35:05.000Z</published>
     <updated>2018-09-09T12:44:49.473Z</updated>
     
@@ -363,8 +363,8 @@
   
   <entry>
     <title>acs-engine-note</title>
-    <link href="http://kkc.github.io/2017/06/16/2017-06-16-acs-engine-note/"/>
-    <id>http://kkc.github.io/2017/06/16/2017-06-16-acs-engine-note/</id>
+    <link href="http://kkc.github.io/2017/06/16/acs-engine-note/"/>
+    <id>http://kkc.github.io/2017/06/16/acs-engine-note/</id>
     <published>2017-06-16T14:14:36.000Z</published>
     <updated>2018-09-09T12:44:49.473Z</updated>
     
@@ -377,8 +377,8 @@
   
   <entry>
     <title>Azure VMSS 的簡略使用筆記</title>
-    <link href="http://kkc.github.io/2017/04/24/2017-04-24-azure-note/"/>
-    <id>http://kkc.github.io/2017/04/24/2017-04-24-azure-note/</id>
+    <link href="http://kkc.github.io/2017/04/24/azure-note/"/>
+    <id>http://kkc.github.io/2017/04/24/azure-note/</id>
     <published>2017-04-24T14:25:18.000Z</published>
     <updated>2018-09-09T12:44:49.472Z</updated>
     
@@ -400,8 +400,8 @@
   
   <entry>
     <title>AWS 四月小聚速記</title>
-    <link href="http://kkc.github.io/2017/04/07/2017-04-07-aws-group-security-note/"/>
-    <id>http://kkc.github.io/2017/04/07/2017-04-07-aws-group-security-note/</id>
+    <link href="http://kkc.github.io/2017/04/07/aws-group-security-note/"/>
+    <id>http://kkc.github.io/2017/04/07/aws-group-security-note/</id>
     <published>2017-04-07T01:48:46.000Z</published>
     <updated>2018-09-09T12:44:49.472Z</updated>
     
@@ -425,8 +425,8 @@
   
   <entry>
     <title>筆記：學徒模式，優秀軟體開發者的養成之路</title>
-    <link href="http://kkc.github.io/2017/02/19/2017-02-19-reading-note-apprenticeship-patterns/"/>
-    <id>http://kkc.github.io/2017/02/19/2017-02-19-reading-note-apprenticeship-patterns/</id>
+    <link href="http://kkc.github.io/2017/02/19/reading-note-apprenticeship-patterns/"/>
+    <id>http://kkc.github.io/2017/02/19/reading-note-apprenticeship-patterns/</id>
     <published>2017-02-19T15:40:19.000Z</published>
     <updated>2018-09-09T12:44:49.472Z</updated>
     
@@ -451,8 +451,8 @@
   
   <entry>
     <title>How To Use Jenkins Parametered Build</title>
-    <link href="http://kkc.github.io/2017/02/13/2017-02-13-how-to-use-jenkins-parametered-build/"/>
-    <id>http://kkc.github.io/2017/02/13/2017-02-13-how-to-use-jenkins-parametered-build/</id>
+    <link href="http://kkc.github.io/2017/02/13/how-to-use-jenkins-parametered-build/"/>
+    <id>http://kkc.github.io/2017/02/13/how-to-use-jenkins-parametered-build/</id>
     <published>2017-02-13T14:31:40.000Z</published>
     <updated>2018-09-09T12:44:49.471Z</updated>
     

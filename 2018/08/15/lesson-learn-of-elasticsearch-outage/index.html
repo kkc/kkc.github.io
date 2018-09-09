@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="undefined" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          記一次 Elasticsearch troubleshooting 的歷程 - Kakashi&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kkc.github.io/2018/08/15/lesson-learn-of-elasticsearch-outage/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kakashi&#39;s Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                    <li>
+                        <a href="/atom.xml">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
+                        
+                    </div>
+                    <h1>記一次 Elasticsearch troubleshooting 的歷程</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Kakashi on
+                        2018-08-15
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="過程"><a href="# 過程" class="headerlink" title="過程"></a>過程 </h2><p> 前陣子又發生了 AWS Elasticsearch 的 status 變成 red 的情況，這次跟以往的情形有點不一樣，之前爆炸都是因為 disk space 不足，而後來增加了 Curator 定期清理資料後就解了，而這次發生的 outage 有點不同，也讓我想要記錄下發生的原因和解法。</p>
+<h2 id="調查"><a href="# 調查" class="headerlink" title="調查"></a>調查 </h2><p> 在開了 Support ticket 和查詢 AWS 的 document 後，初步有了一些方向，根據文件上面寫的 A red cluster status means that at least one primary shard and its replicas are not allocated to a node，其實就是跟 shard 是不是運作正常有關係，這邊更新一些 Elasticsearch 的科普知識，Elasticsearch 的 document 其實是放在 index 裡面，而 index 會根據你設定的 shard 數量，把 document 平均分散到不同 shard 中，然後把不同的 shard 放在不同的 node 中，以求可以分散式的去請求資料，而在沒有調整過的 AWS elasticsearch 中預設的 shard 數量是 5，所以每次 create 一個新的 index 就會產生 5 個 shard，經過 AWS support 的調查，我們家的 elasticsearch 裡面共有 10654 shard (抖)，而太多的 shard 接著就造成 CPU utilization 越來越重，最後重到某個 node 存取不到後 (猜想該 node 應該是炸掉了)，某個 shard 又沒有即時產生好 replica 存在另外一個 node 上，就這樣 status red recovery 失敗。</p>
+<h2 id="Troubleshooting- 技巧"><a href="#Troubleshooting- 技巧" class="headerlink" title="Troubleshooting 技巧"></a>Troubleshooting 技巧</h2><ol>
+<li>使用 <code>GET /_cluster/allocation/explain</code> 可以看到 cluster 裡面哪些 assigned shard 出問題，還有原因是什麼</li>
+<li>使用 <code>GET /_cat/indices?v</code> 可以看到哪些 index 是有問題的</li>
+</ol>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">health status index            uuid                   pri rep docs.count docs.deleted store.size pri.store.size</span><br><span class="line">green  open   test1            <span class="number">30</span>h1EiMvS5uAFr2t5CEVoQ   <span class="number">5</span>   <span class="number">0</span>        <span class="number">820</span>            <span class="number">0</span>       <span class="number">14</span>mb           <span class="number">14</span>mb</span><br><span class="line">green  open   test2            sdIxs_WDT56afFGu5KPbFQ   <span class="number">1</span>   <span class="number">0</span>          <span class="number">0</span>            <span class="number">0</span>       <span class="number">233</span>b           <span class="number">233</span>b</span><br><span class="line">green  open   test3            GGRZp_TBRZuSaZpAGk2pmw   <span class="number">1</span>   <span class="number">1</span>          <span class="number">2</span>            <span class="number">0</span>     <span class="number">14.7</span>kb          <span class="number">7.3</span>kb</span><br><span class="line">red    open   test4            BJxfAErbTtu5HBjIXJV_7A   <span class="number">1</span>   <span class="number">0</span></span><br><span class="line">green  open   test5            _8C6MIXOSxCqVYicH3jsEA   <span class="number">1</span>   <span class="number">0</span>          <span class="number">7</span>            <span class="number">0</span>     <span class="number">24.3</span>kb         <span class="number">24.3</span>kb</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><code>cannot allocate because a previous copy of the primary shard existed but can no longer be found on the nodes in the cluster</code> 基本上我們家遇到這個訊息在講的就是 primary shard 跟著 node 失蹤了，如果該 node 沒有回來，而你的資料很重要，可能就要從 snapshot 裡面撈回來</li>
+</ol>
+<h2 id="解決方法"><a href="# 解決方法" class="headerlink" title="解決方法"></a>解決方法 </h2><p> 我們基本上爛掉的 elasticsearch 是拿來存 application log 的，所以該 index 壞掉其實不太會影響線上資料，而按照 AWS support 的教學和查詢的一些文章，我們的解法如下</p>
+<ol>
+<li>砍掉該壞掉的 index ，<code>curl -XDELETE &lt;cluster&gt;/&lt;index_name&gt;</code></li>
+<li>砍掉 older/unused/smaller 的 index 減少 cluster loading</li>
+<li>更改設定減少每個 index 的 shard 的數量</li>
+</ol>
+<p>其他學習到的東西</p>
+<ol>
+<li>根據需求，可以使用 dedicated master node 增加系統的 stability</li>
+<li>越少的 shard 系統會越穩定，10 shards gives great performance, 100 gives good performance, 500 gives okay performance, 1000 gives bad performance and over 2000 is when the cluster begins to become unstable.</li>
+<li>還有讓 shard 的 size 保持在 10GB~50GB 的大小，會讓 query 的 performance 比較好</li>
+<li>以下的兩篇 reference 有講到很多其他 troubleshooting 的技巧</li>
+</ol>
+<p>Reference<br><a href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-handling-errors.html#aes-handling-errors-red-cluster-status" target="_blank" rel="noopener">https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-handling-errors.html#aes-handling-errors-red-cluster-status</a><br><a href="https://www.elastic.co/blog/red-elasticsearch-cluster-panic-no-longer" target="_blank" rel="noopener">https://www.elastic.co/blog/red-elasticsearch-cluster-panic-no-longer</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2018/08/26/build-a-better-client/" data-toggle="tooltip" data-placement="top" title="Build a better client">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/07/24/thoughts-on-compassionate-code/" data-toggle="tooltip" data-placement="top" title="Compassionate code">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "kkcliu";
+    var disqus_identifier = "http://kkc.github.io/2018/08/15/lesson-learn-of-elasticsearch-outage/";
+    var disqus_url = "http://kkc.github.io/2018/08/15/lesson-learn-of-elasticsearch-outage/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kakashi&#39;s Notes 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kkc.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    var _gaId = 'UA-64932988-1';
+    var _gaDomain = 'kkc.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

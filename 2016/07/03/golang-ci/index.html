@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="undefined" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Golang x CI x CD - Kakashi&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kkc.github.io/2016/07/03/golang-ci/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kakashi&#39;s Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                    <li>
+                        <a href="/atom.xml">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#golang" title="golang">golang</a>
+                        
+                    </div>
+                    <h1>Golang x CI x CD</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Kakashi on
+                        2016-07-03
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言 </h2><p> 最近公司大刀闊斧採用 Golang 重寫架構，話說 CI &amp; CD 這件事在軟體開發中已經算是少不了的一環，而從以前弄 python、 nodejs 一路到 Golang，好像都缺了一篇筆記，以至於常常踩了雷又開始回想到底是怎麼回事，所以才有這篇文章稍微紀錄一下，如何串這些工具。</p>
+<h2 id="啊啊啊，使用到的 -DevOps- 工具"><a href="# 啊啊啊，使用到的 -DevOps- 工具" class="headerlink" title="啊啊啊，使用到的 DevOps 工具"></a>啊啊啊，使用到的 DevOps 工具 </h2><p> 流行用語還是要提一下!!!</p>
+<ul>
+<li>Git 我最熟悉的版本控制系統</li>
+<li>Github 全世界最大工程師社交平台</li>
+<li>Jenkins 老爺爺來幫你做 CI &amp; CD，叫他幫你做 build code, testing, 和 deploy 就對了啊（握拳）</li>
+<li>Docker 載得動很多鐵箱子的鯨魚（實在厲害）</li>
+</ul>
+<h2 id="一切的起源，設定 -Github- 與 -jenkins- 的連動"><a href="# 一切的起源，設定 -Github- 與 -jenkins- 的連動" class="headerlink" title="一切的起源，設定 Github 與 jenkins 的連動"></a>一切的起源，設定 Github 與 jenkins 的連動 </h2><p> 公司專案習慣使用 <a href="https://ihower.tw/blog/archives/5140" target="_blank" rel="noopener">Github flow</a>，依照慣例要發出 Pull Request (PR) 給同事 Review 前，需要確保這個 PR 不會讓 Staging branch 爛掉，這邊就需要採用老爺爺的力量了，流程如下：</p>
+<ol>
+<li><p>起手式，要確保 Jenkins 上面需要的 plugins 有裝好</p>
+<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin" target="_blank" rel="noopener">Git plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin" target="_blank" rel="noopener">GitHub+Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank" rel="noopener">GitHub+pull+request+builder+plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Plugin" target="_blank" rel="noopener">JUnit+Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin" target="_blank" rel="noopener">Cobertura Plugin</a></li>
+</ul>
+</li>
+<li><p>在 Jenkins 上面建立一個 ProjectName-PR 的專案，在原始碼控制那邊填上 Github 的網址</p>
+<p><img src="/img/2016-07/jenkins_config.png" alt="jenkins_config"></p>
+<p>記得將 Branches to build 這邊改成 <code>${ghprbActualCommit}</code></p>
+</li>
+<li><p>在 jenkins -&gt; config settings 那邊修改 GitHub Pull Request Builder ，記得要使用可以讀取該 Repo 的帳號，增加好後可以用 Test Credentials 去測試到底能不能連接。</p>
+<p><img src="/img/2016-07/jenkins_pull_request_builder.png" alt="jenkins_pull_request_builder"></p>
+</li>
+<li><p>在建構觸發程序那邊，使用 Github pull request builder</p>
+<p><img src="/img/2016-07/jenkins_trigger.png" alt="jenkins_trigger"></p>
+</li>
+<li><p>在 Github 中設定好 jenkins 的 webhook</p>
+<p><img src="/img/2016-07/github_1.png" alt="github_webhook"></p>
+<p>記得選擇 trigger by <code>Pull request</code> (很重要！！！！）</p>
+</li>
+<li><p>接著就可以發個 PR 看看 jenkins 有沒有反應惹!</p>
+</li>
+</ol>
+<h2 id="Golang- 的 -testing-amp-coverage"><a href="#Golang- 的 -testing-amp-coverage" class="headerlink" title="Golang 的 testing &amp; coverage"></a>Golang 的 testing &amp; coverage</h2><p>我們公司的 Golang project 的建置，基本上是用 makefile 去管理，這邊有如何產生 testing &amp; coverage 的飯粒：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">testgen:</span><br><span class="line">    <span class="keyword">go</span> <span class="built_in">get</span> github.<span class="keyword">com</span>/tebeka/go2xunit</span><br><span class="line">    <span class="keyword">go</span> test $(TEST_PACKAGES) -v | tee test_output</span><br><span class="line">    go2xunit -fail -<span class="built_in">input</span> test_output -output tests.xml</span><br><span class="line"></span><br><span class="line">covgen:</span><br><span class="line">    <span class="keyword">go</span> <span class="built_in">get</span> github.<span class="keyword">com</span>/axw/gocov/gocov</span><br><span class="line">    <span class="keyword">go</span> <span class="built_in">get</span> github.<span class="keyword">com</span>/AlekSi/gocov-xml</span><br><span class="line">    gocov test $(TEST_PACKAGES) | gocov-xml &gt; coverage.xml</span><br></pre></td></tr></table></figure>
+<p>使用 <code>go2xunit</code> 套件產生 Jenkins/Hudson 可以吃的 xunit report，另外用 <code>gocov</code> &amp; <code>gocov-xml</code> 產生 Cobertura 格式，但實測結果發現只能產生 coverage 的 % 數，卻沒辦法看到是哪一行，這邊還要找時間修一下。</p>
+<h2 id="搭配 -Docker- 產生 -report"><a href="# 搭配 -Docker- 產生 -report" class="headerlink" title="搭配 Docker 產生 report"></a>搭配 Docker 產生 report</h2><p>在 Jenkins 裡面的建置使用鯨魚招式:</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -v <span class="variable">$WORKSPACE</span><span class="symbol">:/mnt/</span><span class="variable">$WORKSPACE</span> -w /mnt/<span class="variable">$WORKSPACE</span> --rm=<span class="keyword">true</span> <span class="symbol">golang:</span><span class="number">1.6</span>-onbuild bash -c <span class="string">"\</span></span><br><span class="line"><span class="string">    make clean; \</span></span><br><span class="line"><span class="string">    make; \</span></span><br><span class="line"><span class="string">    make test; \</span></span><br><span class="line"><span class="string">    make covgen;"</span></span><br></pre></td></tr></table></figure>
+<p>最後把 report 生出來並且將狀態打回 github &amp; slack 上。</p>
+<hr>
+<h2 id="進入 -CD- 的節奏"><a href="# 進入 -CD- 的節奏" class="headerlink" title="進入 CD 的節奏"></a>進入 CD 的節奏 </h2><p> 昨天才看到一段話覺得很有意思</p>
+<blockquote>
+<p>continuous delivery doesn’t mean every change is deployed to production ASAP.<br>It means every change is proven to be deployable at any time.</p>
+</blockquote>
+<p>所以我們都要確保 testing 的品質高上大，程式碼壯壯才能真正達成 CD 這塊，而不是有做成自動化就好了！</p>
+<h2 id="流程"><a href="# 流程" class="headerlink" title="流程"></a>流程</h2><p>PR merged 進 Dev branch 後 -&gt; Github 通知 Jenkins 產生 Staging 的 Image -&gt; 部署到 Staging server 上</p>
+<p>會在 Jenkins 上面再開一個專案 ProjectName-staging 處理這個 task，記得 github 也要加上新的 webhook</p>
+<p><img src="/img/2016-07/github_2.png" alt="github_webhook"></p>
+<p>Jenkins 上面的建置觸發程序使用 <code>Build when a change is pushed to GitHub</code></p>
+<h2 id="建置 -Golang-image"><a href="# 建置 -Golang-image" class="headerlink" title="建置 Golang image"></a>建置 Golang image</h2><p>建構 Golang image 其實是個蠻有趣的題目，在參考 <a href="https://blog.codeship.com/building-minimal-docker-containers-for-go-applications/" target="_blank" rel="noopener">building-minimal-docker-containers-for-go-applications</a> 後，我們也決定使用 static build 的 golang binary ，並且建構極小的 golang image，一來可以達成縮小 image 佔用的空間，二來可以達成快速部署的功效。</p>
+<p>我們一樣可以用剛剛樓上那招，只是 build binary 的時候加上以下參數</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CGO_ENABLED=<span class="number">0</span> GOOS=linux <span class="keyword">go</span> build -a -installsuffix cgo -o main .</span><br></pre></td></tr></table></figure>
+<p>並且將 Dockerfile 寫成</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> scratch</span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> main /</span></span><br><span class="line"><span class="bash">CMD [<span class="string">"/main"</span>]</span></span><br></pre></td></tr></table></figure>
+<p>就可以產生出極小的 docker images (大約 10 ~ 20MB)，接著把這個 image 打上 jenkins build tag &amp; latest tag 後，推上 docker registry。</p>
+<h2 id="部署"><a href="# 部署" class="headerlink" title="部署"></a>部署 </h2><p> 我們採用 Jenkins 的 <code>Send build artifacts to SSH</code> Plugin 連結到 staging server，並且讓他重拉新的 image，接著重啟該 container ，如此一來就完成整個 CI/CD 的流程。</p>
+<h2 id="後記"><a href="# 後記" class="headerlink" title="後記"></a>後記 </h2><p> 這篇文章省掉很多 slack integration 的部分，單純是因為作者太懶，而這方面最近蠻流行的，大家一定都比我還熟（誤），這篇文主要是幫自己記憶一下該做哪些事情，如果有哪邊寫漏了，可以留言告知喔，感謝大家 &lt;($ $)&gt;</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/08/02/Consistent-Hashing/" data-toggle="tooltip" data-placement="top" title="Consistent Hashing">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/01/14/docker-registry-installation/" data-toggle="tooltip" data-placement="top" title="docker registry 的簡單安裝紀錄">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#golang" title="golang">golang</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "kkcliu";
+    var disqus_identifier = "http://kkc.github.io/2016/07/03/golang-ci/";
+    var disqus_url = "http://kkc.github.io/2016/07/03/golang-ci/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kakashi&#39;s Notes 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kkc.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    var _gaId = 'UA-64932988-1';
+    var _gaDomain = 'kkc.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
