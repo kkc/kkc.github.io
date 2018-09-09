@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="undefined" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Mongodb 如何使用 Memory 和 tuning 的小技巧 - Kakashi&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kkc.github.io/2015/07/21/2015-07-21-mongodb-memory-structure/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kakashi&#39;s Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                    <li>
+                        <a href="/atom.xml">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#mongodb" title="mongodb">mongodb</a>
+                        
+                    </div>
+                    <h1>Mongodb 如何使用 Memory 和 tuning 的小技巧</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Kakashi on
+                        2015-07-21
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>開始翻以前在 evernote 的連結，發現這篇對於 mongodb 如何使用 memory 的介紹算是簡單易懂，這邊做個小筆記</p>
+<p><iframe src="//www.slideshare.net/slideshow/embed_code/key/J7LaXFlwQkAgM" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/mongodb/mongodb-london-2013understanding-mongodb-storage-for-performance-and-data-safety-by-christian-kvalheim-10gen" title="MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen" target="_blank">MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen </a> </strong> from <strong><a href="//www.slideshare.net/mongodb" target="_blank">MongoDB</a></strong> </div></p>
+<h2 id="mmap"><a href="#mmap" class="headerlink" title="mmap"></a>mmap</h2><p>Mongodb 的設計是利用 <code>mmap</code> 方式映射檔案文件到 memory 中，直接透過操作 memory 來存取資料，好處有下列幾點:</p>
+<ol>
+<li>簡化設計，省略最複雜的 memory 和硬碟管理，讓 Mongodb 的開發變得容易許多。</li>
+<li>OS 可以對不同文件系統 (ext3, ext4) 的類型做 cache。</li>
+<li>原生的 OS LRU cache 機制。</li>
+<li>Mongodb 重開後可以繼續使用 file cache 裡面的資料。</li>
+</ol>
+<p>而缺點也很明顯:</p>
+<ol>
+<li>因為檔案系統和 memory 是一對一映射，就如前篇所說的，檔案系統內的 fragment 會一同被複製到 memory 中, 造成 memory 的浪費。</li>
+<li>太大的 Linux <code>readahead</code> 會對 memory 的使用造成影響。readahead 指的是一種 prefetching 技術，在檔案讀取中，因為 data 會有 spatial locality (空間局部性)，所以當我們讀取資料時，會一次讀一大段連續資料進來，類似一次讀 16k 或 32k 進入 page cache，去減少硬碟速度過慢造成的影響，然後增加檔案的速度。</li>
+<li>LRU 的 cache 方式，不能夠去設定 Priority，像是 index 這類資料，也是會被 LRU 方式被 swap out。</li>
+</ol>
+<h2 id="Resident-memory"><a href="#Resident-memory" class="headerlink" title="Resident memory"></a>Resident memory</h2><p>通常我們會想知道 data 到底使用了多少 memory，而比較好的指標是 Resident memory，基於 Mongodb 是用 share memory 的機制， 查看每個 Mongodb 的 process 的 Resident memory 都會是一樣的。</p>
+<p>Resident memory 的組合如下</p>
+<blockquote><p>Resident memory = process overhead + File system pages 被 access 的部分<br>process overhead = connection + heap</p>
+</blockquote>
+<p>有些人去檢查後會覺得很奇怪，為什麼 Resident memory 相對於全部 memory 而言少那麼多，以為 Mongodb 沒有完整的使用 memory， 其實不用擔心，mongodb 會把資料都讀入 file cache ，這點可以用 <code>free -m</code> 來檢查，是否 <code>cached</code> 那欄吃了不少 memory ， 而 resident 裡面會顯示的空間，則是 mongodb 真正有 access 到的檔案，這部分的數據會被 memory fragment 和 readahead 影響, 如果發現 Resident memory 過低, 應該是要想辦法減少 memory fragment 或是調整 readahead 的大小， 讓讀進來的資料都是需要的, 減少發生 page fault 的機率。</p>
+<h2 id="Working-set-amp-page-fault"><a href="#Working-set-amp-page-fault" class="headerlink" title="Working set &amp; page fault"></a>Working set &amp; page fault</h2><p>常聽人說 Mongodb 需要大量的 memory， 最好是 memory 要能夠 fit working set，但大家常以為 working set 就代表全部資料的大小，這是個錯誤觀念。實際上 working set 指得是 mongodb 完成所有操作要取用的 data 和 index 大小。例如資料庫內不是每筆資料都常常被 access，舉 Blog 來說三年前的資料就不會那麼常被存取, 那 working set 裡面就不需要包含那麼古老的資料。</p>
+<p>查看 working set 的指令<code>db.runCommand({ serverStatus: 1, workingSet: 1} )</code></p>
+<p>在 mongodb 中， working set 的資料如果不在 memory 中，就會引發 page fault，這個時候就要去觀察 page fault 的大小， page fault 如果超過一定值(ex. 200 以上)， 然後 latency 又受到影響， 你的系統可能就需要一些調整了，有可能是要加 RAM，也有可能是資料沒有上到 index 而造成 Table scan， 而下一節我也有列出一些平常我會調整的部分。</p>
+<h2 id="Tunning"><a href="#Tunning" class="headerlink" title="Tunning"></a>Tunning</h2><p>以下是我在 AWS EC2 平台上的一些調整方法</p>
+<h3 id="記憶體"><a href="# 記憶體" class="headerlink" title="記憶體"></a>記憶體</h3><ol>
+<li><p>設定 swap（預設為 60, 當系統使用到超過 40% memory, 就會嘗試使用 swap）</p>
+ <figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w vm.swappiness=<span class="number">1</span>   # <span class="keyword">from</span> <span class="number">60</span> -&gt; <span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Huge Page (especially THP) for mongodb: <a href="https://jira.mongodb.org/browse/DOCS-2131" target="_blank" rel="noopener">https://jira.mongodb.org/browse/DOCS-2131</a></p>
+ <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo never &gt; <span class="regexp">/sys/</span>kernel<span class="regexp">/mm/</span>transparent_hugepage<span class="regexp">/enabled</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="File-System"><a href="#File-System" class="headerlink" title="File System"></a>File System</h3><ol>
+<li><p>File system flush issues (有興趣可以查看 <a href="http://blog.littlero.se/post/linux-tuning-for-write-heavy-system/" target="_blank" rel="noopener"> 這篇</a>)</p>
+ <figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># vm.dirty_ratio = <span class="number">80</span>                  # <span class="keyword">from</span> <span class="number">40</span></span><br><span class="line"># vm.dirty_background_ratio = <span class="number">5</span>        # <span class="keyword">from</span> <span class="number">10</span></span><br><span class="line"># vm.dirty_expire_centisecs = <span class="number">12000</span>    # <span class="keyword">from</span> <span class="number">3000</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>For Mongodb Disk Mounting</p>
+<p> modify <code>/etc/fstab</code><br> 把 journal 和一般的 data 掛在不同的 disk 上面, 因為我是用 SSD 硬碟, 所以取消 atime, 然後加上 discard 的指令, 讓 SSD 開始 Trim 的功能</p>
+ <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">/dev/xvdf</span> <span class="string">/mongodb_data</span> ext4 defaults,auto,discard,noatime,noexec 0 0</span><br><span class="line"><span class="string">/dev/xvdg</span> <span class="string">/journal</span> ext4 defaults,auto,discard,noatime,noexec 0 0</span><br><span class="line"><span class="string">/dev/xvdh</span> <span class="string">/log</span> ext4 defaults,auto,discard,noatime,noexec 0 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>設定 Readahead</p>
+<p> Readahead 根據資料不同, 需要有不同的調整, mongodb 官網是建議在 32k 以下, 而最後不要低於 16k, 因為 Mongodb 的 index bucket 的大小就是 8k, 調整太低可能會失去一些好處。</p>
+ <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo blockdev <span class="params">--setra</span> 32 <span class="string">/dev/xvdf</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ulimit</p>
+<p> 修改<code>/etc/security/limits.conf</code></p>
+ <figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">* </span>soft nofile 64000</span><br><span class="line"><span class="bullet">* </span>hard nofile 64000</span><br><span class="line"><span class="bullet">* </span>soft nproc 32000</span><br><span class="line"><span class="bullet">* </span>hard nproc 32000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>IO scheduler 因為是使用 SSD based 的硬碟, 採用 Noop</p>
+ <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo noop | sudo tee <span class="regexp">/sys/</span>block<span class="regexp">/xvdf/</span>queue<span class="regexp">/scheduler</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2015/08/16/2015-08-16-RDBMS-course/" data-toggle="tooltip" data-placement="top" title="RDBMS 先修課程筆記">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2015/07/14/2015-07-14-mongodb-storage/" data-toggle="tooltip" data-placement="top" title="Mongodb Storage 的架構和問題解法">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#mongodb" title="mongodb">mongodb</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "kkcliu";
+    var disqus_identifier = "http://kkc.github.io/2015/07/21/2015-07-21-mongodb-memory-structure/";
+    var disqus_url = "http://kkc.github.io/2015/07/21/2015-07-21-mongodb-memory-structure/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kakashi&#39;s Notes 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kkc.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    var _gaId = 'UA-64932988-1';
+    var _gaDomain = 'kkc.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="undefined" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Azure VMSS 的簡略使用筆記 - Kakashi&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kkc.github.io/2017/04/24/2017-04-24-azure-note/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kakashi&#39;s Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                    
+
+                    <li>
+                        <a href="/atom.xml">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Azure" title="Azure">Azure</a>
+                        
+                    </div>
+                    <h1>Azure VMSS 的簡略使用筆記</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Kakashi on
+                        2017-04-24
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>在踏入 Azure 領域前，因為原本比較熟悉 AWS，所以從 AWS 的 Service 尋找對應的 Azure Service 算是比較好入門的管道，基本上這個連結 <a href="https://docs.microsoft.com/zh-tw/azure/architecture/aws-professional/services" target="_blank" rel="noopener">Azure to AWS mapping</a> 算是整理的很不錯，不過也可以看得出來 Azure 也是設定大家都懂 AWS，想要從這邊搶客戶過來。</p>
+<p>而會想試用 Azure，主要是 Azure 有新的 M60 的 GPU instance 可以玩，相比起 AWS 的 K80 好像強大不少，所以家裡老大叫我去測試一下。 接下來的幾篇文章主要會紀錄怎麼使用 Azure cli 到最後部署 GPU instance。</p>
+<hr>
+<h1 id="Azure-CLI"><a href="#Azure-CLI" class="headerlink" title="Azure CLI"></a>Azure CLI</h1><p>在被 Azure Portal 荼毒一陣子後，決心轉向使用 Azure 的 CLI，在這邊也要向大家推薦，Azure 的 CLI 真的比 Portal 好用一萬倍，很多東西都是 CLI 有但是 Portal 還在生的階段。</p>
+<h2 id="Azure-CLI-Docker"><a href="#Azure-CLI-Docker" class="headerlink" title="Azure CLI Docker"></a>Azure CLI Docker</h2><p>如果覺得安裝很麻煩，這邊也有 Docker image 可以直接抓下來用</p>
+<ul>
+<li><a href="https://github.com/Azure/azure-cli-docker" target="_blank" rel="noopener">https://github.com/Azure/azure-cli-docker</a></li>
+<li><a href="https://hub.docker.com/r/azuresdk/azure-cli-python/" target="_blank" rel="noopener">https://hub.docker.com/r/azuresdk/azure-cli-python/</a> -&gt; Microsoft Azure CLI 2.0 - Preview</li>
+</ul>
+<p>使用 <code>az login</code> 後就會產生相關的 config file，如果使用 docker container 想要保存其 config 的話，記得 mount 一個外部的 volume 進去。</p>
+<h1 id="Azure-resource-group- 簡介"><a href="#Azure-resource-group- 簡介" class="headerlink" title="Azure resource group 簡介"></a>Azure resource group 簡介 </h1><p> 基本上現在使用 Azure，都會推薦你使用 Resource Group 來管理你的 Infrastructure ，這邊感覺跟 AWS 的 tag 有點像，就是可以把相關的組件分到同一個 Group 下面，如果想要看詳細的介紹可以左轉 <a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview" target="_blank" rel="noopener"> 這邊 </a> 找</p>
+<p>而我主要就是記錄一下怎麼用 Azure CLI 開個 VM &amp; resource group 。</p>
+<h2 id="建立 -ARM-amp-VM"><a href="# 建立 -ARM-amp-VM" class="headerlink" title="建立 ARM &amp; VM"></a>建立 ARM &amp; VM</h2><p><img src="https://image.slidesharecdn.com/2016-02-25-vmss-ug-deep-dive-160226160609/95/uk-azure-users-group-7-638.jpg?cb=1456502858" alt="Azure Resource Group"><br>Azure resource group 的階層結構</p>
+<ul>
+<li>Azure Resource Group (把相關的組件加個這個 Group 下面管理）<ul>
+<li>VNET<ul>
+<li>Subnet<ul>
+<li>NIC</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>而 VM 需要有 NIC 去得到 private ip/public ip</p>
+<ol>
+<li><p>建立 Resource Group</p>
+ <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">azure<span class="built_in"> group </span>create myTestGroup -l southcentralus</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>建立 Storage Account</p>
+<p>這裡跟 AWS 有很大的差別，AWS 的 EBS 是獨立的架構，而 Azure 的 Storage 在使用前都需要建立 Storage Account，而底下又有四種類別 Blob, File, Tables, Queue，Azure VM 的 OSdisk &amp; DataDisk 都是存在 Blob 裡面，然後建立 Custom Image 也會被建立在同個 Storage Account 裡面。</p>
+ <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">azure storage account create -g GROUPNAME \</span><br><span class="line">    -l <span class="keyword">LOCATION</span> <span class="title">--sku-name</span> LRS --kind storage STORAGENAME</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create virtual net</p>
+ <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">azure<span class="built_in"> network </span>vnet create myTestGroup TestVnet -l southcentralus</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create subnet</p>
+ <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">azure<span class="built_in"> network </span>vnet subnet create -a 10.0.0.0/16 myTestGroup TestVnet TestVnetSubnet</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create public IP</p>
+ <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">azure<span class="built_in"> network </span>public-ip create myTestGroup myTestPulibIP -l southcentralus</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create Network interface (NIC)</p>
+ <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">azure<span class="built_in"> network </span>nic create myTestGroup myTestNic -k TestVnetSubnet -m TestVnet -p myTestPulibIP -l southcentralus</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create VM</p>
+ <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">azure vm create -n myTest -l southcentralus -g myTestGroup -f myTestNic -z Standard_NV6 -y Linux --storage-account-name kakashistorage --<span class="keyword">generate</span>-ssh-keys -Q Canonical:UbuntuServer:<span class="number">16</span><span class="variable">.04</span><span class="variable">.0</span>-LTS:latest</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="建立 -Custom-Image"><a href="# 建立 -Custom-Image" class="headerlink" title="建立 Custom Image"></a>建立 Custom Image</h2><p>在會開 VM 後，想要學習怎麼建立自己的 Custom Image，有點像是在 AWS 裡面去打 VM 的 AMI，這也是建立 immutable image 的一環。<br>參考資料為 <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/linux/capture-image" target="_blank" rel="noopener"> 這篇</a></p>
+<ol>
+<li><p>Deprovision your source VM</p>
+ <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh ops@myvm.westus.cloudapp.azure.com</span><br><span class="line">sudo waagent -deprovision+user -force</span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Deallocate the VM with az vm deallocate</p>
+ <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az vm deallocate --resource-<span class="keyword">group</span> <span class="title">myResourceGroup</span> --name myVM</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Generalize the VM with az vm generalize</p>
+ <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az vm generalize --resource-<span class="keyword">group</span> <span class="title">myResourceGroup</span> --name myVM</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create an image from the VM resource with az image create:</p>
+ <figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">az</span> <span class="comment">image</span> <span class="comment">create</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">resource</span><span class="literal">-</span><span class="comment">group</span> <span class="comment">myResourceGroup</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">name</span> <span class="comment">myImage</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">source</span> <span class="comment">myVM</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>下完建立 image 的指令後，其實會在相對應的 Azure blob Storage 下面開一個專門的資料夾去存這個 snapshot，然後檔名是 vhd<br><code>e.g: https://blahblahblah.blob.core.windows.net/images/Microsoft.Compute/Images/vhds/MyImage-osDisk.ef68b9e6-8081-4082-972c-2375b39953f8.vhd</code></p>
+<p>感想: 這裡其實覺得比 AWS 難用多了，還需要做那麼多步驟。</p>
+<p>(Optional) Create a VM from your image resource with az vm create</p>
+<pre><code><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az vm create <span class="params">--resource-group</span> myResourceGroup <span class="params">--name</span> myVMDeployed <span class="params">--image</span> https:<span class="string">//blahblahblah.blob.core.windows.net/images/Microsoft.Compute/Images/vhds/MyImage-osDisk.ef68b9e6-8081-4082-972c-2375b39953f8.vhd</span> <span class="params">--admin-username</span> azureuser <span class="params">--ssh-key-value</span> ~<span class="string">/.ssh/id_rsa.pub</span></span><br></pre></td></tr></table></figure>
+</code></pre><h2 id="使用 -Template- 部署 -VMSS"><a href="# 使用 -Template- 部署 -VMSS" class="headerlink" title="使用 Template 部署 VMSS"></a>使用 Template 部署 VMSS</h2><p>所謂的 VMSS 其實就是 Azure 版本的 Auto scaling group，基本上 MS 推薦大家在 Azure 上面用 Template 去作部署 (有點像 AWS 的 cloudformation) ，而很棒的地方是，他們在 Github 上面擺了一個 <a href="https://github.com/Azure/azure-quickstart-templates" target="_blank" rel="noopener">azure-quickstart-template</a> 非常實用，可以拿來一鍵部署，或是修改成你想要的架構。</p>
+<p>而我則是使用以下這位大大的 template 去做 VMSS + custom image 的部署</p>
+<p><a href="https://github.com/gbowerman/azure-myriad" target="_blank" rel="noopener">https://github.com/gbowerman/azure-myriad</a></p>
+<p>這裡他提供了一個 vmss-linux-customimage.json，點選 deploy to Azure 會發現需要填入一些選項，像是 VM sku 還有 Image 的位置，這邊只要填入剛剛打好的 Custom Image 的位置，就可以作簡單的部署了，而實務上面其實會把改完的 template 利用 Azure CLI 去執行 deploy 。</p>
+<p>不過有一件事情要注意，如果要在其他 region 開這個 custom image，需要將他 copy 到同樣 region 下的 Azure Storage，這點跟 AWS 一樣。</p>
+<h2 id="使用 -Load-Balancer"><a href="# 使用 -Load-Balancer" class="headerlink" title="使用 Load Balancer"></a>使用 Load Balancer</h2><p>當使用的流量上升時，我們會需要使用 Load Balancer 來分流到多個 service，達成 Horizontal Scaling 的需求，用上面提供的 template 也會自動產生 LB 擋在前面，而 VMSS 妙的地方在於需要設定 NAT rule 才能連入裡面的每台 VM，可以參考 Erics 大大的 <a href="https://www.azure-vm.recipes/ch04/dispatch-requests-to-multiple-vms.html" target="_blank" rel="noopener"> 文章</a> 了解一下怎麼設定，接著就可以用 ssh <ip> -p port 去連線，這個跟 AWS 有很大的差別。</ip></p>
+<h3 id="Health-Check"><a href="#Health-Check" class="headerlink" title="Health Check"></a>Health Check</h3><p>跟 AWS 一樣需要設定 Health Check 去確定 Backend service 是不是活著，不過 Portal 介面上面看不到，LB 怎麼判斷後面連到的 VMSS 哪一個 instance 是 Healthy or Unhealthy，這點真的有點讓人覺得討厭。</p>
+<h3 id="LB- 的議題"><a href="#LB- 的議題" class="headerlink" title="LB 的議題"></a>LB 的議題</h3><ul>
+<li>沒辦法知道 Instance Healthy or Unhealthy</li>
+<li>沒辦法更動 Health Check 的 Rule</li>
+<li>沒辦法確定是否有 Connection Draining</li>
+<li>沒辦法設定 Timeout</li>
+<li>能看的 Metrics 太少，或是我在 Portal 中不知道要去哪裡找 (e.g request count, response time, response status)</li>
+<li>不知道怎麼隨便加普通 VM 在某個 LB backend</li>
+<li>不知道 scale in 時能不能 protect 某個 instance 不受影響</li>
+</ul>
+<h1 id="其他"><a href="# 其他" class="headerlink" title="其他"></a>其他 </h1><h2 id="好用的 -debug- 工具"><a href="# 好用的 -debug- 工具" class="headerlink" title="好用的 debug 工具"></a> 好用的 debug 工具 </h2><p> 這個 tool <a href="https://resources.azure.com/" target="_blank" rel="noopener">Azure Resoure Explorer</a> 非常好用，可以讓你直接檢查每個 component 的屬性，而不用一直用 CLI query 其中的狀態，而且有些狀態在 Portal 上面非常難以尋找。</p>
+<h2 id="VMSS- 特點小記"><a href="#VMSS- 特點小記" class="headerlink" title="VMSS 特點小記"></a>VMSS 特點小記 </h2><p> 根據這篇文章記錄一下 <a href="http://www.babylon365.net/got-vm-scale-sets-aka-msazurevmss/" target="_blank" rel="noopener">http://www.babylon365.net/got-vm-scale-sets-aka-msazurevmss/</a></p>
+<ul>
+<li>可以有 Scale in &amp; Scale out 的功能，不過對比 AWS 好像也不是很容易在 Portal 上面設定？</li>
+<li>一個 VMSS 只能有一個 Public IP</li>
+<li>可以設定一個 extension，然後全部的 VM 都 applied 同一個</li>
+<li>支援 Rolling Upgrade</li>
+<li>不 Support Data Disks</li>
+<li>Auto scaling 目前只吃 CPU Metrics?</li>
+<li>沒辦法讓其中的 VM 有 Public IP</li>
+<li>不支援 Disk encryption</li>
+</ul>
+<h2 id="抱怨"><a href="# 抱怨" class="headerlink" title="抱怨"></a>抱怨</h2><ul>
+<li>VM Extension 執行完後，常常 VM 的狀態還是在 Updating 而不是 Complete，最久等過兩個鐘頭才完成，但是 script 早就跑完了…(汗。</li>
+<li>Scale out 機器後，想要 Scale in ，居然沒辦法選擇用什麼 Policy 關機器，而且總是關最新打開的，最後 Rolling upgrade 只好人工寫關閉舊的 VM。</li>
+<li>Portal 少 CLI 太多功能，感覺變得很不實用。</li>
+</ul>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2017/06/16/2017-06-16-acs-engine-note/" data-toggle="tooltip" data-placement="top" title="acs-engine-note">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/04/07/2017-04-07-aws-group-security-note/" data-toggle="tooltip" data-placement="top" title="AWS 四月小聚速記">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Azure" title="Azure">Azure</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "kkcliu";
+    var disqus_identifier = "http://kkc.github.io/2017/04/24/2017-04-24-azure-note/";
+    var disqus_url = "http://kkc.github.io/2017/04/24/2017-04-24-azure-note/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kakashi&#39;s Notes 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kkc.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    var _gaId = 'UA-64932988-1';
+    var _gaDomain = 'kkc.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
