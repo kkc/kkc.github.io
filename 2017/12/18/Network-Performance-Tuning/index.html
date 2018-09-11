@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          TCP Network Performance Tuning 筆記 - Kakashi&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kkc.github.io/2017/12/18/Network-Performance-Tuning/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kakashi&#39;s Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                    <li>
+                        <a href="/atom.xml">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                        
+                    </div>
+                    <h1>TCP Network Performance Tuning 筆記</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Kakashi on
+                        2017-12-18
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>這篇速記主要紀錄看了 AWS reinvent 這個影片的心得，裡面講解怎麼 tuning TCP 相關的 networking issue，影片來源在此<br><div class="video-container"><iframe src="//www.youtube.com/embed/LjeXZItav34" frameborder="0" allowfullscreen></iframe></div></p>
+<p>相當推薦這個影片，裡面不僅提到一些 TCP 上面的學術名詞，也很實際的告訴你在 linux 上面怎麼改變那些值，然後還可以看到在 application 的 benchmark 有很大的差距，這是我之前想像不到的，居然更改了一些設定可以有那麼巨大的差別。</p>
+<h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><p>講到 TCP ，講者一開始打賭大家第一個想到的，一定是 3 way handshake，一定是 SYN-ACK，但其實 TCP 很棒的地方在於，它提供了一個抽象層，然後我們不需要知道中間到底 packet 發生什麼情況，TCP 會幫忙處理類似重傳，還有要送多快不會掉包的問題，盡最大的可能讓 packet 到達目的地，並且保證封包到達的順序性。</p>
+<ul>
+<li>TCP does well on flow control</li>
+<li>it makes sure it sends as many packets as it can without overwhelming the receiver.</li>
+</ul>
+<h1 id="TCP-optimization"><a href="#TCP-optimization" class="headerlink" title="TCP optimization"></a>TCP optimization</h1><p>主要有幾個重點</p>
+<h2 id="Receive-Window"><a href="#Receive-Window" class="headerlink" title="Receive Window"></a>Receive Window</h2><p>接收端的流量控制</p>
+<p><img src="https://hpbn.co/assets/diagrams/19e54ddeee77adfc1c724b912f7b2694.svg" alt="flow_control"></p>
+<p>傳送數據的時候，如果對方收不下那麼多封包，就會產生 packet drop 的現象，為了避免這種現象發生，接收方要回報自己的 Receive Window (RWND) 有多大，傳送方知道了這個數值後，才不會多送封包過去造成浪費。而 Receive Window 基本上跟接收方開多少 Receive buffer 有關，在 linux 這邊可以用 <code>sysctl -a</code> 去查 RWND 的大小</p>
+<p><code>sysctl -a | grep mem</code><br><code>net.ipv4.tcp_rmem = &lt;MIN&gt; &lt;DEFAULT&gt; &lt;MAX&gt;</code></p>
+<p>有些人會遇到明明網卡很強，網路 bandwidth 也很大，尤其在內網的情況，為什麼網路速度還是上不來，有時候其實只是這個值在搞鬼。<br>而另外一點是，RWND 要設定到多少才是合理？設太大會吃掉太多 linux 的 Memory，設太小又會造成接收資料堵塞，實際上 RWND 的正常值是跟<a href="https://en.wikipedia.org/wiki/Bandwidth-delay_product" target="_blank" rel="noopener">BDP</a> 有相關，也就是跟 bandwidth 和 RTT (round trip time) 有相關，RTT 是指兩台主機間的延遲，你發出 request 後過了多久收到 response 基本上就是 RTT。</p>
+<p>BDP 的公式，假如 bandwidth 是 100Mbps，而 RTT 是 100ms<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BDP = <span class="number">100</span>Mbps * <span class="number">100</span>ms = (<span class="number">100</span> / <span class="number">8</span>) * (<span class="number">100</span> / <span class="number">1000</span>) = <span class="number">1.25</span>MB</span><br></pre></td></tr></table></figure></p>
+<p>在這個公式中，接收端 in-flight 就可以吃下 1.25MB 的資料，所以 RWND 不應該設定小於 1.25MB</p>
+<h2 id="Congestion-control"><a href="#Congestion-control" class="headerlink" title="Congestion control"></a>Congestion control</h2><p>傳送端的流量控制</p>
+<p>傳送端也可以做流量管制，因為 RWND 只有反應接收方的電腦狀態，而沒辦法確切代表整體網路，而且現在網路的的品質其實差距很大，像是 wifi，4G/5G 和有線網路就有很大的差別，所以傳送端這邊也有非常多的演算法，來推導發送多少的 packet 才會是最好的，減少半途消失的損失。</p>
+<p>這邊演算法有根據不同的情況而產生的設計</p>
+<ul>
+<li>Packet LOSS</li>
+<li>Latency</li>
+<li>Bandwidth</li>
+</ul>
+<h3 id="TCP-slow-start"><a href="#TCP-slow-start" class="headerlink" title="TCP slow start"></a>TCP slow start</h3><p>TCP slow start 的概念就是一開始先送小一點的資料量，再慢慢增加到會掉包的程度，最後在減少發送量，以期找到最佳的傳輸大小，這邊就引入了一個值叫做 Congestion Window (CWND)，透過更改 CWND 的大小去找到最佳值。</p>
+<p><img src="https://hpbn.co/assets/diagrams/e76659d1dbe30bbf31d9a5ef6238a236.svg" alt="congestion_control"></p>
+<p>印象中 linux 舊版的 init CWND 是 <code>3MSS</code>，新版的 init CWND 則是 <code>10MSS</code>，一個 MSS 是 1448 bytes。</p>
+<p>這邊有個例子讓大家感受一下 CWND 大小的影響，現在有個網頁是 20KB，如果是 3MSS(4.2KB)，在不考慮 CWND 會改變的情況下，需要發送將近 5 次，而改成 10MSS 則可以大幅降低傳輸次數。</p>
+<h3 id="Loss"><a href="#Loss" class="headerlink" title="Loss"></a>Loss</h3><p>Loss 會造成 throughput 下降<br><img src="/img/2017-12/loss.png" alt="loss"></p>
+<p>可以透過觀察 TCP retransmissions 看有沒有 loss 發生<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -s <span class="string">| grep retransmit</span></span><br></pre></td></tr></table></figure></p>
+<p>但是這個指令不太好用，因為無法看到是哪個 TCP 連線造成的，也沒有時間的資訊，只能靠一直 polling 去畫圖才會比較好用。</p>
+<p>取而代之的是用 socket level 的 debug tool<br>使用 <code>ss -ite</code> 可以看到更多的資訊</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">send-Q: 多少資料在 <span class="built_in"> queue </span> 裡面需要被送出，如果這個值是 0，有可能是 application 裡面就卡住了，大於 0 才會是正常的</span><br><span class="line">cubic: congestion control algorithm</span><br><span class="line">rto: retransmission timeout</span><br><span class="line">cwnd: initial congestion control window</span><br><span class="line">retrans: 重送多少次</span><br></pre></td></tr></table></figure>
+<p>另外這個影片有提到一個 tool 叫做 <code>tcpretrans</code><br>made by netflix brendangregg 可以拿來即時監控 retransmission</p>
+<h3 id="Congestion-Control-Algorithm"><a href="#Congestion-Control-Algorithm" class="headerlink" title="Congestion Control Algorithm"></a>Congestion Control Algorithm</h3><p>Cubic: 2.6.19+ 目前我看我手上的 ubuntu 都是預設使用這個<br>Other algo: BBR, Vegas, illinois, Westwood, Highspeed, Scalable</p>
+<h3 id="Retransmission-Timer"><a href="#Retransmission-Timer" class="headerlink" title="Retransmission Timer"></a>Retransmission Timer</h3><p>封包掉時，要經過多久才重送</p>
+<ul>
+<li>太低: congestion control 反應過度，而且重傳無法改善問題，只會造成網路更壅塞</li>
+<li>太高: 增加 latency</li>
+</ul>
+<h2 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h2><p>TC (traffic control) 可以製造一些 loss，還可以更改 qdisc 去做一些 network performance 測試<br>MTU: maximum transmission unit 在 VPC 內的 EC2 可以使用 Jumbo Frame 來溝通，使用 MTU 9001 會幫助蠻多的</p>
+<h1 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h1><p>最後有個簡短的 experiment result</p>
+<h2 id="case-1-Http-with-intermediate-network-loss"><a href="#case-1-Http-with-intermediate-network-loss" class="headerlink" title="case 1. Http with intermediate network loss"></a>case 1. Http with intermediate network loss</h2><p><img src="/img/2017-12/ex1.png" alt="ex1.png"><br><img src="/img/2017-12/ex1_res.png" alt="ex1_res.png"><br><img src="/img/2017-12/ex1_res2.png" alt="ex1_res2.png"><br>更改 TCP-BBR 不管在有無 loss 的情況下，拿來跟 cubic 對比，p50 都好上不好，不過 spike 其實會變多</p>
+<h2 id="case-2-low-RTT-between-servers"><a href="#case-2-low-RTT-between-servers" class="headerlink" title="case 2. low RTT between servers"></a>case 2. low RTT between servers</h2><p><img src="/img/2017-12/ex2.png" alt="ex2.png"><br><img src="/img/2017-12/ex2_res.png" alt="ex2_res.png"><br><img src="/img/2017-12/ex2_res2.png" alt="ex2_res2.png"><br>更改 RTO 對 request 的 p99.99 有巨大的改善</p>
+<h2 id="case-3-High-transaction-rate-HTTP-service"><a href="#case-3-High-transaction-rate-HTTP-service" class="headerlink" title="case 3. High transaction rate HTTP service"></a>case 3. High transaction rate HTTP service</h2><p><img src="/img/2017-12/ex3.png" alt="ex3.png"><br><img src="/img/2017-12/ex3_res.png" alt="ex3_res.png"><br>更改 init CWND，p50 latency 改善也很多，但是要注意需要的 Bandwidth 也會有所改變</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>圖片來源來自這本很棒的書<br><a href="https://hpbn.co/building-blocks-of-tcp/#congestion-avoidance-and-control" target="_blank" rel="noopener">https://hpbn.co/building-blocks-of-tcp/#congestion-avoidance-and-control</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2018/03/14/AWS-VPN-with-RouterBoard/" data-toggle="tooltip" data-placement="top" title="AWS VPN with RouterBoard">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/12/03/aws-fargate/" data-toggle="tooltip" data-placement="top" title="AWS fargate 的簡短筆記">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "kkcliu";
+    var disqus_identifier = "http://kkc.github.io/2017/12/18/Network-Performance-Tuning/";
+    var disqus_url = "http://kkc.github.io/2017/12/18/Network-Performance-Tuning/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kakashi&#39;s Notes 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kkc.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    var _gaId = 'UA-64932988-1';
+    var _gaDomain = 'kkc.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

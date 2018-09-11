@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Transaction 筆記 - Kakashi&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kkc.github.io/2017/10/08/transaction-note/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kakashi&#39;s Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                    <li>
+                        <a href="/atom.xml">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#RDBMS" title="RDBMS">RDBMS</a>
+                        
+                    </div>
+                    <h1>Transaction 筆記</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Kakashi on
+                        2017-10-08
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言 </h1><p> 大家都知道 RDBMS 其中有個主要的功能，就是能夠把 Transaction 這種任務，做得很完美，而 Transaction 這件事，在很多地方像是銀行轉帳或是進銷存的商業行為裡面，都是非常重要的，因為可以保證資料庫內的資料一致性。 而隨著 NOSQL 的蓬勃發展，看到很多 3rd party library 都想要在 application level 處理 Transaction 的議題，但往往好像使用者都沒搞懂，其實大部分的 lib 只有做到了 ACID 裡面的 Atomicity，而在多併發的環境下，不同的 transaction requests 其實是有機會把數據弄亂，這篇文章就是想要來複習一下 ACID 裡面 Isolation 這塊。</p>
+<h1 id="ACID- 複習"><a href="#ACID- 複習" class="headerlink" title="ACID 複習"></a>ACID 複習 </h1><p>ACID &amp; RDBMS 的複習，推薦大家可以看看 <a href="https://www.youtube.com/watch?v=-exEZS_CEPU" target="_blank" rel="noopener">COSCUP 2017 VanillaDB - 由淺入深的教學型 RDBMS</a>，還有<a href="http://www.slmt.tw/slides/intro_vanilladb.pdf" target="_blank" rel="noopener"> 投影片 </a><br> 這邊也拿裡面銀行轉帳的例子，簡單講解一下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">account</span> <span class="keyword">SET</span> balance = balance - <span class="number">100</span> <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">"Red"</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">account</span> <span class="keyword">SET</span> balance = balance + <span class="number">100</span> <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">"Blue"</span>;</span><br><span class="line"><span class="keyword">COMMIT</span> <span class="keyword">TRANSACTION</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Atomicity: all or nothing<br>如果 Transaction 只完成了一部分操作，像是遇到斷電或是資料庫掛掉，該 Transaction 會整個被取消，所有數據會透過日誌復原。</p>
+</li>
+<li><p>Consistent:<br>在每一個操作的過程中，資料庫內的數據需要保持一致性，不會有 Transaction 執行到一半，去查詢資料時，資料庫內整體的餘額 (balance) 變成不一樣。</p>
+</li>
+<li><p>Isolation:<br>就算每一個 Transaction 中有 Atomicity 的特性，但是無法保證在同時執行多個 Transaction 時，能夠保證整個資料庫的一致性，這時候就需要 Isolation 這個特性來幫忙。</p>
+</li>
+<li><p>Duration:<br>資料庫內的資料不會因為斷電，系統崩潰而損失資料。</p>
+</li>
+</ul>
+<h1 id="Isolation"><a href="#Isolation" class="headerlink" title="Isolation"></a>Isolation</h1><p>前面提到就算有 Atomicity 的特性，但是在多個 Transaction 情況下，還是有機會把數據搞亂，例如下面這個例子：</p>
+<p>Transaction 1 將 $100 轉入給 A</p>
+<ol>
+<li>讀取 A 的值</li>
+<li>這個值加上 $100 並寫回 A</li>
+</ol>
+<p>如果在這兩個操作中，有個 Transaction2 也修改了 A 的值加上 $100<br>原本的結果應該是 A 增加了 $200 ，但實際上 A 最後很可能只有加上了 $100</p>
+<p>這也是為什麼我們要為 database 加上 Isolation，這樣才能讓 database 在修改數據時維持一致性，一般討論 Isolation 有數種隔離級別，其實基本上就是上鎖的概念，而鎖的顆粒度大小不一樣。</p>
+<p>分為四個級別：</p>
+<ol>
+<li>Read Uncommitted</li>
+<li>Read Committed</li>
+<li>Repeatable-Read</li>
+<li>Serializable</li>
+</ol>
+<p>為了瞭解這些級別的差距，我們必須要討論一下各個級別解決的問題是什麼。</p>
+<h2 id="Read-Uncommitted"><a href="#Read-Uncommitted" class="headerlink" title="Read Uncommitted"></a>Read Uncommitted</h2><p>最一開始時，想要解決的就是兩個以上不同的 process 對同一筆數據做改變，而最基本的解決方法就是建立排他鎖 (eXclusive Locks or 寫鎖)</p>
+<ol>
+<li>啟動 Transaction A 時，該筆數據只能被此 Transaction 修改</li>
+<li>其它 process 只能讀取</li>
+</ol>
+<p>這個級別我們就稱為 Read Umcommitted</p>
+<h2 id="Read-Committed"><a href="#Read-Committed" class="headerlink" title="Read Committed"></a>Read Committed</h2><p>有了 Read Umcommitted 後，事情可沒就這樣結束了，後來大家馬上就發現到，如果 Transaction A 將某個值改變到一半，又把它 rollback 回去，這樣其他的 process 有可能讀取到錯誤的值，接著又把這個錯誤的值 commit 就糟糕了，這就是所謂的 <em>Dirty Read</em>，也就是讀取到還沒 commit 的值。</p>
+<p><strong>Dirty read</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A <span class="keyword">update</span> field1</span><br><span class="line">B <span class="keyword">read</span> field1</span><br><span class="line">A <span class="keyword">rollback</span></span><br><span class="line">B <span class="keyword">commit</span></span><br></pre></td></tr></table></figure></p>
+<p>這個時候其實只是需要調整鎖的程度，對於需要修改的數據，加上寫鎖後，需要到整個 Transaction 結束後才會釋放，而對於單純讀取 (SELECT) 的數據就沒有那麼嚴格，一但在 Transaction 內讀取完就釋放讀鎖。</p>
+<h2 id="Repeatable-Read"><a href="#Repeatable-Read" class="headerlink" title="Repeatable-Read"></a>Repeatable-Read</h2><p>這個級別主要是要解決 Unrepeatable read 的情況，當我們需要在一個 Transaction 裡面讀取同個 field 時，有可能會讀到不一樣的值， 情況有可能是這樣發生的，當 Transaction A 在讀取 Field1 時，同時間 Transaction B 改變了這個該值，當 Transaction A 再次讀取該值時，其數據就有可能被改變，這也是因為 read lock 會在 SELECT 完後馬上就被釋放，所以最簡單的方法就是把讀寫鎖釋放的時間延後到 Transaction 結束後，但壞處就是系統的效能會下降的很快，連讀取資料的部分也需要排隊讀取</p>
+<p><strong>Unrepeatable read</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A read field1</span><br><span class="line">B <span class="keyword">update</span> field1</span><br><span class="line">B <span class="keyword">commit</span></span><br><span class="line">A <span class="keyword">read</span> field1</span><br></pre></td></tr></table></figure></p>
+<h2 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h2><p>最高的級別，一般資料庫不會使用到這個級別，而這個級別是要解決 phantom read 的問題，主要跟 Range query 比較有相關，舉例來說，當 Transaction A 使用 range query 查詢後得到 10 筆資料，而 Transaction B 在這個條件裡面新增了一筆資料並且 commit 後，Transaction A 在去 query 時，就會變成 11 筆資料。<br>但使用這個級別，最簡單的做法基本上就是鎖住整張表，以免不同的 Transaction 更動其資料，所以造成的效率低落也是可以想像的。</p>
+<p><strong>phantom read</strong><br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A query =&gt; <span class="meta">get</span> <span class="number">10</span> <span class="meta">data</span></span><br><span class="line"><span class="keyword">B </span>insert <span class="number">1</span> <span class="meta">data</span></span><br><span class="line"><span class="keyword">B </span>commit</span><br><span class="line">A query =&gt; <span class="meta">get</span> <span class="number">11</span> <span class="meta">data</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="總結一下 -isolation-amp-lock- 的關係"><a href="# 總結一下 -isolation-amp-lock- 的關係" class="headerlink" title="總結一下 isolation &amp; lock 的關係"></a>總結一下 isolation &amp; lock 的關係</h1><p>from <a href="https://en.wikipedia.org/wiki/Isolation_%28database_systems%29#Read_phenomena" target="_blank" rel="noopener">wiki</a></p>
+<table>
+<thead>
+<tr>
+<th>Isolation level</th>
+<th>Write Operation</th>
+<th>Read Operation</th>
+<th>Range Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read Uncommitted</td>
+<td>until commit</td>
+<td>not used</td>
+<td>not used</td>
+</tr>
+<tr>
+<td>Read Committed</td>
+<td>until commit</td>
+<td>during statement</td>
+<td>not used</td>
+</tr>
+<tr>
+<td>Repeatable Read</td>
+<td>until commit</td>
+<td>until commit</td>
+<td>not used</td>
+</tr>
+<tr>
+<td>Serializable</td>
+<td>until commit</td>
+<td>until commit</td>
+<td>until commit</td>
+</tr>
+</tbody>
+</table>
+<p>順便借用一下 <a href="http://www.slmt.tw/blog/about/" target="_blank" rel="noopener">Yu-Shan Lin</a> 大大的投影片的圖</p>
+<p><img src="/img/2017-10/database_isolation.png" alt="database_isolation.png"></p>
+<h1 id="結語"><a href="# 結語" class="headerlink" title="結語"></a>結語 </h1><p> 複習了一下 RDBMS 的 ACID 概念，其實發現在提升 concurrency 的情況下，又要讓數據保持完整，其實是一件很困難的事情，而其實還有很多東西像是 MVCC、Row version、樂觀鎖、悲觀鎖還有死鎖等等東西，這篇都還來不及贅述，要實作真正的 Transaction 在 application 端其實是很複雜的，而 RDBMS 其實都很好的幫我們處理完這些問題，所以要處理數據且需要 Transaction 的話，還是推薦交給專業的工具，而不要自己傻傻的刻一套啊。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<li><a href="https://en.wikipedia.org/wiki/Isolation_(database_systems)" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Isolation_(database_systems)</a></li>
+<li><a href="https://www.zhihu.com/question/30272728" target="_blank" rel="noopener">https://www.zhihu.com/question/30272728</a></li>
+<li><a href="https://technet.microsoft.com/en-us/library/ms187101(v=sql.105).aspx" target="_blank" rel="noopener">https://technet.microsoft.com/en-us/library/ms187101(v=sql.105).aspx</a></li>
+</ol>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2017/11/17/aws-ip-range/" data-toggle="tooltip" data-placement="top" title="Retrieving AWS IP range">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/09/01/asynchronous-programming/" data-toggle="tooltip" data-placement="top" title="淺談 Asynchronous Programming">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#RDBMS" title="RDBMS">RDBMS</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "kkcliu";
+    var disqus_identifier = "http://kkc.github.io/2017/10/08/transaction-note/";
+    var disqus_url = "http://kkc.github.io/2017/10/08/transaction-note/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kakashi&#39;s Notes 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kkc.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    var _gaId = 'UA-64932988-1';
+    var _gaDomain = 'kkc.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

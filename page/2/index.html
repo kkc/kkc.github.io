@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Kakashi&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kkc.github.io/page/2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kakashi&#39;s Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                    <li>
+                        <a href="/atom.xml">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Kakashi&#39;s Notes</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">修其本而末自應</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/2017/11/17/aws-ip-range/">
+        <h2 class="post-title">
+            Retrieving AWS IP range
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            It’s a simple note that how to get notifications while AWS IP range changed
+Usagehttp://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html
+AWS provides the ip range file, you can download from ip-ranges.json
+123456789101112131415161718jq  '.......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Kakashi on
+        2017-11-17
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/10/08/transaction-note/">
+        <h2 class="post-title">
+            Transaction 筆記
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言  大家都知道 RDBMS 其中有個主要的功能，就是能夠把 Transaction 這種任務，做得很完美，而 Transaction 這件事，在很多地方像是銀行轉帳或是進銷存的商業行為裡面，都是非常重要的，因為可以保證資料庫內的資料一致性。 而隨著 NOSQL 的蓬勃發展，看到很多 3rd party library 都想要在 application level 處理 Transaction 的議題，但往往好像使用者都沒搞懂，其實大部分的 lib 只有做到了 ACID 裡面的 Atom......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Kakashi on
+        2017-10-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/09/01/asynchronous-programming/">
+        <h2 class="post-title">
+            淺談 Asynchronous Programming
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+              
+
+ 利用這篇文章稍微紀錄一下，最近在公司分享的淺談 Asynchronous programming 的心得，其實在現在各個網路公司盛行的時代，不懂點 Asynchronous model 應該是不太可能的，而且就算不懂實際上大家也是天天在用，類似寫 Browser 端的 javascript，或是不論 nodejs 或是 python (像是 gevent)，都常常看到大家再談 Asynchronous model 對 performance 帶來的好處，正好同事們很多人正在學 j......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Kakashi on
+        2017-09-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/08/06/coscup-2017/">
+        <h2 class="post-title">
+            Coscup Golang 社群議程主持人之簡短心得！
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            第一次在 Coscup 擔任議程主持人，說不緊張是假的，其實一開始還結巴哩，不過後來想想，講者應該比我還緊張，而我的責任其實是要好好照顧講者啊 (汗)。原本是要靠 @Evan 大大撐場，很不幸的他剛好有事無法出席，而他找的代打者也剛好在議程這天有事，只好讓備案中的備案 — 我上場啦！，有種在 1A 打球突然被叫上大聯盟的感覺，不過還好 Golang 社群的小夥伴們都很幫忙，真的感受到社群的人好溫暖啊 Q_Q
+設備部分的話，這次的投影機，在投放黑底白字或是字太小的時候都很悲劇，只能在瘋狂調整......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Kakashi on
+        2017-08-06
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/07/23/aws-route-53-multivalue/">
+        <h2 class="post-title">
+            AWS route53 multivalue 筆記
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            AWS 發表的新的 route53 routing policy: multivalue，Raddit 上面的某篇  文章，有比較了一下跟 simple &amp; weighted 的差別，但主要看這張圖就夠了 http://imgur.com/4gvktlm。
+
+simple 是把 multiple values (IP) 寫成一筆 record，但是 multivalue 是寫成多筆，然後用 nslookup 去查看起來回應的結果是差不多的。
+但其實還是有一點不同，文件 上面寫到 m......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Kakashi on
+        2017-07-23
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/07/07/mysql-partitioning/">
+        <h2 class="post-title">
+            MySQL partition 筆記
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最近要處理一件資料量不太大但是又超過 5kw 行的問題，問題是這樣的，需要一張 table 儲存上傳到 S3 影片的 metadata，像是 id, timestamp, s3_url 等等資料，然後過三個月就把之前的資料連同 metadata 砍掉，而想到簡單一點就用 mysql 的分區表來做就夠了，有人會問用 mongodb 分月切就好，但是其實在處理跨月的 range query 就需要自己在 application 端組合，相較之下 mysql 是在同一個 logic view 下......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Kakashi on
+        2017-07-07
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/06/16/acs-engine-note/">
+        <h2 class="post-title">
+            acs-engine-note
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Kakashi on
+        2017-06-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/04/24/azure-note/">
+        <h2 class="post-title">
+            Azure VMSS 的簡略使用筆記
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            在踏入 Azure 領域前，因為原本比較熟悉 AWS，所以從 AWS 的 Service 尋找對應的 Azure Service 算是比較好入門的管道，基本上這個連結 Azure to AWS mapping 算是整理的很不錯，不過也可以看得出來 Azure 也是設定大家都懂 AWS，想要從這邊搶客戶過來。
+而會想試用 Azure，主要是 Azure 有新的 M60 的 GPU instance 可以玩，相比起 AWS 的 K80 好像強大不少，所以家裡老大叫我去測試一下。 接下來的幾篇文......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Kakashi on
+        2017-04-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/04/07/aws-group-security-note/">
+        <h2 class="post-title">
+            AWS 四月小聚速記
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+             這次的聚會是討論 security
+
+Bastion 機 
+ 外面的 datacenter 都是買現成的 solution，然後有專業的 SI 幫你安裝，感覺很強大啊！
+Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container 隔離每個人的登入環境，很容易收集個別帳號在 container 的行為，然後也有寫程式去管理哪些 user 可以連到哪個主機，bastion 機上面也有做 TOTP 加強其安全性。
+ 相關的實作方式可以參照 https://www.......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Kakashi on
+        2017-04-07
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/02/19/reading-note-apprenticeship-patterns/">
+        <h2 class="post-title">
+            筆記：學徒模式，優秀軟體開發者的養成之路
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Note for Apprenticeship patterns: Guidance for the Aspiring Software Craftsman
+
+ 跟專家一起工作，先把語言和工具放一邊，跟著專家學習可以得到最大的成長 
+ 為自己安排課程：維護閱讀清單 &amp; 讀完的書，公開自己的清單，也可以從專家那邊獲得不錯的書單 
+ 深入知識：深入了解一項技術，了解設計原因而不單是技術細節，掌握工具 GDB, PDB，WireShark 並且願意閱讀規格 
+ 閱讀 RFC 2616:H......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Kakashi on
+        2017-02-19
+    </p>
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+        <li class="previous">
+            <a href="/">&larr; Newer Posts</a>
+        </li>
+    
+    
+        <li class="next">
+            <a href="/page/3/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <!-- 如果开启评论功能 -->
+                
+
+            </div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                        
+                            
+                            <a href="/tags/#mongodb" title="mongodb" rel="3">mongodb</a>
+                            
+                        
+                            
+                            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+                            
+                        
+                            
+                            <a href="/tags/#golang" title="golang" rel="2">golang</a>
+                            
+                        
+                            
+                            <a href="/tags/#AWS" title="AWS" rel="8">AWS</a>
+                            
+                        
+                            
+                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+
+                        
+
+                        
+
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                                <li>
+                                    <a target="_blank" href="https://twitter.com/kakashiliu">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                            
+
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="https://www.facebook.com/kkcliu">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+                                <li>
+                                    <a target="_blank"  href="https://github.com/kkcliu">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                            
+                                <li>
+                                    <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Friends Blog -->
+                <hr>
+                <h5>Recent Posts</h5>
+				<div class="one-tag-list">
+                
+					<ul>
+					    <li><a href="/2018/09/11/EKS-troubleshooting/" style="color: #0085a1"><span>記一次 AWS EKS troubleshooting 的歷程</span></a></li>
+					</ul>
+				
+					<ul>
+					    <li><a href="/2018/08/26/build-a-better-client/" style="color: #0085a1"><span>Build a better client</span></a></li>
+					</ul>
+				
+					<ul>
+					    <li><a href="/2018/08/15/lesson-learn-of-elasticsearch-outage/" style="color: #0085a1"><span>記一次 Elasticsearch troubleshooting 的歷程</span></a></li>
+					</ul>
+				
+					<ul>
+					    <li><a href="/2018/07/24/thoughts-on-compassionate-code/" style="color: #0085a1"><span>Compassionate code</span></a></li>
+					</ul>
+				
+					<ul>
+					    <li><a href="/2018/06/06/gracefully-shutdown-docker-container/" style="color: #0085a1"><span>Gracefully Shutdown Docker Container</span></a></li>
+					</ul>
+				
+					<ul>
+					    <li><a href="/2018/04/28/docker-note/" style="color: #0085a1"><span>用 docker 改善開發流程筆記</span></a></li>
+					</ul>
+				
+					<ul>
+					    <li><a href="/2018/03/21/IPSEC-note/" style="color: #0085a1"><span>IPSec 筆記</span></a></li>
+					</ul>
+				
+					<ul>
+					    <li><a href="/2018/03/14/AWS-VPN-with-RouterBoard/" style="color: #0085a1"><span>AWS VPN with RouterBoard</span></a></li>
+					</ul>
+				
+					<ul>
+					    <li><a href="/2017/12/18/Network-Performance-Tuning/" style="color: #0085a1"><span>TCP Network Performance Tuning 筆記</span></a></li>
+					</ul>
+				
+					<ul>
+					    <li><a href="/2017/12/03/aws-fargate/" style="color: #0085a1"><span>AWS fargate 的簡短筆記</span></a></li>
+					</ul>
+				
+				</div>
+            </div>
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kakashi&#39;s Notes 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kkc.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    var _gaId = 'UA-64932988-1';
+    var _gaDomain = 'kkc.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

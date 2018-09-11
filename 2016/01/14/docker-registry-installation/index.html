@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          docker registry 的簡單安裝紀錄 - Kakashi&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kkc.github.io/2016/01/14/docker-registry-installation/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kakashi&#39;s Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                    <li>
+                        <a href="/atom.xml">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                        
+                    </div>
+                    <h1>docker registry 的簡單安裝紀錄</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Kakashi on
+                        2016-01-14
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p><img src="/img/docker_registry.png" alt="docker_registry"></p>
+<h2 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言 </h2><p> 最近公司也採用自己搭建 docker registry，完成 CI/CD 的最後一厘路，這邊做個簡單的安裝紀錄。</p>
+<h2 id="安裝"><a href="# 安裝" class="headerlink" title="安裝"></a>安裝 </h2><h3 id="安裝 -docker-registry"><a href="# 安裝 -docker-registry" class="headerlink" title="安裝 docker registry"></a> 安裝 docker registry</h3><p>先把 image 從 dockerhub 上面撈下來，我是用 2.1 這個 version，不過官方版本好像到 2.2.1 了。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">docker</span> <span class="selector-tag">pull</span> <span class="selector-tag">registry</span><span class="selector-pseudo">:2.1</span></span><br></pre></td></tr></table></figure></p>
+<p>先建立好 config，然後主要是要把 images 都推上 s3，記得要先去建立好相對應的 IAM user，建立好 accesskey 和 secretkey，其實我會更推薦使用 IAM role 搭配 EC2 ，這樣 accesskey 和 secretkey 就可以留下 “”<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">version</span>: <span class="number">0.1</span></span><br><span class="line"><span class="attribute">log</span>:</span><br><span class="line">  <span class="attribute">level</span>: debug</span><br><span class="line">  <span class="attribute">formatter</span>: text</span><br><span class="line">  <span class="attribute">fields</span>:</span><br><span class="line">    <span class="attribute">service</span>: registry</span><br><span class="line">    <span class="attribute">environment</span>: staging</span><br><span class="line">  <span class="attribute">hooks</span>:</span><br><span class="line">    - <span class="attribute">type</span>: mail</span><br><span class="line">      <span class="attribute">disabled</span>: true</span><br><span class="line">      <span class="attribute">levels</span>:</span><br><span class="line">        - panic</span><br><span class="line">      <span class="attribute">options</span>:</span><br><span class="line">        <span class="attribute">smtp</span>:</span><br><span class="line">          <span class="attribute">addr</span>: mail.example.<span class="attribute">com</span>:<span class="number">25</span></span><br><span class="line">          <span class="attribute">username</span>: mailuser</span><br><span class="line">          <span class="attribute">password</span>: password</span><br><span class="line">          <span class="attribute">insecure</span>: true</span><br><span class="line">        <span class="attribute">from</span>: sender<span class="variable">@example</span>.com</span><br><span class="line">        <span class="attribute">to</span>:</span><br><span class="line">          - errors<span class="variable">@example</span>.com</span><br><span class="line"><span class="attribute">loglevel</span>: debug # <span class="attribute">deprecated</span>: use <span class="string">"log"</span></span><br><span class="line"><span class="attribute">storage</span>:</span><br><span class="line">  <span class="attribute">cache</span>:</span><br><span class="line">    <span class="attribute">blobdescriptor</span>: inmemory</span><br><span class="line">  <span class="attribute">s3</span>:</span><br><span class="line">    <span class="attribute">accesskey</span>: <span class="string">""</span></span><br><span class="line">    <span class="attribute">secretkey</span>: <span class="string">""</span></span><br><span class="line">    <span class="attribute">region</span>: your-region-name</span><br><span class="line">    <span class="attribute">bucket</span>: your-bucket-name</span><br><span class="line">    <span class="attribute">encrypt</span>: true</span><br><span class="line">    <span class="attribute">secure</span>: true</span><br><span class="line">    <span class="attribute">v4auth</span>: true</span><br><span class="line">    <span class="attribute">chunksize</span>: <span class="number">5242880</span></span><br><span class="line">    <span class="attribute">rootdirectory</span>: /</span><br><span class="line">  <span class="attribute">redirect</span>:</span><br><span class="line">    <span class="attribute">disable</span>: true</span><br><span class="line"><span class="attribute">http</span>:</span><br><span class="line">    <span class="attribute">addr</span>: :<span class="number">5000</span></span><br><span class="line">    <span class="attribute">headers</span>:</span><br><span class="line">        <span class="attribute">X-Content-Type-Options</span>: [nosniff]</span><br><span class="line"><span class="attribute">health</span>:</span><br><span class="line">  <span class="attribute">storagedriver</span>:</span><br><span class="line">    <span class="attribute">enabled</span>: true</span><br><span class="line">    <span class="attribute">interval</span>: <span class="number">10s</span></span><br><span class="line">    <span class="attribute">threshold</span>: <span class="number">3</span></span><br></pre></td></tr></table></figure></p>
+<p>啟動<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -<span class="selector-tag">p</span> <span class="number">5000</span>:<span class="number">5000</span> --restart=always --name registry -v `pwd`/config<span class="selector-class">.yml</span>:/etc/docker/registry/config<span class="selector-class">.yml</span> registry:<span class="number">2.1</span></span><br></pre></td></tr></table></figure></p>
+<p>測試一下 registry 是否有正常運作，首先把已經有的 image 打上 tag，在試著推上去撈下來<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">tag</span> ubuntu localhos<span class="variable">t:5000</span>/ubuntu</span><br><span class="line">docker pull localhos<span class="variable">t:5000</span>/ubuntu</span><br><span class="line">docker push localhos<span class="variable">t:5000</span>/ubuntu</span><br></pre></td></tr></table></figure></p>
+<h3 id="安裝 -nginx"><a href="# 安裝 -nginx" class="headerlink" title="安裝 nginx"></a>安裝 nginx</h3><p>這邊要用 nginx 安裝 reverse proxy，主要是因為我們想要走 https 加密的方式，加上 nginx 也可以 serve 簡單的認證功能，不過 nginx 的版本要高一點，要不然無法使用 <code>add_header</code>。</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="built_in"> add-apt-repository </span>ppa:nginx/stable</span><br><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
+<p>編輯 /etc/nginx/sites-enabled/registry<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">upstream</span> docker-registry &#123;</span><br><span class="line">  <span class="attribute">server</span> <span class="number">127.0.0.1:5000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line">  <span class="attribute">server_name</span> registry.your_domain.com;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># SSL</span></span><br><span class="line">  <span class="attribute">ssl_certificate</span> /etc/nginx/bundle.crt;</span><br><span class="line">  <span class="attribute">ssl_certificate_key</span> /etc/nginx/certificate.key;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># disable any limits to avoid HTTP 413 for large image uploads</span></span><br><span class="line">  <span class="attribute">client_max_body_size</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># required to avoid HTTP 411: see Issue #1486 (https://github.com/docker/docker/issues/1486)</span></span><br><span class="line">  <span class="attribute">chunked_transfer_encoding</span> <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> /v2/ &#123;</span><br><span class="line">    <span class="comment"># Do not allow connections from docker 1.5 and earlier</span></span><br><span class="line">    <span class="comment"># docker pre-1.6.0 did not properly set the user agent on ping, catch "Go *" user agents</span></span><br><span class="line">    <span class="attribute">if</span> (<span class="variable">$http_user_agent</span> <span class="regexp">~ "^(docker\/1\.(3|4|5(?!\.[0-9]-dev))|Go</span> ).*\$<span class="string">" ) &#123;</span></span><br><span class="line"><span class="string">      return 404;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    # To add basic authentication to v2 use auth_basic setting plus add_header</span></span><br><span class="line"><span class="string">    auth_basic "</span>Registry realm<span class="string">";</span></span><br><span class="line"><span class="string">    auth_basic_user_file /etc/nginx/htpasswd;</span></span><br><span class="line"><span class="string">    add_header 'Docker-Distribution-Api-Version' 'registry/2.0' always;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    proxy_pass                          http://docker-registry;</span></span><br><span class="line"><span class="string">    proxy_set_header  Host              <span class="variable">$http_host</span>;   # required for docker client's sake</span></span><br><span class="line"><span class="string">    proxy_set_header  X-Real-IP         <span class="variable">$remote_addr</span>; # pass on real client's IP</span></span><br><span class="line"><span class="string">    proxy_set_header  X-Forwarded-For   <span class="variable">$proxy_add_x_forwarded_for</span>;</span></span><br><span class="line"><span class="string">    proxy_set_header  X-Forwarded-Proto <span class="variable">$scheme</span>;</span></span><br><span class="line"><span class="string">    proxy_read_timeout                  900;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>產生 /etc/nginx/htpasswd，建立 user &amp; password ，然後重新啟動 nginx<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo htpasswd -c <span class="meta-keyword">/etc/</span>nginx/htpasswd exampleuser</span><br><span class="line">sudo servie nginx restart</span><br></pre></td></tr></table></figure></p>
+<p>驗證登入<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker login your_registry<span class="selector-class">.domain_name</span><span class="selector-class">.com</span></span><br></pre></td></tr></table></figure></p>
+<p>應該就會看到要求輸入帳號密碼</p>
+<h2 id="trouble-shooting"><a href="#trouble-shooting" class="headerlink" title="trouble shooting"></a>trouble shooting</h2><p>可以看到 ssl 是不是有問題<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -<span class="selector-tag">i</span> -k -v https:<span class="comment">//account:password@your_registry.domain_name.com/v2/</span></span><br></pre></td></tr></table></figure></p>
+<p>檢查 push 上面的 images 有沒有存在<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -<span class="selector-tag">i</span> -k -v https:<span class="comment">//account:password@your_registry.domain_name.com/v2/_catalog</span></span><br><span class="line">&#123;<span class="string">"repositories"</span>:[<span class="string">"ubuntu"</span>]&#125;</span><br></pre></td></tr></table></figure></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/07/03/golang-ci/" data-toggle="tooltip" data-placement="top" title="Golang x CI x CD">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2015/09/05/monitoring-with-graphite/" data-toggle="tooltip" data-placement="top" title="使用 statsd + graphite 的 monitoring 心得">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "kkcliu";
+    var disqus_identifier = "http://kkc.github.io/2016/01/14/docker-registry-installation/";
+    var disqus_url = "http://kkc.github.io/2016/01/14/docker-registry-installation/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kakashi&#39;s Notes 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kkc.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    var _gaId = 'UA-64932988-1';
+    var _gaDomain = 'kkc.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
