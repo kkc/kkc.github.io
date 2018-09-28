@@ -6,14 +6,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Notes about technology, DevOps, programming, and database" />
-    <meta name="keyword"  content="AWS, golang, python, DevOps" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
     <meta property="og:title" content="Transaction 筆記 - Kakashi&#39;s Blog" />
     <meta property="og:description" content="undefined" />
     <meta property="og:image" content="http://kkc.github.io/2017/10/08/transaction-note/undefined" />
     <link rel="shortcut icon" href="/img/favicon.ico">
-
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
           Transaction 筆記 - Kakashi&#39;s Blog
@@ -25,17 +26,25 @@
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/hux-blog.min.css">
-
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
     <!-- Pygments Highlight CSS -->
     <link rel="stylesheet" href="/css/highlight.css">
 
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
     <!-- Custom Fonts -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -51,7 +60,48 @@
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('undefined')
+            /*post*/
+        
+    }
+    
+</style>
 
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#RDBMS" title="RDBMS">RDBMS</a>
+                            
+                        </div>
+                        <h1>Transaction 筆記</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Kakashi on
+                            2017-10-08
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
     <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
@@ -86,7 +136,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -139,66 +189,52 @@
 
 
     <!-- Main Content -->
-    
-<!-- Post Header -->
-<style type="text/css">
-    header.intro-header{
-        background-image: url('/img/home-bg.jpg')
-    }
-</style>
-<header class="intro-header" >
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <div class="tags">
-                        
-                          <a class="tag" href="/tags/#RDBMS" title="RDBMS">RDBMS</a>
-                        
-                    </div>
-                    <h1>Transaction 筆記</h1>
-                    <h2 class="subheading"></h2>
-                    <span class="meta">
-                        Posted by Kakashi on
-                        2017-10-08
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
+    <!-- Modify by Yu-Hsuan Yen -->
 
 <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
 
-    <!-- Post Container -->
+            <!-- Post Container -->
             <div class="
                 col-lg-8 col-lg-offset-2
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言 </h1><p> 大家都知道 RDBMS 其中有個主要的功能，就是能夠把 Transaction 這種任務，做得很完美，而 Transaction 這件事，在很多地方像是銀行轉帳或是進銷存的商業行為裡面，都是非常重要的，因為可以保證資料庫內的資料一致性。 而隨著 NOSQL 的蓬勃發展，看到很多 3rd party library 都想要在 application level 處理 Transaction 的議題，但往往好像使用者都沒搞懂，其實大部分的 lib 只有做到了 ACID 裡面的 Atomicity，而在多併發的環境下，不同的 transaction requests 其實是有機會把數據弄亂，這篇文章就是想要來複習一下 ACID 裡面 Isolation 這塊。</p>
-<h1 id="ACID- 複習"><a href="#ACID- 複習" class="headerlink" title="ACID 複習"></a>ACID 複習 </h1><p>ACID &amp; RDBMS 的複習，推薦大家可以看看 <a href="https://www.youtube.com/watch?v=-exEZS_CEPU" target="_blank" rel="noopener">COSCUP 2017 VanillaDB - 由淺入深的教學型 RDBMS</a>，還有<a href="http://www.slmt.tw/slides/intro_vanilladb.pdf" target="_blank" rel="noopener"> 投影片 </a><br> 這邊也拿裡面銀行轉帳的例子，簡單講解一下：</p>
+                <h1><span id="前言">前言</span></h1>
+<p>大家都知道 RDBMS 其中有個主要的功能，就是能夠把 Transaction 這種任務，做得很完美，而 Transaction 這件事，在很多地方像是銀行轉帳或是進銷存的商業行為裡面，都是非常重要的，因為可以保證資料庫內的資料一致性。 而隨著 NOSQL 的蓬勃發展，看到很多 3rd party library 都想要在 application level 處理 Transaction 的議題，但往往好像使用者都沒搞懂，其實大部分的 lib 只有做到了 ACID 裡面的 Atomicity，而在多併發的環境下，不同的 transaction requests 其實是有機會把數據弄亂，這篇文章就是想要來複習一下 ACID 裡面 Isolation 這塊。</p>
+<h1><span id="acid-複習">ACID 複習</span></h1>
+<p>ACID &amp; RDBMS 的複習，推薦大家可以看看 <a href="https://www.youtube.com/watch?v=-exEZS_CEPU" target="_blank" rel="noopener">COSCUP 2017 VanillaDB - 由淺入深的教學型 RDBMS</a>，還有<a href="http://www.slmt.tw/slides/intro_vanilladb.pdf" target="_blank" rel="noopener">投影片</a><br>
+這邊也拿裡面銀行轉帳的例子，簡單講解一下：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">account</span> <span class="keyword">SET</span> balance = balance - <span class="number">100</span> <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">"Red"</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">account</span> <span class="keyword">SET</span> balance = balance + <span class="number">100</span> <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">"Blue"</span>;</span><br><span class="line"><span class="keyword">COMMIT</span> <span class="keyword">TRANSACTION</span>;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>Atomicity: all or nothing<br>如果 Transaction 只完成了一部分操作，像是遇到斷電或是資料庫掛掉，該 Transaction 會整個被取消，所有數據會透過日誌復原。</p>
+<li>
+<p>Atomicity: all or nothing<br>
+如果 Transaction 只完成了一部分操作，像是遇到斷電或是資料庫掛掉，該 Transaction 會整個被取消，所有數據會透過日誌復原。</p>
 </li>
-<li><p>Consistent:<br>在每一個操作的過程中，資料庫內的數據需要保持一致性，不會有 Transaction 執行到一半，去查詢資料時，資料庫內整體的餘額 (balance) 變成不一樣。</p>
+<li>
+<p>Consistent:<br>
+在每一個操作的過程中，資料庫內的數據需要保持一致性，不會有 Transaction 執行到一半，去查詢資料時，資料庫內整體的餘額(balance)變成不一樣。</p>
 </li>
-<li><p>Isolation:<br>就算每一個 Transaction 中有 Atomicity 的特性，但是無法保證在同時執行多個 Transaction 時，能夠保證整個資料庫的一致性，這時候就需要 Isolation 這個特性來幫忙。</p>
+<li>
+<p>Isolation:<br>
+就算每一個 Transaction 中有 Atomicity 的特性，但是無法保證在同時執行多個 Transaction 時，能夠保證整個資料庫的一致性，這時候就需要 Isolation 這個特性來幫忙。</p>
 </li>
-<li><p>Duration:<br>資料庫內的資料不會因為斷電，系統崩潰而損失資料。</p>
+<li>
+<p>Duration:<br>
+資料庫內的資料不會因為斷電，系統崩潰而損失資料。</p>
 </li>
 </ul>
-<h1 id="Isolation"><a href="#Isolation" class="headerlink" title="Isolation"></a>Isolation</h1><p>前面提到就算有 Atomicity 的特性，但是在多個 Transaction 情況下，還是有機會把數據搞亂，例如下面這個例子：</p>
+<h1><span id="isolation">Isolation</span></h1>
+<p>前面提到就算有 Atomicity 的特性，但是在多個 Transaction 情況下，還是有機會把數據搞亂，例如下面這個例子：</p>
 <p>Transaction 1 將 $100 轉入給 A</p>
 <ol>
 <li>讀取 A 的值</li>
 <li>這個值加上 $100 並寫回 A</li>
 </ol>
-<p>如果在這兩個操作中，有個 Transaction2 也修改了 A 的值加上 $100<br>原本的結果應該是 A 增加了 $200 ，但實際上 A 最後很可能只有加上了 $100</p>
+<p>如果在這兩個操作中，有個 Transaction2 也修改了 A 的值加上 $100<br>
+原本的結果應該是 A 增加了 $200 ，但實際上 A 最後很可能只有加上了 $100</p>
 <p>這也是為什麼我們要為 database 加上 Isolation，這樣才能讓 database 在修改數據時維持一致性，一般討論 Isolation 有數種隔離級別，其實基本上就是上鎖的概念，而鎖的顆粒度大小不一樣。</p>
 <p>分為四個級別：</p>
 <ol>
@@ -208,20 +244,29 @@
 <li>Serializable</li>
 </ol>
 <p>為了瞭解這些級別的差距，我們必須要討論一下各個級別解決的問題是什麼。</p>
-<h2 id="Read-Uncommitted"><a href="#Read-Uncommitted" class="headerlink" title="Read Uncommitted"></a>Read Uncommitted</h2><p>最一開始時，想要解決的就是兩個以上不同的 process 對同一筆數據做改變，而最基本的解決方法就是建立排他鎖 (eXclusive Locks or 寫鎖)</p>
+<h2><span id="read-uncommitted">Read Uncommitted</span></h2>
+<p>最一開始時，想要解決的就是兩個以上不同的 process 對同一筆數據做改變，而最基本的解決方法就是建立排他鎖 (eXclusive Locks or 寫鎖)</p>
 <ol>
 <li>啟動 Transaction A 時，該筆數據只能被此 Transaction 修改</li>
 <li>其它 process 只能讀取</li>
 </ol>
 <p>這個級別我們就稱為 Read Umcommitted</p>
-<h2 id="Read-Committed"><a href="#Read-Committed" class="headerlink" title="Read Committed"></a>Read Committed</h2><p>有了 Read Umcommitted 後，事情可沒就這樣結束了，後來大家馬上就發現到，如果 Transaction A 將某個值改變到一半，又把它 rollback 回去，這樣其他的 process 有可能讀取到錯誤的值，接著又把這個錯誤的值 commit 就糟糕了，這就是所謂的 <em>Dirty Read</em>，也就是讀取到還沒 commit 的值。</p>
-<p><strong>Dirty read</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A <span class="keyword">update</span> field1</span><br><span class="line">B <span class="keyword">read</span> field1</span><br><span class="line">A <span class="keyword">rollback</span></span><br><span class="line">B <span class="keyword">commit</span></span><br></pre></td></tr></table></figure></p>
+<h2><span id="read-committed">Read Committed</span></h2>
+<p>有了 Read Umcommitted 後，事情可沒就這樣結束了，後來大家馬上就發現到，如果 Transaction A 將某個值改變到一半，又把它 rollback 回去，這樣其他的 process 有可能讀取到錯誤的值，接著又把這個錯誤的值 commit 就糟糕了，這就是所謂的 <em>Dirty Read</em>，也就是讀取到還沒 commit 的值。</p>
+<p><strong>Dirty read</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A <span class="keyword">update</span> field1</span><br><span class="line">B <span class="keyword">read</span> field1</span><br><span class="line">A <span class="keyword">rollback</span></span><br><span class="line">B <span class="keyword">commit</span></span><br></pre></td></tr></table></figure>
 <p>這個時候其實只是需要調整鎖的程度，對於需要修改的數據，加上寫鎖後，需要到整個 Transaction 結束後才會釋放，而對於單純讀取 (SELECT) 的數據就沒有那麼嚴格，一但在 Transaction 內讀取完就釋放讀鎖。</p>
-<h2 id="Repeatable-Read"><a href="#Repeatable-Read" class="headerlink" title="Repeatable-Read"></a>Repeatable-Read</h2><p>這個級別主要是要解決 Unrepeatable read 的情況，當我們需要在一個 Transaction 裡面讀取同個 field 時，有可能會讀到不一樣的值， 情況有可能是這樣發生的，當 Transaction A 在讀取 Field1 時，同時間 Transaction B 改變了這個該值，當 Transaction A 再次讀取該值時，其數據就有可能被改變，這也是因為 read lock 會在 SELECT 完後馬上就被釋放，所以最簡單的方法就是把讀寫鎖釋放的時間延後到 Transaction 結束後，但壞處就是系統的效能會下降的很快，連讀取資料的部分也需要排隊讀取</p>
-<p><strong>Unrepeatable read</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A read field1</span><br><span class="line">B <span class="keyword">update</span> field1</span><br><span class="line">B <span class="keyword">commit</span></span><br><span class="line">A <span class="keyword">read</span> field1</span><br></pre></td></tr></table></figure></p>
-<h2 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h2><p>最高的級別，一般資料庫不會使用到這個級別，而這個級別是要解決 phantom read 的問題，主要跟 Range query 比較有相關，舉例來說，當 Transaction A 使用 range query 查詢後得到 10 筆資料，而 Transaction B 在這個條件裡面新增了一筆資料並且 commit 後，Transaction A 在去 query 時，就會變成 11 筆資料。<br>但使用這個級別，最簡單的做法基本上就是鎖住整張表，以免不同的 Transaction 更動其資料，所以造成的效率低落也是可以想像的。</p>
-<p><strong>phantom read</strong><br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A query =&gt; <span class="meta">get</span> <span class="number">10</span> <span class="meta">data</span></span><br><span class="line"><span class="keyword">B </span>insert <span class="number">1</span> <span class="meta">data</span></span><br><span class="line"><span class="keyword">B </span>commit</span><br><span class="line">A query =&gt; <span class="meta">get</span> <span class="number">11</span> <span class="meta">data</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="總結一下 -isolation-amp-lock- 的關係"><a href="# 總結一下 -isolation-amp-lock- 的關係" class="headerlink" title="總結一下 isolation &amp; lock 的關係"></a>總結一下 isolation &amp; lock 的關係</h1><p>from <a href="https://en.wikipedia.org/wiki/Isolation_%28database_systems%29#Read_phenomena" target="_blank" rel="noopener">wiki</a></p>
+<h2><span id="repeatable-read">Repeatable-Read</span></h2>
+<p>這個級別主要是要解決 Unrepeatable read 的情況，當我們需要在一個 Transaction 裡面讀取同個 field 時，有可能會讀到不一樣的值， 情況有可能是這樣發生的，當 Transaction A 在讀取 Field1 時，同時間 Transaction B 改變了這個該值，當 Transaction A 再次讀取該值時，其數據就有可能被改變，這也是因為 read lock 會在 SELECT 完後馬上就被釋放，所以最簡單的方法就是把讀寫鎖釋放的時間延後到 Transaction 結束後，但壞處就是系統的效能會下降的很快，連讀取資料的部分也需要排隊讀取</p>
+<p><strong>Unrepeatable read</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A read field1</span><br><span class="line">B <span class="keyword">update</span> field1</span><br><span class="line">B <span class="keyword">commit</span></span><br><span class="line">A <span class="keyword">read</span> field1</span><br></pre></td></tr></table></figure>
+<h2><span id="serializable">Serializable</span></h2>
+<p>最高的級別，一般資料庫不會使用到這個級別，而這個級別是要解決 phantom read 的問題，主要跟 Range query 比較有相關，舉例來說，當 Transaction A 使用 range query 查詢後得到 10 筆資料，而 Transaction B 在這個條件裡面新增了一筆資料並且 commit 後，Transaction A 在去 query 時，就會變成 11 筆資料。<br>
+但使用這個級別，最簡單的做法基本上就是鎖住整張表，以免不同的 Transaction 更動其資料，所以造成的效率低落也是可以想像的。</p>
+<p><strong>phantom read</strong></p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A query =&gt; <span class="meta">get</span> <span class="number">10</span> <span class="meta">data</span></span><br><span class="line"><span class="keyword">B </span>insert <span class="number">1</span> <span class="meta">data</span></span><br><span class="line"><span class="keyword">B </span>commit</span><br><span class="line">A query =&gt; <span class="meta">get</span> <span class="number">11</span> <span class="meta">data</span></span><br></pre></td></tr></table></figure>
+<h1><span id="總結一下-isolation-amp-lock-的關係">總結一下 isolation &amp; lock 的關係</span></h1>
+<p>from <a href="https://en.wikipedia.org/wiki/Isolation_%28database_systems%29#Read_phenomena" target="_blank" rel="noopener">wiki</a></p>
 <table>
 <thead>
 <tr>
@@ -260,16 +305,19 @@
 </table>
 <p>順便借用一下 <a href="http://www.slmt.tw/blog/about/" target="_blank" rel="noopener">Yu-Shan Lin</a> 大大的投影片的圖</p>
 <p><img src="/img/2017-10/database_isolation.png" alt="database_isolation.png"></p>
-<h1 id="結語"><a href="# 結語" class="headerlink" title="結語"></a>結語 </h1><p> 複習了一下 RDBMS 的 ACID 概念，其實發現在提升 concurrency 的情況下，又要讓數據保持完整，其實是一件很困難的事情，而其實還有很多東西像是 MVCC、Row version、樂觀鎖、悲觀鎖還有死鎖等等東西，這篇都還來不及贅述，要實作真正的 Transaction 在 application 端其實是很複雜的，而 RDBMS 其實都很好的幫我們處理完這些問題，所以要處理數據且需要 Transaction 的話，還是推薦交給專業的工具，而不要自己傻傻的刻一套啊。</p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<h1><span id="結語">結語</span></h1>
+<p>複習了一下 RDBMS 的 ACID 概念，其實發現在提升 concurrency 的情況下，又要讓數據保持完整，其實是一件很困難的事情，而其實還有很多東西像是 MVCC、Row version、樂觀鎖、悲觀鎖還有死鎖等等東西，這篇都還來不及贅述，要實作真正的 Transaction 在 application 端其實是很複雜的，而 RDBMS 其實都很好的幫我們處理完這些問題，所以要處理數據且需要 Transaction 的話，還是推薦交給專業的工具，而不要自己傻傻的刻一套啊。</p>
+<h1><span id="reference">Reference</span></h1>
+<ol>
 <li><a href="https://en.wikipedia.org/wiki/Isolation_(database_systems)" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Isolation_(database_systems)</a></li>
 <li><a href="https://www.zhihu.com/question/30272728" target="_blank" rel="noopener">https://www.zhihu.com/question/30272728</a></li>
 <li><a href="https://technet.microsoft.com/en-us/library/ms187101(v=sql.105).aspx" target="_blank" rel="noopener">https://technet.microsoft.com/en-us/library/ms187101(v=sql.105).aspx</a></li>
 </ol>
 
+                
 
                 <hr>
-
+                <!-- Pager -->
                 <ul class="pager">
                     
                         <li class="previous">
@@ -283,20 +331,28 @@
                     
                 </ul>
 
+                <!-- duoshuo Share start -->
                 
-                <!-- disqus 评论框 start -->
-                <div class="comment">
-                    <div id="disqus_thread" class="disqus-thread"></div>
-                </div>
-                <!-- disqus 评论框 end -->
-                
+                <!-- 多说 Share end-->
 
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
             </div>
-    <!-- Side Catalog Container -->
-        
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
 
-    <!-- Sidebar Container -->
-
+                
+            <!-- Sidebar Container -->
             <div class="
                 col-lg-8 col-lg-offset-2
                 col-md-10 col-md-offset-1
@@ -318,7 +374,6 @@
                 <!-- Friends Blog -->
                 
             </div>
-
         </div>
     </div>
 </article>
@@ -326,7 +381,7 @@
 
 
 
-<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<!-- disqus embedded js code start (one page only need to embed once) -->
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "kkcliu";
@@ -339,7 +394,7 @@
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
 </script>
-<!-- disqus 公共JS代码 end -->
+<!-- disqus embedded js code start end -->
 
 
 
@@ -359,9 +414,9 @@
 <script>
     async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
         anchors.options = {
-          visible: 'always',
-          placement: 'right',
-          icon: '#'
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
         };
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
@@ -437,17 +492,17 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Kakashi&#39;s Notes 2018 
+                    Copyright &copy; Kakashi 2018 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-heart"></i>
                     </span> 
-                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
                     </iframe>
                 </p>
             </div>
@@ -523,6 +578,7 @@
 
 
 <script>
+    // dynamic User by Hux
     var _gaId = 'UA-64932988-1';
     var _gaDomain = 'kkc.github.io';
 
@@ -538,10 +594,20 @@
 
 
 
-<!-- Side Catalog -->
+
+<!-- Baidu Tongji -->
 
 
 
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

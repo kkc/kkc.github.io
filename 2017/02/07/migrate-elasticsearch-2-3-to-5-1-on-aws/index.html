@@ -6,14 +6,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Notes about technology, DevOps, programming, and database" />
-    <meta name="keyword"  content="AWS, golang, python, DevOps" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
     <meta property="og:title" content="migrate elasticsearch 2.3 to 5.1 on AWS - Kakashi&#39;s Blog" />
     <meta property="og:description" content="undefined" />
     <meta property="og:image" content="http://kkc.github.io/2017/02/07/migrate-elasticsearch-2-3-to-5-1-on-aws/undefined" />
     <link rel="shortcut icon" href="/img/favicon.ico">
-
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
           migrate elasticsearch 2.3 to 5.1 on AWS - Kakashi&#39;s Blog
@@ -25,17 +26,25 @@
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/hux-blog.min.css">
-
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
     <!-- Pygments Highlight CSS -->
     <link rel="stylesheet" href="/css/highlight.css">
 
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
     <!-- Custom Fonts -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -51,7 +60,48 @@
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('undefined')
+            /*post*/
+        
+    }
+    
+</style>
 
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
+                            
+                        </div>
+                        <h1>migrate elasticsearch 2.3 to 5.1 on AWS</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Kakashi on
+                            2017-02-07
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
     <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
@@ -86,7 +136,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -139,81 +189,63 @@
 
 
     <!-- Main Content -->
-    
-<!-- Post Header -->
-<style type="text/css">
-    header.intro-header{
-        background-image: url('/img/home-bg.jpg')
-    }
-</style>
-<header class="intro-header" >
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <div class="tags">
-                        
-                          <a class="tag" href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
-                        
-                    </div>
-                    <h1>migrate elasticsearch 2.3 to 5.1 on AWS</h1>
-                    <h2 class="subheading"></h2>
-                    <span class="meta">
-                        Posted by Kakashi on
-                        2017-02-07
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
+    <!-- Modify by Yu-Hsuan Yen -->
 
 <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
 
-    <!-- Post Container -->
+            <!-- Post Container -->
             <div class="
                 col-lg-8 col-lg-offset-2
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p> 前陣子看到 Elasticsearch on AWS 終於升級到 5.1，就一直想著要把原本有的 2.3 cluster migrate 到 5.1，而查了一下發現步驟有點小複雜，不過實作過一次就上手了，特地來紀錄一下。</p>
-<p> 主要是參照下面兩篇文章 </p>
+                <p>前陣子看到 Elasticsearch on AWS 終於升級到 5.1，就一直想著要把原本有的 2.3 cluster migrate 到 5.1，而查了一下發現步驟有點小複雜，不過實作過一次就上手了，特地來紀錄一下。</p>
+<p>主要是參照下面兩篇文章</p>
 <ol>
 <li><a href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-version-migration.html" target="_blank" rel="noopener">http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-version-migration.html</a></li>
 <li><a href="https://jtran21.gitbooks.io/elasticsearch/content/manual_snapshots.html" target="_blank" rel="noopener">https://jtran21.gitbooks.io/elasticsearch/content/manual_snapshots.html</a></li>
 </ol>
-<p> 主要步驟其實就是 </p>
+<p>主要步驟其實就是</p>
 <ol>
 <li>Manually create snapshot to S3.</li>
 <li>Create 5.1 cluster</li>
 <li>Restore Snapshot from S3 to cluster</li>
 </ol>
-<p> 而建立 snapshot 這步有點小麻煩，先參照這篇 <a href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-snapshots" target="_blank" rel="noopener">Working with Manual Index Snapshots</a> 完成幾個必要步驟 </p>
+<p>而建立 snapshot 這步有點小麻煩，先參照這篇 <a href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-snapshots" target="_blank" rel="noopener">Working with Manual Index Snapshots</a> 完成幾個必要步驟</p>
 <ol>
-<li> 建立 S3 bucket for snapshot，例如 <code>es-index-backups</code></li>
-<li><p> 建立一個 IAM role 讓你的 elasticsearch cluster 能夠使用這個 role 把備份打上 S3</p>
-<p> 在 trust relationship 這邊加上 </p>
+<li>
+<p>建立 S3 bucket for snapshot，例如 <code>es-index-backups</code></p>
+</li>
+<li>
+<p>建立一個 IAM role 讓你的 elasticsearch cluster 能夠使用這個 role 把備份打上 S3</p>
+<p>在 trust relationship 這邊加上</p>
  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"Version"</span>: <span class="string">"2012-10-17"</span>,</span><br><span class="line">  <span class="attr">"Statement"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"Sid"</span>: <span class="string">""</span>,</span><br><span class="line">      <span class="attr">"Effect"</span>: <span class="string">"Allow"</span>,</span><br><span class="line">      <span class="attr">"Principal"</span>: &#123;</span><br><span class="line">        <span class="attr">"Service"</span>: <span class="string">"es.amazonaws.com"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"Action"</span>: <span class="string">"sts:AssumeRole"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p> 設定 IAM policy 讓這個 role 擁有操作 S3 的權限 </p>
+<li>
+<p>設定 IAM policy 讓這個 role 擁有操作 S3 的權限</p>
  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"Version"</span>:<span class="string">"2012-10-17"</span>,</span><br><span class="line">    <span class="attr">"Statement"</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"Action"</span>:[</span><br><span class="line">                <span class="string">"s3:ListBucket"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"Effect"</span>:<span class="string">"Allow"</span>,</span><br><span class="line">            <span class="attr">"Resource"</span>:[</span><br><span class="line">                <span class="string">"arn:aws:s3:::es-index-backups"</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"Action"</span>:[</span><br><span class="line">                <span class="string">"s3:GetObject"</span>,</span><br><span class="line">                <span class="string">"s3:PutObject"</span>,</span><br><span class="line">                <span class="string">"s3:DeleteObject"</span>,</span><br><span class="line">                <span class="string">"iam:PassRole"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"Effect"</span>:<span class="string">"Allow"</span>,</span><br><span class="line">            <span class="attr">"Resource"</span>:[</span><br><span class="line">                <span class="string">"arn:aws:s3:::es-index-backups/*"</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p> 使用提供的一次性 script 建立 elasticsearch snapshot 的點 </p>
+<li>
+<p>使用提供的一次性 script 建立 elasticsearch snapshot 的點</p>
  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">from boto.connection <span class="keyword">import</span> <span class="type">AWSAuthConnection</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ESConnection</span>(<span class="params"><span class="type">AWSAuthConnection</span></span>)</span>:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span></span>(self, region, **kwargs):</span><br><span class="line">        <span class="keyword">super</span>(<span class="type">ESConnection</span>, self).__init__(**kwargs)</span><br><span class="line">        self._set_auth_region_name(region)</span><br><span class="line">        self._set_auth_service_name(<span class="string">"es"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_required_auth_capability</span></span>(self):</span><br><span class="line">        <span class="keyword">return</span> [<span class="symbol">'hmac</span>-v4']</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line"></span><br><span class="line">    client = <span class="type">ESConnection</span>(</span><br><span class="line">            region=<span class="symbol">'us</span>-east<span class="number">-1</span>',</span><br><span class="line">            host=<span class="symbol">'search</span>-weblogs-etrt4mbbu254nsfupy6oiytuz4.us-east<span class="number">-1.</span>es.a9.com',</span><br><span class="line">            aws_access_key_id=<span class="symbol">'my</span>-access-key-id',</span><br><span class="line">            aws_secret_access_key=<span class="symbol">'my</span>-access-key', is_secure=<span class="type">False</span>)</span><br><span class="line"></span><br><span class="line">    print <span class="symbol">'Registering</span> <span class="type">Snapshot</span> <span class="type">Repository</span>'</span><br><span class="line">    resp = client.make_request(method=<span class="symbol">'POS</span>T',</span><br><span class="line">            path='/_snapshot/weblogs-index-backups',</span><br><span class="line">            data='&#123;<span class="string">"type"</span>: <span class="string">"s3"</span>,<span class="string">"settings"</span>: &#123; <span class="string">"bucket"</span>: <span class="string">"es-index-backups"</span>,<span class="string">"region"</span>: <span class="string">"us-east-1"</span>,<span class="string">"role_arn"</span>: <span class="string">"arn:aws:iam::123456789012:role/MyElasticsearchRole"</span>&#125;&#125;')</span><br><span class="line">    body = resp.read()</span><br><span class="line">    print body</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p> 以上步驟完成後就可以用 curl 去產生 snapshot 到 s3 了 </p>
-<h3 id="Take-manual-snapshot"><a href="#Take-manual-snapshot" class="headerlink" title="Take manual snapshot"></a>Take manual snapshot</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">curl</span> -s -XPUT <span class="string">"your_es_cluster_host/_snapshot/weblogs-index-backups/snapshot_name"</span></span><br></pre></td></tr></table></figure>
-<p> 得到建立資訊 <br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">curl</span> -s -XGET <span class="string">"your_es_cluster_host/_snapshot/weblogs-index-backups/snapshot_name"</span></span><br></pre></td></tr></table></figure></p>
+<p>以上步驟完成後就可以用 curl 去產生 snapshot 到 s3 了</p>
+<h3><span id="take-manual-snapshot">Take manual snapshot</span></h3>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">curl</span> -s -XPUT <span class="string">"your_es_cluster_host/_snapshot/weblogs-index-backups/snapshot_name"</span></span><br></pre></td></tr></table></figure>
+<p>得到建立資訊</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">curl</span> -s -XGET <span class="string">"your_es_cluster_host/_snapshot/weblogs-index-backups/snapshot_name"</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">curl</span> -s -XGET <span class="string">"your_es_cluster_host/_snapshot/weblogs-index-backups/_all"</span></span><br></pre></td></tr></table></figure>
-<h3 id="Restore-from-snapshot"><a href="#Restore-from-snapshot" class="headerlink" title="Restore from snapshot"></a>Restore from snapshot</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">curl</span> -XPOST <span class="string">"your_es_cluster_host/_snapshot/weblogs-index-backups/snapshot_name/_restore"</span></span><br></pre></td></tr></table></figure>
+<h3><span id="restore-from-snapshot">Restore from snapshot</span></h3>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">curl</span> -XPOST <span class="string">"your_es_cluster_host/_snapshot/weblogs-index-backups/snapshot_name/_restore"</span></span><br></pre></td></tr></table></figure>
 
+                
 
                 <hr>
-
+                <!-- Pager -->
                 <ul class="pager">
                     
                         <li class="previous">
@@ -227,20 +259,28 @@
                     
                 </ul>
 
+                <!-- duoshuo Share start -->
                 
-                <!-- disqus 评论框 start -->
-                <div class="comment">
-                    <div id="disqus_thread" class="disqus-thread"></div>
-                </div>
-                <!-- disqus 评论框 end -->
-                
+                <!-- 多说 Share end-->
 
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
             </div>
-    <!-- Side Catalog Container -->
-        
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
 
-    <!-- Sidebar Container -->
-
+                
+            <!-- Sidebar Container -->
             <div class="
                 col-lg-8 col-lg-offset-2
                 col-md-10 col-md-offset-1
@@ -262,7 +302,6 @@
                 <!-- Friends Blog -->
                 
             </div>
-
         </div>
     </div>
 </article>
@@ -270,7 +309,7 @@
 
 
 
-<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<!-- disqus embedded js code start (one page only need to embed once) -->
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "kkcliu";
@@ -283,7 +322,7 @@
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
 </script>
-<!-- disqus 公共JS代码 end -->
+<!-- disqus embedded js code start end -->
 
 
 
@@ -303,9 +342,9 @@
 <script>
     async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
         anchors.options = {
-          visible: 'always',
-          placement: 'right',
-          icon: '#'
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
         };
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
@@ -381,17 +420,17 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Kakashi&#39;s Notes 2018 
+                    Copyright &copy; Kakashi 2018 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-heart"></i>
                     </span> 
-                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
                     </iframe>
                 </p>
             </div>
@@ -467,6 +506,7 @@
 
 
 <script>
+    // dynamic User by Hux
     var _gaId = 'UA-64932988-1';
     var _gaDomain = 'kkc.github.io';
 
@@ -482,10 +522,20 @@
 
 
 
-<!-- Side Catalog -->
+
+<!-- Baidu Tongji -->
 
 
 
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

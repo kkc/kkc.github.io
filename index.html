@@ -6,14 +6,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Notes about technology, DevOps, programming, and database" />
-    <meta name="keyword"  content="AWS, golang, python, DevOps" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
     <meta property="og:title" content="undefined - Kakashi&#39;s Blog" />
     <meta property="og:description" content="undefined" />
     <meta property="og:image" content="http://kkc.github.io/index.htmlundefined" />
     <link rel="shortcut icon" href="/img/favicon.ico">
-
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
           Kakashi&#39;s Blog
@@ -25,17 +26,25 @@
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/hux-blog.min.css">
-
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
     <!-- Pygments Highlight CSS -->
     <link rel="stylesheet" href="/css/highlight.css">
 
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
     <!-- Custom Fonts -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -51,7 +60,40 @@
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/home-bg.jpg') 
+            /*config*/
+        
+    }
+    
+</style>
 
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="site-heading">
+                        <h1>Kakashi&#39;s Notes</h1>
+                        <!--<hr class="small">-->
+                        <span class="subheading">修其本而末自應</span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
     <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
@@ -86,7 +128,7 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -139,24 +181,7 @@
 
 
     <!-- Main Content -->
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>Kakashi&#39;s Notes</h1>
-                    <!--<hr class="small">-->
-                    <span class="subheading">修其本而末自應</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-
-
-<!-- Main Content -->
+    <!-- Main Content -->
 <div class="container">
     <div class="row">
         
@@ -184,13 +209,25 @@
             
         </h3>
         <div class="post-content-preview">
-            前言  千呼萬喚下，前陣子 AWS 版本的 Kubernetes 終於 GA 了，但其實真正玩過後，跟之前用 CoreOS 跑起來的 Kubernetes 有不少的差別，主要是因為 AWS 需要把 IAM 及 Network 部分和 Kubernetes 做整合，因為權限和網路效能其實對於服務都是很重要的，而我也是在跑過 EKS 和經歷了這個除錯的過程，才更讓我了解到在不同平台上跑 Kubernetes 的差別，尤其要把 AWS IAM &amp; RBAC 怎麼連接搞懂，還有 packe......
+            前言
+千呼萬喚下，前陣子 AWS 版本的 Kubernetes 終於 GA 了，但其實真正玩過後，跟之前用 CoreOS 跑起來的 Kubernetes 有不少的差別，主要是因為 AWS 需要把 IAM 及 Network 部分和 Kubernetes 做整合，因為權限和網路效能其實對於服務都是很重要的，而我也是在跑過 EKS 和經歷了這個除錯的過程，才更讓我了解到在不同平台上跑 Kuber......
         </div>
     </a>
-    <p class="post-meta">
-        Posted by Kakashi on
-        2018-09-11
-    </p>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2018-09-11
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#AWS" title="AWS">AWS</a>
+            
+              <a href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
+            
+              <a href="/tags/#EKS" title="EKS">EKS</a>
+            
+        </div>
+    
 
 </div>
 <hr>
@@ -205,15 +242,24 @@
             
         </h3>
         <div class="post-content-preview">
-                Build a better client  from cc liu 
+            
+    Build a better client  from cc liu 
 
-PrefaceThis is a talk I presented at the internal company meeting. It mainly addresses how could we create better client behavior for modern software architecutre. We all know that microservices becomes mor......
+Preface
+This is a talk I presented at the internal company meeting. It mainly addresses how could we create better client behavior for modern software arch......
         </div>
     </a>
-    <p class="post-meta">
-        Posted by Kakashi on
-        2018-08-26
-    </p>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2018-08-26
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#distributed-system" title="distributed-system">distributed-system</a>
+            
+        </div>
+    
 
 </div>
 <hr>
@@ -228,14 +274,23 @@ PrefaceThis is a talk I presented at the internal company meeting. It mainly add
             
         </h3>
         <div class="post-content-preview">
-            過程  前陣子又發生了 AWS Elasticsearch 的 status 變成 red 的情況，這次跟以往的情形有點不一樣，之前爆炸都是因為 disk space 不足，而後來增加了 Curator 定期清理資料後就解了，而這次發生的 outage 有點不同，也讓我想要記錄下發生的原因和解法。
-調查  在開了 Support ticket 和查詢 AWS 的 document 後，初步有了一些方向，根據文件上面寫的 A red cluster status means that at ......
+            過程
+前陣子又發生了 AWS Elasticsearch 的 status 變成 red 的情況，這次跟以往的情形有點不一樣，之前爆炸都是因為 disk space 不足，而後來增加了 Curator 定期清理資料後就解了，而這次發生的 outage 有點不同，也讓我想要記錄下發生的原因和解法。
+調查
+在開了 Support ticket 和查詢 AWS 的 document 後，初步有了一......
         </div>
     </a>
-    <p class="post-meta">
-        Posted by Kakashi on
-        2018-08-15
-    </p>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2018-08-15
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
+            
+        </div>
+    
 
 </div>
 <hr>
@@ -251,14 +306,19 @@ PrefaceThis is a talk I presented at the internal company meeting. It mainly add
         </h3>
         <div class="post-content-preview">
             
- 這是一篇感想文，最近看完了一篇文章叫做 Forget Clean Code, let’s embrace Compassionate Code，還有一篇相關的文章 Thoughts-on-Compassionate-Code，這裡寫的是對第一篇文章的感想，然後在第二篇的文章中找到了一些相同的感觸。
- 從 Johannes 寫的 embrace compassionate code 中，談到他對於 clean code 的一些衝突，他原先是 clean code 的信徒，在他早期的職涯生......
+這是一篇感想文，最近看完了一篇文章叫做 Forget Clean Code, let’s embrace Compassionate Code，還有一篇相關的文章 Thoughts-on-Compassionate-Code，這裡寫的是對第一篇文章的感想，然後在第二篇的文章中找到了一些相同的感觸。
+從 Johannes 寫的 embrace compassionate code 中，談到他......
         </div>
     </a>
-    <p class="post-meta">
-        Posted by Kakashi on
-        2018-07-24
-    </p>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2018-07-24
+        </p>
+        <div class="tags">
+            
+        </div>
+    
 
 </div>
 <hr>
@@ -273,13 +333,20 @@ PrefaceThis is a talk I presented at the internal company meeting. It mainly add
             
         </h3>
         <div class="post-content-preview">
-            Recently, I have been working on some existing projects trying to implement graceful shutdown mechanism. The initial idea is to make application invokes deconstructor of each component as soon as the application receives specific signals such as S......
+            Recently, I have been working on some existing projects trying to implement graceful shutdown mechanism. The initial idea is to make application invokes deconstructor of each component as soon as t......
         </div>
     </a>
-    <p class="post-meta">
-        Posted by Kakashi on
-        2018-06-06
-    </p>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2018-06-06
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#docker" title="docker">docker</a>
+            
+        </div>
+    
 
 </div>
 <hr>
@@ -294,14 +361,22 @@ PrefaceThis is a talk I presented at the internal company meeting. It mainly add
             
         </h3>
         <div class="post-content-preview">
-            前言  在接觸 docker 的這三年中，從一開始的好奇和迷惘，到後來接受並享受了它的好處，途中經歷了一些不為人知的小困難，最近想寫這篇文慢慢回味並且分享一下我的 docker 學習心得，又因為我在 development + operation 方面的工作都有涉獵，更讓我對使用 docker 有不同的體會。
-加入目前的公司 Umbo CV 兩年多來，對於裡面的大小夥伴們能夠一起接受並學習 docker 作為開發環境，並且部署到 production 系統，現在回想起來，著實讓人感到興奮，......
+            前言
+在接觸 docker 的這三年中，從一開始的好奇和迷惘，到後來接受並享受了它的好處，途中經歷了一些不為人知的小困難，最近想寫這篇文慢慢回味並且分享一下我的 docker 學習心得，又因為我在 development + operation 方面的工作都有涉獵，更讓我對使用 docker 有不同的體會。
+加入目前的公司 Umbo CV 兩年多來，對於裡面的大小夥伴們能夠一起接受並學習 d......
         </div>
     </a>
-    <p class="post-meta">
-        Posted by Kakashi on
-        2018-04-28
-    </p>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2018-04-28
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#docker" title="docker">docker</a>
+            
+        </div>
+    
 
 </div>
 <hr>
@@ -316,18 +391,25 @@ PrefaceThis is a talk I presented at the internal company meeting. It mainly add
             
         </h3>
         <div class="post-content-preview">
-            前言  這篇筆記是用來記錄 IPSec protocal 的一些細節，前陣子在架設 AWS VPN 的時候，遇到了一些小問題，主要還是防火牆擋到需要走的 port ，而當時就在想自己對於 IPSec protocal 也太不熟悉了，所以才有這篇文章來稍微紀錄一下。
-為什麼需要 IPSecIP is not secure，我想這點學過計算機網路的同學應該都會知道這點，而有可能受到以下的風險
+            前言
+這篇筆記是用來記錄 IPSec protocal 的一些細節，前陣子在架設 AWS VPN 的時候，遇到了一些小問題，主要還是防火牆擋到需要走的 port ，而當時就在想自己對於 IPSec protocal 也太不熟悉了，所以才有這篇文章來稍微紀錄一下。
+為什麼需要 IPSec
+IP is not secure，我想這點學過計算機網路的同學應該都會知道這點，而有可能受到以下的風險
 
-source spoofing
-replay packets
-data integrity (資料受......
+......
         </div>
     </a>
-    <p class="post-meta">
-        Posted by Kakashi on
-        2018-03-21
-    </p>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2018-03-21
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#AWS" title="AWS">AWS</a>
+            
+        </div>
+    
 
 </div>
 <hr>
@@ -342,13 +424,21 @@ data integrity (資料受......
             
         </h3>
         <div class="post-content-preview">
-            IntroductionThis post is used to note down how to setup Managed VPN connection between office to AWS by using Mikrotik RouterBoard. We basically follow instructions of this document and it litterally describes everything we need to know. AWS suppo......
+            Introduction
+This post is used to note down how to setup Managed VPN connection between office to AWS by using Mikrotik RouterBoard. We basically follow instructions of this document and it littera......
         </div>
     </a>
-    <p class="post-meta">
-        Posted by Kakashi on
-        2018-03-14
-    </p>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2018-03-14
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#AWS" title="AWS">AWS</a>
+            
+        </div>
+    
 
 </div>
 <hr>
@@ -364,14 +454,21 @@ data integrity (資料受......
         </h3>
         <div class="post-content-preview">
             這篇速記主要紀錄看了 AWS reinvent 這個影片的心得，裡面講解怎麼 tuning TCP 相關的 networking issue，影片來源在此
-相當推薦這個影片，裡面不僅提到一些 TCP 上面的學術名詞，也很實際的告訴你在 linux 上面怎麼改變那些值，然後還可以看到在 application 的 benchmark 有很大的差距，這是我之前想像不到的，居然更改了一些設定可以有那麼巨大的差別。
-Preface講到 TCP ，講者一開始打賭大家第一個想到的，一定是 3 way ......
+
+相當推薦這個影片，裡面不僅提到一些 TCP 上面的學術名詞，也很實際的告訴你在 linux 上面怎麼改變那些值，然後還可以看到在 application 的 benchmark 有很大的差距，這是我之前想像不到的，居然更改了一些設定可以......
         </div>
     </a>
-    <p class="post-meta">
-        Posted by Kakashi on
-        2017-12-18
-    </p>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2017-12-18
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#AWS" title="AWS">AWS</a>
+            
+        </div>
+    
 
 </div>
 <hr>
@@ -387,16 +484,20 @@ Preface講到 TCP ，講者一開始打賭大家第一個想到的，一定是 3
         </h3>
         <div class="post-content-preview">
             AWS reinvent 2017 推出了許多對 container 管理的新工具，基本上我原本以為有 K8s on AWS 就很厲害了，沒想到 AWS 也沒有想放棄 ECS，在這兩個 container orchestration 的方法上面又疊加了一層 managed system – fargate。
-這篇主要是對這個 youtube 做的簡短筆記，但這裡他是用 ECS 作為例子，而針對 EKS 的 fargate 應該要等到 2018 才看得到了。
-
-Fargate
-No inst......
+這篇主要是對這個 youtube 做的簡短筆記，但這裡他是用 ECS 作為例子，而針......
         </div>
     </a>
-    <p class="post-meta">
-        Posted by Kakashi on
-        2017-12-03
-    </p>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2017-12-03
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#AWS" title="AWS">AWS</a>
+            
+        </div>
+    
 
 </div>
 <hr>
@@ -409,7 +510,7 @@ No inst......
     
     
         <li class="next">
-            <a href="/page/2/">Older Posts &rarr;</a>
+            <a href="/archives/2/">Older Posts &rarr;</a>
         </li>
     
 </ul>
@@ -418,179 +519,119 @@ No inst......
 
                 <!-- 如果开启评论功能 -->
                 
-
             </div>
-    <!-- Sidebar Container -->
-            <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
-                <!-- Featured Tags -->
-                
-                <section>
-                    <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                        
-                            
-                        
-                            
-                            <a href="/tags/#mongodb" title="mongodb" rel="3">mongodb</a>
-                            
-                        
-                            
-                            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#docker" title="docker" rel="4">docker</a>
-                            
-                        
-                            
-                            <a href="/tags/#golang" title="golang" rel="2">golang</a>
-                            
-                        
-                            
-                            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
-                            
-                        
-                            
-                            <a href="/tags/#AWS" title="AWS" rel="8">AWS</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                    </div>
-                </section>
-                
 
-                <!-- Short About -->
-                <section class="visible-md visible-lg">
-                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
-                    <div class="short-about">
+          <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Featured Tags -->
 
-                        
+<section>
+    <!-- no hr -->
+    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+            
+        
+            
+            <a href="/tags/#mongodb" title="mongodb" rel="3">mongodb</a>
+            
+        
+            
+            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
+            
+        
+            
+            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+            
+        
+            
+            <a href="/tags/#golang" title="golang" rel="2">golang</a>
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#AWS" title="AWS" rel="8">AWS</a>
+            
+        
+            
+            <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+</section>
 
-                        
+        <hr>
+    
+        
+  <h5>RECENT POSTS</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/2018/09/11/EKS-troubleshooting/">記一次 AWS EKS troubleshooting 的歷程</a>
+        </li>
+      
+        <li>
+          <a href="/2018/08/26/build-a-better-client/">Build a better client</a>
+        </li>
+      
+        <li>
+          <a href="/2018/08/15/lesson-learn-of-elasticsearch-outage/">記一次 Elasticsearch troubleshooting 的歷程</a>
+        </li>
+      
+        <li>
+          <a href="/2018/07/24/thoughts-on-compassionate-code/">Compassionate code</a>
+        </li>
+      
+        <li>
+          <a href="/2018/06/06/gracefully-shutdown-docker-container/">Gracefully Shutdown Docker Container</a>
+        </li>
+      
+    </ul>
+  </div>
 
-                        <!-- SNS Link -->
-                        <ul class="list-inline">
-                            
-                            
-                                <li>
-                                    <a target="_blank" href="https://twitter.com/kakashiliu">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                            
-                            
+        <hr>
+    
+        
+    <h5>ARCHIVES</h5>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+    </div>
 
-                            
+        <hr>
+    
+        <!-- Categories -->
 
-                            
-                                <li>
-                                    <a target="_blank" href="https://www.facebook.com/kkcliu">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                            
+        <hr>
+    
+</div>
 
-                            
-                                <li>
-                                    <a target="_blank"  href="https://github.com/kkcliu">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                            
-                            
-                                <li>
-                                    <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                            
-                        </ul>
-                    </div>
-                </section>
-
-                <!-- Friends Blog -->
-                <hr>
-                <h5>Recent Posts</h5>
-				<div class="one-tag-list">
-                
-					<ul>
-					    <li><a href="/2018/09/11/EKS-troubleshooting/" style="color: #0085a1"><span>記一次 AWS EKS troubleshooting 的歷程</span></a></li>
-					</ul>
-				
-					<ul>
-					    <li><a href="/2018/08/26/build-a-better-client/" style="color: #0085a1"><span>Build a better client</span></a></li>
-					</ul>
-				
-					<ul>
-					    <li><a href="/2018/08/15/lesson-learn-of-elasticsearch-outage/" style="color: #0085a1"><span>記一次 Elasticsearch troubleshooting 的歷程</span></a></li>
-					</ul>
-				
-					<ul>
-					    <li><a href="/2018/07/24/thoughts-on-compassionate-code/" style="color: #0085a1"><span>Compassionate code</span></a></li>
-					</ul>
-				
-					<ul>
-					    <li><a href="/2018/06/06/gracefully-shutdown-docker-container/" style="color: #0085a1"><span>Gracefully Shutdown Docker Container</span></a></li>
-					</ul>
-				
-					<ul>
-					    <li><a href="/2018/04/28/docker-note/" style="color: #0085a1"><span>用 docker 改善開發流程筆記</span></a></li>
-					</ul>
-				
-					<ul>
-					    <li><a href="/2018/03/21/IPSEC-note/" style="color: #0085a1"><span>IPSec 筆記</span></a></li>
-					</ul>
-				
-					<ul>
-					    <li><a href="/2018/03/14/AWS-VPN-with-RouterBoard/" style="color: #0085a1"><span>AWS VPN with RouterBoard</span></a></li>
-					</ul>
-				
-					<ul>
-					    <li><a href="/2017/12/18/Network-Performance-Tuning/" style="color: #0085a1"><span>TCP Network Performance Tuning 筆記</span></a></li>
-					</ul>
-				
-					<ul>
-					    <li><a href="/2017/12/03/aws-fargate/" style="color: #0085a1"><span>AWS fargate 的簡短筆記</span></a></li>
-					</ul>
-				
-				</div>
-            </div>
         
     </div>
 </div>
@@ -653,17 +694,17 @@ No inst......
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Kakashi&#39;s Notes 2018 
+                    Copyright &copy; Kakashi 2018 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-heart"></i>
                     </span> 
-                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
                     </iframe>
                 </p>
             </div>
@@ -739,6 +780,7 @@ No inst......
 
 
 <script>
+    // dynamic User by Hux
     var _gaId = 'UA-64932988-1';
     var _gaDomain = 'kkc.github.io';
 
@@ -754,10 +796,20 @@ No inst......
 
 
 
-<!-- Side Catalog -->
+
+<!-- Baidu Tongji -->
 
 
 
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 
