@@ -202,10 +202,8 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1><span id="前言">前言</span></h1>
-<p>這篇筆記是用來記錄 IPSec protocal 的一些細節，前陣子在架設 AWS VPN 的時候，遇到了一些小問題，主要還是防火牆擋到需要走的 port ，而當時就在想自己對於 IPSec protocal 也太不熟悉了，所以才有這篇文章來稍微紀錄一下。</p>
-<h1><span id="為什麼需要-ipsec">為什麼需要 IPSec</span></h1>
-<p>IP is not secure，我想這點學過計算機網路的同學應該都會知道這點，而有可能受到以下的風險</p>
+                <h1 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言 </h1><p> 這篇筆記是用來記錄 IPSec protocal 的一些細節，前陣子在架設 AWS VPN 的時候，遇到了一些小問題，主要還是防火牆擋到需要走的 port ，而當時就在想自己對於 IPSec protocal 也太不熟悉了，所以才有這篇文章來稍微紀錄一下。</p>
+<h1 id="為什麼需要 -IPSec"><a href="# 為什麼需要 -IPSec" class="headerlink" title="為什麼需要 IPSec"></a>為什麼需要 IPSec</h1><p>IP is not secure，我想這點學過計算機網路的同學應該都會知道這點，而有可能受到以下的風險</p>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/IP_address_spoofing" target="_blank" rel="noopener">source spoofing</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Replay_attack" target="_blank" rel="noopener">replay packets</a></li>
@@ -217,12 +215,10 @@
 <li>Integrity: 資料完整性，利用 hashing algorithm 保證資料沒有受到竄改</li>
 <li>Authentication: 認證</li>
 </ul>
-<h1><span id="ipsec-security-architecture">IPSec security architecture</span></h1>
-<ul>
+<h1 id="IPSec-security-architecture"><a href="#IPSec-security-architecture" class="headerlink" title="IPSec security architecture"></a>IPSec security architecture</h1><ul>
 <li>使用 <code>Layer3 Network layer</code> 這層</li>
 <li>Application 層的大家可以無感的享受其 CIA 的好處</li>
-<li>Components
-<ul>
+<li>Components<ul>
 <li>Authentication Header (AH)</li>
 <li>Encapsulation Security Payload (ESP)</li>
 <li>Security Associations (SA)</li>
@@ -230,26 +226,17 @@
 </li>
 </ul>
 <p>基本上我覺得要懂 IPSec，可以先來弄懂 AH &amp; ESP 會比較重要，因為這兩個東西有對 IP packet 動手腳</p>
-<h2><span id="authentication-header">Authentication Header</span></h2>
-<p>AH 主要提供的是驗證 Data integrity &amp; data origin source，然後沒有提供任何<em>加密</em>的功能，使用 HMAC 算法，把 payload &amp; header 和 IKE 定義好的 key 一起拿來 hash，但這邊要小心因為 NAT 會改變 header，而被改變的話，另外一邊就沒辦法解析正確，所以基本上 AH 應該是不可能跟 NAT 共存。<br>
-而其中又分為 Transport mode &amp; Tunnel mode，後面會有介紹有什麼不同。<br>
-AH 使用 port 51。</p>
+<h2 id="Authentication-Header"><a href="#Authentication-Header" class="headerlink" title="Authentication Header"></a>Authentication Header</h2><p>AH 主要提供的是驗證 Data integrity &amp; data origin source，然後沒有提供任何 <em> 加密 </em> 的功能，使用 HMAC 算法，把 payload &amp; header 和 IKE 定義好的 key 一起拿來 hash，但這邊要小心因為 NAT 會改變 header，而被改變的話，另外一邊就沒辦法解析正確，所以基本上 AH 應該是不可能跟 NAT 共存。<br>而其中又分為 Transport mode &amp; Tunnel mode，後面會有介紹有什麼不同。<br>AH 使用 port 51。</p>
 <p><img src="/img/2018-03/AH.png" alt="AH.png"></p>
-<h2><span id="encapsulation-security-payload">Encapsulation Security Payload</span></h2>
-<p>ESP 的功能比起 AH 強大了許多，confidentiality, authentication, integrity 都包含在其中了，所以真正有提供加密的功能，而在驗證 Data integrity 方面，還是要看是使用 Transport mode 或是 Tunnel mode</p>
+<h2 id="Encapsulation-Security-Payload"><a href="#Encapsulation-Security-Payload" class="headerlink" title="Encapsulation Security Payload"></a>Encapsulation Security Payload</h2><p>ESP 的功能比起 AH 強大了許多，confidentiality, authentication, integrity 都包含在其中了，所以真正有提供加密的功能，而在驗證 Data integrity 方面，還是要看是使用 Transport mode 或是 Tunnel mode</p>
 <ul>
 <li>Transport mode: ESP 沒有對 IP header 做 hash ，所以只能保證 Data 是沒有被修改的</li>
 <li>Tunnel mode: 有將 IP header 包進來，所以這點跟 AH 是一致的</li>
 </ul>
-<p>對照下圖可以發現，ESP 和 AH 最大的差別應該是 AH 會對於 Outer IP header 做驗證，所以其實 IPSec 唯有使用 ESP tunnel mode 才能和 NAT 共存。<br>
-而在 <a href="https://tools.ietf.org/html/rfc3948" target="_blank" rel="noopener">RFC 3948</a> 裡面也有寫道: <code>Because the protection of the outer IP addresses in IPsec AH is inherently incompatible with NAT, the IPsec AH was left out of the scope of this protocol specification.</code> 證實我們的推論應該是無誤的，難怪 AWS 的 NAT 教學裡面都是用 ESP 來做連線啊QQ。<br>
-ESP 使用 port 50。</p>
+<p>對照下圖可以發現，ESP 和 AH 最大的差別應該是 AH 會對於 Outer IP header 做驗證，所以其實 IPSec 唯有使用 ESP tunnel mode 才能和 NAT 共存。<br>而在 <a href="https://tools.ietf.org/html/rfc3948" target="_blank" rel="noopener">RFC 3948</a> 裡面也有寫道: <code>Because the protection of the outer IP addresses in IPsec AH is inherently incompatible with NAT, the IPsec AH was left out of the scope of this protocol specification.</code> 證實我們的推論應該是無誤的，難怪 AWS 的 NAT 教學裡面都是用 ESP 來做連線啊 QQ。<br>ESP 使用 port 50。</p>
 <p><img src="/img/2018-03/ESP.png" alt="ESP.png"></p>
-<h2><span id="transport-mode-amp-tunnel-mode">Transport mode &amp; Tunnel mode</span></h2>
-<p>Transport mode: 通常是直接建立在兩台主機上，因為不需要再多加一個 IP header ，整體來說較省頻寬，在這個模式下，兩邊的主機都要安裝 IPSec 的 protocal，而且不能隱藏主機的 IP 位置。<br>
-Tunnel mode: 針對 Firewall 或是 Gateway proxy，一般來說我們會用這個模式，因為他們不是原本的發送收端。</p>
-<h2><span id="security-associations">Security Associations</span></h2>
-<p>IPsec 中最重要的其實是 SA，因為它定義了如何協商，還有要使用哪些 Policy 和參數</p>
+<h2 id="Transport-mode-amp-Tunnel-mode"><a href="#Transport-mode-amp-Tunnel-mode" class="headerlink" title="Transport mode &amp; Tunnel mode"></a>Transport mode &amp; Tunnel mode</h2><p>Transport mode: 通常是直接建立在兩台主機上，因為不需要再多加一個 IP header ，整體來說較省頻寬，在這個模式下，兩邊的主機都要安裝 IPSec 的 protocal，而且不能隱藏主機的 IP 位置。<br>Tunnel mode: 針對 Firewall 或是 Gateway proxy，一般來說我們會用這個模式，因為他們不是原本的發送收端。</p>
+<h2 id="Security-Associations"><a href="#Security-Associations" class="headerlink" title="Security Associations"></a>Security Associations</h2><p>IPsec 中最重要的其實是 SA，因為它定義了如何協商，還有要使用哪些 Policy 和參數</p>
 <ol>
 <li>Authentication method</li>
 <li>Encryption algorithm &amp; hashing algorithm</li>
@@ -257,13 +244,10 @@ Tunnel mode: 針對 Firewall 或是 Gateway proxy，一般來說我們會用這�
 <li>Sequence number (避免 replay 攻擊)</li>
 </ol>
 <p>而基本上 SA 是單向的，所以通常要建立兩條 SA (from A to B and B to A)，然後這些 parameter 會經過 Internet Key Exchange (IKE) protocal 來決定，IKE 主要有分兩個 step</p>
-<p>IKE phase1: 主要做 Authenticate，Authentication 方面常常使用的都是 pre-shared key，基本上就是用同一組密碼，接著透過 Diffie-Hellman 來建立一組 Key，而這組 Key 是要被 Phase2 拿來用的。<br>
-IKE phase2: 處理 IPsec security 協商，最後 IPSec SA 完成，接下來才會建立 IPSec 的連線。</p>
+<p>IKE phase1: 主要做 Authenticate，Authentication 方面常常使用的都是 pre-shared key，基本上就是用同一組密碼，接著透過 Diffie-Hellman 來建立一組 Key，而這組 Key 是要被 Phase2 拿來用的。<br>IKE phase2: 處理 IPsec security 協商，最後 IPSec SA 完成，接下來才會建立 IPSec 的連線。</p>
 <p>** IKE 主要走 port 500</p>
-<h2><span id="結論">結論</span></h2>
-<p>這只是一篇小小的筆記，而網路上面有更多詳細的資料，但有了這些基本概念後，對於為什麼 VPN 打不通，會有更多除錯的方法，像是那些 port 是不是沒開，或是 SA 整個設定錯誤，導致雙方協商失敗等等，會讓我們更有方向。</p>
-<h1><span id="reference">Reference</span></h1>
-<ol>
+<h2 id="結論"><a href="# 結論" class="headerlink" title="結論"></a>結論 </h2><p> 這只是一篇小小的筆記，而網路上面有更多詳細的資料，但有了這些基本概念後，對於為什麼 VPN 打不通，會有更多除錯的方法，像是那些 port 是不是沒開，或是 SA 整個設定錯誤，導致雙方協商失敗等等，會讓我們更有方向。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
 <li><a href="http://chunchaichang.blogspot.tw/2011/12/ipsec-nat-t.html" target="_blank" rel="noopener">http://chunchaichang.blogspot.tw/2011/12/ipsec-nat-t.html</a></li>
 <li><a href="https://www.jannet.hk/zh-Hant/post/internet-protocol-security-ipsec/" target="_blank" rel="noopener">https://www.jannet.hk/zh-Hant/post/internet-protocol-security-ipsec/</a></li>
 <li><a href="https://en.wikipedia.org/wiki/IPsec#Security_association" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/IPsec#Security_association</a></li>

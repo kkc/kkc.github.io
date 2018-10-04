@@ -202,12 +202,9 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h2><span id="過程">過程</span></h2>
-<p>前陣子又發生了 AWS Elasticsearch 的 status 變成 red 的情況，這次跟以往的情形有點不一樣，之前爆炸都是因為 disk space 不足，而後來增加了 Curator 定期清理資料後就解了，而這次發生的 outage 有點不同，也讓我想要記錄下發生的原因和解法。</p>
-<h2><span id="調查">調查</span></h2>
-<p>在開了 Support ticket 和查詢 AWS 的 document 後，初步有了一些方向，根據文件上面寫的 A red cluster status means that at least one primary shard and its replicas are not allocated to a node，其實就是跟 shard 是不是運作正常有關係，這邊更新一些 Elasticsearch 的科普知識，Elasticsearch 的 document 其實是放在 index 裡面，而 index 會根據你設定的 shard 數量，把 document 平均分散到不同 shard 中，然後把不同的 shard 放在不同的 node 中，以求可以分散式的去請求資料，而在沒有調整過的 AWS elasticsearch 中預設的 shard 數量是 5，所以每次 create 一個新的 index 就會產生 5 個 shard，經過 AWS support 的調查，我們家的 elasticsearch 裡面共有 10654 shard (抖)，而太多的 shard 接著就造成 CPU utilization 越來越重，最後重到某個 node 存取不到後 (猜想該 node 應該是炸掉了)，某個 shard 又沒有即時產生好 replica 存在另外一個 node 上，就這樣 status red recovery 失敗。</p>
-<h2><span id="troubleshooting-技巧">Troubleshooting 技巧</span></h2>
-<ol>
+                <h2 id="過程"><a href="# 過程" class="headerlink" title="過程"></a>過程 </h2><p> 前陣子又發生了 AWS Elasticsearch 的 status 變成 red 的情況，這次跟以往的情形有點不一樣，之前爆炸都是因為 disk space 不足，而後來增加了 Curator 定期清理資料後就解了，而這次發生的 outage 有點不同，也讓我想要記錄下發生的原因和解法。</p>
+<h2 id="調查"><a href="# 調查" class="headerlink" title="調查"></a>調查 </h2><p> 在開了 Support ticket 和查詢 AWS 的 document 後，初步有了一些方向，根據文件上面寫的 A red cluster status means that at least one primary shard and its replicas are not allocated to a node，其實就是跟 shard 是不是運作正常有關係，這邊更新一些 Elasticsearch 的科普知識，Elasticsearch 的 document 其實是放在 index 裡面，而 index 會根據你設定的 shard 數量，把 document 平均分散到不同 shard 中，然後把不同的 shard 放在不同的 node 中，以求可以分散式的去請求資料，而在沒有調整過的 AWS elasticsearch 中預設的 shard 數量是 5，所以每次 create 一個新的 index 就會產生 5 個 shard，經過 AWS support 的調查，我們家的 elasticsearch 裡面共有 10654 shard (抖)，而太多的 shard 接著就造成 CPU utilization 越來越重，最後重到某個 node 存取不到後 (猜想該 node 應該是炸掉了)，某個 shard 又沒有即時產生好 replica 存在另外一個 node 上，就這樣 status red recovery 失敗。</p>
+<h2 id="Troubleshooting- 技巧"><a href="#Troubleshooting- 技巧" class="headerlink" title="Troubleshooting 技巧"></a>Troubleshooting 技巧</h2><ol>
 <li>使用 <code>GET /_cluster/allocation/explain</code> 可以看到 cluster 裡面哪些 assigned shard 出問題，還有原因是什麼</li>
 <li>使用 <code>GET /_cat/indices?v</code> 可以看到哪些 index 是有問題的</li>
 </ol>
@@ -215,8 +212,7 @@
 <ol start="3">
 <li><code>cannot allocate because a previous copy of the primary shard existed but can no longer be found on the nodes in the cluster</code> 基本上我們家遇到這個訊息在講的就是 primary shard 跟著 node 失蹤了，如果該 node 沒有回來，而你的資料很重要，可能就要從 snapshot 裡面撈回來</li>
 </ol>
-<h2><span id="解決方法">解決方法</span></h2>
-<p>我們基本上爛掉的 elasticsearch 是拿來存 application log 的，所以該 index 壞掉其實不太會影響線上資料，而按照 AWS support 的教學和查詢的一些文章，我們的解法如下</p>
+<h2 id="解決方法"><a href="# 解決方法" class="headerlink" title="解決方法"></a>解決方法 </h2><p> 我們基本上爛掉的 elasticsearch 是拿來存 application log 的，所以該 index 壞掉其實不太會影響線上資料，而按照 AWS support 的教學和查詢的一些文章，我們的解法如下</p>
 <ol>
 <li>砍掉該壞掉的 index ，<code>curl -XDELETE &lt;cluster&gt;/&lt;index_name&gt;</code></li>
 <li>砍掉 older/unused/smaller 的 index 減少 cluster loading</li>
@@ -229,9 +225,7 @@
 <li>還有讓 shard 的 size 保持在 10GB~50GB 的大小，會讓 query 的 performance 比較好</li>
 <li>以下的兩篇 reference 有講到很多其他 troubleshooting 的技巧</li>
 </ol>
-<p>Reference<br>
-<a href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-handling-errors.html#aes-handling-errors-red-cluster-status" target="_blank" rel="noopener">https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-handling-errors.html#aes-handling-errors-red-cluster-status</a><br>
-<a href="https://www.elastic.co/blog/red-elasticsearch-cluster-panic-no-longer" target="_blank" rel="noopener">https://www.elastic.co/blog/red-elasticsearch-cluster-panic-no-longer</a></p>
+<p>Reference<br><a href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-handling-errors.html#aes-handling-errors-red-cluster-status" target="_blank" rel="noopener">https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-handling-errors.html#aes-handling-errors-red-cluster-status</a><br><a href="https://www.elastic.co/blog/red-elasticsearch-cluster-panic-no-longer" target="_blank" rel="noopener">https://www.elastic.co/blog/red-elasticsearch-cluster-panic-no-longer</a></p>
 
                 
 

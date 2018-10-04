@@ -201,6 +201,35 @@
 
 <div class="post-preview">
 
+    <a href="/2017/12/03/aws-fargate/">
+        <h2 class="post-title">
+            AWS fargate 的簡短筆記
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            AWS reinvent 2017 推出了許多對 container 管理的新工具，基本上我原本以為有 K8s on AWS 就很厲害了，沒想到 AWS 也沒有想放棄 ECS，在這兩個 container orchestration 的方法上面又疊加了一層 managed system – fargate。
+這篇主要是對這個 youtube 做的簡短筆記，但這裡他是用 ECS 作為例子，而針......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2017-12-03
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#AWS" title="AWS">AWS</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/2017/11/17/aws-ip-range/">
         <h2 class="post-title">
             Retrieving AWS IP range
@@ -210,9 +239,8 @@
         </h3>
         <div class="post-content-preview">
             It’s a simple note that how to get notifications while AWS IP range changed
-Usage
-http://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html
-AWS provides the ip range file, you can download fr......
+Usagehttp://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html
+AWS provides the ip range file, you can download fro......
         </div>
     </a>
     
@@ -240,8 +268,7 @@ AWS provides the ip range file, you can download fr......
             
         </h3>
         <div class="post-content-preview">
-            前言
-大家都知道 RDBMS 其中有個主要的功能，就是能夠把 Transaction 這種任務，做得很完美，而 Transaction 這件事，在很多地方像是銀行轉帳或是進銷存的商業行為裡面，都是非常重要的，因為可以保證資料庫內的資料一致性。 而隨著 NOSQL 的蓬勃發展，看到很多 3rd party library 都想要在 application level 處理 Transactio......
+            前言  大家都知道 RDBMS 其中有個主要的功能，就是能夠把 Transaction 這種任務，做得很完美，而 Transaction 這件事，在很多地方像是銀行轉帳或是進銷存的商業行為裡面，都是非常重要的，因為可以保證資料庫內的資料一致性。 而隨著 NOSQL 的蓬勃發展，看到很多 3rd party library 都想要在 application level 處理 Transacti......
         </div>
     </a>
     
@@ -270,7 +297,8 @@ AWS provides the ip range file, you can download fr......
         </h3>
         <div class="post-content-preview">
               
-利用這篇文章稍微紀錄一下，最近在公司分享的淺談 Asynchronous programming 的心得，其實在現在各個網路公司盛行的時代，不懂點 Asynchronous model 應該是不太可能的，而且就算不懂實際上大家也是天天在用，類似寫 Browser 端的 javascript，或是不論 nodejs 或是 python (像是 gevent)，都常常看到大家再談 Asyn......
+
+ 利用這篇文章稍微紀錄一下，最近在公司分享的淺談 Asynchronous programming 的心得，其實在現在各個網路公司盛行的時代，不懂點 Asynchronous model 應該是不太可能的，而且就算不懂實際上大家也是天天在用，類似寫 Browser 端的 javascript，或是不論 nodejs 或是 python (像是 gevent)，都常常看到大家再談 As......
         </div>
     </a>
     
@@ -326,9 +354,9 @@ AWS provides the ip range file, you can download fr......
             
         </h3>
         <div class="post-content-preview">
-            AWS 發表的新的 route53 routing policy: multivalue，Raddit 上面的某篇文章，有比較了一下跟 simple &amp; weighted 的差別，但主要看這張圖就夠了 http://imgur.com/4gvktlm。
+            AWS 發表的新的 route53 routing policy: multivalue，Raddit 上面的某篇  文章，有比較了一下跟 simple &amp; weighted 的差別，但主要看這張圖就夠了 http://imgur.com/4gvktlm。
 
-simple 是把 multiple values (IP) 寫成一筆 record，但是 multivalue 是寫成多筆，然後......
+simple 是把 multiple values (IP) 寫成一筆 record，但是 multivalue 是寫成多筆，......
         </div>
     </a>
     
@@ -439,12 +467,11 @@ simple 是把 multiple values (IP) 寫成一筆 record，但是 multivalue 是�
             
         </h3>
         <div class="post-content-preview">
-            這次的聚會是討論 security
+             這次的聚會是討論 security
 
-Bastion 機
-
-外面的 datacenter 都是買現成的 solution，然後有專業的 SI 幫你安裝，感覺很強大啊！
-Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container 隔離每個人的登入環境，很容易收集個別帳號在container 的行為，然後也有寫程式去管理哪些 user 可以連到哪個主機，bastio......
+Bastion 機 
+ 外面的 datacenter 都是買現成的 solution，然後有專業的 SI 幫你安裝，感覺很強大啊！
+Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container 隔離每個人的登入環境，很容易收集個別帳號在 container 的行為，然後也有寫程式去管理哪些 user 可以連到哪個主機，bas......
         </div>
     </a>
     
@@ -453,38 +480,6 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
             2017-04-07
         </p>
         <div class="tags">
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2017/02/19/reading-note-apprenticeship-patterns/">
-        <h2 class="post-title">
-            筆記：學徒模式，優秀軟體開發者的養成之路
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Note for Apprenticeship patterns: Guidance for the Aspiring Software Craftsman
-
-跟專家一起工作，先把語言和工具放一邊，跟著專家學習可以得到最大的成長
-為自己安排課程：維護閱讀清單 &amp; 讀完的書，公開自己的清單，也可以從專家那邊獲得不錯的書單
-深入知識：深入了解一項技術，了解設計原因而不單是技術細節，掌握工......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2017-02-19
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#reading" title="reading">reading</a>
             
         </div>
     
@@ -542,6 +537,10 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
             
         
             
+        
+            
+        
+            
             <a href="/tags/#docker" title="docker" rel="4">docker</a>
             
         
@@ -550,11 +549,7 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
             
         
             
-        
-            
-        
-            
-            <a href="/tags/#AWS" title="AWS" rel="8">AWS</a>
+            <a href="/tags/#AWS" title="AWS" rel="9">AWS</a>
             
         
             
@@ -576,6 +571,8 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
             
         
             
+            <a href="/tags/#EKS" title="EKS" rel="2">EKS</a>
+            
         
     </div>
 </section>
@@ -586,6 +583,10 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
   <h5>RECENT POSTS</h3>
   <div class="widget">
     <ul>
+      
+        <li>
+          <a href="/2018/10/04/EKS-notes/">EKS 的一些筆記</a>
+        </li>
       
         <li>
           <a href="/2018/09/11/EKS-troubleshooting/">記一次 AWS EKS troubleshooting 的歷程</a>
@@ -603,10 +604,6 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
           <a href="/2018/07/24/thoughts-on-compassionate-code/">Compassionate code</a>
         </li>
       
-        <li>
-          <a href="/2018/06/06/gracefully-shutdown-docker-container/">Gracefully Shutdown Docker Container</a>
-        </li>
-      
     </ul>
   </div>
 
@@ -615,7 +612,7 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>

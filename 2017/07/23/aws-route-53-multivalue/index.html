@@ -202,7 +202,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>AWS 發表的新的 route53 routing policy: <a href="https://aws.amazon.com/about-aws/whats-new/2017/06/amazon-route-53-announces-support-for-multivalue-answers-in-response-to-dns-queries/" target="_blank" rel="noopener">multivalue</a>，Raddit 上面的某篇<a href="https://www.reddit.com/r/aws/comments/6iptol/amazon_route_53_announces_support_for_multivalue/" target="_blank" rel="noopener">文章</a>，有比較了一下跟 simple &amp; weighted 的差別，但主要看這張圖就夠了 <a href="http://imgur.com/4gvktlm" target="_blank" rel="noopener">http://imgur.com/4gvktlm</a>。</p>
+                <p>AWS 發表的新的 route53 routing policy: <a href="https://aws.amazon.com/about-aws/whats-new/2017/06/amazon-route-53-announces-support-for-multivalue-answers-in-response-to-dns-queries/" target="_blank" rel="noopener">multivalue</a>，Raddit 上面的某篇 <a href="https://www.reddit.com/r/aws/comments/6iptol/amazon_route_53_announces_support_for_multivalue/" target="_blank" rel="noopener"> 文章</a>，有比較了一下跟 simple &amp; weighted 的差別，但主要看這張圖就夠了 <a href="http://imgur.com/4gvktlm" target="_blank" rel="noopener">http://imgur.com/4gvktlm</a>。</p>
 <ol>
 <li>simple 是把 multiple values (IP) 寫成一筆 record，但是 multivalue 是寫成多筆，然後用 nslookup 去查看起來回應的結果是差不多的。</li>
 <li>但其實還是有一點不同，<a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html" target="_blank" rel="noopener">文件</a> 上面寫到 multivalue 最多只會 randomly 回 8 筆 healthy records。</li>

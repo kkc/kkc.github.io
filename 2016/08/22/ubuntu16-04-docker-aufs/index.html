@@ -202,25 +202,19 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h2><span id="background">Background</span></h2>
-<p>事情是這樣的，前陣子在 AWS 上面使用最新的 <a href="https://cloud-images.ubuntu.com/locator/ec2/" target="_blank" rel="noopener">ubuntu image</a> 來建置 production 的環境，大家都知道 ubuntu 16.04 已經採用<s>萬惡</s>的 systemd 來管理 ubuntu 上面的 process，而在我開開心心使用 systemd 來管理我的 docker 時，就這麼發生了意外，每當我打好 AMI 再使用這個 AMI 開機時，就會發現 docker 掛了，而且時好時壞，讓我全無頭緒。</p>
-<h2><span id="追查">追查</span></h2>
-<p>再重開機後看了 <code>/var/log/syslog</code>，裡面馬上發現了下列這個錯誤</p>
+                <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>事情是這樣的，前陣子在 AWS 上面使用最新的 <a href="https://cloud-images.ubuntu.com/locator/ec2/" target="_blank" rel="noopener">ubuntu image</a> 來建置 production 的環境，大家都知道 ubuntu 16.04 已經採用 <del> 萬惡 </del> 的 systemd 來管理 ubuntu 上面的 process，而在我開開心心使用 systemd 來管理我的 docker 時，就這麼發生了意外，每當我打好 AMI 再使用這個 AMI 開機時，就會發現 docker 掛了，而且時好時壞，讓我全無頭緒。</p>
+<h2 id="追查"><a href="# 追查" class="headerlink" title="追查"></a>追查 </h2><p> 再重開機後看了 <code>/var/log/syslog</code>，裡面馬上發現了下列這個錯誤</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERRO[0000] [graphdriver] prior storage driver <span class="string">"aufs"</span> failed: driver <span class="keyword">not</span> supported</span><br><span class="line">FATA[0000] <span class="builtin-name">Error</span> starting daemon: <span class="builtin-name">error</span> initializing graphdriver: driver <span class="keyword">not</span> supported</span><br></pre></td></tr></table></figure>
 <p>原來是 aufs 沒有掛上去，不過奇怪的是，我明明已經照著 docker <a href="https://docs.docker.com/engine/installation/linux/ubuntulinux/#/prerequisites-by-ubuntu-version" target="_blank" rel="noopener">文件</a> 上面安裝好了，而且在開機前也 run 得很開心，究竟是為什麼呢？</p>
 <p>備註: Aufs 沒有被包在原生的 kernel 裡面，所以按照文件要使用 sudo apt-get install linux-image-extra-<code>uname -r</code> 安裝</p>
-<h2><span id="原因">原因</span></h2>
-<p>在追查了一陣子後才知道，原來是因為裝好後，還要使用 modprobe aufs ，這樣之後重開機才會自動載入啊，docker 文件好像好像沒看到這點，而詳細能解決這個問題的答案，在看懂了這兩篇後才懂：</p>
+<h2 id="原因"><a href="# 原因" class="headerlink" title="原因"></a>原因 </h2><p> 在追查了一陣子後才知道，原來是因為裝好後，還要使用 modprobe aufs ，這樣之後重開機才會自動載入啊，docker 文件好像好像沒看到這點，而詳細能解決這個問題的答案，在看懂了這兩篇後才懂：</p>
 <ul>
 <li><a href="https://meta.discourse.org/t/discourse-docker-installation-without-aufs/15639/12" target="_blank" rel="noopener">https://meta.discourse.org/t/discourse-docker-installation-without-aufs/15639/12</a></li>
 <li><a href="http://stackoverflow.com/questions/33357824/prior-storage-driver-aufs-failed-driver-not-supported-error-starting-daemon" target="_blank" rel="noopener">http://stackoverflow.com/questions/33357824/prior-storage-driver-aufs-failed-driver-not-supported-error-starting-daemon</a></li>
 </ul>
-<p>解決的方法就是用</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install linux-<span class="built_in">image</span>-extra-`uname -r` &amp;&amp; sudo modprobe aufs</span><br></pre></td></tr></table></figure>
-<p>之後要升級食用</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="builtin-name">get</span> update &amp;&amp; sudo apt-<span class="builtin-name">get</span><span class="built_in"> upgrade </span>&amp;&amp; apt-<span class="builtin-name">get</span> -y install linux-image-extra-$(uname -r) aufs-tools</span><br></pre></td></tr></table></figure>
-<h2><span id="感想">感想</span></h2>
-<p>這個坑在 ubuntu 上面真是很煩，希望 docker 文件趕快補上啊啊啊，另外如果不想用 aufs ，其實也可以用 overlayfs，這個 kernel 就有直接支援，所以就不用搞那麼多奇奇怪怪的東西了。</p>
+<p>解決的方法就是用<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install linux-<span class="built_in">image</span>-extra-`uname -r` &amp;&amp; sudo modprobe aufs</span><br></pre></td></tr></table></figure></p>
+<p>之後要升級食用<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="builtin-name">get</span> update &amp;&amp; sudo apt-<span class="builtin-name">get</span><span class="built_in"> upgrade </span>&amp;&amp; apt-<span class="builtin-name">get</span> -y install linux-image-extra-$(uname -r) aufs-tools</span><br></pre></td></tr></table></figure></p>
+<h2 id="感想"><a href="# 感想" class="headerlink" title="感想"></a>感想 </h2><p> 這個坑在 ubuntu 上面真是很煩，希望 docker 文件趕快補上啊啊啊，另外如果不想用 aufs ，其實也可以用 overlayfs，這個 kernel 就有直接支援，所以就不用搞那麼多奇奇怪怪的東西了。</p>
 
                 
 

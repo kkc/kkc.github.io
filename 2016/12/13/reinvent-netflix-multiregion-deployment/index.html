@@ -202,8 +202,8 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1><span id="note-for-aws-reinvent-2016-multi-region-delivery-netflix-style-dev311">Note for AWS re:Invent 2016: Multi-Region Delivery Netflix Style (DEV311)</span></h1>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/1HiilTXQo4w" frameborder="0" allowfullscreen></iframe>
+                <h1 id="Note-for-AWS-re-Invent-2016-Multi-Region-Delivery-Netflix-Style-DEV311"><a href="#Note-for-AWS-re-Invent-2016-Multi-Region-Delivery-Netflix-Style-DEV311" class="headerlink" title="Note for AWS re:Invent 2016: Multi-Region Delivery Netflix Style (DEV311)"></a>Note for AWS re:Invent 2016: Multi-Region Delivery Netflix Style (DEV311)</h1><iframe width="560" height="315" src="https://www.youtube.com/embed/1HiilTXQo4w" frameborder="0" allowfullscreen></iframe>
+
 <ul>
 <li>Use spinnaker to deploy</li>
 <li>Chaos monkeys to make sure robotness of system</li>
@@ -214,22 +214,19 @@
 <li>don’t deploy multiple region at the same time</li>
 <li>blue/green deployments is your friends</li>
 <li>opposed to rolling deployment</li>
-<li>the traffic is cyclic -&gt; use deployment windows -&gt; affect smaller amount of ppl
-<ul>
+<li>the traffic is cyclic -&gt; use deployment windows -&gt; affect smaller amount of ppl<ul>
 <li>during the evening hours SPS going to spike</li>
 <li>SPS =&gt; streaming starts per second</li>
 </ul>
 </li>
-<li>automatically canary analysis
-<ul>
-<li>compare 2 different version of running software taking the production traffic</li>
+<li>automatically canary analysis<ul>
+<li>compare 2 different version of running software taking the production traffic </li>
 <li>use metrics to see if deployment could be applied.</li>
 </ul>
 </li>
 <li>automation is a no-brainer</li>
 <li>using slack or SMS inform ppl instead of email (not a good real-time communication mechanism)</li>
-<li>manual judgement, human can decide to keep running pipeline or stop according to each stage status.
-<ul>
+<li>manual judgement, human can decide to keep running pipeline or stop according to each stage status.<ul>
 <li>human have a gut</li>
 </ul>
 </li>
