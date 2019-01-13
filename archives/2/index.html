@@ -201,6 +201,35 @@
 
 <div class="post-preview">
 
+    <a href="/2017/12/18/Network-Performance-Tuning/">
+        <h2 class="post-title">
+            TCP Network Performance Tuning 筆記
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            這篇速記主要紀錄看了 AWS reinvent 這個影片的心得，裡面講解怎麼 tuning TCP 相關的 networking issue，影片來源在此
+相當推薦這個影片，裡面不僅提到一些 TCP 上面的學術名詞，也很實際的告訴你在 linux 上面怎麼改變那些值，然後還可以看到在 application 的 benchmark 有很大的差距，這是我之前想像不到的，居然更改了一些設定可以有......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2017-12-18
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#AWS" title="AWS">AWS</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/2017/12/03/aws-fargate/">
         <h2 class="post-title">
             AWS fargate 的簡短筆記
@@ -457,36 +486,6 @@ simple 是把 multiple values (IP) 寫成一筆 record，但是 multivalue 是�
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/2017/04/07/aws-group-security-note/">
-        <h2 class="post-title">
-            AWS 四月小聚速記
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-             這次的聚會是討論 security
-
-Bastion 機 
- 外面的 datacenter 都是買現成的 solution，然後有專業的 SI 幫你安裝，感覺很強大啊！
-Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container 隔離每個人的登入環境，很容易收集個別帳號在 container 的行為，然後也有寫程式去管理哪些 user 可以連到哪個主機，bas......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2017-04-07
-        </p>
-        <div class="tags">
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -545,19 +544,11 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
             
         
             
-        
-            
-        
-            
-            <a href="/tags/#AWS" title="AWS" rel="9">AWS</a>
-            
-        
-            
             <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
             
         
             
-        
+            <a href="/tags/#AWS" title="AWS" rel="9">AWS</a>
             
         
             
@@ -576,6 +567,16 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
             <a href="/tags/#EKS" title="EKS" rel="2">EKS</a>
             
         
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
     </div>
 </section>
 
@@ -585,6 +586,10 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
   <h5>RECENT POSTS</h3>
   <div class="widget">
     <ul>
+      
+        <li>
+          <a href="/2019/01/12/ffmpeg-libav-decode-note/">FFmpeg libav decode 筆記</a>
+        </li>
       
         <li>
           <a href="/2018/10/04/EKS-notes/">EKS 的一些筆記</a>
@@ -602,10 +607,6 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
           <a href="/2018/08/15/lesson-learn-of-elasticsearch-outage/">記一次 Elasticsearch troubleshooting 的歷程</a>
         </li>
       
-        <li>
-          <a href="/2018/07/24/thoughts-on-compassionate-code/">Compassionate code</a>
-        </li>
-      
     </ul>
   </div>
 
@@ -614,7 +615,7 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>
@@ -687,7 +688,7 @@ Tim Hsu 大大分享，他自己建立 bastion 機器，然後利用 container �
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Kakashi 2018 
+                    Copyright &copy; Kakashi 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
