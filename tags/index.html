@@ -188,17 +188,17 @@
             <!-- 标签云 -->
             <div id='tag_cloud' class="tags">
                 
-                    <a href="#mongodb" title="mongodb" rel="3">mongodb</a>
-                
                     <a href="#python" title="python" rel="1">python</a>
                 
-                    <a href="#mysql" title="mysql" rel="2">mysql</a>
-                
-                    <a href="#docker" title="docker" rel="4">docker</a>
+                    <a href="#mongodb" title="mongodb" rel="3">mongodb</a>
                 
                     <a href="#monitoring" title="monitoring" rel="1">monitoring</a>
                 
                     <a href="#graphite" title="graphite" rel="1">graphite</a>
+                
+                    <a href="#mysql" title="mysql" rel="2">mysql</a>
+                
+                    <a href="#docker" title="docker" rel="4">docker</a>
                 
                     <a href="#golang" title="golang" rel="2">golang</a>
                 
@@ -218,20 +218,42 @@
                 
                     <a href="#distributed-system" title="distributed-system" rel="1">distributed-system</a>
                 
-                    <a href="#Kubernetes" title="Kubernetes" rel="2">Kubernetes</a>
+                    <a href="#Kubernetes" title="Kubernetes" rel="3">Kubernetes</a>
                 
                     <a href="#EKS" title="EKS" rel="2">EKS</a>
                 
-                    <a href="#kubernetes" title="kubernetes" rel="1">kubernetes</a>
-                
-                    <a href="#prometheus" title="prometheus" rel="1">prometheus</a>
-                
                     <a href="#ffmpeg" title="ffmpeg" rel="1">ffmpeg</a>
+                
+                    <a href="#Prometheus" title="Prometheus" rel="1">Prometheus</a>
+                
+                    <a href="#Thanos" title="Thanos" rel="1">Thanos</a>
                 
             </div>
 
             <!-- 标签列表 -->
 
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="python">
+                    <span class="tag-text">python</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
+                        <h2 class="post-title">
+                            Python 的時間還有時區處理
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
             
             <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="mongodb">
@@ -258,21 +280,6 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/08/16/RDBMS-course/">
-                        <h2 class="post-title">
-                            RDBMS 先修課程筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
                      <a href="/2015/07/21/mongodb-memory-structure/">
                         <h2 class="post-title">
                             Mongodb 如何使用 Memory 和 tuning 的小技巧
@@ -283,11 +290,26 @@
                 </div>
                 <hr>
                 
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/08/16/RDBMS-course/">
+                        <h2 class="post-title">
+                            RDBMS 先修課程筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="python">
-                    <span class="tag-text">python</span>
+                <span class="fa fa-tag listing-seperator" id="monitoring">
+                    <span class="tag-text">monitoring</span>
                 </span>
                 
                   <!-- <li class="listing-item">
@@ -295,9 +317,31 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
+                     <a href="/2015/09/05/monitoring-with-graphite/">
                         <h2 class="post-title">
-                            Python 的時間還有時區處理
+                            使用 statsd + graphite 的 monitoring 心得
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="graphite">
+                    <span class="tag-text">graphite</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/09/05/monitoring-with-graphite/">
+                        <h2 class="post-title">
+                            使用 statsd + graphite 的 monitoring 心得
                         </h2>
                         
                     </a>
@@ -412,50 +456,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="monitoring">
-                    <span class="tag-text">monitoring</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/09/05/monitoring-with-graphite/">
-                        <h2 class="post-title">
-                            使用 statsd + graphite 的 monitoring 心得
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="graphite">
-                    <span class="tag-text">graphite</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/09/05/monitoring-with-graphite/">
-                        <h2 class="post-title">
-                            使用 statsd + graphite 的 monitoring 心得
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="golang">
                     <span class="tag-text">golang</span>
                 </span>
@@ -532,9 +532,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2018/03/14/AWS-VPN-with-RouterBoard/">
+                     <a href="/2017/11/17/aws-ip-range/">
                         <h2 class="post-title">
-                            AWS VPN with RouterBoard
+                            Retrieving AWS IP range
                         </h2>
                         
                     </a>
@@ -562,9 +562,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2017/11/17/aws-ip-range/">
+                     <a href="/2017/12/18/Network-Performance-Tuning/">
                         <h2 class="post-title">
-                            Retrieving AWS IP range
+                            TCP Network Performance Tuning 筆記
                         </h2>
                         
                     </a>
@@ -577,9 +577,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2017/12/18/Network-Performance-Tuning/">
+                     <a href="/2018/03/14/AWS-VPN-with-RouterBoard/">
                         <h2 class="post-title">
-                            TCP Network Performance Tuning 筆記
+                            AWS VPN with RouterBoard
                         </h2>
                         
                     </a>
@@ -846,6 +846,25 @@
                 </div>
                 <hr>
                 
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/02/10/prometheus-operator-with-thanos/">
+                        <h2 class="post-title">
+                            Deploy Prometheus Operator With Thanos
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                Solve HA and long term storage of Prometheus
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
             </div>
             
             <div class="one-tag-list">
@@ -890,58 +909,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="kubernetes">
-                    <span class="tag-text">kubernetes</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/02/10/prometheus-operator-with-thanos/">
-                        <h2 class="post-title">
-                            Deploy Prometheus Operator With Thanos
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                Solve HA and long term storage of Prometheus
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="prometheus">
-                    <span class="tag-text">prometheus</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/02/10/prometheus-operator-with-thanos/">
-                        <h2 class="post-title">
-                            Deploy Prometheus Operator With Thanos
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                Solve HA and long term storage of Prometheus
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="ffmpeg">
                     <span class="tag-text">ffmpeg</span>
                 </span>
@@ -958,6 +925,58 @@
                         
                             <h3 class="post-subtitle">
                                 一些基本知識
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Prometheus">
+                    <span class="tag-text">Prometheus</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/02/10/prometheus-operator-with-thanos/">
+                        <h2 class="post-title">
+                            Deploy Prometheus Operator With Thanos
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                Solve HA and long term storage of Prometheus
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Thanos">
+                    <span class="tag-text">Thanos</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/02/10/prometheus-operator-with-thanos/">
+                        <h2 class="post-title">
+                            Deploy Prometheus Operator With Thanos
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                Solve HA and long term storage of Prometheus
                             </h3>
                         
                     </a>
