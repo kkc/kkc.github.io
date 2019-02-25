@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kkc.github.io/2019/02/25/install-prometheus-on-EKS/</loc>
+    
+    <lastmod>2019-02-25T14:11:02.180Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/2019/02/10/prometheus-operator-with-thanos/</loc>
     
     <lastmod>2019-02-11T03:41:45.893Z</lastmod>
@@ -51,13 +58,6 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/07/23/aws-route-53-multivalue/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.967Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://kkc.github.io/2015/07/14/mongodb-storage/</loc>
     
     <lastmod>2018-09-28T01:36:07.967Z</lastmod>
@@ -65,14 +65,21 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2016/01/14/docker-registry-installation/</loc>
+    <loc>http://kkc.github.io/2017/07/23/aws-route-53-multivalue/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.967Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2018/07/24/thoughts-on-compassionate-code/</loc>
     
     <lastmod>2018-09-28T01:36:07.966Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/07/24/thoughts-on-compassionate-code/</loc>
+    <loc>http://kkc.github.io/2016/01/14/docker-registry-installation/</loc>
     
     <lastmod>2018-09-28T01:36:07.966Z</lastmod>
     
@@ -86,14 +93,14 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/09/01/asynchronous-programming/</loc>
+    <loc>http://kkc.github.io/2018/08/15/lesson-learn-of-elasticsearch-outage/</loc>
     
     <lastmod>2018-09-28T01:36:07.963Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/08/15/lesson-learn-of-elasticsearch-outage/</loc>
+    <loc>http://kkc.github.io/2017/09/01/asynchronous-programming/</loc>
     
     <lastmod>2018-09-28T01:36:07.963Z</lastmod>
     
@@ -107,13 +114,6 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/12/03/aws-fargate/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.962Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://kkc.github.io/2015/08/16/RDBMS-course/</loc>
     
     <lastmod>2018-09-28T01:36:07.962Z</lastmod>
@@ -121,9 +121,9 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/11/17/aws-ip-range/</loc>
+    <loc>http://kkc.github.io/2017/12/03/aws-fargate/</loc>
     
-    <lastmod>2018-09-28T01:36:07.961Z</lastmod>
+    <lastmod>2018-09-28T01:36:07.962Z</lastmod>
     
   </url>
   
@@ -135,14 +135,21 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/04/07/aws-group-security-note/</loc>
+    <loc>http://kkc.github.io/2017/11/17/aws-ip-range/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.961Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2015/07/21/mongodb-memory-structure/</loc>
     
     <lastmod>2018-09-28T01:36:07.960Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2015/07/21/mongodb-memory-structure/</loc>
+    <loc>http://kkc.github.io/2017/04/07/aws-group-security-note/</loc>
     
     <lastmod>2018-09-28T01:36:07.960Z</lastmod>
     
@@ -198,14 +205,14 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2015/07/08/hello-hexo/</loc>
+    <loc>http://kkc.github.io/2017/06/16/acs-engine-note/</loc>
     
     <lastmod>2018-09-28T01:36:07.955Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/06/16/acs-engine-note/</loc>
+    <loc>http://kkc.github.io/2015/07/08/hello-hexo/</loc>
     
     <lastmod>2018-09-28T01:36:07.955Z</lastmod>
     
@@ -233,7 +240,7 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/04/28/docker-note/</loc>
+    <loc>http://kkc.github.io/2015/07/08/dealing-with-datetime-and-timezone-in-python/</loc>
     
     <lastmod>2018-09-28T01:36:07.953Z</lastmod>
     
@@ -247,7 +254,7 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2015/07/08/dealing-with-datetime-and-timezone-in-python/</loc>
+    <loc>http://kkc.github.io/2018/04/28/docker-note/</loc>
     
     <lastmod>2018-09-28T01:36:07.953Z</lastmod>
     
