@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kkc.github.io/2019/03/04/AWS-Shuffle-Sharding/</loc>
+    
+    <lastmod>2019-03-04T15:37:25.722Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/2019/02/25/install-prometheus-on-EKS/</loc>
     
     <lastmod>2019-02-25T14:11:02.180Z</lastmod>
@@ -51,14 +58,14 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/03/14/AWS-VPN-with-RouterBoard/</loc>
+    <loc>http://kkc.github.io/2015/07/14/mongodb-storage/</loc>
     
     <lastmod>2018-09-28T01:36:07.967Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2015/07/14/mongodb-storage/</loc>
+    <loc>http://kkc.github.io/2018/03/14/AWS-VPN-with-RouterBoard/</loc>
     
     <lastmod>2018-09-28T01:36:07.967Z</lastmod>
     
@@ -72,14 +79,14 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/07/24/thoughts-on-compassionate-code/</loc>
+    <loc>http://kkc.github.io/2016/01/14/docker-registry-installation/</loc>
     
     <lastmod>2018-09-28T01:36:07.966Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2016/01/14/docker-registry-installation/</loc>
+    <loc>http://kkc.github.io/2018/07/24/thoughts-on-compassionate-code/</loc>
     
     <lastmod>2018-09-28T01:36:07.966Z</lastmod>
     
@@ -107,6 +114,13 @@
   </url>
   
   <url>
+    <loc>http://kkc.github.io/2017/12/03/aws-fargate/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.962Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/2018/03/21/IPSEC-note/</loc>
     
     <lastmod>2018-09-28T01:36:07.962Z</lastmod>
@@ -121,9 +135,9 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/12/03/aws-fargate/</loc>
+    <loc>http://kkc.github.io/2017/11/17/aws-ip-range/</loc>
     
-    <lastmod>2018-09-28T01:36:07.962Z</lastmod>
+    <lastmod>2018-09-28T01:36:07.961Z</lastmod>
     
   </url>
   
@@ -135,9 +149,9 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/11/17/aws-ip-range/</loc>
+    <loc>http://kkc.github.io/2018/08/26/build-a-better-client/</loc>
     
-    <lastmod>2018-09-28T01:36:07.961Z</lastmod>
+    <lastmod>2018-09-28T01:36:07.960Z</lastmod>
     
   </url>
   
@@ -156,13 +170,6 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/08/26/build-a-better-client/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.960Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://kkc.github.io/2017/02/19/reading-note-apprenticeship-patterns/</loc>
     
     <lastmod>2018-09-28T01:36:07.959Z</lastmod>
@@ -170,14 +177,14 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2016/07/03/golang-ci/</loc>
+    <loc>http://kkc.github.io/2017/08/06/coscup-2017/</loc>
     
     <lastmod>2018-09-28T01:36:07.958Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/08/06/coscup-2017/</loc>
+    <loc>http://kkc.github.io/2016/07/03/golang-ci/</loc>
     
     <lastmod>2018-09-28T01:36:07.958Z</lastmod>
     
@@ -198,13 +205,6 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/12/18/Network-Performance-Tuning/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.955Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://kkc.github.io/2017/06/16/acs-engine-note/</loc>
     
     <lastmod>2018-09-28T01:36:07.955Z</lastmod>
@@ -219,14 +219,14 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2016/12/13/reinvent-netflix-multiregion-deployment/</loc>
+    <loc>http://kkc.github.io/2017/12/18/Network-Performance-Tuning/</loc>
     
-    <lastmod>2018-09-28T01:36:07.954Z</lastmod>
+    <lastmod>2018-09-28T01:36:07.955Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/07/07/mysql-partitioning/</loc>
+    <loc>http://kkc.github.io/2016/12/13/reinvent-netflix-multiregion-deployment/</loc>
     
     <lastmod>2018-09-28T01:36:07.954Z</lastmod>
     
@@ -240,7 +240,14 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2015/07/08/dealing-with-datetime-and-timezone-in-python/</loc>
+    <loc>http://kkc.github.io/2017/07/07/mysql-partitioning/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.954Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2018/04/28/docker-note/</loc>
     
     <lastmod>2018-09-28T01:36:07.953Z</lastmod>
     
@@ -254,21 +261,21 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/04/28/docker-note/</loc>
+    <loc>http://kkc.github.io/2015/07/08/dealing-with-datetime-and-timezone-in-python/</loc>
     
     <lastmod>2018-09-28T01:36:07.953Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/06/06/gracefully-shutdown-docker-container/</loc>
+    <loc>http://kkc.github.io/2018/09/11/EKS-troubleshooting/</loc>
     
     <lastmod>2018-09-28T01:36:07.952Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/09/11/EKS-troubleshooting/</loc>
+    <loc>http://kkc.github.io/2018/06/06/gracefully-shutdown-docker-container/</loc>
     
     <lastmod>2018-09-28T01:36:07.952Z</lastmod>
     
