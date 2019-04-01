@@ -201,6 +201,36 @@
 
 <div class="post-preview">
 
+    <a href="/2017/07/23/aws-route-53-multivalue/">
+        <h2 class="post-title">
+            AWS route53 multivalue 筆記
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            AWS 發表的新的 route53 routing policy: multivalue，Raddit 上面的某篇  文章，有比較了一下跟 simple &amp; weighted 的差別，但主要看這張圖就夠了 http://imgur.com/4gvktlm。
+
+simple 是把 multiple values (IP) 寫成一筆 record，但是 multivalue 是寫成多筆，......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2017-07-23
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#AWS" title="AWS">AWS</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/2017/07/07/mysql-partitioning/">
         <h2 class="post-title">
             MySQL partition 筆記
@@ -464,34 +494,6 @@ continually delivery......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/2016/08/22/ubuntu16-04-docker-aufs/">
-        <h2 class="post-title">
-            ubuntu16.04-docker-aufs
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Background事情是這樣的，前陣子在 AWS 上面使用最新的 ubuntu image 來建置 production 的環境，大家都知道 ubuntu 16.04 已經採用  萬惡  的 systemd 來管理 ubuntu 上面的 process，而在我開開心心使用 systemd 來管理我的 docker 時，就這麼發生了意外，每當我打好 AMI 再使用這個 AMI 開機時，就會發......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2016-08-22
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#docker" title="docker">docker</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -544,10 +546,6 @@ continually delivery......
             
         
             
-            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
-            
-        
-            
             <a href="/tags/#docker" title="docker" rel="4">docker</a>
             
         
@@ -560,11 +558,15 @@ continually delivery......
             
         
             
-        
-            
             <a href="/tags/#elasticsearch" title="elasticsearch" rel="2">elasticsearch</a>
             
         
+            
+        
+            
+        
+            
+            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
             
         
             
@@ -597,6 +599,8 @@ continually delivery......
         
             
         
+            
+        
     </div>
 </section>
 
@@ -606,6 +610,10 @@ continually delivery......
   <h5>RECENT POSTS
   <div class="widget">
     <ul>
+      
+        <li>
+          <a href="/2019/03/28/learn-loop-invariant-from-binary-search/">透過 loop invariant 學習怎麼寫正確的 binary search</a>
+        </li>
       
         <li>
           <a href="/2019/03/04/AWS-Shuffle-Sharding/">AWS Shuffle Sharding</a>
@@ -623,10 +631,6 @@ continually delivery......
           <a href="/2019/01/12/ffmpeg-libav-decode-note/">FFmpeg libav decode 筆記</a>
         </li>
       
-        <li>
-          <a href="/2018/10/04/EKS-notes/">EKS 的一些筆記</a>
-        </li>
-      
     </ul>
   </div>
 </h5>
@@ -635,7 +639,7 @@ continually delivery......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>
