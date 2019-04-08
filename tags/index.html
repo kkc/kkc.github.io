@@ -188,17 +188,15 @@
             <!-- 标签云 -->
             <div id="tag_cloud" class="tags">
                 
-                    <a href="#python" title="python" rel="1">python</a>
-                
                     <a href="#mongodb" title="mongodb" rel="3">mongodb</a>
-                
-                    <a href="#mysql" title="mysql" rel="2">mysql</a>
-                
-                    <a href="#docker" title="docker" rel="4">docker</a>
                 
                     <a href="#monitoring" title="monitoring" rel="2">monitoring</a>
                 
                     <a href="#graphite" title="graphite" rel="1">graphite</a>
+                
+                    <a href="#mysql" title="mysql" rel="2">mysql</a>
+                
+                    <a href="#docker" title="docker" rel="4">docker</a>
                 
                     <a href="#golang" title="golang" rel="2">golang</a>
                 
@@ -208,9 +206,9 @@
                 
                     <a href="#Jenkins" title="Jenkins" rel="1">Jenkins</a>
                 
-                    <a href="#Azure" title="Azure" rel="1">Azure</a>
-                
                     <a href="#reading" title="reading" rel="1">reading</a>
+                
+                    <a href="#Azure" title="Azure" rel="1">Azure</a>
                 
                     <a href="#programmming" title="programmming" rel="1">programmming</a>
                 
@@ -222,13 +220,19 @@
                 
                     <a href="#EKS" title="EKS" rel="3">EKS</a>
                 
+                    <a href="#python" title="python" rel="1">python</a>
+                
                     <a href="#ffmpeg" title="ffmpeg" rel="1">ffmpeg</a>
                 
                     <a href="#Prometheus" title="Prometheus" rel="1">Prometheus</a>
                 
                     <a href="#Thanos" title="Thanos" rel="1">Thanos</a>
                 
+                    <a href="#IAM" title="IAM" rel="1">IAM</a>
+                
                     <a href="#Operation" title="Operation" rel="1">Operation</a>
+                
+                    <a href="#algorithm" title="algorithm" rel="1">algorithm</a>
                 
                     <a href="#prometheus" title="prometheus" rel="1">prometheus</a>
                 
@@ -236,56 +240,15 @@
                 
                     <a href="#helm" title="helm" rel="1">helm</a>
                 
-                    <a href="#algorithm" title="algorithm" rel="1">algorithm</a>
-                
-                    <a href="#IAM" title="IAM" rel="1">IAM</a>
-                
             </div>
 
             <!-- 标签列表 -->
 
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="python">
-                    <span class="tag-text">python</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
-                        <h2 class="post-title">
-                            Python 的時間還有時區處理
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="mongodb">
                     <span class="tag-text">mongodb</span>
                 </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/07/21/mongodb-memory-structure/">
-                        <h2 class="post-title">
-                            Mongodb 如何使用 Memory 和 tuning 的小技巧
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
                 
                   <!-- <li class="listing-item">
                   <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
@@ -307,9 +270,87 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
+                     <a href="/2015/07/21/mongodb-memory-structure/">
+                        <h2 class="post-title">
+                            Mongodb 如何使用 Memory 和 tuning 的小技巧
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
                      <a href="/2015/08/16/RDBMS-course/">
                         <h2 class="post-title">
                             RDBMS 先修課程筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="monitoring">
+                    <span class="tag-text">monitoring</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/09/05/monitoring-with-graphite/">
+                        <h2 class="post-title">
+                            使用 statsd + graphite 的 monitoring 心得
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/02/25/install-prometheus-on-EKS/">
+                        <h2 class="post-title">
+                            利用 Helm 在 EKS 上安裝 Prometheus
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                一些踩雷經驗
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="graphite">
+                    <span class="tag-text">graphite</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/09/05/monitoring-with-graphite/">
+                        <h2 class="post-title">
+                            使用 statsd + graphite 的 monitoring 心得
                         </h2>
                         
                     </a>
@@ -414,69 +455,6 @@
                      <a href="/2018/04/28/docker-note/">
                         <h2 class="post-title">
                             用 docker 改善開發流程筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="monitoring">
-                    <span class="tag-text">monitoring</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/09/05/monitoring-with-graphite/">
-                        <h2 class="post-title">
-                            使用 statsd + graphite 的 monitoring 心得
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/02/25/install-prometheus-on-EKS/">
-                        <h2 class="post-title">
-                            利用 Helm 在 EKS 上安裝 Prometheus
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                一些踩雷經驗
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="graphite">
-                    <span class="tag-text">graphite</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/09/05/monitoring-with-graphite/">
-                        <h2 class="post-title">
-                            使用 statsd + graphite 的 monitoring 心得
                         </h2>
                         
                     </a>
@@ -672,6 +650,25 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
+                     <a href="/2019/04/08/analyze-iam-permission-using-iam-access-advisor-api/">
+                        <h2 class="post-title">
+                            透過 IAM access advisor API 來幫 IAM permission 做大掃除
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                終於學會怎麼系統性的清 IAM
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
                      <a href="/2019/03/04/AWS-Shuffle-Sharding/">
                         <h2 class="post-title">
                             AWS Shuffle Sharding
@@ -694,25 +691,6 @@
                         
                             <h3 class="post-subtitle">
                                 一些踩雷經驗
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/04/08/analyze-iam-permission-using-iam-access-advisor-api/">
-                        <h2 class="post-title">
-                            透過 IAM access advisor API 來幫 IAM permission 做大掃除
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                終於學會怎麼系統性的清 IAM
                             </h3>
                         
                     </a>
@@ -782,28 +760,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Azure">
-                    <span class="tag-text">Azure</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/04/24/azure-note/">
-                        <h2 class="post-title">
-                            Azure VMSS 的簡略使用筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="reading">
                     <span class="tag-text">reading</span>
                 </span>
@@ -816,6 +772,28 @@
                      <a href="/2017/02/19/reading-note-apprenticeship-patterns/">
                         <h2 class="post-title">
                             筆記：學徒模式，優秀軟體開發者的養成之路
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Azure">
+                    <span class="tag-text">Azure</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2017/04/24/azure-note/">
+                        <h2 class="post-title">
+                            Azure VMSS 的簡略使用筆記
                         </h2>
                         
                     </a>
@@ -1012,6 +990,28 @@
             </div>
             
             <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="python">
+                    <span class="tag-text">python</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
+                        <h2 class="post-title">
+                            Python 的時間還有時區處理
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="ffmpeg">
                     <span class="tag-text">ffmpeg</span>
                 </span>
@@ -1090,6 +1090,32 @@
             </div>
             
             <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="IAM">
+                    <span class="tag-text">IAM</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/04/08/analyze-iam-permission-using-iam-access-advisor-api/">
+                        <h2 class="post-title">
+                            透過 IAM access advisor API 來幫 IAM permission 做大掃除
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                終於學會怎麼系統性的清 IAM
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="Operation">
                     <span class="tag-text">Operation</span>
                 </span>
@@ -1103,6 +1129,32 @@
                         <h2 class="post-title">
                             AWS Shuffle Sharding
                         </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="algorithm">
+                    <span class="tag-text">algorithm</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/03/28/learn-loop-invariant-from-binary-search/">
+                        <h2 class="post-title">
+                            透過 loop invariant 學習怎麼寫正確的 binary search
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                不容易，怎麼多年後才懂
+                            </h3>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1180,58 +1232,6 @@
                         
                             <h3 class="post-subtitle">
                                 一些踩雷經驗
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="algorithm">
-                    <span class="tag-text">algorithm</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/03/28/learn-loop-invariant-from-binary-search/">
-                        <h2 class="post-title">
-                            透過 loop invariant 學習怎麼寫正確的 binary search
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                不容易，怎麼多年後才懂
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="IAM">
-                    <span class="tag-text">IAM</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/04/08/analyze-iam-permission-using-iam-access-advisor-api/">
-                        <h2 class="post-title">
-                            透過 IAM access advisor API 來幫 IAM permission 做大掃除
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                終於學會怎麼系統性的清 IAM
                             </h3>
                         
                     </a>
