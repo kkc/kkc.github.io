@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword" content="AWS, golang, python, DevOps">
+    <meta property="og:title" content="透過 IAM access advisor API 來幫 IAM permission 做大掃除 - Kakashi&#39;s Blog">
+    <meta property="og:description" content="終於學會怎麼系統性的清 IAM">
+    <meta property="og:image" content="http://kkc.github.io/2019/04/08/analyze-iam-permission-using-iam-access-advisor-api/header.jpg">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          透過 IAM access advisor API 來幫 IAM permission 做大掃除 - Kakashi&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kkc.github.io/2019/04/08/analyze-iam-permission-using-iam-access-advisor-api/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
+    css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('header.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                            
+                              <a class="tag" href="/tags/#IAM" title="IAM">IAM</a>
+                            
+                        </div>
+                        <h1>透過 IAM access advisor API 來幫 IAM permission 做大掃除</h1>
+                        <h2 class="subheading">終於學會怎麼系統性的清 IAM</h2>
+                        <span class="meta">
+                            Posted by Kakashi on
+                            2019-04-08
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kakashi&#39;s Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                    <li>
+                        <a href="/atom.xml">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p> 隨著組織慢慢變大，在 AWS 上面常常會遇到一個問題就是，我的 IAM entity 的 permission 是不是開的太大了，這個問題常常發生在 developer 想要快速驗證自己的 application 能不能 work，而作為 admin 的我們有時會給予太大的權限，等到該專案開展到一定程度的時候，其實需要使用到的權限應該是穩定下來了，但又難以找每個專案負責人慢慢 review 權限，這樣一來，其實違反了 least privilege 的原則，也就是只給於需要的權限就好。</p>
+<h2 id="IAM-access-advisor-API"><a href="#IAM-access-advisor-API" class="headerlink" title="IAM access advisor API"></a>IAM access advisor API</h2><p>AWS 其實有推出一組用來分析 IAM 權限管理的 API，而 AWS 官方的 <a href="https://aws.amazon.com/blogs/security/automate-analyzing-permissions-using-iam-access-advisor/" target="_blank" rel="noopener">blog</a> 也有幾篇介紹，完全可以符合我們的需求，把一些用不到的權限限縮。</p>
+<ul>
+<li><code>generate-service-last-accessed-details</code> 針對 IAM ser, role, group, or policy 產生最後存取 (last accessed data) 的資訊，呼叫這個 API 後會拿到一組 <code>JobId</code>，接著要等待一陣子，才能透過 <code>get-service-last-accessed-details</code> 得到資料。</li>
+<li><code>get-service-last-accessed-details</code> 透過這個 API 輸入 JobId 去得到 last accessed 的資料 </li>
+<li><code>get-service-last-accessed-details-with-entities</code> 其實跟上面的 API 很類似，只是可以指定 –service-namespaces 去看特定的 service</li>
+<li><code>list-policies-granting-service-access</code> 可以看到這個權限（針對 service) 是從哪個 policy 來的 </li>
+</ul>
+<p> 有了以上這幾組 API 我們就可以實作一個簡單的 script 去掃出是否有全縣太大的 IAM entity。 </p>
+<h2 id="Simple-Example"><a href="#Simple-Example" class="headerlink" title="Simple Example"></a>Simple Example</h2><p> 這個範例很大一部分是參考 trek10inc 的 <a href="https://github.com/trek10inc/config-excess-access-exorcism/blob/734fecde2f02dd448e0439f366d5400d4413a6d0/IAM_ALLOWS_UNUSED_SERVICES/iam_rule_helpers.py" target="_blank" rel="noopener">config-excess-access-exorcism</a> 來的，不過有做一些簡單的修改，有了這個程式可以幫我們快速定位，那個 IAM role 開的權限太大，而這個 repo 其實想做到的事情更潮，是將其設定為 AWS config 的 rule，由此一來就可以讓 AWS 幫我們定期去掃 IAM entities。</p>
+<p> 先透過下面這個 function 拿到該 IAM entity 所有的 service 權限，這邊要注意的是要把 paginate 的資料也拿回來，因為有些權限太多需要好幾個 API call 才拿得齊。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_iam_last_access_details</span><span class="params">(iam, arn)</span>:</span></span><br><span class="line">    job = iam.generate_service_last_accessed_details(Arn=arn)</span><br><span class="line">    job_id = job[<span class="string">'JobId'</span>]</span><br><span class="line">    service_results = []</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        result = iam.get_service_last_accessed_details(JobId=job_id)</span><br><span class="line">        <span class="keyword">if</span> result[<span class="string">'JobStatus'</span>] == <span class="string">'IN_PROGRESS'</span>:</span><br><span class="line">            print(<span class="string">"Awaiting job"</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">elif</span> result[<span class="string">'JobStatus'</span>] == <span class="string">'FAILED'</span>:</span><br><span class="line">            <span class="keyword">raise</span> Exception(<span class="string">f"Could not get access information for <span class="subst">&#123;arn&#125;</span>"</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            service_results.extend(paginate_access_details(job_id, result))</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        time.sleep(<span class="number">5</span>)</span><br><span class="line">    <span class="keyword">return</span> service_results</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">paginate_access_details</span><span class="params">(job_id, result)</span>:</span></span><br><span class="line">    more_data, marker = result[<span class="string">'IsTruncated'</span>], result.get(<span class="string">'Marker'</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> more_data:</span><br><span class="line">        <span class="keyword">return</span> result[<span class="string">'ServicesLastAccessed'</span>]</span><br><span class="line"></span><br><span class="line">    all_service_info = result[<span class="string">'ServicesLastAccessed'</span>][:]</span><br><span class="line">    <span class="keyword">while</span> more_data:</span><br><span class="line">        page = iam.get_service_last_accessed_details(JobId=job_id, Marker=marker)</span><br><span class="line">        more_data, marker = page[<span class="string">'IsTruncated'</span>], page[<span class="string">'Marker'</span>]</span><br><span class="line">        all_service_info.extend(page[<span class="string">'ServicesLastAccessed'</span>])</span><br><span class="line">    <span class="keyword">return</span> all_service_info</span><br></pre></td></tr></table></figure></p>
+<p> 來個簡單的測試 <br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">detail = get_iam_last_access_details(<span class="name">iam</span>, <span class="string">"arn:aws:iam::AWS_ACCOUNT:role/service-role/AmazonEC2RunCommandRoleForManagedInstances"</span>)</span><br><span class="line">pprint(<span class="name">detail</span>)</span><br></pre></td></tr></table></figure></p>
+<p>Output 會長得像這樣:<br><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[&#123;   <span class="symbol">'ServiceName</span><span class="symbol">':</span> <span class="symbol">'Amazon</span> CloudWatch',</span><br><span class="line">        <span class="symbol">'ServiceNamespace</span><span class="symbol">':</span> <span class="symbol">'cloudwatch</span>',</span><br><span class="line">        <span class="symbol">'TotalAuthenticatedEntities</span><span class="symbol">':</span> <span class="number">0</span>&#125;,</span><br><span class="line">    &#123;   <span class="symbol">'ServiceName</span><span class="symbol">':</span> <span class="symbol">'AWS</span> Directory Service',</span><br><span class="line">        <span class="symbol">'ServiceNamespace</span><span class="symbol">':</span> <span class="symbol">'ds</span>',</span><br><span class="line">        <span class="symbol">'TotalAuthenticatedEntities</span><span class="symbol">':</span> <span class="number">0</span>&#125;,</span><br><span class="line">    &#123;   <span class="symbol">'ServiceName</span><span class="symbol">':</span> <span class="symbol">'Amazon</span> EC2',</span><br><span class="line">        <span class="symbol">'ServiceNamespace</span><span class="symbol">':</span> <span class="symbol">'ec2</span>',</span><br><span class="line">        <span class="symbol">'TotalAuthenticatedEntities</span><span class="symbol">':</span> <span class="number">0</span>&#125;,</span><br><span class="line">    &#123;   <span class="symbol">'LastAuthenticated</span><span class="symbol">':</span> datetime.datetime(<span class="name">2019</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">41</span>, tzinfo=tzutc()),</span><br><span class="line">        <span class="symbol">'LastAuthenticatedEntity</span><span class="symbol">':</span> <span class="symbol">'arn:aws:iam::774915305292:role/service-role/AmazonEC2RunCommandRoleForManagedInstances</span>',</span><br><span class="line">        <span class="symbol">'ServiceName</span><span class="symbol">':</span> <span class="symbol">'Amazon</span> Message Delivery Service',</span><br><span class="line">        <span class="symbol">'ServiceNamespace</span><span class="symbol">':</span> <span class="symbol">'ec2messages</span>',</span><br><span class="line">        <span class="symbol">'TotalAuthenticatedEntities</span><span class="symbol">':</span> <span class="number">1</span>&#125;,</span><br><span class="line">        ...</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p> 有了這個 output 我們就可以來開心的來分析啦，主要就是看 <code>LastAuthenticated</code> 這個欄位，如果沒有這個欄位就代表根本沒使用過，這個權限就該被剷除，另外也可以檢查是否這個使用的日期是不是在 180 天前，太久沒用也代表可能不需要了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">never_accessed_services_check</span><span class="params">(iam, arn)</span>:</span></span><br><span class="line">    service_results = get_iam_last_access_details(iam, arn)</span><br><span class="line">    never_accessed = [</span><br><span class="line">        x <span class="keyword">for</span> x <span class="keyword">in</span> service_results <span class="keyword">if</span> <span class="string">'LastAuthenticated'</span> <span class="keyword">not</span> <span class="keyword">in</span> x</span><br><span class="line">    ]</span><br><span class="line">    <span class="keyword">if</span> len(never_accessed) &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            <span class="string">'NON_COMPLIANT'</span>,</span><br><span class="line">            <span class="string">"Services"</span> + <span class="string">','</span>.join(<span class="string">f"'<span class="subst">&#123;x[<span class="string">'ServiceNamespace'</span>]&#125;</span>'"</span> <span class="keyword">for</span> x <span class="keyword">in</span> never_accessed) + <span class="string">"have never been accessed"</span>,</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'COMPLIANT'</span>, <span class="string">'IAM entity has accessed all allowed services'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">no_access_in_180_days_check</span><span class="params">(iam, arn)</span>:</span></span><br><span class="line">    <span class="keyword">import</span> pytz</span><br><span class="line"></span><br><span class="line">    service_results = get_iam_last_access_details(iam, arn)</span><br><span class="line"></span><br><span class="line">    pp = pprint.PrettyPrinter(indent=<span class="number">4</span>)</span><br><span class="line">    pp.pprint(service_results)</span><br><span class="line"></span><br><span class="line">    utc_now = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)</span><br><span class="line"></span><br><span class="line">    older_than_180_days = [</span><br><span class="line">        x <span class="keyword">for</span> x <span class="keyword">in</span> service_results</span><br><span class="line">        <span class="keyword">if</span> <span class="string">'LastAuthenticated'</span> <span class="keyword">in</span> x <span class="keyword">and</span> (utc_now - x[<span class="string">'LastAuthenticated'</span>]) &gt; datetime.timedelta(days=<span class="number">180</span>)</span><br><span class="line">    ]</span><br><span class="line">    <span class="keyword">if</span> len(older_than_180_days) &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            <span class="string">'NON_COMPLIANT'</span>,</span><br><span class="line">            <span class="string">"Services"</span> + <span class="string">','</span>.join(<span class="string">f"'<span class="subst">&#123;x[<span class="string">'ServiceNamespace'</span>]&#125;</span>'"</span> <span class="keyword">for</span> x <span class="keyword">in</span> older_than_180_days) + <span class="string">"have not been accessed in the last 180 days"</span>,</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'COMPLIANT'</span>, <span class="string">'IAM entity has accessed all allowed services in the last 180 days'</span></span><br></pre></td></tr></table></figure>
+<p> 在知道是哪個 service 有問題後，還可以用 <code>aws iam list-policies-granting-service-access --arn arn:aws:iam::AWS_ACCOUNT:role/service-role/AmazonEC2RunCommandRoleForManagedInstances --service-namespaces s3</code> 去看這個 service 的權限是從哪個 policy 來的。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"PoliciesGrantingServiceAccess"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"ServiceNamespace"</span>: <span class="string">"s3"</span>,</span><br><span class="line">            <span class="attr">"Policies"</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">"PolicyName"</span>: <span class="string">"AmazonEC2RoleforSSM"</span>,</span><br><span class="line">                    <span class="attr">"PolicyType"</span>: <span class="string">"MANAGED"</span>,</span><br><span class="line">                    <span class="attr">"PolicyArn"</span>: <span class="string">"arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"</span></span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"IsTruncated"</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>sample code 可以用下列的程式碼 </p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">def get_policies(iam, arn, service_namespace_list):</span><br><span class="line">    policies = []</span><br><span class="line">    <span class="built_in">result</span> = iam.list_policies_granting_service_access(Arn=arn, ServiceNamespaces=service_namespace_list)</span><br><span class="line">    policies.extend(paginate_policies(arn, service_namespace_list, <span class="built_in">result</span>))</span><br><span class="line">    <span class="literal">return</span> policies</span><br><span class="line"></span><br><span class="line">def paginate_policies(arn, service_namespace_list, <span class="built_in">result</span>):</span><br><span class="line">    more_data, marker = <span class="built_in">result</span>[<span class="string">'IsTruncated'</span>], <span class="built_in">result</span>.<span class="built_in">get</span>(<span class="string">'Marker'</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> more_data:</span><br><span class="line">        <span class="literal">return</span> <span class="built_in">result</span>[<span class="string">'PoliciesGrantingServiceAccess'</span>]</span><br><span class="line"></span><br><span class="line">    all_service_info = <span class="built_in">result</span>[<span class="string">'PoliciesGrantingServiceAccess'</span>][:]</span><br><span class="line">    <span class="keyword">while</span> more_data:</span><br><span class="line">        page = iam.list_policies_granting_service_access(Arn=arn, ServiceNamespaces=service_namespace_list, Marker=marker)</span><br><span class="line">        more_data, marker = page[<span class="string">'IsTruncated'</span>], page[<span class="string">'Marker'</span>]</span><br><span class="line">        all_service_info.extend(page[<span class="string">'PoliciesGrantingServiceAccess'</span>])</span><br><span class="line">    <span class="literal">return</span> all_service_info</span><br></pre></td></tr></table></figure>
+<p> 就可以找出需要修正的 policy 像是這樣 </p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">   &#123;  </span><br><span class="line">      <span class="symbol">'ServiceNamespace</span><span class="symbol">':</span><span class="symbol">'s3</span>',</span><br><span class="line">      <span class="symbol">'Policies</span><span class="symbol">':</span>[</span><br><span class="line">         &#123;  </span><br><span class="line">            <span class="symbol">'PolicyName</span><span class="symbol">':</span><span class="symbol">'AmazonEC2RoleforSSM</span>',</span><br><span class="line">            <span class="symbol">'PolicyType</span><span class="symbol">':</span><span class="symbol">'MANAGED</span>',</span><br><span class="line">            <span class="symbol">'PolicyArn</span><span class="symbol">':</span><span class="symbol">'arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM</span>'</span><br><span class="line">         &#125;</span><br><span class="line">      ]</span><br><span class="line">   &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h2 id="心得"><a href="# 心得" class="headerlink" title="心得"></a> 心得 </h2><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a href="https://www.trek10.com/blog/excess-access-exorcism-with-aws-config/" target="_blank" rel="noopener">https://www.trek10.com/blog/excess-access-exorcism-with-aws-config/</a></li>
+<li><a href="https://aws.amazon.com/blogs/security/remove-unnecessary-permissions-in-your-iam-policies-by-using-service-last-accessed-data/" target="_blank" rel="noopener">remove unnecessary permissions in your iam policies by using service last accessed data</a></li>
+<li><p><a href="https://aws.amazon.com/blogs/security/automate-analyzing-permissions-using-iam-access-advisor/" target="_blank" rel="noopener">automate-analyzing-permissions-using-iam-access-advisor</a></p>
+</li>
+<li><p>header image credit<a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@jbriscoe?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Jason Briscoe"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Jason Briscoe</span></a></p>
+</li>
+</ol>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/03/28/learn-loop-invariant-from-binary-search/" data-toggle="tooltip" data-placement="top" title="透過 loop invariant 學習怎麼寫正確的 binary search">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Preface"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Preface</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#IAM-access-advisor-API"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">IAM access advisor API</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Simple-Example"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Simple Example</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#心得"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"> 心得 </span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                        
+                          <a class="tag" href="/tags/#IAM" title="IAM">IAM</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "kkcliu";
+    var disqus_identifier = "http://kkc.github.io/2019/04/08/analyze-iam-permission-using-iam-access-advisor-api/";
+    var disqus_url = "http://kkc.github.io/2019/04/08/analyze-iam-permission-using-iam-access-advisor-api/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kakashi 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kkc.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-64932988-1';
+    var _gaDomain = 'kkc.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
