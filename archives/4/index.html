@@ -201,6 +201,37 @@
 
 <div class="post-preview">
 
+    <a href="/2017/02/07/migrate-elasticsearch-2-3-to-5-1-on-aws/">
+        <h2 class="post-title">
+            migrate elasticsearch 2.3 to 5.1 on AWS
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+             前陣子看到 Elasticsearch on AWS 終於升級到 5.1，就一直想著要把原本有的 2.3 cluster migrate 到 5.1，而查了一下發現步驟有點小複雜，不過實作過一次就上手了，特地來紀錄一下。
+ 主要是參照下面兩篇文章 
+
+http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2017-02-07
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/2016/12/13/reinvent-netflix-multiregion-deployment/">
         <h2 class="post-title">
             Note for AWS re:Invent 2016 Multi-Region Delivery Netflix Style (DEV311)
@@ -473,37 +504,6 @@ m......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/2015/07/14/mongodb-storage/">
-        <h2 class="post-title">
-            Mongodb Storage 的架構和問題解法
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab 這篇  和自己一些經驗心得。
-MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原文不同，我稍微做了點修改)
-
-假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp; B)，而基本上會被這樣儲存，test.0......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2015-07-14
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#mongodb" title="mongodb">mongodb</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -544,8 +544,6 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
     <div class="tags">
         
             
-        
-            
             <a href="/tags/#mongodb" title="mongodb" rel="3">mongodb</a>
             
         
@@ -572,6 +570,8 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
             
         
             
+        
+            
             <a href="/tags/#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
             
         
@@ -593,6 +593,14 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
             <a href="/tags/#EKS" title="EKS" rel="3">EKS</a>
             
         
+            
+        
+            
+            <a href="/tags/#Prometheus" title="Prometheus" rel="2">Prometheus</a>
+            
+        
+            
+            <a href="/tags/#Thanos" title="Thanos" rel="2">Thanos</a>
             
         
             
@@ -626,6 +634,10 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
     <ul>
       
         <li>
+          <a href="/2019/08/22/coscup-ha-prometheus-solution-thanos/">Coscup 分享 - HA Prometheus Solution Thanos</a>
+        </li>
+      
+        <li>
           <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">Performance tweaking for fluentd aggregator (EFK stack)</a>
         </li>
       
@@ -641,10 +653,6 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
           <a href="/2019/03/04/AWS-Shuffle-Sharding/">AWS Shuffle Sharding</a>
         </li>
       
-        <li>
-          <a href="/2019/02/25/install-prometheus-on-EKS/">利用 Helm 在 EKS 上安裝 Prometheus</a>
-        </li>
-      
     </ul>
   </div>
 </h5>
@@ -653,7 +661,7 @@ MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原�
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>
