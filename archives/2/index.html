@@ -201,6 +201,38 @@
 
 <div class="post-preview">
 
+    <a href="/2018/09/11/EKS-troubleshooting/">
+        <h2 class="post-title">
+            記一次 AWS EKS troubleshooting 的歷程
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言  千呼萬喚下，前陣子 AWS 版本的 Kubernetes 終於 GA 了，但其實真正玩過後，跟之前用 CoreOS 跑起來的 Kubernetes 有不少的差別，主要是因為 AWS 需要把 IAM 及 Network 部分和 Kubernetes 做整合，因為權限和網路效能其實對於服務都是很重要的，而我也是在跑過 EKS 和經歷了這個除錯的過程，才更讓我了解到在不同平台上跑 Kube......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2018-09-11
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#AWS" title="AWS">AWS</a>
+            
+              <a href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
+            
+              <a href="/tags/#EKS" title="EKS">EKS</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/2018/08/26/build-a-better-client/">
         <h2 class="post-title">
             Build a better client
@@ -460,36 +492,6 @@ PrefaceThis is a talk I presented at the internal company meeting. It mainly add
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/2017/11/17/aws-ip-range/">
-        <h2 class="post-title">
-            Retrieving AWS IP range
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            It’s a simple note that how to get notifications while AWS IP range changed
-Usagehttp://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html
-AWS provides the ip range file, you can download fro......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2017-11-17
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#AWS" title="AWS">AWS</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -534,11 +536,9 @@ AWS provides the ip range file, you can download fro......
             
         
             
-            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
-            
         
             
-            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
             
         
             
@@ -548,17 +548,21 @@ AWS provides the ip range file, you can download fro......
             
         
             
-            <a href="/tags/#golang" title="golang" rel="2">golang</a>
+            <a href="/tags/#golang" title="golang" rel="3">golang</a>
+            
+        
+            
+            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+            
+        
+            
+            <a href="/tags/#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
             
         
             
             <a href="/tags/#AWS" title="AWS" rel="12">AWS</a>
             
         
-            
-        
-            
-            <a href="/tags/#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
             
         
             
@@ -605,10 +609,6 @@ AWS provides the ip range file, you can download fro......
         
             
         
-            
-        
-            
-        
     </div>
 </section>
 
@@ -618,6 +618,10 @@ AWS provides the ip range file, you can download fro......
   <h5>RECENT POSTS
   <div class="widget">
     <ul>
+      
+        <li>
+          <a href="/2019/11/13/golang-meetup45/">Golang 10th Anniversary x GTG 45th 心得</a>
+        </li>
       
         <li>
           <a href="/2019/08/22/coscup-ha-prometheus-solution-thanos/">Coscup 分享 - HA Prometheus Solution Thanos</a>
@@ -635,10 +639,6 @@ AWS provides the ip range file, you can download fro......
           <a href="/2019/03/28/learn-loop-invariant-from-binary-search/">透過 loop invariant 學習怎麼寫正確的 binary search</a>
         </li>
       
-        <li>
-          <a href="/2019/03/04/AWS-Shuffle-Sharding/">AWS Shuffle Sharding</a>
-        </li>
-      
     </ul>
   </div>
 </h5>
@@ -647,7 +647,7 @@ AWS provides the ip range file, you can download fro......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>

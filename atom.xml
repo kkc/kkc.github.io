@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://kkc.github.io/"/>
-  <updated>2019-09-17T02:51:20.019Z</updated>
+  <updated>2019-11-13T15:47:18.861Z</updated>
   <id>http://kkc.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Golang 10th Anniversary x GTG 45th 心得</title>
+    <link href="http://kkc.github.io/2019/11/13/golang-meetup45/"/>
+    <id>http://kkc.github.io/2019/11/13/golang-meetup45/</id>
+    <published>2019-11-13T14:59:26.000Z</published>
+    <updated>2019-11-13T15:47:18.861Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="./10th.jpeg" alt="10 週年"></p><p>上禮拜很開心可以參加 Golang 10th anniversary 的聚會，身為這次聚會的 co-organizer 加上贊助商，不但要參加 Golang 官方的行前會議，還有準備訂 Pizza 加上當講者，要做的事情真的是蠻多的，然後 Pizza 訂太少，讓晚來的同學沒有吃到，真的是蠻抱歉的，下次還有機會訂 Pizza 就知道該怎麼辦了。</p><p><img src="./pizza.jpeg" alt="Pizza"></p><p>這次聚會相關資料如下，之後有興趣參加的人可以先加 meetup 帳號:</p><ul><li>社群 Golang Taipei Gathering： <a href="https://www.meetup.com/golang-taipei-meetup" target="_blank" rel="noopener">https://www.meetup.com/golang-taipei-meetup</a></li><li>本次活動網頁: <a href="https://www.meetup.com/golang-taipei-meetup/events/264921214/" target="_blank" rel="noopener">活動網址</a></li></ul><h2 id="How-I-become-Go-GDE"><a href="#How-I-become-Go-GDE" class="headerlink" title="How I become Go GDE"></a>How I become Go GDE</h2><p><img src="./evan.jpeg" alt="evan"></p><p><a href="https://blog.golang.org/10years" target="_blank" rel="noopener">十週年 </a> 聚會一開始就是 Golang 社群的扛霸子 Evan 大大主講，然後給的題目我覺得真的很適合十週年聚會，告訴大家了 Golang 這十年來的發展，還有 Evan 為什麼會接觸 Golang ，而其實我會學習 Golang 其實或多或少跟 Evan 也有關係，大概也是五年前，看到 Evan 在開 <a href="https://pdos.csail.mit.edu/6.824/" target="_blank" rel="noopener">MIT 6.824</a> 的讀書會時，所使用到的語言，接下來也是越來越多 infra 相關的 tool，像是 etcd, docker, k8s, terraform 等等都是用 Golang 開發的，讓我也對這個語言有了很大的興趣。</p><p>然後 Evan 也分享了他的學習過程與方法，寫部落格和分享大概是我從 Evan 身上學到最多的東西，雖然值和量還遠遠不及啊（抱頭），但是真的透過分享和寫作，可以把自己不熟悉的地方重複思考，因為真的是很怕講錯或是寫錯，這樣一來就有機會窺探自己的盲點。</p><p>投影片:</p><p><iframe src="//www.slideshare.net/slideshow/embed_code/key/iBL48fizlti9dZ" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/EvansLin/golang-taipei-45-10th-birthday" title="Golang taipei #45 10th birthday" target="_blank">Golang taipei #45 10th birthday</a> </strong> from <strong><a href="https://www.slideshare.net/EvansLin" target="_blank">Evan Lin</a></strong> </div></p><h2 id="Understanding-real-world-concurrency-bugs-in-go"><a href="#Understanding-real-world-concurrency-bugs-in-go" class="headerlink" title="Understanding real world concurrency bugs in go"></a>Understanding real world concurrency bugs in go</h2><p><img src="./kakashi.jpeg" alt="kakashi"></p><p>我給的 talk 主要是想跟大家聊聊一篇 <a href="https://songlh.github.io/paper/go-study.pdf" target="_blank" rel="noopener"> 論文</a> 的內容，他將 Golang 裡面的 bugs 分為 blocking &amp; non-blocking 兩種，並且給出結論是， Golang 的語法或是 practice ，不一定比傳統 mutex 的方式少 blocking 的 bugs，而在 non-blocking 的 bugs 上面，的確會少許多，並且給出了一些真實世界的範例，而這些範例都出自於很熱門的 open source project 像是 Docker, Kubernetes, etcd ，其實我對於讀那些 Bugs 比較有興趣，可以看到有些其實是不熟 Golang 語法而產生的，而這些 Bugs，又是在一般情況下，不太容易被走到的 path，從這些 Bugs 中，我們可以學習到很多有可能會犯錯的場景，相關的內容可以看我的投影片或是到論文的 <a href="https://github.com/system-pclub/go-concurrency-bugs" target="_blank" rel="noopener">GitHub repo</a> 找，很推薦大家去讀。</p><p>投影片:</p><p><iframe src="//www.slideshare.net/slideshow/embed_code/key/zqstqPzCiwSA6H" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/kakashiliu/understanding-real-world-concurrency-bugs-in-go-191283124" title="Understanding real world concurrency bugs in go (fixed)" target="_blank">Understanding real world concurrency bugs in go (fixed)</a> </strong> de <strong><a href="https://www.slideshare.net/kakashiliu" target="_blank">cc liu</a></strong> </div></p><h2 id="小結"><a href="# 小結" class="headerlink" title="小結"></a>小結 </h2><p>Golang meetup 也辦到第 45 場了，而且這次還上了 meetup Twitter 的<a href="https://twitter.com/Meetup/status/1193528748857024512" target="_blank" rel="noopener"> 推</a>，感覺真的是蠻棒的，希望台灣有越來越多寫 Golang 的人和公司，然後透過社群來一起學習，另外真心期望明年能夠把 GopherCon 辦成，接下來會更專心的來找贊助的機會，希望大家能多多支持摟。</p><p><img src="./gophercon.jpeg" alt="gophercon"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;./10th.jpeg&quot; alt=&quot;10 週年&quot;&gt;&lt;/p&gt;
+&lt;p&gt;上禮拜很開心可以參加 Golang 10th anniversary 的聚會，身為這次聚會的 co-organizer 加上贊助商，不但要參加 Golang 官方的行前會議，還有準備訂 P
+      
+    
+    </summary>
+    
+    
+      <category term="golang" scheme="http://kkc.github.io/tags/golang/"/>
+    
+  </entry>
   
   <entry>
     <title>Coscup 分享 - HA Prometheus Solution Thanos</title>
@@ -474,30 +498,6 @@
       
       
         &lt;p&gt;AWS reinvent 2017 推出了許多對 container 管理的新工具，基本上我原本以為有 K8s on AWS 就很厲害了，沒想到 AWS 也沒有想放棄 ECS，在這兩個 container orchestration 的方法上面又疊加了一層 managed 
-      
-    
-    </summary>
-    
-    
-      <category term="AWS" scheme="http://kkc.github.io/tags/AWS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Retrieving AWS IP range</title>
-    <link href="http://kkc.github.io/2017/11/17/aws-ip-range/"/>
-    <id>http://kkc.github.io/2017/11/17/aws-ip-range/</id>
-    <published>2017-11-16T19:39:05.000Z</published>
-    <updated>2018-09-28T01:36:07.961Z</updated>
-    
-    <content type="html"><![CDATA[<p>It’s a simple note that how to get notifications while AWS IP range changed</p><h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><p><a href="http://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html" target="_blank" rel="noopener">http://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html</a></p><p>AWS provides the ip range file, you can download from <a href="https://ip-ranges.amazonaws.com/ip-ranges.json" target="_blank" rel="noopener">ip-ranges.json</a></p><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">jq  <span class="string">'.prefixes[] | select(.region=="us-east-1")'</span> &lt; ipranges.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"ip_prefix"</span>: <span class="string">"23.20.0.0/14"</span>,</span><br><span class="line">  <span class="string">"region"</span>: <span class="string">"us-east-1"</span>,</span><br><span class="line">  <span class="string">"service"</span>: <span class="string">"AMAZON"</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"ip_prefix"</span>: <span class="string">"50.16.0.0/15"</span>,</span><br><span class="line">  <span class="string">"region"</span>: <span class="string">"us-east-1"</span>,</span><br><span class="line">  <span class="string">"service"</span>: <span class="string">"AMAZON"</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"ip_prefix"</span>: <span class="string">"50.19.0.0/16"</span>,</span><br><span class="line">  <span class="string">"region"</span>: <span class="string">"us-east-1"</span>,</span><br><span class="line">  <span class="string">"service"</span>: <span class="string">"AMAZON"</span></span><br><span class="line">&#125;,</span><br><span class="line">...</span><br></pre></td></tr></table></figure><p>can use it to get specific IP range</p><h1 id="Purpose"><a href="#Purpose" class="headerlink" title="Purpose"></a>Purpose</h1><ul><li><p>Implementing Egress Control<br>  allow outbound traffic to the CIDR block in the Amazon list</p></li><li><p>Implementing Ingress Control<br>  while using different cloud or different platform, we can use it to define legal traffic</p></li></ul><h1 id="AWS-IP-Address-Ranges-Notifications"><a href="#AWS-IP-Address-Ranges-Notifications" class="headerlink" title="AWS IP Address Ranges Notifications"></a>AWS IP Address Ranges Notifications</h1><p>strongly recommened to set this up, really helpful<br><a href="http://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html#subscribe-notifications" target="_blank" rel="noopener">http://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html#subscribe-notifications</a></p><p>Keep Route53 Health check source IP’s up to date<br><a href="http://johntdyer.com/aws/2015/03/16/keep-route53-healthcheck-source-ips-up-to-date.html" target="_blank" rel="noopener">http://johntdyer.com/aws/2015/03/16/keep-route53-healthcheck-source-ips-up-to-date.html</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;It’s a simple note that how to get notifications while AWS IP range changed&lt;/p&gt;
-&lt;h1 id=&quot;Usage&quot;&gt;&lt;a href=&quot;#Usage&quot; class=&quot;headerlink&quot; title=
       
     
     </summary>
