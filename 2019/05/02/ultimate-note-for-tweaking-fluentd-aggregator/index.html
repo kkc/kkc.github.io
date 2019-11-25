@@ -224,14 +224,14 @@
 <ol>
 <li><code>chunk_limit_size</code> decides max size of each chucks</li>
 <li><code>chunk_limit_records</code> the max number of events that each chucks have</li>
-<li><code>flush_interval</code> defines how long it will invoke <code>enqueue</code>, this only works when <code>flush_mode</code> being set to <code>interval</code></li>
+<li><code>flush_interval</code> defines how often it will invoke <code>enqueue</code>, this only works when <code>flush_mode</code> being set to <code>interval</code></li>
 </ol>
 <p>The <code>enqueue thread</code> will write chuck to queue based on the size and flush interval so that we can decide if we care more about latency or throughput (write more data or more frequent).</p>
 <h4 id="queue"><a href="#queue" class="headerlink" title="queue"></a>queue</h4><p><code>queue</code> stores chucks and <code>flush thread</code> dequeues chuck from queue .</p>
 <ol>
 <li><code>flush_thread_count</code> we can launch more than 1 <code>flush thread</code>, which can help us flush chuck in parallel.</li>
 <li><code>flush_thread_interval</code> define interval to invoke flush thread</li>
-<li><code>flush_thread_burst_interval</code> if buffer queue is nearly full, how long flush thread will be invoked.</li>
+<li><code>flush_thread_burst_interval</code> if buffer queue is nearly full, how often flush thread will be invoked.</li>
 </ol>
 <p>Typically we will increase <code>flush_thread_count</code> to increase throughput and also deal with network transient failure. see <a href="https://github.com/uken/fluent-plugin-elasticsearch#suggested-to-increase-flush_thread_count-why" target="_blank" rel="noopener">https://github.com/uken/fluent-plugin-elasticsearch#suggested-to-increase-flush_thread_count-why</a></p>
 <h4 id="other-parameters"><a href="#other-parameters" class="headerlink" title="other parameters"></a>other parameters</h4><ul>

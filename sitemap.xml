@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kkc.github.io/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/</loc>
+    
+    <lastmod>2019-11-25T20:21:21.439Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/2019/11/13/golang-meetup45/</loc>
     
     <lastmod>2019-11-13T15:47:18.861Z</lastmod>
@@ -12,13 +19,6 @@
     <loc>http://kkc.github.io/2019/08/22/coscup-ha-prometheus-solution-thanos/</loc>
     
     <lastmod>2019-09-17T02:51:20.019Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://kkc.github.io/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/</loc>
-    
-    <lastmod>2019-05-05T16:39:35.831Z</lastmod>
     
   </url>
   
