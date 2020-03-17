@@ -188,9 +188,11 @@
             <!-- 标签云 -->
             <div id="tag_cloud" class="tags">
                 
+                    <a href="#python" title="python" rel="1">python</a>
+                
                     <a href="#mongodb" title="mongodb" rel="3">mongodb</a>
                 
-                    <a href="#python" title="python" rel="1">python</a>
+                    <a href="#docker" title="docker" rel="4">docker</a>
                 
                     <a href="#mysql" title="mysql" rel="2">mysql</a>
                 
@@ -198,25 +200,21 @@
                 
                     <a href="#graphite" title="graphite" rel="1">graphite</a>
                 
-                    <a href="#golang" title="golang" rel="3">golang</a>
-                
-                    <a href="#docker" title="docker" rel="4">docker</a>
-                
-                    <a href="#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
-                
-                    <a href="#AWS" title="AWS" rel="12">AWS</a>
-                
-                    <a href="#Jenkins" title="Jenkins" rel="1">Jenkins</a>
+                    <a href="#AWS" title="AWS" rel="13">AWS</a>
                 
                     <a href="#reading" title="reading" rel="1">reading</a>
                 
                     <a href="#Azure" title="Azure" rel="1">Azure</a>
+                
+                    <a href="#golang" title="golang" rel="3">golang</a>
                 
                     <a href="#programmming" title="programmming" rel="1">programmming</a>
                 
                     <a href="#RDBMS" title="RDBMS" rel="1">RDBMS</a>
                 
                     <a href="#distributed-system" title="distributed-system" rel="1">distributed-system</a>
+                
+                    <a href="#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
                 
                     <a href="#Kubernetes" title="Kubernetes" rel="3">Kubernetes</a>
                 
@@ -238,6 +236,10 @@
                 
                     <a href="#CNCF" title="CNCF" rel="1">CNCF</a>
                 
+                    <a href="#S3" title="S3" rel="1">S3</a>
+                
+                    <a href="#Jenkins" title="Jenkins" rel="1">Jenkins</a>
+                
                     <a href="#prometheus" title="prometheus" rel="1">prometheus</a>
                 
                     <a href="#kubernetes" title="kubernetes" rel="1">kubernetes</a>
@@ -248,6 +250,28 @@
 
             <!-- 标签列表 -->
 
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="python">
+                    <span class="tag-text">python</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
+                        <h2 class="post-title">
+                            Python 的時間還有時區處理
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
             
             <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="mongodb">
@@ -302,8 +326,8 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="python">
-                    <span class="tag-text">python</span>
+                <span class="fa fa-tag listing-seperator" id="docker">
+                    <span class="tag-text">docker</span>
                 </span>
                 
                   <!-- <li class="listing-item">
@@ -311,9 +335,54 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
+                     <a href="/2016/01/14/docker-registry-installation/">
                         <h2 class="post-title">
-                            Python 的時間還有時區處理
+                            docker registry 的簡單安裝紀錄
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/22/ubuntu16-04-docker-aufs/">
+                        <h2 class="post-title">
+                            ubuntu16.04-docker-aufs
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2018/04/28/docker-note/">
+                        <h2 class="post-title">
+                            用 docker 改善開發流程筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2018/06/06/gracefully-shutdown-docker-container/">
+                        <h2 class="post-title">
+                            Gracefully Shutdown Docker Container
                         </h2>
                         
                     </a>
@@ -424,181 +493,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="golang">
-                    <span class="tag-text">golang</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2016/07/03/golang-ci/">
-                        <h2 class="post-title">
-                            Golang x CI x CD
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/08/06/coscup-2017/">
-                        <h2 class="post-title">
-                            Coscup Golang 社群議程主持人之簡短心得！
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/11/13/golang-meetup45/">
-                        <h2 class="post-title">
-                            Golang 10th Anniversary x GTG 45th 心得
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                Golang 好棒棒
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="docker">
-                    <span class="tag-text">docker</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2016/01/14/docker-registry-installation/">
-                        <h2 class="post-title">
-                            docker registry 的簡單安裝紀錄
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2016/08/22/ubuntu16-04-docker-aufs/">
-                        <h2 class="post-title">
-                            ubuntu16.04-docker-aufs
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2018/04/28/docker-note/">
-                        <h2 class="post-title">
-                            用 docker 改善開發流程筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2018/06/06/gracefully-shutdown-docker-container/">
-                        <h2 class="post-title">
-                            Gracefully Shutdown Docker Container
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="elasticsearch">
-                    <span class="tag-text">elasticsearch</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/02/07/migrate-elasticsearch-2-3-to-5-1-on-aws/">
-                        <h2 class="post-title">
-                            migrate elasticsearch 2.3 to 5.1 on AWS
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2018/08/15/lesson-learn-of-elasticsearch-outage/">
-                        <h2 class="post-title">
-                            記一次 Elasticsearch troubleshooting 的歷程
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
-                        <h2 class="post-title">
-                            Performance tweaking for fluentd aggregator (EFK stack)
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="AWS">
                     <span class="tag-text">AWS</span>
                 </span>
@@ -653,9 +547,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2017/12/03/aws-fargate/">
+                     <a href="/2018/03/14/AWS-VPN-with-RouterBoard/">
                         <h2 class="post-title">
-                            AWS fargate 的簡短筆記
+                            AWS VPN with RouterBoard
                         </h2>
                         
                     </a>
@@ -683,9 +577,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2018/03/14/AWS-VPN-with-RouterBoard/">
+                     <a href="/2017/12/03/aws-fargate/">
                         <h2 class="post-title">
-                            AWS VPN with RouterBoard
+                            AWS fargate 的簡短筆記
                         </h2>
                         
                     </a>
@@ -781,6 +675,21 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
+                     <a href="/2020/03/16/s3-latency/">
+                        <h2 class="post-title">
+                            How I Analyze S3 Upload Latency Issues
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
                      <a href="/2019/02/25/install-prometheus-on-EKS/">
                         <h2 class="post-title">
                             利用 Helm 在 EKS 上安裝 Prometheus
@@ -789,28 +698,6 @@
                             <h3 class="post-subtitle">
                                 一些踩雷經驗
                             </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Jenkins">
-                    <span class="tag-text">Jenkins</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/02/13/how-to-use-jenkins-parametered-build/">
-                        <h2 class="post-title">
-                            How To Use Jenkins Parametered Build
-                        </h2>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -854,6 +741,62 @@
                      <a href="/2017/04/24/azure-note/">
                         <h2 class="post-title">
                             Azure VMSS 的簡略使用筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="golang">
+                    <span class="tag-text">golang</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2017/08/06/coscup-2017/">
+                        <h2 class="post-title">
+                            Coscup Golang 社群議程主持人之簡短心得！
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/11/13/golang-meetup45/">
+                        <h2 class="post-title">
+                            Golang 10th Anniversary x GTG 45th 心得
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                Golang 好棒棒
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/07/03/golang-ci/">
+                        <h2 class="post-title">
+                            Golang x CI x CD
                         </h2>
                         
                     </a>
@@ -920,6 +863,58 @@
                      <a href="/2018/08/26/build-a-better-client/">
                         <h2 class="post-title">
                             Build a better client
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="elasticsearch">
+                    <span class="tag-text">elasticsearch</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2018/08/15/lesson-learn-of-elasticsearch-outage/">
+                        <h2 class="post-title">
+                            記一次 Elasticsearch troubleshooting 的歷程
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
+                        <h2 class="post-title">
+                            Performance tweaking for fluentd aggregator (EFK stack)
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2017/02/07/migrate-elasticsearch-2-3-to-5-1-on-aws/">
+                        <h2 class="post-title">
+                            migrate elasticsearch 2.3 to 5.1 on AWS
                         </h2>
                         
                     </a>
@@ -1288,6 +1283,50 @@
             </div>
             
             <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="S3">
+                    <span class="tag-text">S3</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2020/03/16/s3-latency/">
+                        <h2 class="post-title">
+                            How I Analyze S3 Upload Latency Issues
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Jenkins">
+                    <span class="tag-text">Jenkins</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2017/02/13/how-to-use-jenkins-parametered-build/">
+                        <h2 class="post-title">
+                            How To Use Jenkins Parametered Build
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="prometheus">
                     <span class="tag-text">prometheus</span>
                 </span>
@@ -1429,7 +1468,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Kakashi 2019 
+                    Copyright &copy; Kakashi 2020 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
