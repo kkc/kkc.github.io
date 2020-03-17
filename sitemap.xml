@@ -4,7 +4,7 @@
   <url>
     <loc>http://kkc.github.io/2020/03/16/s3-latency/</loc>
     
-    <lastmod>2020-03-17T01:48:16.902Z</lastmod>
+    <lastmod>2020-03-17T03:01:19.617Z</lastmod>
     
   </url>
   
@@ -163,13 +163,6 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/12/03/aws-fargate/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.962Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://kkc.github.io/2018/03/21/IPSEC-note/</loc>
     
     <lastmod>2018-09-28T01:36:07.962Z</lastmod>
@@ -177,14 +170,21 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/11/17/aws-ip-range/</loc>
+    <loc>http://kkc.github.io/2017/12/03/aws-fargate/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.962Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2017/10/08/transaction-note/</loc>
     
     <lastmod>2018-09-28T01:36:07.961Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/10/08/transaction-note/</loc>
+    <loc>http://kkc.github.io/2017/11/17/aws-ip-range/</loc>
     
     <lastmod>2018-09-28T01:36:07.961Z</lastmod>
     
@@ -219,14 +219,14 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/08/06/coscup-2017/</loc>
+    <loc>http://kkc.github.io/2016/07/03/golang-ci/</loc>
     
     <lastmod>2018-09-28T01:36:07.958Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2016/07/03/golang-ci/</loc>
+    <loc>http://kkc.github.io/2017/08/06/coscup-2017/</loc>
     
     <lastmod>2018-09-28T01:36:07.958Z</lastmod>
     
