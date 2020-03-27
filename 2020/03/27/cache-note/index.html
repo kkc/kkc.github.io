@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword" content="AWS, golang, python, DevOps">
+    <meta property="og:title" content="有關 Cache 的一些筆記 - Kakashi&#39;s Blog">
+    <meta property="og:description" content="cache is hard">
+    <meta property="og:image" content="http://kkc.github.io/2020/03/27/cache-note/cache.jpeg">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          有關 Cache 的一些筆記 - Kakashi&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kkc.github.io/2020/03/27/cache-note/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
+    css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('cache.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                            
+                              <a class="tag" href="/tags/#backend" title="backend">backend</a>
+                            
+                              <a class="tag" href="/tags/#redis" title="redis">redis</a>
+                            
+                        </div>
+                        <h1>有關 Cache 的一些筆記</h1>
+                        <h2 class="subheading">cache is hard</h2>
+                        <span class="meta">
+                            Posted by Kakashi on
+                            2020-03-27
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kakashi&#39;s Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                    <li>
+                        <a href="/atom.xml">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言 </h1><p> 最近看了 Amazon 的一篇文章 Caching challenges and strategies，在談論 cache 的種類，還有一些使用的邏輯和策略，剛好就想稍微整理一下有關於 cache 在分散式系統上面的一些筆記，這中間如果還有看到其他內容，還會再把它補起來，這邊強烈推薦大家看一下<a href="https://aws.amazon.com/builders-library/caching-challenges-and-strategies/" target="_blank" rel="noopener">AWS 原文</a>，還有筆記最後整理的一些 Reference，相信看完大家都可以學習到很多東西。</p>
+<h1 id="何時使用 -Cache"><a href="# 何時使用 -Cache" class="headerlink" title="何時使用 Cache"></a>何時使用 Cache</h1><p>很多時候，我們會考慮加入的 Cache 的情況，不外乎就是想要加速系統的反應，或是降低 Backend 或是 Database 的負擔。而加入 Cache 往往也是一種挑戰，因為對於整個系統來說，每加入一個環節，其實都帶來了風險和複雜度，像是如果 Cache 整體 hit rate 不高，加入 Cache 也許只是讓 latency 更高，在伴隨著帶來的 Cache Availability, Cache Coherence 和 Cache Invalidation 的問題，都是我們要考慮有沒有必要使用 Cache 的關鍵。</p>
+<h1 id="Cache- 的種類"><a href="#Cache- 的種類" class="headerlink" title="Cache 的種類"></a>Cache 的種類</h1><ol>
+<li><p>Local cache</p>
+<p> 簡而言之，就是使用系統上面的 Memory 作為 Cache，好處是隨手可得且複雜度低，但壞處是不同機器間的 Cache consistency 的問題，另外剛開機的時候也會有 cold start 的問題。</p>
+</li>
+<li><p>External cache</p>
+<p> External cache 相信大家最熟的就是使用 Memcache &amp; Redis，這個可以解決機器間 Cache consistency 的問題，但還是有可能因為更新快取的方式失敗或錯誤，造成其他 consistency 的問題，另外是加入這個元件，就提升了系統複雜度，需要有另外的機制去監控和管理，還有 availibility 也是需要考量的點，在 exteranl cache 爆炸的時候，application 需要有能力去克服這個情況。</p>
+</li>
+</ol>
+<h1 id="常見的 -external-cache- 的問題"><a href="# 常見的 -external-cache- 的問題" class="headerlink" title="常見的 external cache 的問題"></a>常見的 external cache 的問題 </h1><p> 這邊記錄下常見的 external cache 的問題還有解法</p>
+<h2 id="Caching-Penetration"><a href="#Caching-Penetration" class="headerlink" title="Caching Penetration"></a>Caching Penetration</h2><p>如果同時間有大量的 requests 打到系統上，但是 cache 裡面沒有相對應的 key，這時候壓力就會全部灌在後端系統上(很可能是 database)，讓系統變得不穩定。</p>
+<p>解決方案:</p>
+<ol>
+<li><p>cache empty data:<br> 對於空的資料，也把他們 cache 起來，一般來說只存 cache key 應該佔用的空間不大。</p>
+</li>
+<li><p>bloom filter:<br> 利用 <a href="https://www.evanlin.com/BloomFilter/" target="_blank" rel="noopener">bloom filter</a> 把一定不可能存在的 request filter 掉，減少 cache penetration 的機會。</p>
+</li>
+<li><p>observe access pattern:</p>
+<p> 可以觀察下進來的 request pattern，要對 key 設定一些規範，如果 key 長的樣子不太對，就直接 filter 掉，或是看使用者是不是來掃 database 的，對於那種長期查詢不同值的 pattern 要有防範的方法。</p>
+</li>
+</ol>
+<h2 id="Cache-avalanche"><a href="#Cache-avalanche" class="headerlink" title="Cache avalanche"></a>Cache avalanche</h2><p>Cache 雪崩，這通常發生在 cache 重啟當機，或是有大量的 cache 同時失效，此時，有大量的 requests 打進來落在 backend service 或是 database 上，如果 database 被打掛了，很有可能也沒辦法再開起來，因為會一直被大流量沖垮。</p>
+<p>順帶一提，有時候會有大量 cache 同時失效，有可能是因為在 cache 開起來時，過期時間 (TTL) 都設定太過接近。</p>
+<p>解決方案:</p>
+<ol>
+<li><p>Cache High Avalability<br> 第一個想法就是確保 Cache 元件也符合 HA，像是 redis 可以使用 cluster 的模式，避免 Cache 的單點當機造成的雪崩</p>
+</li>
+<li><p>Hystrix (circuit breaker, rate limit)<br> 這個解法是為了保護，當 Cache 大規模失效的時候，後端的壓力會得太巨大， 像是資料庫這種東西絕對不能讓他被沖垮，所以可以出動像是 Hystrix 之類的 rate limiter 元件做 <em> 降級 </em> 處理，只讓部分的 requests 流到後面去。</p>
+</li>
+<li><p>Expiry with different TTL<br> 讓 key 的 TTL 都盡量分散，可以減少同時並發打到 database 的壓力。</p>
+</li>
+</ol>
+<p>以上的解法很可能需要混搭才是好的解法</p>
+<h2 id="Cache-Stampede-Thundering-Herd-problem"><a href="#Cache-Stampede-Thundering-Herd-problem" class="headerlink" title="Cache Stampede (Thundering Herd problem)"></a>Cache Stampede (Thundering Herd problem)</h2><p>在 cache 裡面的某個 key，經常被大量存取，屬於 cache 的 hotspot，在 <em>cache miss</em> 的時候，requests 也會一口氣打到後端或是 database 上，這個也是屬於 cache invalidation 怎麼做的範疇。</p>
+<p>舉個例子，像是某個熱門商品的 metadata 被放在 cache 上面，cache 失效時，如果同時有 1000 個人同時 request 這個產品，這些 request 就可能會一口氣打到 database 上面，讓 database 被衝垮。</p>
+<p>解決方案:<br>    基本上的解法都可以在這篇 <a href="https://medium.com/@vaibhav0109/cache-stampede-problem-5eba782a1a4f" target="_blank" rel="noopener">What is Cache Stampede</a> 找到</p>
+<ol>
+<li><p><strong>Mutex (Locking)</strong></p>
+<p> 有些文章會使用 request coalescing 這個詞，這邊達成這個的手段的方式就是利用 lock，讓同時間只有一個 request 可以存取 database 去更新 cache，使用 redis 可以用 setNX 或是 <a href="https://redis.io/topics/distlock" target="_blank" rel="noopener">distributed lock</a> 去產生這個鎖，但是使用 lock 時也要注意解鎖之類的問題。</p>
+</li>
+<li><p><strong>External Computation</strong></p>
+<p> 使用外部的計算單元，像是用 cronjob 或是 worker + queue 的模式去更新 cache，來處理 cache invalidation 的問題，像是利用 worker 定期去掃 database 的表去更新 cache，或是利用 queue 去 trigger 更新，不過要注意如果類似掃 database 去更新的模式，有可能會存了很多不需要的資料在 cache 裡面。</p>
+</li>
+<li><p><strong>XFetch</strong></p>
+<p> 這邊要提供第三種方法是出自一篇論文叫做 <a href="http://www.vldb.org/pvldb/vol8/p886-vattani.pdf" target="_blank" rel="noopener">Optimal Probabilistic Cache Stampede Prevention</a>，還有一份 slides <a href="https://www.slideshare.net/RedisLabs/redisconf17-internet-archive-preventing-cache-stampede-with-redis-and-xfetch" target="_blank" rel="noopener">redisconf17-internet-archive-preventing-cache-stampede-with-redis-and-xfetch</a> 講解，其實核心概念很簡單，就是在 cache 還沒過期前，提前讓 <em> 一個 worker</em> 去計算更新值和 TTL，這個方法會那麼高效，是因為不像方法一需要引入一個 lock。</p>
+<p> 網路上也可以找不同語言的實作:</p>
+<ul>
+<li>golang(<a href="https://github.com/Onefootball/xfetch-go" target="_blank" rel="noopener">https://github.com/Onefootball/xfetch-go</a>)</li>
+<li>rust(<a href="https://docs.rs/xfetch/1.0.0/xfetch/" target="_blank" rel="noopener">https://docs.rs/xfetch/1.0.0/xfetch/</a>)</li>
+<li>ruby(<a href="https://github.com/Kache/xfetch" target="_blank" rel="noopener">https://github.com/Kache/xfetch</a>)</li>
+</ul>
+</li>
+</ol>
+<h1 id="更新 -Cache- 的正確姿勢"><a href="# 更新 -Cache- 的正確姿勢" class="headerlink" title="更新 Cache 的正確姿勢"></a>更新 Cache 的正確姿勢 </h1><p> 這也是一件常常被做錯的事情，但是還好網路上真的蠻多不錯的資料，我這邊就直接引用這篇 <a href="https://coolshell.cn/articles/17416.html" target="_blank" rel="noopener"> 缓存更新的套路</a>，來學習下正確的方式。</p>
+<p>考慮到下面這個更新 cache 的策略，非常的直覺，就是沒東西在 Cache 的時候，就跑去 DB 拿資料再去更新 Cache。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ttl = <span class="number">60</span></span><br><span class="line"><span class="keyword">val</span> := cache.Get(<span class="string">"key"</span>)</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">val</span> == nil &#123;</span><br><span class="line">    <span class="keyword">val</span> := db.Read(<span class="string">"key"</span>)</span><br><span class="line">    cache.Set(<span class="string">"key"</span>, <span class="keyword">val</span>, ttl)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">val</span></span><br></pre></td></tr></table></figure></p>
+<p>乍看之下沒什麼問題，但是在並發情況下，有可能會有出乎意料之外的後果。</p>
+<p><img src="https://i.imgur.com/a92yIer.png" alt></p>
+<p>從這張圖可以看到最後 Cache 裡面拿到的也許是髒資料 (dirty cache data)，所以在 CoolShell 的文章裡面提到 Facebook 的論文 <a href="https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf" target="_blank" rel="noopener">《Scaling Memcache at Facebook》</a> 提出的方法是，在寫的時候去把 cache 裡面的值刪掉，然後靠讀的人去更新，雖然還是有可能會發生 dirty cache data，但是在不傷害效能的情況下，已經讓發生的機率下降許多。</p>
+<h2 id="其他"><a href="# 其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>要觀察 Data 的生命週期，去調整 TTL，如果有些 Data 不太會更新，但是又經常被存取，可以把 TTL 調高一點，而反之亦然。</li>
+<li>更新不頻繁，透過鎖讓 reader 去更新 cache 資料</li>
+<li>更新頻繁，可以考慮透過 queue + worker 的方式去刷新 cache。</li>
+</ul>
+<h1 id="結語"><a href="# 結語" class="headerlink" title="結語"></a>結語 </h1><p> 其實寫這篇文章是幫助我刷新一下記憶，也是把書籤的文章都看過一輪，一般來說我們的 cache 部署通常是很多層的，類似從 browser -&gt; CDN -&gt; local cache -&gt; exteranl cache -&gt; database，所以很多地方都需要這些知識，而 cache coherence 不管在硬體軟體上面都是很經典的問題，了解這些可以幫助我們更好的去架構系統。</p>
+<p>另外在過程中也查到了 Java 有 <code>Ehcache</code>，然後 <code>Memcache</code> 的作者也用 Go 寫了一套 <code>Groupcache</code>，都是可以利用本機上面的 Memory 來達成 Distributed cache 的功能，也是蠻推薦大家去看看學習，之後應該會來爬一下 <code>Groupcache</code> 的代碼。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="https://github.com/PegasusWang/system-design-primer#cache" target="_blank" rel="noopener">system-design-primer#cache</a></li>
+<li><a href="https://medium.com/@mena.meseha/3-major-problems-and-solutions-in-the-cache-world-155ecae41d4f" target="_blank" rel="noopener">https://medium.com/@mena.meseha/3-major-problems-and-solutions-in-the-cache-world-155ecae41d4f</a></li>
+<li><a href="http://lanlingzi.cn/post/technical/2018/0624_cache_design/" target="_blank" rel="noopener">http://lanlingzi.cn/post/technical/2018/0624_cache_design/</a></li>
+<li><a href="https://www.zhihu.com/question/39114188" target="_blank" rel="noopener">https://www.zhihu.com/question/39114188</a></li>
+<li><a href="https://docs.rs/xfetch/1.0.0/xfetch/" target="_blank" rel="noopener">https://docs.rs/xfetch/1.0.0/xfetch/</a></li>
+<li><a href="https://medium.com/coinmonks/tao-facebooks-distributed-database-for-social-graph-c2b45f5346ea" target="_blank" rel="noopener">https://medium.com/coinmonks/tao-facebooks-distributed-database-for-social-graph-c2b45f5346ea</a></li>
+<li><a href="https://segmentfault.com/a/1190000013686915" target="_blank" rel="noopener">缓存中的穿透、并发及雪崩</a></li>
+<li><a href="https://www.mailgun.com/blog/golangs-superior-cache-solution-memcached-redis/" target="_blank" rel="noopener">Golang’s Superior Cache Solution to Memcached and Redis</a></li>
+<li><a href="http://lanlingzi.cn/post/technical/2018/0624_cache_design/" target="_blank" rel="noopener">http://lanlingzi.cn/post/technical/2018/0624_cache_design/</a></li>
+<li><a href="https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/redis-caching-avalanche-and-caching-penetration.md" target="_blank" rel="noopener">https://github.com/doocs/advanced-java/blob/master/docs/high-concurrency/redis-caching-avalanche-and-caching-penetration.md</a></li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/03/16/s3-latency/" data-toggle="tooltip" data-placement="top" title="How I Analyze S3 Upload Latency Issues">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#前言"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">前言 </span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#何時使用 -Cache"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">何時使用 Cache</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Cache- 的種類"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Cache 的種類</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#常見的 -external-cache- 的問題"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">常見的 external cache 的問題 </span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Caching-Penetration"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">Caching Penetration</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Cache-avalanche"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">Cache avalanche</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Cache-Stampede-Thundering-Herd-problem"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text">Cache Stampede (Thundering Herd problem)</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#更新 -Cache- 的正確姿勢"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">更新 Cache 的正確姿勢 </span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#其他"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">其他</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#結語"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">結語 </span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                        
+                          <a class="tag" href="/tags/#backend" title="backend">backend</a>
+                        
+                          <a class="tag" href="/tags/#redis" title="redis">redis</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "kkcliu";
+    var disqus_identifier = "http://kkc.github.io/2020/03/27/cache-note/";
+    var disqus_url = "http://kkc.github.io/2020/03/27/cache-note/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kakashi 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kkc.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-64932988-1';
+    var _gaDomain = 'kkc.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
