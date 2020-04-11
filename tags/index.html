@@ -194,33 +194,35 @@
                 
                     <a href="#mysql" title="mysql" rel="2">mysql</a>
                 
-                    <a href="#golang" title="golang" rel="3">golang</a>
-                
-                    <a href="#docker" title="docker" rel="4">docker</a>
-                
                     <a href="#monitoring" title="monitoring" rel="2">monitoring</a>
                 
                     <a href="#graphite" title="graphite" rel="1">graphite</a>
                 
-                    <a href="#AWS" title="AWS" rel="14">AWS</a>
+                    <a href="#golang" title="golang" rel="3">golang</a>
+                
+                    <a href="#docker" title="docker" rel="4">docker</a>
                 
                     <a href="#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
                 
+                    <a href="#reading" title="reading" rel="1">reading</a>
+                
                     <a href="#Jenkins" title="Jenkins" rel="1">Jenkins</a>
                 
-                    <a href="#reading" title="reading" rel="1">reading</a>
+                    <a href="#AWS" title="AWS" rel="15">AWS</a>
                 
                     <a href="#Azure" title="Azure" rel="1">Azure</a>
                 
-                    <a href="#programmming" title="programmming" rel="1">programmming</a>
-                
                     <a href="#RDBMS" title="RDBMS" rel="1">RDBMS</a>
+                
+                    <a href="#programmming" title="programmming" rel="1">programmming</a>
                 
                     <a href="#distributed-system" title="distributed-system" rel="1">distributed-system</a>
                 
                     <a href="#Kubernetes" title="Kubernetes" rel="3">Kubernetes</a>
                 
                     <a href="#EKS" title="EKS" rel="3">EKS</a>
+                
+                    <a href="#ffmpeg" title="ffmpeg" rel="1">ffmpeg</a>
                 
                     <a href="#Prometheus" title="Prometheus" rel="2">Prometheus</a>
                 
@@ -236,15 +238,13 @@
                 
                     <a href="#IAM" title="IAM" rel="1">IAM</a>
                 
-                    <a href="#CNCF" title="CNCF" rel="1">CNCF</a>
-                
                     <a href="#Operation" title="Operation" rel="1">Operation</a>
                 
-                    <a href="#fluentd" title="fluentd" rel="1">fluentd</a>
+                    <a href="#CNCF" title="CNCF" rel="1">CNCF</a>
                 
                     <a href="#S3" title="S3" rel="1">S3</a>
                 
-                    <a href="#ffmpeg" title="ffmpeg" rel="1">ffmpeg</a>
+                    <a href="#fluentd" title="fluentd" rel="1">fluentd</a>
                 
                     <a href="#backend" title="backend" rel="1">backend</a>
                 
@@ -287,9 +287,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/07/14/mongodb-storage/">
+                     <a href="/2015/07/21/mongodb-memory-structure/">
                         <h2 class="post-title">
-                            Mongodb Storage 的架構和問題解法
+                            Mongodb 如何使用 Memory 和 tuning 的小技巧
                         </h2>
                         
                     </a>
@@ -317,9 +317,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/07/21/mongodb-memory-structure/">
+                     <a href="/2015/07/14/mongodb-storage/">
                         <h2 class="post-title">
-                            Mongodb 如何使用 Memory 和 tuning 的小技巧
+                            Mongodb Storage 的架構和問題解法
                         </h2>
                         
                     </a>
@@ -357,6 +357,69 @@
                      <a href="/2017/07/07/mysql-partitioning/">
                         <h2 class="post-title">
                             MySQL partition 筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="monitoring">
+                    <span class="tag-text">monitoring</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/09/05/monitoring-with-graphite/">
+                        <h2 class="post-title">
+                            使用 statsd + graphite 的 monitoring 心得
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/02/25/install-prometheus-on-EKS/">
+                        <h2 class="post-title">
+                            利用 Helm 在 EKS 上安裝 Prometheus
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                一些踩雷經驗
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="graphite">
+                    <span class="tag-text">graphite</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/09/05/monitoring-with-graphite/">
+                        <h2 class="post-title">
+                            使用 statsd + graphite 的 monitoring 心得
                         </h2>
                         
                     </a>
@@ -462,21 +525,6 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2018/04/28/docker-note/">
-                        <h2 class="post-title">
-                            用 docker 改善開發流程筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
                      <a href="/2018/06/06/gracefully-shutdown-docker-container/">
                         <h2 class="post-title">
                             Gracefully Shutdown Docker Container
@@ -487,11 +535,26 @@
                 </div>
                 <hr>
                 
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2018/04/28/docker-note/">
+                        <h2 class="post-title">
+                            用 docker 改善開發流程筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="monitoring">
-                    <span class="tag-text">monitoring</span>
+                <span class="fa fa-tag listing-seperator" id="elasticsearch">
+                    <span class="tag-text">elasticsearch</span>
                 </span>
                 
                   <!-- <li class="listing-item">
@@ -499,9 +562,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/09/05/monitoring-with-graphite/">
+                     <a href="/2017/02/07/migrate-elasticsearch-2-3-to-5-1-on-aws/">
                         <h2 class="post-title">
-                            使用 statsd + graphite 的 monitoring 心得
+                            migrate elasticsearch 2.3 to 5.1 on AWS
                         </h2>
                         
                     </a>
@@ -514,14 +577,25 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/02/25/install-prometheus-on-EKS/">
+                     <a href="/2018/08/15/lesson-learn-of-elasticsearch-outage/">
                         <h2 class="post-title">
-                            利用 Helm 在 EKS 上安裝 Prometheus
+                            記一次 Elasticsearch troubleshooting 的歷程
                         </h2>
                         
-                            <h3 class="post-subtitle">
-                                一些踩雷經驗
-                            </h3>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
+                        <h2 class="post-title">
+                            Performance tweaking for fluentd aggregator (EFK stack)
+                        </h2>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -531,8 +605,8 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="graphite">
-                    <span class="tag-text">graphite</span>
+                <span class="fa fa-tag listing-seperator" id="reading">
+                    <span class="tag-text">reading</span>
                 </span>
                 
                   <!-- <li class="listing-item">
@@ -540,9 +614,31 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/09/05/monitoring-with-graphite/">
+                     <a href="/2017/02/19/reading-note-apprenticeship-patterns/">
                         <h2 class="post-title">
-                            使用 statsd + graphite 的 monitoring 心得
+                            筆記：學徒模式，優秀軟體開發者的養成之路
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Jenkins">
+                    <span class="tag-text">Jenkins</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2017/02/13/how-to-use-jenkins-parametered-build/">
+                        <h2 class="post-title">
+                            How To Use Jenkins Parametered Build
                         </h2>
                         
                     </a>
@@ -577,6 +673,21 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
+                     <a href="/2017/12/18/Network-Performance-Tuning/">
+                        <h2 class="post-title">
+                            TCP Network Performance Tuning 筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
                      <a href="/2017/07/23/aws-route-53-multivalue/">
                         <h2 class="post-title">
                             AWS route53 multivalue 筆記
@@ -592,9 +703,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2017/11/17/aws-ip-range/">
+                     <a href="/2018/03/14/AWS-VPN-with-RouterBoard/">
                         <h2 class="post-title">
-                            Retrieving AWS IP range
+                            AWS VPN with RouterBoard
                         </h2>
                         
                     </a>
@@ -622,24 +733,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2017/12/18/Network-Performance-Tuning/">
+                     <a href="/2017/11/17/aws-ip-range/">
                         <h2 class="post-title">
-                            TCP Network Performance Tuning 筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2018/03/14/AWS-VPN-with-RouterBoard/">
-                        <h2 class="post-title">
-                            AWS VPN with RouterBoard
+                            Retrieving AWS IP range
                         </h2>
                         
                     </a>
@@ -769,6 +865,21 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
+                     <a href="/2020/04/11/aws-ssm-session-manager-note/">
+                        <h2 class="post-title">
+                            AWS SSM session manager 筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
                      <a href="/2020/03/27/cache-note/">
                         <h2 class="post-title">
                             有關 Cache 的一些筆記
@@ -777,102 +888,6 @@
                             <h3 class="post-subtitle">
                                 cache is hard
                             </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="elasticsearch">
-                    <span class="tag-text">elasticsearch</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/02/07/migrate-elasticsearch-2-3-to-5-1-on-aws/">
-                        <h2 class="post-title">
-                            migrate elasticsearch 2.3 to 5.1 on AWS
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2018/08/15/lesson-learn-of-elasticsearch-outage/">
-                        <h2 class="post-title">
-                            記一次 Elasticsearch troubleshooting 的歷程
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
-                        <h2 class="post-title">
-                            Performance tweaking for fluentd aggregator (EFK stack)
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Jenkins">
-                    <span class="tag-text">Jenkins</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/02/13/how-to-use-jenkins-parametered-build/">
-                        <h2 class="post-title">
-                            How To Use Jenkins Parametered Build
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="reading">
-                    <span class="tag-text">reading</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/02/19/reading-note-apprenticeship-patterns/">
-                        <h2 class="post-title">
-                            筆記：學徒模式，優秀軟體開發者的養成之路
-                        </h2>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -904,28 +919,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="programmming">
-                    <span class="tag-text">programmming</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/09/01/asynchronous-programming/">
-                        <h2 class="post-title">
-                            淺談 Asynchronous Programming
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="RDBMS">
                     <span class="tag-text">RDBMS</span>
                 </span>
@@ -938,6 +931,28 @@
                      <a href="/2017/10/08/transaction-note/">
                         <h2 class="post-title">
                             Transaction 筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="programmming">
+                    <span class="tag-text">programmming</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2017/09/01/asynchronous-programming/">
+                        <h2 class="post-title">
+                            淺談 Asynchronous Programming
                         </h2>
                         
                     </a>
@@ -1080,6 +1095,32 @@
                         
                             <h3 class="post-subtitle">
                                 一些踩雷經驗
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="ffmpeg">
+                    <span class="tag-text">ffmpeg</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/01/12/ffmpeg-libav-decode-note/">
+                        <h2 class="post-title">
+                            FFmpeg libav decode 筆記
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                一些基本知識
                             </h3>
                         
                     </a>
@@ -1310,32 +1351,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="CNCF">
-                    <span class="tag-text">CNCF</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/08/22/coscup-ha-prometheus-solution-thanos/">
-                        <h2 class="post-title">
-                            Coscup 分享 - HA Prometheus Solution Thanos
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                Thanos 真的很不錯！
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="Operation">
                     <span class="tag-text">Operation</span>
                 </span>
@@ -1358,8 +1373,8 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="fluentd">
-                    <span class="tag-text">fluentd</span>
+                <span class="fa fa-tag listing-seperator" id="CNCF">
+                    <span class="tag-text">CNCF</span>
                 </span>
                 
                   <!-- <li class="listing-item">
@@ -1367,10 +1382,14 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
+                     <a href="/2019/08/22/coscup-ha-prometheus-solution-thanos/">
                         <h2 class="post-title">
-                            Performance tweaking for fluentd aggregator (EFK stack)
+                            Coscup 分享 - HA Prometheus Solution Thanos
                         </h2>
+                        
+                            <h3 class="post-subtitle">
+                                Thanos 真的很不錯！
+                            </h3>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1402,8 +1421,8 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="ffmpeg">
-                    <span class="tag-text">ffmpeg</span>
+                <span class="fa fa-tag listing-seperator" id="fluentd">
+                    <span class="tag-text">fluentd</span>
                 </span>
                 
                   <!-- <li class="listing-item">
@@ -1411,14 +1430,10 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/01/12/ffmpeg-libav-decode-note/">
+                     <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
                         <h2 class="post-title">
-                            FFmpeg libav decode 筆記
+                            Performance tweaking for fluentd aggregator (EFK stack)
                         </h2>
-                        
-                            <h3 class="post-subtitle">
-                                一些基本知識
-                            </h3>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
