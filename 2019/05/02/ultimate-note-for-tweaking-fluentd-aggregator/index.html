@@ -2,7 +2,7 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
@@ -72,7 +72,7 @@
     
 </style>
 
-<header class="intro-header">
+<header class="intro-header" >
     <!-- Signature -->
     <div id="signature">
         <div class="container">
@@ -204,8 +204,8 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p>Logging is one of the critical components for developers. Every time when things went wrong, we had no doubt but checked what’s going on in logs. <code>Fluentd</code> is an open source data collector solution which provides many input/output plugins to help us organize our logging layer. There are tons of articles describing the benefits of using <code>Fluentd</code> such as buffering, retries and error handling. In this note I don’t plan to describe it again, instead, I will address more how to tweak the performance of <code>Fluentd</code> aggregator. Especially the case I use the most when fluentd talks to elasticsearch.   </p>
-<p>The typical way to utilize fluentd is like the following architecture. We can use sidecar fluentd container to collect application log and transfer them to fluentd aggregator. By adopting sidecar pattern, fluentd will take care of error handling to deal with network transient failure. Moreover, our application can write logs asynchronously to fluentd sidecar which prevents our application from being affected once remote logging system becomes unstable.</p>
+                <h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p>Logging is one of the critical components for developers. Every time when things went wrong, we had no doubt but checked what’s going on in logs. <code>Fluentd</code> is an open source data collector solution which provides many input/output plugins to help us organize our logging layer. There are tons of articles describing the benefits of using <code>Fluentd</code> such as buffering, retries and error handling. In this note I don’t plan to describe it again, instead, I will address more how to tweak the performance of <code>Fluentd</code> aggregator. Especially the case I use the most when fluentd talks to elasticsearch.</p>
+<p>The typical way to utilize fluentd is like the following architecture. We can use sidecar fluentd container to collect application logs and transfer logs to fluentd aggregator. By adopting sidecar pattern, fluentd will take care of error handling to deal with network transient failures. Moreover, our application can write logs asynchronously to fluentd sidecar which prevents our application from being affected once remote logging system becomes unstable.</p>
 <p><img src="https://docs.fluentd.org/images/fluentd_ha.png" alt="img"></p>
 <p>To understand more benefits, I suggest you guys take a look at this <a href="https://www.youtube.com/watch?v=aeGADcC-hUA" target="_blank" rel="noopener">youtube video</a> which gives a really great explanation. </p>
 <h2 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h2><p>Since many fluentd sidecars write their logs to fluentd aggregator, soon or later you will face some performance issues. For example, if our aggregator attempts to write logs to elasticsearch, but the write compacity of elasticsearch is insufficient. Then you will see a lot of 503 returns from elasticsearch and fluetnd aggregator has no other choices but keep records in the local buffer (in memory or files). The worst scenario is we run out of the buffer space and start dropping our records. There are 2 possible solutions comes to my mind to tackle this situation:</p>
@@ -219,38 +219,38 @@
 <h3 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h3><p>When messages come in, it would be assigned a <code>timestamp</code> and a <code>tag</code>. Messages itself is wrapped as a<code>record</code> which is structured JSON format. <code>timestamp</code> + <code>tag</code> + <code>record</code> is called <code>event</code>.</p>
 <figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Timestamp:</span> <span class="number">2019</span><span class="number">-05</span><span class="number">-04</span> <span class="number">01</span>:<span class="number">22</span>:<span class="number">12</span></span><br><span class="line"><span class="symbol">Tag:</span> app.production</span><br><span class="line"><span class="symbol">Record:</span> &#123;</span><br><span class="line">	<span class="string">"path"</span>: <span class="string">"/api/test"</span>,</span><br><span class="line">	<span class="string">"user"</span>: <span class="string">"john"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h3><p><img src="https://docs.fluentd.org/images/fluentd-v0.14-plugin-api-overview.png" alt="400x400"></p>
-<p>According to the document of fluentd, buffer is essentially a set of chunk.  chunk is filled by incoming <code>events</code> and is written into file or memory.  Buffer actually has 2 stages to store chunks which are <code>stage</code> and <code>queue</code>.  Typically buffer has an <code>enqueue thread</code> which pushes chuck to queue. Buffer also has a <code>flush thread</code> to write chuck to destination. </p>
-<h4 id="stage"><a href="#stage" class="headerlink" title="stage"></a>stage</h4><p><code>chuck</code> is allocated and filled in the <code>stage</code> level. Here we can specify some parameters to change the behavior of allocation and flushing.</p>
+<p>According to the document of fluentd, buffer is essentially a set of chunk.  Chunk is filled by incoming <code>events</code> and is written into file or memory. Buffer actually has 2 stages to store chunks. These 2 stages are called <code>stage</code> and <code>queue</code> respectively. Typically buffer has an <code>enqueue thread</code> which pushes chunks to queue. Buffer also has a <code>flush thread</code> to write chunks to destination.</p>
+<h4 id="Stage"><a href="#Stage" class="headerlink" title="Stage"></a>Stage</h4><p><code>chunk</code> is allocated and filled in the <code>stage</code> level. Here we can specify some parameters to change the behavior of allocation and flushing.</p>
 <ol>
-<li><code>chunk_limit_size</code> decides max size of each chucks</li>
-<li><code>chunk_limit_records</code> the max number of events that each chucks have</li>
-<li><code>flush_interval</code> defines how often it will invoke <code>enqueue</code>, this only works when <code>flush_mode</code> being set to <code>interval</code></li>
+<li><code>chunk_limit_size</code> decides max size of each chunks</li>
+<li><code>chunk_limit_records</code> the max number of events that each chunks have</li>
+<li><code>flush_interval</code> defines how often it invokes <code>enqueue</code>, this only works when <code>flush_mode</code> being set to <code>interval</code></li>
 </ol>
-<p>The <code>enqueue thread</code> will write chuck to queue based on the size and flush interval so that we can decide if we care more about latency or throughput (write more data or more frequent).</p>
-<h4 id="queue"><a href="#queue" class="headerlink" title="queue"></a>queue</h4><p><code>queue</code> stores chucks and <code>flush thread</code> dequeues chuck from queue .</p>
+<p>The <code>enqueue thread</code> will write chunk to queue based on the size and flush interval so that we can decide if we care more about latency or throughput (send more data or send data more frequent).</p>
+<h4 id="queue"><a href="#queue" class="headerlink" title="queue"></a>queue</h4><p><code>queue</code> stores chunks and <code>flush thread</code> dequeues chunk from queue.</p>
 <ol>
-<li><code>flush_thread_count</code> we can launch more than 1 <code>flush thread</code>, which can help us flush chuck in parallel.</li>
+<li><code>flush_thread_count</code>: we can launch more than 1 <code>flush thread</code>, which can help us flush chunk in parallel.</li>
 <li><code>flush_thread_interval</code> define interval to invoke flush thread</li>
 <li><code>flush_thread_burst_interval</code> if buffer queue is nearly full, how often flush thread will be invoked.</li>
 </ol>
 <p>Typically we will increase <code>flush_thread_count</code> to increase throughput and also deal with network transient failure. see <a href="https://github.com/uken/fluent-plugin-elasticsearch#suggested-to-increase-flush_thread_count-why" target="_blank" rel="noopener">https://github.com/uken/fluent-plugin-elasticsearch#suggested-to-increase-flush_thread_count-why</a></p>
-<h4 id="other-parameters"><a href="#other-parameters" class="headerlink" title="other parameters"></a>other parameters</h4><ul>
-<li><code>total_limit_size</code> total buffer size (chuck size + queue size) </li>
-<li><code>overflow_action</code> when buffer is full, what kind of action we need to take </li>
+<h4 id="Other-parameters"><a href="#Other-parameters" class="headerlink" title="Other parameters"></a>Other parameters</h4><ul>
+<li><code>total_limit_size</code> total buffer size (chunk size + queue size)</li>
+<li><code>overflow_action</code> when buffer is full, what kind of action we need to take</li>
 </ul>
-<h4 id="note"><a href="#note" class="headerlink" title="note"></a>note</h4><p>Buffer plugins is extremely useful when the output destination provides bulk or batch API. So that we are able to flush <code>chuck</code> content at once by using those APIs instead of sending request multiple times. It’s the secret why many fluetnd output plugins make use of buffer plugins. For understanding the further detail, I suggest you guys go through the <a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/plugin/output.rb" target="_blank" rel="noopener">source code</a>.</p>
-<h2 id="Tweaking-elasticsearch-plugins"><a href="#Tweaking-elasticsearch-plugins" class="headerlink" title="Tweaking elasticsearch plugins"></a>Tweaking elasticsearch plugins</h2><p>After we understand how important buffer plugins is, we can go back to see how to tweak our elsticsearch plugin. For our use case, I try to collect log as much as possible with small elasticsearch node.</p>
+<h4 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h4><p>Buffer plugin is extremely useful when the output destination provides bulk or batch API. So that we are able to flush whole <code>chunk</code> content at once by using those APIs instead of sending request multiple times. It’s the secret why many fluetnd output plugins make use of buffer plugins. For understanding the further detail, I suggest you guys go through the <a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/plugin/output.rb" target="_blank" rel="noopener">source code</a>.</p>
+<h2 id="Tweaking-elasticsearch-plugins"><a href="#Tweaking-elasticsearch-plugins" class="headerlink" title="Tweaking elasticsearch plugins"></a>Tweaking elasticsearch plugins</h2><p>After we understand how important buffer plugins is, we can go back to see how to tweak our elsticsearch plugin. For our use case, I try to collect logs as much as possible with small elasticsearch node.</p>
 <p>The initial setting is like</p>
-<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">buffer</span>&gt;</span><br><span class="line">  @file</span><br><span class="line">  path /fluentd/<span class="built_in">log</span>/<span class="keyword">buffer</span></span><br><span class="line">  </span><br><span class="line">  <span class="meta"># chuck + enqueue </span></span><br><span class="line">  flush_mode interval</span><br><span class="line">  flush_interval <span class="number">1</span>s</span><br><span class="line">  </span><br><span class="line">  flush_thread_count <span class="number">2</span></span><br><span class="line">  retry_type exponential_backoff</span><br><span class="line">  retry_timeout <span class="number">1</span>h</span><br><span class="line">  overflow_action drop_oldest_chunk</span><br><span class="line">&lt;/<span class="keyword">buffer</span>&gt;</span><br></pre></td></tr></table></figure>
-<p>The problem is that chuck fluentd collects is too small which lead to invoke too many elasticsearch write APIs. This also makes fluend queue many chucks in the disk due to fail requests of elasticsearch.  </p>
-<p>From AWS ES <a href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-limits.html" target="_blank" rel="noopener">doc</a> we know that the http payload varies with different instance type. The maximum size of HTTP request payloads of most instance type is 100MB. Thus we should make our chuck limit size bigger but less than 100MB. Plus we should increase the flush_interval so that fluentd is able to create big enough chuck before flushing to queue. Here we also adjust flush_thread_count depending on elasticsearch plugin suggestion.</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">buffer</span>&gt;</span><br><span class="line">  @file</span><br><span class="line">  path /fluentd/<span class="built_in">log</span>/<span class="keyword">buffer</span></span><br><span class="line"></span><br><span class="line">  <span class="meta"># chunk + enqueue</span></span><br><span class="line">  flush_mode interval</span><br><span class="line">  flush_interval <span class="number">1</span>s</span><br><span class="line"></span><br><span class="line">  flush_thread_count <span class="number">2</span></span><br><span class="line">  retry_type exponential_backoff</span><br><span class="line">  retry_timeout <span class="number">1</span>h</span><br><span class="line">  overflow_action drop_oldest_chunk</span><br><span class="line">&lt;/<span class="keyword">buffer</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>The problem is that chunk fluentd collects is too small which lead to invoke too many elasticsearch write APIs. This also makes fluend queues many chunks in the disk due to fail requests of elasticsearch.</p>
+<p>From AWS ES <a href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-limits.html" target="_blank" rel="noopener">doc</a> we know that the http payload varies with different instance type. The maximum size of HTTP request payloads of most instance type is 100MB. Thus we should make our chunk limit size bigger but less than 100MB. Plus we should increase the flush_interval so that fluentd is able to create big enough chunk before flushing to queue. Here we also adjust flush_thread_count depending on elasticsearch plugin suggestion.</p>
 <p>The modified version:</p>
 <pre><code>&lt;buffer&gt;
       @file
       path /fluentd/log/buffer
 
       total_limit_size 1024MB
-      # chuck + enqueue 
+      # chunk + enqueue
     chunk_limit_size 16MB
     flush_mode interval
     flush_interval 5s
@@ -262,11 +262,10 @@
     retry_max_interval 30
     overflow_action drop_oldest_chunk
 &lt;/buffer&gt;
-</code></pre><h3 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h3><p>After I change the setting, fluentd aggregator no longer complains about the insertion errors and drops the oldest chucks.</p>
-<p>As you can see the following pictures show the memory usage drops dramatically so that it proves that fluentd works perfectly.</p>
+</code></pre><h3 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h3><p>After I change the setting, fluentd aggregator no longer complains about the insertion errors and drops the oldest chunks.<br>As you can see the following pictures show the memory usage drops dramatically so that it proves that fluentd works perfectly.</p>
 <p><img src="./before.png" alt></p>
 <p><img src="./after.png" alt></p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ol>
 <li><a href="https://www.youtube.com/watch?v=aeGADcC-hUA" target="_blank" rel="noopener">Fluentd Webinar: Best kept secret to unify logging on AWS, Docker, GCP, and more!</a></li>
 </ol>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Logging directly <span class="keyword">from</span> microservice makes log storages overloaded</span><br><span class="line">  - too many connections</span><br><span class="line">  - too frequent import API call</span><br><span class="line"></span><br><span class="line">Aggregation server</span><br><span class="line">  - make log infra more reliable <span class="keyword">and</span> scalable</span><br><span class="line">  -<span class="built_in"> connection </span>aggregation</span><br><span class="line">  - buffering <span class="keyword">for</span> less frequent import API calls</span><br><span class="line">  - data persistence during downtime</span><br><span class="line">  - retry &amp; recovery <span class="keyword">from</span> down time</span><br></pre></td></tr></table></figure>
@@ -320,9 +319,9 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Preface"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Preface</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Problem"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Problem</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Understand-Buffer-plugin"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Understand Buffer plugin</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Input"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">Input</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Buffer"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">Buffer</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#stage"><span class="toc-nav-number">3.2.1.</span> <span class="toc-nav-text">stage</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#queue"><span class="toc-nav-number">3.2.2.</span> <span class="toc-nav-text">queue</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#other-parameters"><span class="toc-nav-number">3.2.3.</span> <span class="toc-nav-text">other parameters</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#note"><span class="toc-nav-number">3.2.4.</span> <span class="toc-nav-text">note</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Tweaking-elasticsearch-plugins"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Tweaking elasticsearch plugins</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Result"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">Result</span></a></li></ol></li></ol><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number"></span> <span class="toc-nav-text">Reference</span></a>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Preface"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Preface</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Problem"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Problem</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Understand-Buffer-plugin"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Understand Buffer plugin</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Input"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">Input</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Buffer"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">Buffer</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Stage"><span class="toc-nav-number">3.2.1.</span> <span class="toc-nav-text">Stage</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#queue"><span class="toc-nav-number">3.2.2.</span> <span class="toc-nav-text">queue</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Other-parameters"><span class="toc-nav-number">3.2.3.</span> <span class="toc-nav-text">Other parameters</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Note"><span class="toc-nav-number">3.2.4.</span> <span class="toc-nav-text">Note</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Tweaking-elasticsearch-plugins"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Tweaking elasticsearch plugins</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Result"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">Result</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#References"><span class="toc-nav-number"></span> <span class="toc-nav-text">References</span></a>
         
-        </li></div>
+        </div>
       </aside>
     
 
@@ -447,7 +446,7 @@
 
                 
                     <li>
-                        <a target="_blank" href="https://github.com/kkcliu">
+                        <a target="_blank"  href="https://github.com/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -458,7 +457,7 @@
 
                 
                     <li>
-                        <a target="_blank" href="https://www.linkedin.com/in/kkcliu">
+                        <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
@@ -476,7 +475,10 @@
                         <i class="fa fa-heart"></i>
                     </span> 
                     re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
                     </iframe>
                 </p>
             </div>
