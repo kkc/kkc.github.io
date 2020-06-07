@@ -188,7 +188,11 @@
             <!-- 标签云 -->
             <div id='tag_cloud' class="tags">
                 
+                    <a href="#python" title="python" rel="1">python</a>
+                
                     <a href="#mongodb" title="mongodb" rel="3">mongodb</a>
+                
+                    <a href="#mysql" title="mysql" rel="2">mysql</a>
                 
                     <a href="#monitoring" title="monitoring" rel="2">monitoring</a>
                 
@@ -196,17 +200,15 @@
                 
                     <a href="#docker" title="docker" rel="4">docker</a>
                 
-                    <a href="#golang" title="golang" rel="3">golang</a>
+                    <a href="#golang" title="golang" rel="4">golang</a>
                 
                     <a href="#AWS" title="AWS" rel="15">AWS</a>
                 
-                    <a href="#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
-                
                     <a href="#Jenkins" title="Jenkins" rel="1">Jenkins</a>
                 
-                    <a href="#reading" title="reading" rel="1">reading</a>
+                    <a href="#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
                 
-                    <a href="#mysql" title="mysql" rel="2">mysql</a>
+                    <a href="#reading" title="reading" rel="1">reading</a>
                 
                     <a href="#Azure" title="Azure" rel="1">Azure</a>
                 
@@ -230,9 +232,9 @@
                 
                     <a href="#algorithm" title="algorithm" rel="1">algorithm</a>
                 
-                    <a href="#fluentd" title="fluentd" rel="1">fluentd</a>
-                
                     <a href="#IAM" title="IAM" rel="1">IAM</a>
+                
+                    <a href="#fluentd" title="fluentd" rel="1">fluentd</a>
                 
                     <a href="#CNCF" title="CNCF" rel="1">CNCF</a>
                 
@@ -242,7 +244,9 @@
                 
                     <a href="#redis" title="redis" rel="1">redis</a>
                 
-                    <a href="#python" title="python" rel="1">python</a>
+                    <a href="#bpf" title="bpf" rel="1">bpf</a>
+                
+                    <a href="#cgo" title="cgo" rel="1">cgo</a>
                 
                     <a href="#prometheus" title="prometheus" rel="1">prometheus</a>
                 
@@ -254,6 +258,28 @@
 
             <!-- 标签列表 -->
 
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="python">
+                    <span class="tag-text">python</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
+                        <h2 class="post-title">
+                            Python 的時間還有時區處理
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
             
             <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="mongodb">
@@ -298,6 +324,43 @@
                      <a href="/2015/07/14/mongodb-storage/">
                         <h2 class="post-title">
                             Mongodb Storage 的架構和問題解法
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="mysql">
+                    <span class="tag-text">mysql</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/08/16/RDBMS-course/">
+                        <h2 class="post-title">
+                            RDBMS 先修課程筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2017/07/07/mysql-partitioning/">
+                        <h2 class="post-title">
+                            MySQL partition 筆記
                         </h2>
                         
                     </a>
@@ -491,6 +554,21 @@
                 </div>
                 <hr>
                 
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2020/06/05/improve-cpu-utilization-by-using-bpf/">
+                        <h2 class="post-title">
+                            Improve CPU Utilization of Go app By Using BPF
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
             </div>
             
             <div class="one-tag-list">
@@ -548,9 +626,24 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2017/12/03/aws-fargate/">
+                     <a href="/2018/03/14/AWS-VPN-with-RouterBoard/">
                         <h2 class="post-title">
-                            AWS fargate 的簡短筆記
+                            AWS VPN with RouterBoard
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2018/03/21/IPSEC-note/">
+                        <h2 class="post-title">
+                            IPSec 筆記
                         </h2>
                         
                     </a>
@@ -578,24 +671,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2018/03/14/AWS-VPN-with-RouterBoard/">
+                     <a href="/2017/12/03/aws-fargate/">
                         <h2 class="post-title">
-                            AWS VPN with RouterBoard
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2018/03/21/IPSEC-note/">
-                        <h2 class="post-title">
-                            IPSec 筆記
+                            AWS fargate 的簡短筆記
                         </h2>
                         
                     </a>
@@ -742,6 +820,28 @@
             </div>
             
             <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Jenkins">
+                    <span class="tag-text">Jenkins</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2017/02/13/how-to-use-jenkins-parametered-build/">
+                        <h2 class="post-title">
+                            How To Use Jenkins Parametered Build
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="elasticsearch">
                     <span class="tag-text">elasticsearch</span>
                 </span>
@@ -794,28 +894,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Jenkins">
-                    <span class="tag-text">Jenkins</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/02/13/how-to-use-jenkins-parametered-build/">
-                        <h2 class="post-title">
-                            How To Use Jenkins Parametered Build
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="reading">
                     <span class="tag-text">reading</span>
                 </span>
@@ -828,43 +906,6 @@
                      <a href="/2017/02/19/reading-note-apprenticeship-patterns/">
                         <h2 class="post-title">
                             筆記：學徒模式，優秀軟體開發者的養成之路
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="mysql">
-                    <span class="tag-text">mysql</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/08/16/RDBMS-course/">
-                        <h2 class="post-title">
-                            RDBMS 先修課程筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/07/07/mysql-partitioning/">
-                        <h2 class="post-title">
-                            MySQL partition 筆記
                         </h2>
                         
                     </a>
@@ -1247,28 +1288,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="fluentd">
-                    <span class="tag-text">fluentd</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
-                        <h2 class="post-title">
-                            Performance tweaking for fluentd aggregator (EFK stack)
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="IAM">
                     <span class="tag-text">IAM</span>
                 </span>
@@ -1286,6 +1305,28 @@
                             <h3 class="post-subtitle">
                                 終於學會怎麼系統性的清 IAM
                             </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="fluentd">
+                    <span class="tag-text">fluentd</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
+                        <h2 class="post-title">
+                            Performance tweaking for fluentd aggregator (EFK stack)
+                        </h2>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1395,8 +1436,8 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="python">
-                    <span class="tag-text">python</span>
+                <span class="fa fa-tag listing-seperator" id="bpf">
+                    <span class="tag-text">bpf</span>
                 </span>
                 
                   <!-- <li class="listing-item">
@@ -1404,9 +1445,31 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
+                     <a href="/2020/06/05/improve-cpu-utilization-by-using-bpf/">
                         <h2 class="post-title">
-                            Python 的時間還有時區處理
+                            Improve CPU Utilization of Go app By Using BPF
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="cgo">
+                    <span class="tag-text">cgo</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2020/06/05/improve-cpu-utilization-by-using-bpf/">
+                        <h2 class="post-title">
+                            Improve CPU Utilization of Go app By Using BPF
                         </h2>
                         
                     </a>
