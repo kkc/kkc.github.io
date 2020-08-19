@@ -9,19 +9,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
     <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="Improve CPU Utilization of Go app By Using BPF - Kakashi&#39;s Blog">
+    <meta property="og:title" content="io_uring - Kakashi&#39;s Blog">
     <meta property="og:description" content="null">
-    <meta property="og:image" content="http://kkc.github.io/2020/06/05/improve-cpu-utilization-by-using-bpf/header.jpg">
+    <meta property="og:image" content="http://kkc.github.io/2020/08/19/io-uring/null">
     <link rel="shortcut icon" href="/img/favicon.ico">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Improve CPU Utilization of Go app By Using BPF - Kakashi&#39;s Blog
+          io_uring - Kakashi&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://kkc.github.io/2020/06/05/improve-cpu-utilization-by-using-bpf/">
+    <link rel="canonical" href="http://kkc.github.io/2020/08/19/io-uring/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -65,7 +65,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('header.jpg')
+            background-image: url('null')
             /*post*/
         
     }
@@ -82,18 +82,12 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#golang" title="golang">golang</a>
-                            
-                              <a class="tag" href="/tags/#bpf" title="bpf">bpf</a>
-                            
-                              <a class="tag" href="/tags/#cgo" title="cgo">cgo</a>
-                            
                         </div>
-                        <h1>Improve CPU Utilization of Go app By Using BPF</h1>
+                        <h1>io_uring</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by Kakashi on
-                            2020-06-05
+                            2020-08-19
                         </span>
                     </div>
                 
@@ -206,58 +200,21 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>In this post, I’d like to share an experience that how I used BPF to fix a CPU saturation issue in a Go app. Especially this CPU saturation issue happened in the cgo level so that it’s really hard to detect the root cause.</p>
-<h1 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h1><p>A few months ago, I worked on cloud cost reduction and found out the CPU utilization of our streaming services kept 80% ~ 90% no matter how many clients connect to them. This is quite weird because normally the CPU utilization should be decreased when the total number of connections goes down. This also makes us not able to do further improvement like applying instance autoscaling according to different workloads.</p>
-<h1 id="Triage"><a href="#Triage" class="headerlink" title="Triage"></a>Triage</h1><p>Usually, we should be able to use go built-in profiling tool <code>go tool pprof</code> to track the CPU or memory issues. However, because this Go program highly depends on a C library, I was afraid that the bottleneck would be in the C code.</p>
-<p>I recently enjoyed watching Brendan Gregg’s BPF talks and thought if we can use it to solve this issue. If you are not familiar with BPF, there are tons of great talks you can find on the youtube:</p>
+                <p> 之前在 Facebook 上面分享不少技術文章的心得，被網友建議說可以放在 blog 上面，其實原本想在 blog 上面放一些比較長且整理過的東西，不過想想如果自己的心得能讓更多人看見，並且有機會交流也是不錯的事情，接下來應該會慢慢將之前的筆記謄過來。</p>
+<p><a href="https://www.facebook.com/kkcliu/posts/10157179358206129" target="_blank" rel="noopener">https://www.facebook.com/kkcliu/posts/10157179358206129</a></p>
+<p> 前陣子在寫 epoll 文章的時候，剛好看到了一個討論串裡面談到 io_uring，其實原本沒聽過這個是什麼，後來查了一下才知道是新版的 Linux kernel 5.1 會加入這個 io_uring，主要目的是可以很好的改善原本 Linux native AIO 的問題，其實一般來說 AIO 的效能應該會比 epoll 還好，簡單一點的比較可以看 stackoverflow 上面寫的，<a href="https://stackoverflow.com/questions/5844955/whats-the-difference-between-event-driven-and-asynchronous-between-epoll-and-a" target="_blank" rel="noopener">https://stackoverflow.com/questions/5844955/whats-the-difference-between-event-driven-and-asynchronous-between-epoll-and-a</a></p>
+<pre><code>- epoll is a blocking operation (epoll_wait()) - you block the thread until some event happens and then you dispatch the event to different procedures/functions/branches in your code.
+- In AIO, you pass the address of your callback function (completion routine) to the system and the system calls your function when something happens.
+</code></pre><p> 簡單來說 epoll 是等待 event 發生，才去做事情，所以 epoll_wait 是個 blocking 的 operation，而 AIO 是把對應的 callback function 交給系統去做，算是真正的 asynchronous， Mysql 的 innodb 也是使用了 native linux AIO，但是看了下原生的 Linux AIO 有蠻多大大小小的問題，所以並不是真的太流行，這邊可以推薦大家看一下 cloudflare 這篇 <a href="https://blog.cloudflare.com/io_submit-the-epoll-alternative-youve-never-heard-about/，" target="_blank" rel="noopener">https://blog.cloudflare.com/io_submit-the-epoll-alternative-youve-never-heard-about/，</a> 有介紹怎麼使用 AIO，也提到 AIO 的一些問題，有趣的地方像是提到 Linus 對 AIO 的評價:<br><figure class="highlight mizar"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AIO <span class="keyword">is</span> a horrible ad-hoc design, with the main excuse <span class="keyword">being</span> "other, less gifted people, made <span class="keyword">that</span> design, <span class="keyword">and</span> we are implementing it <span class="keyword">for</span> <span class="keyword">compatibility</span> because database people - who seldom have any shred <span class="keyword">of</span> taste - actually use it". But AIO was always really really ugly.</span><br></pre></td></tr></table></figure></p>
+<p> 接著是看 Facebook [<a href="https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring]" target="_blank" rel="noopener">https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring]</a> 和 Hackernews [<a href="https://news.ycombinator.com/item?id=19843464]" target="_blank" rel="noopener">https://news.ycombinator.com/item?id=19843464]</a> 上面的介紹，最重要的是 performance 真的爆炸好，有興趣可以看看這個 <a href="https://github.com/frevib/io_uring-echo-server/blob/io-uring-feat-fast-poll/benchmarks/benchmarks.md" target="_blank" rel="noopener">https://github.com/frevib/io_uring-echo-server/blob/io-uring-feat-fast-poll/benchmarks/benchmarks.md</a> ，裡面有比較 epoll vs io_uring benchmark ，可以看出 io_uring 的效能可以快到 40% 以上，然後也看到很多不同的 project 像是 libuv, rust, ceph, rocksdb，正在討論或是進行 io_uring integration，這對 database &amp; cloud 相關的產業會有重大的影響，省下來的成本光用想的就很驚人，雖然要等到大家升到 5.1 不容易，但是越來越期待這個發展了。</p>
+<p> 後記: 同事 Champ 大大有提點, Linux AIO 的問題是因為只能用在 DIRECT_IO 上面，所以對於很多程式來說，就沒辦法得到系統上面的 page cache 的好處，這也是為什麼 AIO 不好用的原因。</p>
+<p>Reference:</p>
 <ul>
-<li><a href="https://www.youtube.com/watch?v=bj3qdEDbCD4" target="_blank" rel="noopener">Velocity 2017: Performance Analysis Superpowers with Linux eBPF</a></li>
-<li><a href="https://www.youtube.com/watch?v=03EC8uA30Pw" target="_blank" rel="noopener">YOW! 2018 Brendan Gregg - Cloud Performance Root Cause Analysis at Netflix</a></li>
-<li><a href="https://www.youtube.com/watch?v=fhBHvsi0Ql0" target="_blank" rel="noopener">LISA19 - Linux Systems Performance</a></li>
-</ul>
-<p><a href="https://github.com/iovisor/bcc" target="_blank" rel="noopener">BCC</a> is a toolkit for BPF-based Linux analysis. BCC includes a lot of good tools helping us analyze the current system without writing the BPF program on our own. I’d highly recommend everyone should try to adopt some BCC tools because using those tools is so simple and useful.</p>
-<p>In our case, I used <code>profile.py</code> to profile CPU usage. This profiling tool would take samples of stack tracing at certain timed intervals. It also provides a way to generate a popular Flamegraph format. The most interesting part is it can profile the running process by attaching a given PID. I thought this is really powerful when we need to investigate issues of the online system. I used the following command to generate the Flamegraph.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ./profile -df -p &lt;pid&gt; 5 &gt; out.profile</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/brendangregg/FlameGraph</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ./FlameGraph/flamegraph.pl &lt; out.profile &gt; out.svg</span></span><br></pre></td></tr></table></figure>
-<p>Here is what I got:</p>
-<p><img src="./flamegraph.png" alt="flamegraph"></p>
-<p>Before we dive into this chart, I want to note how to analyze this flamegraph. There are 2 important things when we observe flamegraph according to this book <a href="https://books.google.com.tw/books?id=iNS-DwAAQBAJ&amp;pg=PT73&amp;lpg=PT73&amp;dq=bpf+profile+overhead&amp;source=bl&amp;ots=SVM1q-uwoz&amp;sig=ACfU3U0nr5OXULNKPwdZ8b_pX8aY1DT0wg&amp;hl=en&amp;sa=X&amp;ved=2ahUKEwjuzK_y9erpAhULyosBHf-_D3QQ6AEwA3oECAkQAg#v=onepage&amp;q=bpf%20profile%20overhead&amp;f=false" target="_blank" rel="noopener">Linux Observability with BPF</a>:</p>
-<ul>
-<li>The x-axis is ordered alphabetically. This represents the most frequent code consuming CPU in your system.</li>
-<li>The y-axis shows the stack traces ordered as the profiler reads them, preserving the trace hierarchy.</li>
-</ul>
-<p>With this flame graph, it was now possible to see most CPU time spend on <code>epoll_wait</code>. Because it’s a streaming service, obviously it should adopt epoll to deal with many client connections efficiently. However, I didn’t expect this <code>epoll_wait</code> should be invoked so many times. I also try another BCC tool called <a href="https://github.com/iovisor/bcc/blob/master/tools/syscount_example.txt" target="_blank" rel="noopener">syscount</a> to count syscalls.</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">syscount -<span class="selector-tag">p</span> &lt;my_progrom_pid&gt;</span><br></pre></td></tr></table></figure>
-<p>I saw the result like this.</p>
-<p><img src="./syscount.png" alt="syscount1"></p>
-<p>Then I tried to use <code>strace -p &lt;my_program_pid&gt;</code> to observe what happened in that process. I did see a lot of epoll_wait invokations during process running as following.</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">epoll_wait(<span class="number">4</span>, [], <span class="number">1</span>, <span class="number">0</span>)                  = <span class="number">0</span></span><br><span class="line">epoll_wait(<span class="number">10</span>, [], <span class="number">1</span>, <span class="number">0</span>)                 = <span class="number">0</span></span><br><span class="line">epoll_wait(<span class="number">20</span>, [], <span class="number">1</span>, <span class="number">0</span>)                 = <span class="number">0</span></span><br><span class="line">epoll_wait(<span class="number">4</span>, [], <span class="number">1</span>, <span class="number">20</span>)                 = <span class="number">0</span></span><br><span class="line">epoll_wait(<span class="number">10</span>, [&#123;EPOLLIN, &#123;u32=<span class="number">5</span>, u64=<span class="number">140200617443333</span>&#125;&#125;], <span class="number">1</span>, <span class="number">50</span>) = <span class="number">1</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>I was so curious what’s the meaning of epoll_wait function arguments. I checked the <a href="https://www.man7.org/linux/man-pages/man2/epoll_wait.2.html" target="_blank" rel="noopener">man page</a> and realized the signature of that function.</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">epoll_wait</span>(<span class="params"><span class="keyword">int</span> epfd, <span class="keyword">struct</span> epoll_event *events, <span class="keyword">int</span> maxevents, <span class="keyword">int</span> timeout</span>)</span>;</span><br></pre></td></tr></table></figure>
-<p>It looks to me that the field <code>timeout</code> could be the key to this problem so that I need to figure out the definition of timeout.</p>
-<blockquote>
-<p>Specifying a timeout of -1 causes epoll_wait() to block indefinitely, while specifying a timeout equal to zero cause epoll_wait() to return immediately, even if no events are available.</p>
-</blockquote>
-<p>This is really interesting. I soon went back to check our code. It turns out that the value of timeout is not a fixed number but generated by another function. This function acted too aggressively and set up timeout as 0 in most cases. We also double-checked epoll_wait mostly returned nothing when the timeout is 0. When you write the code using epoll, the pseudo-code might be like</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    n = epoll_wait(efd, events, MAXEVENTS, timeout);</span><br><span class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">/* process activity */</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">/* process inactivity */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>That means when timeout value is 0, it will create a busy loop and CPU time spent on here for nothing.</p>
-<h1 id="Fix"><a href="#Fix" class="headerlink" title="Fix"></a>Fix</h1><p>We did a quick small change to modify the timeout value to 1ms when the timeout value equals to 0. This change should reduce total number of invocation of that epoll_wait and following function blocks. We also deployed this fix both on the staging and production system to make sure video streaming still works smoothly. It was a remarkable moment when we saw the impact it had. We successfully reduced CPU usage from <code>6%</code> to <code>1%</code> on staging server. There was same trend on production services which improvement is around 30% to 70% deponed on different workloads.</p>
-<p><img src="./fix1.png" alt="fix1"></p>
-<p>After applying this fix, we tried to use <code>syscount</code> again to verify our system. As you can see the total number of epoll_wait is close to recvform, which means we save a lot of CPU time.</p>
-<p><img src="./fix2.png" alt="fix2"></p>
-<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><ul>
-<li>BPF is a really good tool that can help us quickly identify the potential root cause of the problem. The benefit of using BPF is it only introduces very small overhead on your system.</li>
-<li><code>strace</code> is a very powerful tool too. Every programmer should learn how to use it. We can use <code>strace</code> to observe system call of your program on the fly which can give us a lot of information to understand how our program works.</li>
-<li>Encourage everyone to try other bcc tools to observe the online system. It’s really fun!</li>
-</ul>
-<p>after I fixed this issues with BPF, my feeling is like</p>
-<p><img src="./fly.jpg" alt></p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a href="https://www.youtube.com/watch?v=bj3qdEDbCD4" target="_blank" rel="noopener">Velocity 2017: Performance Analysis Superpowers with Linux eBPF</a></li>
-<li><a href="https://www.youtube.com/watch?v=03EC8uA30Pw" target="_blank" rel="noopener">YOW! 2018 Brendan Gregg - Cloud Performance Root Cause Analysis at Netflix</a></li>
-<li><a href="https://www.youtube.com/watch?v=fhBHvsi0Ql0" target="_blank" rel="noopener">LISA19 - Linux Systems Performance</a></li>
-<li><a href="https://github.com/iovisor/bcc" target="_blank" rel="noopener">BCC tools</a></li>
-<li><a href="https://medium.com/@copyconstruct/the-method-to-epolls-madness-d9d2d6378642" target="_blank" rel="noopener">https://medium.com/@copyconstruct/the-method-to-epolls-madness-d9d2d6378642</a></li>
-<li><a href="https://jvns.ca/blog/2017/06/03/async-io-on-linux--select--poll--and-epoll/" target="_blank" rel="noopener">https://jvns.ca/blog/2017/06/03/async-io-on-linux--select--poll--and-epoll/</a></li>
+<li><a href="https://kernel.dk/io_uring-whatsnew.pdf" target="_blank" rel="noopener">https://kernel.dk/io_uring-whatsnew.pdf</a></li>
+<li><a href="https://github.com/agnivade/frodo" target="_blank" rel="noopener">https://github.com/agnivade/frodo</a></li>
+<li><a href="https://github.com/hodgesds/iouring-go" target="_blank" rel="noopener">https://github.com/hodgesds/iouring-go</a></li>
+<li><a href="https://lwn.net/Articles/776703/" target="_blank" rel="noopener">https://lwn.net/Articles/776703/</a></li>
+<li><a href="https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring" target="_blank" rel="noopener">https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring</a></li>
 </ul>
 
                 
@@ -266,13 +223,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2020/08/19/io-uring/" data-toggle="tooltip" data-placement="top" title="io_uring">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2020/04/11/aws-ssm-session-manager-note/" data-toggle="tooltip" data-placement="top" title="AWS SSM session manager 筆記">Next Post &rarr;</a>
+                            <a href="/2020/06/05/improve-cpu-utilization-by-using-bpf/" data-toggle="tooltip" data-placement="top" title="Improve CPU Utilization of Go app By Using BPF">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -302,7 +255,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Problem"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Problem</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Triage"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Triage</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Fix"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Fix</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Conclusion"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Conclusion</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+          <ol class="nav">none</ol>
         
         </div>
       </aside>
@@ -322,12 +275,6 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#golang" title="golang">golang</a>
-                        
-                          <a class="tag" href="/tags/#bpf" title="bpf">bpf</a>
-                        
-                          <a class="tag" href="/tags/#cgo" title="cgo">cgo</a>
-                        
                     </div>
                 </section>
                 
@@ -346,8 +293,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "kkcliu";
-    var disqus_identifier = "http://kkc.github.io/2020/06/05/improve-cpu-utilization-by-using-bpf/";
-    var disqus_url = "http://kkc.github.io/2020/06/05/improve-cpu-utilization-by-using-bpf/";
+    var disqus_identifier = "http://kkc.github.io/2020/08/19/io-uring/";
+    var disqus_url = "http://kkc.github.io/2020/08/19/io-uring/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
