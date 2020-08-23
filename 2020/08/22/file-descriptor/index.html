@@ -9,19 +9,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
     <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="Linux 5.1 的 io_uring - Kakashi&#39;s Blog">
-    <meta property="og:description" content="null">
-    <meta property="og:image" content="http://kkc.github.io/2020/08/19/io-uring/ring.jpeg">
+    <meta property="og:title" content="Linux 的 file descriptor 筆記 - Kakashi&#39;s Blog">
+    <meta property="og:description" content="FD 真的好重要">
+    <meta property="og:image" content="http://kkc.github.io/2020/08/22/file-descriptor/file.jpeg">
     <link rel="shortcut icon" href="/img/favicon.ico">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Linux 5.1 的 io_uring - Kakashi&#39;s Blog
+          Linux 的 file descriptor 筆記 - Kakashi&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://kkc.github.io/2020/08/19/io-uring/">
+    <link rel="canonical" href="http://kkc.github.io/2020/08/22/file-descriptor/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -65,7 +65,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('ring.jpeg')
+            background-image: url('file.jpeg')
             /*post*/
         
     }
@@ -85,11 +85,11 @@
                               <a class="tag" href="/tags/#linux" title="linux">linux</a>
                             
                         </div>
-                        <h1>Linux 5.1 的 io_uring</h1>
-                        <h2 class="subheading"></h2>
+                        <h1>Linux 的 file descriptor 筆記</h1>
+                        <h2 class="subheading">FD 真的好重要</h2>
                         <span class="meta">
                             Posted by Kakashi on
-                            2020-08-19
+                            2020-08-22
                         </span>
                     </div>
                 
@@ -202,29 +202,38 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p> 之前在 Facebook 上面分享不少技術文章的心得，被網友建議說可以放在 blog 上面，其實原本想在 blog 上面放一些比較長且整理過的東西，不過想想如果自己的心得能讓更多人看見，並且有機會交流也是不錯的事情，接下來應該會慢慢將之前的筆記謄過來。</p>
-<p><a href="https://www.facebook.com/kkcliu/posts/10157179358206129" target="_blank" rel="noopener">https://www.facebook.com/kkcliu/posts/10157179358206129</a></p>
-<h1 id="io-uring"><a href="#io-uring" class="headerlink" title="io_uring"></a>io_uring</h1><p> 前陣子在寫 epoll 文章的時候，剛好看到了一個討論串裡面談到 io_uring，其實原本沒聽過這個是什麼，後來查了一下才知道是新版的 Linux kernel 5.1 會加入這個 io_uring，主要目的是可以很好的改善原本 Linux native AIO 的問題，其實一般來說 AIO 的效能應該會比 epoll 還好，簡單一點的比較可以看 stackoverflow 上面寫的，<a href="https://stackoverflow.com/questions/5844955/whats-the-difference-between-event-driven-and-asynchronous-between-epoll-and-a" target="_blank" rel="noopener">https://stackoverflow.com/questions/5844955/whats-the-difference-between-event-driven-and-asynchronous-between-epoll-and-a</a></p>
-<ul>
-<li>epoll is a blocking operation (epoll_wait()) - you block the thread until some event happens and then you dispatch the event to different procedures/functions/branches in your code.</li>
-<li>In AIO, you pass the address of your callback function (completion routine) to the system and the system calls your function when something happens.</li>
+                <h1 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言 </h1><p> 說來慚愧，一直以來都在跟 Linux 打交道，也瞭解 <a href="https://en.wikipedia.org/wiki/Everything_is_a_file" target="_blank" rel="noopener">everything in unix is a file</a> 的概念，卻沒有真的好好理解 file descriptor 的基本結構是怎樣，但是在知乎上面看到這篇 <a href="https://zhuanlan.zhihu.com/p/34280875" target="_blank" rel="noopener">Linux file descriptor 演進史</a>，讓我對於他為什麼長這樣有更進一步的認識。(其實原本想找找英文資料，不過這篇講歷史的還蠻清楚的)</p>
+<p>基本上這篇文章會筆記目前新版的 file descriptor 結構，也會延伸一些其他看到的資料，基於我對於 Linux kernel 並不是專家，如果有錯的地方希望大家能夠指正。</p>
+<h1 id="file-descriptor"><a href="#file-descriptor" class="headerlink" title="file descriptor"></a>file descriptor</h1><p><a href="https://en.wikipedia.org/wiki/File_descriptor" target="_blank" rel="noopener">file descriptor</a> (fd) 基本上是一層介面，可以讓我們去操作 file 和其他 input/output interface (例如 pipe &amp; socket)。</p>
+<h2 id="kernel- 內的基本結構"><a href="#kernel- 內的基本結構" class="headerlink" title="kernel 內的基本結構"></a>kernel 內的基本結構</h2><ul>
+<li>每個 process 裡面包含 file descriptor 的 table。</li>
+<li>file descriptor 其實只是個指標，指向系統層面 (system-wide) 的 openfile table 的 entry ，而這個 openfile table 在 Posix 裡面稱為 open file description。</li>
+<li>fd_table 內的 inode_ptr 在去指向 i-node table 內的 entry。</li>
 </ul>
-<p> 簡單來說 epoll 是等待 event 發生，才去做事情，所以 epoll_wait 是個 blocking 的 operation，而 AIO 是把對應的 callback function 交給系統去做，算是真正的 asynchronous， Mysql 的 innodb 也是使用了 native linux AIO，但是看了下原生的 Linux AIO 有蠻多大大小小的問題，所以並不是真的太流行，這邊可以推薦大家看一下 cloudflare 這篇 <a href="https://blog.cloudflare.com/io_submit-the-epoll-alternative-youve-never-heard-about/" target="_blank" rel="noopener">https://blog.cloudflare.com/io_submit-the-epoll-alternative-youve-never-heard-about/</a> ， 有介紹怎麼使用 AIO，也提到 AIO 的一些問題，有趣的地方像是提到 Linus 對 AIO 的評價:</p>
-<blockquote>
-<p>AIO is a horrible ad-hoc design, with the main excuse being “other, less gifted people, made that design, and we are implementing it for compatibility because database people - who seldom have any shred of taste - actually use it”. But AIO was always really really ugly.</p>
-</blockquote>
-<p> 接著是又看到 Facebook 分享的 slides: <a href="https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring" target="_blank" rel="noopener">https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring</a> 和 Hackernews <a href="https://news.ycombinator.com/item?id=19843464" target="_blank" rel="noopener">https://news.ycombinator.com/item?id=19843464</a> 上面的介紹，最重要的是 performance 真的好上不少，從這邊 <a href="https://github.com/frevib/io_uring-echo-server/blob/io-uring-feat-fast-poll/benchmarks/benchmarks.md" target="_blank" rel="noopener">https://github.com/frevib/io_uring-echo-server/blob/io-uring-feat-fast-poll/benchmarks/benchmarks.md</a> ，可以找到 epoll vs io_uring 的 benchmark ，可以看出 io_uring 的效能可以快到 40% 以上。</p>
-<p><img src="./benchmark.png" alt></p>
-<p> 然後也看到很多不同的 project 像是 libuv, rust, ceph, rocksdb，正在討論或是進行 io_uring integration，這對 database &amp; cloud 相關的產業會有重大的影響，省下來的成本光用想的就很驚人，雖然要等到大家升到 5.1 不容易，但是越來越期待這個發展了。</p>
-<p> 後記: 同事 Champ 大大有提點, Linux AIO 的問題是因為只能用在 DIRECT_IO 上面，所以對於很多程式來說，就沒辦法得到系統上面的 page cache 的好處，這也是為什麼 AIO 不好用的原因。</p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a href="https://kernel.dk/io_uring-whatsnew.pdf" target="_blank" rel="noopener">https://kernel.dk/io_uring-whatsnew.pdf</a></li>
-<li><a href="https://github.com/agnivade/frodo" target="_blank" rel="noopener">https://github.com/agnivade/frodo</a></li>
-<li><a href="https://github.com/hodgesds/iouring-go" target="_blank" rel="noopener">https://github.com/hodgesds/iouring-go</a></li>
-<li><a href="https://lwn.net/Articles/776703/" target="_blank" rel="noopener">https://lwn.net/Articles/776703/</a></li>
-<li><a href="https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring" target="_blank" rel="noopener">https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring</a></li>
+<p>file descriptor 和 file 之間的關係並不是一對一的。<br><img src="./relationship.png" alt><br>圖從這個投影片來的 <a href="https://man7.org/training/download/lusp_fileio_slides.pdf" target="_blank" rel="noopener">lusp_fileio_slides.pdf</a>，另外要大推作者的書 <a href="https://man7.org/tlpi/index.html" target="_blank" rel="noopener">The Linux Programming Interface</a>，非常值得收藏</p>
+<h2 id="對應的 -data-structure-source-code"><a href="# 對應的 -data-structure-source-code" class="headerlink" title="對應的 data structure source code"></a>對應的 data structure source code</h2><ol>
+<li><p>process task_struct 裡面有 file_struct 成員，基本上需要從這個 file_struct 裡面找到對應的 file descriptor，而要拆成指標，主要是因為 linux 在支援 thread 之後，需要以 task_struct 為 thread 單位，可以透過指標共用 file_struct 這種資源。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> &#123;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">files_struct</span> *<span class="title">files</span>;</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>files_struct 裡面可以找到 per process fdtable (file descriptor table)，其中使用了很厲害的 RCU 技術，主要是針對讀多寫少的情況下，提升存取寫入 fdtable 效能。<br>(struct fdtable in include/linux/fdtable.h)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">files_struct</span> &#123;</span></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">   * read mostly part</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">	<span class="keyword">atomic_t</span> count;</span><br><span class="line">	<span class="keyword">bool</span> resize_in_progress;</span><br><span class="line">	<span class="keyword">wait_queue_head_t</span> resize_wait;</span><br><span class="line"></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">fdtable</span> __<span class="title">rcu</span> *<span class="title">fdt</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">fdtable</span> <span class="title">fdtab</span>;</span></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">   * written part on a separate cache line in SMP</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">	<span class="keyword">spinlock_t</span> file_lock ____cacheline_aligned_in_smp;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> next_fd;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> close_on_exec_init[<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> open_fds_init[<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> full_fds_bits_init[<span class="number">1</span>];</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">file</span> __<span class="title">rcu</span> * <span class="title">fd_array</span>[<span class="title">NR_OPEN_DEFAULT</span>];</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">fdtable</span> &#123;</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> max_fds;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">file</span> __<span class="title">rcu</span> **<span class="title">fd</span>;</span>      <span class="comment">/* current fd array */</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> *close_on_exec;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> *open_fds;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> *full_fds_bits;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">rcu_head</span> <span class="title">rcu</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>open file table 也稱為 open file descriptions，是系統層級的 table (<a href="https://github.com/torvalds/linux/blob/master/include/linux/fs.h#L921)，這個" target="_blank" rel="noopener">https://github.com/torvalds/linux/blob/master/include/linux/fs.h#L921)，這個</a> struct 定義了一些蠻重要的資料像是 file_offset, file_status, 還有最重要的 inode_ptr 去指向對應的 inode。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">file</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">llist_node</span>	<span class="title">fu_llist</span>;</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">rcu_head</span> 	<span class="title">fu_rcuhead</span>;</span></span><br><span class="line">	&#125; f_u;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">path</span>		<span class="title">f_path</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">inode</span>		*<span class="title">f_inode</span>;</span>	/* cached value *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">	const struct file_operations	*f_op;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>open file table 在指向 system-wide 的 inode-table (<a href="https://github.com/torvalds/linux/blob/master/include/linux/fs.h#L615)，其中的" target="_blank" rel="noopener">https://github.com/torvalds/linux/blob/master/include/linux/fs.h#L615)，其中的</a> i_mode 就記錄了對應的是哪一種檔案類型。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">inode</span> &#123;</span></span><br><span class="line">	<span class="keyword">umode_t</span>			i_mode;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span>  i_opflags;</span><br><span class="line">	<span class="keyword">kuid_t</span>			i_uid;</span><br><span class="line">	<span class="keyword">kgid_t</span>			i_gid;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span>	i_flags;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="一些常見的 -fd- 操作"><a href="# 一些常見的 -fd- 操作" class="headerlink" title="一些常見的 fd 操作"></a>一些常見的 fd 操作</h1><ul>
+<li>同一個 process 內通常透過 <code>dup()</code> or <code>dup2()</code> 可以複製 file descriptor，而兩個 fd 就可以指向同一筆 openfile entry (也就是同一個 file)</li>
+<li>不同 process 透過 <code>fork()</code> 也會拿到各自的 file descriptor，去指向同一筆 openfile entry</li>
+<li>不同 process 去開啟同一份檔案，會用各自的 file descriptor 指向不同的 openfile entry，但最後會指向同一份 inode</li>
 </ul>
-<p>Header photo is from <a href="https://unsplash.com/photos/1XgFFEG_RGA" target="_blank" rel="noopener">https://unsplash.com/photos/1XgFFEG_RGA</a></p>
+<h1 id="其他的經驗分享"><a href="# 其他的經驗分享" class="headerlink" title="其他的經驗分享"></a>其他的經驗分享 </h1><p> 在沒有了解 fd 的時候其實在寫程式上面犯了不少錯，像是在曾經在寫一個 socket programming 時，在 main process 內 fork child process ，但是卻沒有使用 close-on-exec flag ，所以把 main process 打開的 fd 也帶過去給 child，所以就算在 main process 去 close socket，對於那個被 child 抓住的 socket 還是沒被釋放，所以就看到前面的 LB 說後端的連線數量沒有下降，接著因為 rate limiting 的緣故，就把外面的連線給擋住了，而其實這時候後端還閒著很，這就是不熟悉 fd 行為而種下的雷，在理解了 fd 後，接著會再做一些筆記來談談 epoll &amp; scm_right 之類的東西怎麼運作的，了解 fd 對於我們寫程式真的蠻重要的啊!</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><ul>
+<li><a href="https://man7.org/training/download/lusp_fileio_slides.pdf" target="_blank" rel="noopener">https://man7.org/training/download/lusp_fileio_slides.pdf</a></li>
+</ul>
 
                 
 
@@ -232,13 +241,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2020/08/22/file-descriptor/" data-toggle="tooltip" data-placement="top" title="Linux 的 file descriptor 筆記">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2020/06/05/improve-cpu-utilization-by-using-bpf/" data-toggle="tooltip" data-placement="top" title="Improve CPU Utilization of Go app By Using BPF">Next Post &rarr;</a>
+                            <a href="/2020/08/19/io-uring/" data-toggle="tooltip" data-placement="top" title="Linux 5.1 的 io_uring">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -268,7 +273,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#io-uring"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">io_uring</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#前言"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">前言 </span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#file-descriptor"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">file descriptor</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#kernel- 內的基本結構"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">kernel 內的基本結構</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#對應的 -data-structure-source-code"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">對應的 data structure source code</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#一些常見的 -fd- 操作"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">一些常見的 fd 操作</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#其他的經驗分享"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">其他的經驗分享 </span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Reference:</span></a></li></ol>
         
         </div>
       </aside>
@@ -308,8 +313,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "kkcliu";
-    var disqus_identifier = "http://kkc.github.io/2020/08/19/io-uring/";
-    var disqus_url = "http://kkc.github.io/2020/08/19/io-uring/";
+    var disqus_identifier = "http://kkc.github.io/2020/08/22/file-descriptor/";
+    var disqus_url = "http://kkc.github.io/2020/08/22/file-descriptor/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

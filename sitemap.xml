@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kkc.github.io/2020/08/22/file-descriptor/</loc>
+    
+    <lastmod>2020-08-23T16:48:10.541Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/2020/08/19/io-uring/</loc>
     
     <lastmod>2020-08-19T15:51:14.742Z</lastmod>
@@ -128,6 +135,13 @@
   </url>
   
   <url>
+    <loc>http://kkc.github.io/2015/07/14/mongodb-storage/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.967Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/2018/03/14/AWS-VPN-with-RouterBoard/</loc>
     
     <lastmod>2018-09-28T01:36:07.967Z</lastmod>
@@ -136,13 +150,6 @@
   
   <url>
     <loc>http://kkc.github.io/2017/07/23/aws-route-53-multivalue/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.967Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://kkc.github.io/2015/07/14/mongodb-storage/</loc>
     
     <lastmod>2018-09-28T01:36:07.967Z</lastmod>
     
@@ -184,7 +191,7 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/03/21/IPSEC-note/</loc>
+    <loc>http://kkc.github.io/2017/12/03/aws-fargate/</loc>
     
     <lastmod>2018-09-28T01:36:07.962Z</lastmod>
     
@@ -198,16 +205,9 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/12/03/aws-fargate/</loc>
+    <loc>http://kkc.github.io/2018/03/21/IPSEC-note/</loc>
     
     <lastmod>2018-09-28T01:36:07.962Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://kkc.github.io/2017/11/17/aws-ip-range/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.961Z</lastmod>
     
   </url>
   
@@ -219,9 +219,9 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/08/26/build-a-better-client/</loc>
+    <loc>http://kkc.github.io/2017/11/17/aws-ip-range/</loc>
     
-    <lastmod>2018-09-28T01:36:07.960Z</lastmod>
+    <lastmod>2018-09-28T01:36:07.961Z</lastmod>
     
   </url>
   
@@ -240,6 +240,13 @@
   </url>
   
   <url>
+    <loc>http://kkc.github.io/2018/08/26/build-a-better-client/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.960Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/2017/02/19/reading-note-apprenticeship-patterns/</loc>
     
     <lastmod>2018-09-28T01:36:07.959Z</lastmod>
@@ -247,14 +254,14 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/08/06/coscup-2017/</loc>
+    <loc>http://kkc.github.io/2016/07/03/golang-ci/</loc>
     
     <lastmod>2018-09-28T01:36:07.958Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2016/07/03/golang-ci/</loc>
+    <loc>http://kkc.github.io/2017/08/06/coscup-2017/</loc>
     
     <lastmod>2018-09-28T01:36:07.958Z</lastmod>
     
@@ -275,6 +282,13 @@
   </url>
   
   <url>
+    <loc>http://kkc.github.io/2015/07/08/hello-hexo/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.955Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/2017/06/16/acs-engine-note/</loc>
     
     <lastmod>2018-09-28T01:36:07.955Z</lastmod>
@@ -289,14 +303,7 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2015/07/08/hello-hexo/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.955Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://kkc.github.io/2016/08/02/Consistent-Hashing/</loc>
+    <loc>http://kkc.github.io/2017/07/07/mysql-partitioning/</loc>
     
     <lastmod>2018-09-28T01:36:07.954Z</lastmod>
     
@@ -310,16 +317,9 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/07/07/mysql-partitioning/</loc>
+    <loc>http://kkc.github.io/2016/08/02/Consistent-Hashing/</loc>
     
     <lastmod>2018-09-28T01:36:07.954Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://kkc.github.io/2018/04/28/docker-note/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.953Z</lastmod>
     
   </url>
   
@@ -338,6 +338,20 @@
   </url>
   
   <url>
+    <loc>http://kkc.github.io/2018/04/28/docker-note/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.953Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2018/06/06/gracefully-shutdown-docker-container/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.952Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/2015/09/05/monitoring-with-graphite/</loc>
     
     <lastmod>2018-09-28T01:36:07.952Z</lastmod>
@@ -346,13 +360,6 @@
   
   <url>
     <loc>http://kkc.github.io/2018/09/11/EKS-troubleshooting/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.952Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://kkc.github.io/2018/06/06/gracefully-shutdown-docker-container/</loc>
     
     <lastmod>2018-09-28T01:36:07.952Z</lastmod>
     
