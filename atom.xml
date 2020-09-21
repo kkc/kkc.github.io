@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://kkc.github.io/"/>
-  <updated>2020-08-23T16:55:13.140Z</updated>
+  <updated>2020-09-21T13:32:07.832Z</updated>
   <id>http://kkc.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Coscup sharing - How I contribute golang OSS</title>
+    <link href="http://kkc.github.io/2020/09/21/coscup-sharing/"/>
+    <id>http://kkc.github.io/2020/09/21/coscup-sharing/</id>
+    <published>2020-09-21T13:09:40.000Z</published>
+    <updated>2020-09-21T13:32:07.832Z</updated>
+    
+    <content type="html"><![CDATA[<p>Coscup is an annual conference held by Taiwan open source communities. This year, I participated in Coscup as a speaker and gave the talk about how I contribute golang OSS.  It’s a really good experience to give a talk at Coscup. Not only it’s a biggest open source feast in Taiwan but also you can learn and see a lot of passionate people in this conference. Although recent years you can hear a large amount of questions like What FOSS stands for? Some people consider different groups treat OSS from different purposes. More and more companies and people join and contribute OSS but some of them are for business reasons and some of them just want to gain more reputations. However, I still believe most of us just want to share good things with others. It’s also the reason why I like to join the communities.</p><p>Unlike last year, I gave a quite technical topic regarding CNCF project called Thanos. This year I tried to talk about how I participated in golang OSS project called <a href="https://github.com/kkdai/youtube" target="_blank" rel="noopener">YouTube</a>. One of most interesting thing is that at the end of my talk a lot of people come to ask me more details about this project. Things like how to create a PR properly, how to join an OSS without writing code. This makes me feel good because I potentially help some people get involved in contributing something.</p><iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRy5QXUd805bEuP760eYUQSSAuVqtAipz9zRAShikpOsPaNtwjHJCNCay9T0NZcB8r_0o2782HWhmKI/embed?start=false&loop=false&delayms=60000" frameborder="0" width="480" height="299" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe><p>Photo shoot by a friend<br><img src="./kakashi.jpg" alt="me"></p><p>Here is all the golang track videos and slides.  I highly recommend you guys to take a look at them.</p><ol><li><a href="https://www.youtube.com/watch?v=CDxDL8uyKQ0&amp;list=PLqfib4St70XPWjZqmkE2auXM50140lgut&amp;index=54" target="_blank" rel="noopener">net &amp; http &amp; timeout by Hsueh-Tsung Kuo</a></li><li><a href="https://www.youtube.com/watch?v=SY1pMIs1ibw&amp;list=PLqfib4St70XPWjZqmkE2auXM50140lgut&amp;index=55" target="_blank" rel="noopener">How to use Go channel correctly by Gaston Chiu</a></li><li><a href="https://www.youtube.com/watch?v=BhhG5B3Iqc4&amp;list=PLqfib4St70XPWjZqmkE2auXM50140lgut&amp;index=56" target="_blank" rel="noopener">How the pitfalls of cgo and channels make reading messages from USB fail by lschyi</a></li><li><a href="https://www.youtube.com/watch?v=MVcWLd5YbMc&amp;list=PLqfib4St70XPWjZqmkE2auXM50140lgut&amp;index=57" target="_blank" rel="noopener">Debug golang program with delve by Peter Lai</a></li><li><a href="https://www.youtube.com/watch?v=4rxMPYZdyHo&amp;list=PLqfib4St70XPWjZqmkE2auXM50140lgut&amp;index=58" target="_blank" rel="noopener"> 談談 go 測試的二三事 by David Chou</a></li><li><a href="https://www.youtube.com/watch?v=57oYNEEOkGc&amp;list=PLqfib4St70XPWjZqmkE2auXM50140lgut&amp;index=59" target="_blank" rel="noopener">Functional verification test framework with Go by Rain Wu</a></li><li><a href="https://www.youtube.com/watch?v=3uyiGO6a4qQ&amp;list=PLqfib4St70XPWjZqmkE2auXM50140lgut&amp;index=60" target="_blank" rel="noopener">Goroutine stack and local variable allocation in Go by Cherie Hsieh</a></li><li><a href="https://www.youtube.com/watch?v=L9uJgYaepYs&amp;list=PLqfib4St70XPWjZqmkE2auXM50140lgut&amp;index=61" target="_blank" rel="noopener"> 從零開始貢獻 Go 相關 open source project by kakashi</a></li><li><a href="https://www.youtube.com/watch?v=aVNOq3sbxEc&amp;list=PLqfib4St70XPWjZqmkE2auXM50140lgut&amp;index=62" target="_blank" rel="noopener">Go Go Power Slice! by Yu-Lang Chu</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Coscup is an annual conference held by Taiwan open source communities. This year, I participated in Coscup as a speaker and gave the talk
+      
+    
+    </summary>
+    
+    
+      <category term="golang" scheme="http://kkc.github.io/tags/golang/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux 的 file descriptor 筆記</title>
@@ -493,28 +516,6 @@
     
     
       <category term="elasticsearch" scheme="http://kkc.github.io/tags/elasticsearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Compassionate code</title>
-    <link href="http://kkc.github.io/2018/07/24/thoughts-on-compassionate-code/"/>
-    <id>http://kkc.github.io/2018/07/24/thoughts-on-compassionate-code/</id>
-    <published>2018-07-24T01:46:28.000Z</published>
-    <updated>2018-09-28T01:36:07.966Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/img/2018-07/compassionate.jpg" alt="compassionate.jpg"></p><p> 這是一篇感想文，最近看完了一篇文章叫做 <a href="http://johannesbrodwall.com/2018/06/24/forget-about-clean-code-lets-embrace-compassionate-code/" target="_blank" rel="noopener">Forget Clean Code, let’s embrace Compassionate Code</a>，還有一篇相關的文章 <a href="http://blog.markpearl.co.za/Thoughts-on-Compassionate-Code" target="_blank" rel="noopener">Thoughts-on-Compassionate-Code</a>，這裡寫的是對第一篇文章的感想，然後在第二篇的文章中找到了一些相同的感觸。</p><p> 從 Johannes 寫的 embrace compassionate code 中，談到他對於 clean code 的一些衝突，他原先是 clean code 的信徒，在他早期的職涯生活中，常常加班幫同事修正那些有 bad smell 的 code，但最後發現有時候這樣做，在沒有取得 psychology safety 的情況下，反而讓工作的氣氛變得更糟，而提出了 compassionate code ，把注意力拉回到人的本身，有些人不是不想寫 clean code ，而是每個人的生活有不同的 priority，有可能是趕 project deadline 或是修改一些 legacy code 讓系統可以動，而不想花太多時間改動程式碼，然後目的也許是早點下班為了家人小孩或是其他的興趣。</p><p> 其實文章裡面有些部分，感覺是 Johannes 對於 Uncle Bob 有一些不滿，因為 Uncle Bob 對於不遵守教條的人，似乎是用不近人情的方式批評，而 Johannes 也被冠上是 against clean code 的人，這也使得這篇文章變得有點攻擊性，但文章的核心其實很簡單，Software development 應該要回歸到人的本身，而不要為了程式碼而導致很多團隊摩擦。</p><p> 我最近也在省思，怎麼樣的工作環境和文化才會讓人有 psychology safety，回歸到人後，讓每個人都可以講出心裡話，而不是在背後抱怨或是 murmur ，也許才能使得團隊變成 self-organized， 因為每個人加入團隊的原因不同，還有對於工作和品質要求也不一樣，單純讓 programmer 遵守一堆 rules，而不是透過溝通了解 為什麼，有時候真的會造成不少的摩擦 ，這些摩擦其實也變成團隊的阻力，儘管 code 變漂亮了，但是人心卻散了，讓大家不想自動自發地提出建議和改善，這才是真正的傷害了效能。</p><p> 第二篇文章中寫道，Being Non-Judgemental &amp; Discerning 也是給我當頭棒喝，有時候我也在想維持皇城內的和諧 (psychology safety) 雖然很重要，但是否就是無法提出建言了呢，然後無法去提出讓事情變好的方法，文中提到其實提出意見，可以使用更好的方式，也就是不要只是從一個 dimension 做出評論，而是用比較的方式講出不同 dimension 的差別，像是評論兩個歌手的時候，不要只用某歌手唱歌不好聽來做評論，而是從他們的唱腔，會不會作詞作曲，或是一些表演的小細節來做比較，回歸到寫程式做架構這件事情上，其實也就是需要了解對方為什麼或這樣做，也許是不熟悉或是沒經驗，也有可能是為了趕時間的 workaround，之後再去給予建言比較，覺得這樣寫可以避免什麼問題，或是幫忙開張票紀錄以後可以重構這段 code，都是比起直接批評要好上不少。</p><p> 我的想法其實也簡單，很多事情都是有價值的，好的流程，好的程式碼，好的文件，有向心力的組織，好的工作環境，不應該為了其中一項而忘了其他東西，在團隊中互相支持，互相給予回饋，建立好的溝通管道，其實跟寫好程式碼是差不多重要的事情。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;img src=&quot;/img/2018-07/compassionate.jpg&quot; alt=&quot;compassionate.jpg&quot;&gt;&lt;/p&gt;
-&lt;p&gt; 這是一篇感想文，最近看完了一篇文章叫做 &lt;a href=&quot;http://johannesbrodwall.com/2018/
-      
-    
-    </summary>
-    
     
   </entry>
   
