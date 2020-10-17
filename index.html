@@ -201,6 +201,37 @@
 
 <div class="post-preview">
 
+    <a href="/2020/10/17/swisstable-hashmap-note/">
+        <h2 class="post-title">
+            google 的 swisstable hashmap 筆記
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Matt Kulukundis 在 cppcon 2017 年給的 talk，我覺得這個 talk 講得非常好，主要是說明如何使用 Swiss Tables ，設計出更符合當代硬體架構的 hash map (flat hash map)，google 內部大量採用這個改寫 std:unordered_map，我看完這個之後有點觀念被刷，覺得還蠻震驚的。
+ 這個 hash map 的實作考量到......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2020-10-17
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#swisstable" title="swisstable">swisstable</a>
+            
+              <a href="/tags/#hashmap" title="hashmap">hashmap</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/2020/09/21/coscup-sharing/">
         <h2 class="post-title">
             Coscup sharing - How I contribute golang OSS
@@ -473,36 +504,6 @@ io_uring 前陣子在......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
-        <h2 class="post-title">
-            Performance tweaking for fluentd aggregator (EFK stack)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            PrefaceLogging is one of the critical components for developers. Every time when things went wrong, we had no doubt but checked what’s going on in logs. Fluentd is an open source data collector sol......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2019-05-02
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
-            
-              <a href="/tags/#fluentd" title="fluentd">fluentd</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -539,23 +540,17 @@ io_uring 前陣子在......
     <div class="tags">
         
             
-        
-            
             <a href="/tags/#mongodb" title="mongodb" rel="3">mongodb</a>
             
         
             
-            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
+            <a href="/tags/#docker" title="docker" rel="4">docker</a>
             
         
             
             <a href="/tags/#monitoring" title="monitoring" rel="2">monitoring</a>
             
         
-            
-        
-            
-            <a href="/tags/#docker" title="docker" rel="4">docker</a>
             
         
             
@@ -574,6 +569,10 @@ io_uring 前陣子在......
         
             
         
+            
+        
+            
+            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
             
         
             
@@ -630,6 +629,12 @@ io_uring 前陣子在......
             <a href="/tags/#linux" title="linux" rel="2">linux</a>
             
         
+            
+        
+            
+        
+            
+        
     </div>
 </section>
 
@@ -639,6 +644,10 @@ io_uring 前陣子在......
   <h5>RECENT POSTS</h3>
   <div class="widget">
     <ul>
+      
+        <li>
+          <a href="/2020/10/17/swisstable-hashmap-note/">google 的 swisstable hashmap 筆記</a>
+        </li>
       
         <li>
           <a href="/2020/09/21/coscup-sharing/">Coscup sharing - How I contribute golang OSS</a>
@@ -656,10 +665,6 @@ io_uring 前陣子在......
           <a href="/2020/06/05/improve-cpu-utilization-by-using-bpf/">Improve CPU Utilization of Go app By Using BPF</a>
         </li>
       
-        <li>
-          <a href="/2020/04/11/aws-ssm-session-manager-note/">AWS SSM session manager 筆記</a>
-        </li>
-      
     </ul>
   </div>
 
@@ -668,7 +673,7 @@ io_uring 前陣子在......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>

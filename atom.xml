@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://kkc.github.io/"/>
-  <updated>2020-09-21T13:32:07.832Z</updated>
+  <updated>2020-10-17T04:31:32.426Z</updated>
   <id>http://kkc.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>google 的 swisstable hashmap 筆記</title>
+    <link href="http://kkc.github.io/2020/10/17/swisstable-hashmap-note/"/>
+    <id>http://kkc.github.io/2020/10/17/swisstable-hashmap-note/</id>
+    <published>2020-10-17T04:25:14.000Z</published>
+    <updated>2020-10-17T04:31:32.426Z</updated>
+    
+    <content type="html"><![CDATA[<p>Matt Kulukundis 在 cppcon 2017 年給的 <a href="https://www.youtube.com/watch?v=ncHmEUmJZf4" target="_blank" rel="noopener">talk</a>，我覺得這個 talk 講得非常好，主要是說明如何使用 Swiss Tables ，設計出更符合當代硬體架構的 hash map (flat hash map)，google 內部大量採用這個改寫 std:unordered_map，我看完這個之後有點觀念被刷，覺得還蠻震驚的。</p><p> 這個 hash map 的實作考量到了 cache-friendly 以及透過 SIMD 來加速，主要讓我學習到的是，以往很多 hash map 實作使用 chaining 是因為在 load factor 很高的情況下，可以減少 key collision 改善插入的時間，而 flat hash map 則是告訴我們使用 open addressing，將 element 都放進一個 flat memory array 裡面，其實是 cache-friendly，另外是透過 SIMD 可以一步就知道結果，而不用在 透過好幾次的 cpu cycle 找資料，接著就可以在搜索上面得到巨大的加速。</p><p> 看到幾篇文章 <a href="https://gankra.github.io/blah/hashbrown-tldr/" target="_blank" rel="noopener">Swisstable, a Quick and Dirty Description</a> 把概念也講得蠻清楚的，也成功 port 這個 table 到 <a href="https://github.com/rust-lang/hashbrown" target="_blank" rel="noopener">Rust</a> 上面，稍微想了一下像這類的方法，Go 的架構因為要考慮 Runtime 還有沒有 Generics，似乎就比較難實作這塊，這邊有錯還請指正，</p><p> 總的來說 google 開源的 Abseil [1] 和 Rust stdlib [2] 都有採用這個的資料結構，不過還是要注意一下自己的資料長怎麼樣，還有 key 通過 hash function 後的 distribution，來找到適合自己使用的 hash  map。</p><p> 另外我現在才學習到有非常多 SIMD 的 algo，簡直是開了我的眼界，感覺還有非常多的東西可以使用這個加速，就讓我們再繼續看下去。</p><p>[1] <a href="https://github.com/abseil/abseil-cpp" target="_blank" rel="noopener">https://github.com/abseil/abseil-cpp</a><br>[2] <a href="https://github.com/rust-lang/hashbrown" target="_blank" rel="noopener">https://github.com/rust-lang/hashbrown</a><br>[3] <a href="https://rcoh.me/posts/hash-map-analysis/" target="_blank" rel="noopener">https://rcoh.me/posts/hash-map-analysis/</a><br>[4] <a href="https://www.youtube.com/watch?v=ncHmEUmJZf4" target="_blank" rel="noopener">https://www.youtube.com/watch?v=ncHmEUmJZf4</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Matt Kulukundis 在 cppcon 2017 年給的 &lt;a href=&quot;https://www.youtube.com/watch?v=ncHmEUmJZf4&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;talk&lt;/a&gt;，我覺得這個 tal
+      
+    
+    </summary>
+    
+    
+      <category term="swisstable" scheme="http://kkc.github.io/tags/swisstable/"/>
+    
+      <category term="hashmap" scheme="http://kkc.github.io/tags/hashmap/"/>
+    
+  </entry>
   
   <entry>
     <title>Coscup sharing - How I contribute golang OSS</title>
@@ -493,29 +518,6 @@
     
     
       <category term="distributed-system" scheme="http://kkc.github.io/tags/distributed-system/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>記一次 Elasticsearch troubleshooting 的歷程</title>
-    <link href="http://kkc.github.io/2018/08/15/lesson-learn-of-elasticsearch-outage/"/>
-    <id>http://kkc.github.io/2018/08/15/lesson-learn-of-elasticsearch-outage/</id>
-    <published>2018-08-15T14:57:44.000Z</published>
-    <updated>2018-09-28T01:36:07.963Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="過程"><a href="# 過程" class="headerlink" title="過程"></a>過程 </h2><p> 前陣子又發生了 AWS Elasticsearch 的 status 變成 red 的情況，這次跟以往的情形有點不一樣，之前爆炸都是因為 disk space 不足，而後來增加了 Curator 定期清理資料後就解了，而這次發生的 outage 有點不同，也讓我想要記錄下發生的原因和解法。</p><h2 id="調查"><a href="# 調查" class="headerlink" title="調查"></a>調查 </h2><p> 在開了 Support ticket 和查詢 AWS 的 document 後，初步有了一些方向，根據文件上面寫的 A red cluster status means that at least one primary shard and its replicas are not allocated to a node，其實就是跟 shard 是不是運作正常有關係，這邊更新一些 Elasticsearch 的科普知識，Elasticsearch 的 document 其實是放在 index 裡面，而 index 會根據你設定的 shard 數量，把 document 平均分散到不同 shard 中，然後把不同的 shard 放在不同的 node 中，以求可以分散式的去請求資料，而在沒有調整過的 AWS elasticsearch 中預設的 shard 數量是 5，所以每次 create 一個新的 index 就會產生 5 個 shard，經過 AWS support 的調查，我們家的 elasticsearch 裡面共有 10654 shard (抖)，而太多的 shard 接著就造成 CPU utilization 越來越重，最後重到某個 node 存取不到後 (猜想該 node 應該是炸掉了)，某個 shard 又沒有即時產生好 replica 存在另外一個 node 上，就這樣 status red recovery 失敗。</p><h2 id="Troubleshooting- 技巧"><a href="#Troubleshooting- 技巧" class="headerlink" title="Troubleshooting 技巧"></a>Troubleshooting 技巧</h2><ol><li>使用 <code>GET /_cluster/allocation/explain</code> 可以看到 cluster 裡面哪些 assigned shard 出問題，還有原因是什麼</li><li>使用 <code>GET /_cat/indices?v</code> 可以看到哪些 index 是有問題的</li></ol><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">health status index            uuid                   pri rep docs.count docs.deleted store.size pri.store.size</span><br><span class="line">green  open   test1            <span class="number">30</span>h1EiMvS5uAFr2t5CEVoQ   <span class="number">5</span>   <span class="number">0</span>        <span class="number">820</span>            <span class="number">0</span>       <span class="number">14</span>mb           <span class="number">14</span>mb</span><br><span class="line">green  open   test2            sdIxs_WDT56afFGu5KPbFQ   <span class="number">1</span>   <span class="number">0</span>          <span class="number">0</span>            <span class="number">0</span>       <span class="number">233</span>b           <span class="number">233</span>b</span><br><span class="line">green  open   test3            GGRZp_TBRZuSaZpAGk2pmw   <span class="number">1</span>   <span class="number">1</span>          <span class="number">2</span>            <span class="number">0</span>     <span class="number">14.7</span>kb          <span class="number">7.3</span>kb</span><br><span class="line">red    open   test4            BJxfAErbTtu5HBjIXJV_7A   <span class="number">1</span>   <span class="number">0</span></span><br><span class="line">green  open   test5            _8C6MIXOSxCqVYicH3jsEA   <span class="number">1</span>   <span class="number">0</span>          <span class="number">7</span>            <span class="number">0</span>     <span class="number">24.3</span>kb         <span class="number">24.3</span>kb</span><br></pre></td></tr></table></figure><ol start="3"><li><code>cannot allocate because a previous copy of the primary shard existed but can no longer be found on the nodes in the cluster</code> 基本上我們家遇到這個訊息在講的就是 primary shard 跟著 node 失蹤了，如果該 node 沒有回來，而你的資料很重要，可能就要從 snapshot 裡面撈回來</li></ol><h2 id="解決方法"><a href="# 解決方法" class="headerlink" title="解決方法"></a>解決方法 </h2><p> 我們基本上爛掉的 elasticsearch 是拿來存 application log 的，所以該 index 壞掉其實不太會影響線上資料，而按照 AWS support 的教學和查詢的一些文章，我們的解法如下</p><ol><li>砍掉該壞掉的 index ，<code>curl -XDELETE &lt;cluster&gt;/&lt;index_name&gt;</code></li><li>砍掉 older/unused/smaller 的 index 減少 cluster loading</li><li>更改設定減少每個 index 的 shard 的數量</li></ol><p>其他學習到的東西</p><ol><li>根據需求，可以使用 dedicated master node 增加系統的 stability</li><li>越少的 shard 系統會越穩定，10 shards gives great performance, 100 gives good performance, 500 gives okay performance, 1000 gives bad performance and over 2000 is when the cluster begins to become unstable.</li><li>還有讓 shard 的 size 保持在 10GB~50GB 的大小，會讓 query 的 performance 比較好</li><li>以下的兩篇 reference 有講到很多其他 troubleshooting 的技巧</li></ol><p>Reference<br><a href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-handling-errors.html#aes-handling-errors-red-cluster-status" target="_blank" rel="noopener">https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/aes-handling-errors.html#aes-handling-errors-red-cluster-status</a><br><a href="https://www.elastic.co/blog/red-elasticsearch-cluster-panic-no-longer" target="_blank" rel="noopener">https://www.elastic.co/blog/red-elasticsearch-cluster-panic-no-longer</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;過程&quot;&gt;&lt;a href=&quot;# 過程&quot; class=&quot;headerlink&quot; title=&quot;過程&quot;&gt;&lt;/a&gt;過程 &lt;/h2&gt;&lt;p&gt; 前陣子又發生了 AWS Elasticsearch 的 status 變成 red 的情況，這次跟以往的情形有點不一樣，之前爆炸都是因
-      
-    
-    </summary>
-    
-    
-      <category term="elasticsearch" scheme="http://kkc.github.io/tags/elasticsearch/"/>
     
   </entry>
   
