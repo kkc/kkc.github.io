@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Notes about technology, DevOps, programming, and database">
+    <meta name="keyword" content="AWS, golang, python, DevOps">
+    <meta property="og:title" content="學習使用 compiler vector extension 去寫 SIMD 程式 - Kakashi&#39;s Blog">
+    <meta property="og:description" content="compiler vector extension 好棒棒">
+    <meta property="og:image" content="http://kkc.github.io/2020/11/01/note-for-simd/simd.jpeg">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          學習使用 compiler vector extension 去寫 SIMD 程式 - Kakashi&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://kkc.github.io/2020/11/01/note-for-simd/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
+    css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('simd.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#gcc" title="gcc">gcc</a>
+                            
+                              <a class="tag" href="/tags/#performance" title="performance">performance</a>
+                            
+                        </div>
+                        <h1>學習使用 compiler vector extension 去寫 SIMD 程式</h1>
+                        <h2 class="subheading">compiler vector extension 好棒棒</h2>
+                        <span class="meta">
+                            Posted by Kakashi on
+                            2020-11-01
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kakashi&#39;s Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                    <li>
+                        <a href="/atom.xml">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>最近強者上司 <a href="https://www.facebook.com/champ.yen" target="_blank" rel="noopener">Champ Yen</a> 在公司內部做了一次 experience sharing，內容非常的精彩，分享了怎麼使用 compiler vector extensions 去寫 SIMD 的 program，進而將 program 的效率提升，並且可以產出 portable 的 program。</p>
+<h2 id="SIMD- 到底是什麼"><a href="#SIMD- 到底是什麼" class="headerlink" title="SIMD 到底是什麼"></a>SIMD 到底是什麼</h2><p>SIMD 的全名是 single instruction multiple data，而顧名思義就是使用一個 instruction 去操作多組 data。</p>
+<p>在 <a href="https://en.wikipedia.org/wiki/Flynn%27s_taxonomy" target="_blank" rel="noopener">Flynn taxonomy</a> 裡面將 information stream 分成了 instruction 和 data，進而對計算機做分類，而普通我們認知的 instruction 操作一個 data (register) 被稱為 SISD，而 SIMD 之所以重要是因為電腦的單核的頻率在古早前就上不去了，詳情可以見下圖</p>
+<p><img src="https://github.com/karlrupp/microprocessor-trend-data/raw/master/48yrs/48-years-processor-trend.png?raw=true" alt="此圖"></p>
+<p>而改善程式的效率的方式，就變成探索如何將其變成 parallelism 的過程，這方面就多了如何善用 Multicore，熟悉 NUMA，以及採用 SIMD 之類的技術。</p>
+<h2 id="SIMD- 為什麼會比較快"><a href="#SIMD- 為什麼會比較快" class="headerlink" title="SIMD 為什麼會比較快"></a>SIMD 為什麼會比較快 </h2><p> 這頁取自交通大學劉志尉老師的課程 <a href="http://twins.ee.nctu.edu.tw/courses/ca_13/lecture/CA_lec08-chpater_4-vector_processing.pdf" target="_blank" rel="noopener"> 投影片</a>， 從中可以看到 scalar code 和 vector code 各自需要的 instruction 數量，而 scalar code 還要考慮外面有個 loop 迴圈，所以整體需要時間更多。</p>
+<p><img src="https://i.imgur.com/JdA2fyy.png" alt></p>
+<h2 id="SIMD-instruction- 有哪些 -type"><a href="#SIMD-instruction- 有哪些 -type" class="headerlink" title="SIMD instruction 有哪些 type"></a>SIMD instruction 有哪些 type</h2><ul>
+<li>Load/Store</li>
+<li>Per-Lane<ul>
+<li>Arithmetic</li>
+<li>Bitwise, Logical</li>
+</ul>
+</li>
+<li>Cross/Inter Lane<ul>
+<li>Permute, Select, Shuffle(LUT)</li>
+<li>Alignment</li>
+<li>Pack &amp; UnPack</li>
+</ul>
+</li>
+<li>Reduction (e.g Average of vector)<ul>
+<li>Minimum</li>
+<li>Maximum</li>
+<li>Average</li>
+</ul>
+</li>
+<li>Special (特殊的 instruction)<ul>
+<li>NN specific ISA</li>
+<li>inter-lane + per lane attributes</li>
+</ul>
+</li>
+</ul>
+<h2 id="為什麼需要 -compiler-vector-extension"><a href="# 為什麼需要 -compiler-vector-extension" class="headerlink" title="為什麼需要 compiler vector extension"></a>為什麼需要 compiler vector extension</h2><ol>
+<li>可以使用 vector 去提升程式的 performance</li>
+<li>比直接使用特定平台的 intrinsics/ASM 來的容易使用</li>
+<li>比較容易透過這種方式，去修改已經存在的 C/C++ 程式</li>
+<li>portability (大加分)</li>
+<li>可以跟 OpenMP 一起使用 (這邊我其實沒很懂，因為沒寫過 openmp)</li>
+</ol>
+<h2 id="如何使用呢"><a href="# 如何使用呢" class="headerlink" title="如何使用呢?"></a>如何使用呢?</h2><h3 id="GCC-vector-type-declaration"><a href="#GCC-vector-type-declaration" class="headerlink" title="GCC vector type declaration"></a>GCC vector type declaration</h3><p>先來學如何宣告 vector，可以使用下列語法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> SCALAR_TYPE TYPE_NAME __attribute__((vector_size(SIZE), aligned(<span class="number">1</span>)));</span><br></pre></td></tr></table></figure>
+<p>e.g:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> v4si __attritube__ ((vector_size (<span class="number">16</span>), aligned(<span class="number">1</span>)));</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">float</span> v4sf __attribute__ ((vector_size (<span class="number">16</span>));</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">double</span> v4df __attribute__ ((vector_size (<span class="number">32</span>)));</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> v4di __attribute__ ((vector_size (<span class="number">32</span>)));</span><br></pre></td></tr></table></figure></p>
+<p>以上的宣告很簡單，以 v4si 為例，我們宣告了一個 vector_size 為 16bytes 的 vector，其分割成 4 個 int sized unit。我們可以用下列的方式去初始化他們</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">v4si a = &#123;<span class="number">1</span>,<span class="number">-2</span>,<span class="number">3</span>,<span class="number">-4</span>&#125;;</span><br><span class="line">v4sf b = &#123;<span class="number">1.5f</span>,<span class="number">-2.5f</span>,<span class="number">3.f</span>,<span class="number">7.f</span>&#125;;</span><br><span class="line">v4di c = &#123;<span class="number">1U</span>LL,<span class="number">5U</span>LL,<span class="number">0U</span>LL,<span class="number">10U</span>LL&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="用操作 -scalar- 的方式使用 -SIMD"><a href="# 用操作 -scalar- 的方式使用 -SIMD" class="headerlink" title="用操作 scalar 的方式使用 SIMD"></a>用操作 scalar 的方式使用 SIMD</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> v4si __attribute__ ((vector_size (<span class="number">16</span>)));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    v4si a = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line">    v4si b = &#123;<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">4</span>&#125;;</span><br><span class="line">    v4si c;</span><br><span class="line"></span><br><span class="line">    c = a + b;      <span class="comment">/* The result would be &#123;4, 4, 4, 8&#125;  */</span></span><br><span class="line">    c = a &gt; b;     <span class="comment">/* The result would be &#123;0, 0,-1, 0&#125;  */</span></span><br><span class="line">    c = a == b;     <span class="comment">/* The result would be &#123;0,-1, 0,-1&#125;  */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="再來學下其他的 -Compiler-Build-in-function"><a href="# 再來學下其他的 -Compiler-Build-in-function" class="headerlink" title="再來學下其他的 Compiler Build-in function"></a>再來學下其他的 Compiler Build-in function</h2><ul>
+<li><code>__builtin_shuffle</code></li>
+<li><code>__builtin_convertvector</code></li>
+<li><code>__builtin_prefetch</code></li>
+<li><code>__builtin__clear_cache</code></li>
+</ul>
+<h3 id="舉個例子"><a href="# 舉個例子" class="headerlink" title="舉個例子"></a>舉個例子 </h3><p> 這是我給 Champ 出的問題，如何高效地把一個 <code>vector&lt;int&gt;</code> 轉成 <code>vector&lt;float&gt;</code>，這邊就使用了 <code>__builtin_convertvector</code>，主要是因為 vector 也是連續的記憶體操作，所以可以使用 pointer 指過去後使用 SIMD 操作。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">float</span> v8sf __attribute__ ((vector_size (<span class="number">32</span>)));</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> v8si __attribute__ ((vector_size (<span class="number">32</span>)));</span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vint(TEST_LEN)</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; vfp(TEST_LEN)</span><br><span class="line"></span><br><span class="line">srand(time(<span class="literal">NULL</span>))</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; TEST_LEN; i++) &#123;</span><br><span class="line">    vint[i] = rand()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> *intp = vint.data();</span><br><span class="line"><span class="keyword">float</span> *fpp = vfp.data();</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">stime</span>, <span class="title">etime</span>;</span></span><br><span class="line">gettimeofday(&amp;stime, <span class="literal">NULL</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i+<span class="number">8</span> &lt; TEST_LEN; i+=<span class="number">8</span>) &#123;</span><br><span class="line">    *((v8sf*)(fpp+i)) = __builtin_convertvector(*(v8si*)(intp + i), v8sf);</span><br><span class="line">&#125;</span><br><span class="line">gettimeofday(&amp;etime, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="Architecture-Dependent-Compiler-Intrinsics"><a href="#Architecture-Dependent-Compiler-Intrinsics" class="headerlink" title="Architecture Dependent Compiler Intrinsics"></a>Architecture Dependent Compiler Intrinsics</h2><p>可以使用 union 去撈出 vector register 裡面個別的值，這樣對於 debug 或是真的要轉型就不會那麼麻煩。</p>
+<h3 id="gcc"><a href="#gcc" class="headerlink" title="gcc:"></a>gcc:</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;immintrin.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> u8x16 __attribute__ ((vector_size (<span class="number">16</span>)));</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> u32x4 __attribute__ ((vector_size (<span class="number">16</span>)));</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">union</span> &#123;</span><br><span class="line">    __m128i mm;</span><br><span class="line">    u8x16   u8;</span><br><span class="line">    u32x4   u32;</span><br><span class="line">&#125; v128</span><br></pre></td></tr></table></figure>
+<h3 id="LLVM-clang"><a href="#LLVM-clang" class="headerlink" title="LLVM/clang:"></a>LLVM/clang:</h3><ul>
+<li>use vector extension variables directly </li>
+</ul>
+<p>Ref: <a href="https://gcc.gnu.org/onlinedocs/gcc/Vector-Extensions.html" target="_blank" rel="noopener">https://gcc.gnu.org/onlinedocs/gcc/Vector-Extensions.html</a></p>
+<h2 id="其他的 -Tips"><a href="# 其他的 -Tips" class="headerlink" title="其他的 Tips"></a>其他的 Tips</h2><h3 id="Porting-amp-Troubleshoot- 的一些方法"><a href="#Porting-amp-Troubleshoot- 的一些方法" class="headerlink" title="Porting &amp; Troubleshoot 的一些方法"></a>Porting &amp; Troubleshoot 的一些方法 </h3><p> 需要人工算一下將原本的 loop 切成 fixed size 的 chunk (e.g 8 for int32_t)，接著再把 loop 內部換成 vector operations。</p>
+<h3 id="Deployment-Function-Multi-Versioning-a-k-a-FMV"><a href="#Deployment-Function-Multi-Versioning-a-k-a-FMV" class="headerlink" title="Deployment - Function Multi-Versioning (a.k.a FMV)"></a>Deployment - Function Multi-Versioning (a.k.a FMV)</h3><ul>
+<li><p>Pros:<br>透過這個方法可以讓編譯出來的 binary 跑在不同的平台上面</p>
+</li>
+<li><p>Cons:<br>binary 會變肥大</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">__attribute__((target_clones(<span class="string">"avx2"</span>, <span class="string">"avx"</span>, <span class="string">"sse4.2"</span>, <span class="string">"sse3"</span>, <span class="string">"sse2"</span>, <span class="string">"default"</span>)))</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    v8si v0 = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;;</span><br><span class="line">    v8si v1 = &#123;<span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>&#125;;</span><br><span class="line">    </span><br><span class="line">    v8si v2 = v0 + v1;</span><br><span class="line">    <span class="keyword">return</span> v2[<span class="number">3</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有興趣的人可以透過 <a href="https://godbolt.org/z/of5d6v" target="_blank" rel="noopener">https://godbolt.org/z/of5d6v</a> 去看看有加這行，會多產生不同的 assembly code，這樣一來就對應不同平台上面的 vector operations。</p>
+<p>Ref: <a href="https://lwn.net/Articles/691932/" target="_blank" rel="noopener">https://lwn.net/Articles/691932/</a></p>
+<h2 id="使用 -SIMD-Vector- 的一些眉眉角角"><a href="# 使用 -SIMD-Vector- 的一些眉眉角角" class="headerlink" title="使用 SIMD/Vector 的一些眉眉角角"></a>使用 SIMD/Vector 的一些眉眉角角</h2><ul>
+<li>需要找到 Parallelism 的演算法</li>
+<li>可以透過不同的方式使用 SIMD, 不過要考慮 portability 的問題。</li>
+<li>unsupported operations<ul>
+<li>division, high level function(math functions)</li>
+</ul>
+</li>
+<li>Floating point<ul>
+<li>cross device compatibility</li>
+</ul>
+</li>
+<li>Boundary handling 等邊界問題<ul>
+<li>需要使用 padding, predication, 或是 fallback 去使用 scalar</li>
+</ul>
+</li>
+<li>Divergence</li>
+<li>Register splitting</li>
+<li>需要考慮 Non-Regular Access/Process Pattern 還有 dependency<ul>
+<li>像是 LUT, AoS (Array of structure)</li>
+</ul>
+</li>
+</ul>
+<h2 id="一些心得"><a href="# 一些心得" class="headerlink" title="一些心得"></a>一些心得 </h2><p> 通過 Champ 這個分享，我真的終於知道如果安全的使用 SIMD，之前都是看一堆 project 寫 x86 assembly 寫得很爽，或是只能依靠 compiler 的 <a href="https://en.wikipedia.org/wiki/Automatic_vectorization" target="_blank" rel="noopener">Automatic vectorization</a>，現在終於知道也可以透過 compiler instrinsic 來寫，另外是 Champ 也提到 SIMD 這個技術已經發展了很多年，而 compiler instrinsic 像是 gcc 也是從 3.1 就開始支援了，所以大家放心的使用，然後害怕的 portability 的問題也是被解決的蠻好的，而我大概查了一下，如果真的想達成 compiler agnostic，也可以使用 libarary instrinsic，不過就各有優缺點了，用 compiler instrinsic 的好處，整體的程式碼還是可以寫得跟處理 scalar 一樣，個人也覺得看起來蠻舒服的。</p>
+<p>另外是在搜索相關資料的過程中，看了很多不錯的文章，像是 stackoverflow 的 blog 就有提到一些 SIMD 的 <a href="https://stackoverflow.blog/2020/07/08/improving-performance-with-simd-intrinsics-in-three-use-cases/" target="_blank" rel="noopener"> 應用 </a>，但也從這個<a href="https://www.slideshare.net/WeiTaWang/simd-109492525" target="_blank" rel="noopener"> 快快樂樂 SIMD</a> 看到蠻多要注意的地方，而像是 AWS 所提供的 x86 &amp; ARM 機器也都會有提到，他們各自支援的 SIMD 指令，我們如果真的要學習榨效能，這塊的基本概念真的也需要撿起來。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Vector-Extensions.html" target="_blank" rel="noopener">https://gcc.gnu.org/onlinedocs/gcc/Vector-Extensions.html</a></li>
+<li><a href="https://www.karlrupp.net/2015/06/40-years-of-microprocessor-trend-data/" target="_blank" rel="noopener">https://www.karlrupp.net/2015/06/40-years-of-microprocessor-trend-data/</a></li>
+<li><a href="https://github.com/karlrupp/microprocessor-trend-data" target="_blank" rel="noopener">https://github.com/karlrupp/microprocessor-trend-data</a></li>
+<li><a href="https://www.uio.no/studier/emner/matnat/ifi/IN3200/v19/teaching-material/avx512.pdf" target="_blank" rel="noopener">https://www.uio.no/studier/emner/matnat/ifi/IN3200/v19/teaching-material/avx512.pdf</a></li>
+<li><a href="https://champyen.blogspot.com/2020/05/clang-gcc-vector-extension.html" target="_blank" rel="noopener">https://champyen.blogspot.com/2020/05/clang-gcc-vector-extension.html</a></li>
+<li><a href="http://twins.ee.nctu.edu.tw/courses/ca_13/lecture/CA_lec08-chpater_4-vector_processing.pdf" target="_blank" rel="noopener">交通大學 Computer Architecture Lecture 8: Vector Processing</a></li>
+<li><a href="https://www.slideshare.net/WeiTaWang/simd-109492525" target="_blank" rel="noopener">快快樂樂 SIMD</a></li>
+</ul>
+<p>photo credit from <a href="https://unsplash.com/photos/Uf-c4u1usFQ" target="_blank" rel="noopener">https://unsplash.com/photos/Uf-c4u1usFQ</a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/10/17/swisstable-hashmap-note/" data-toggle="tooltip" data-placement="top" title="google 的 swisstable hashmap 筆記">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#SIMD- 到底是什麼"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">SIMD 到底是什麼</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#SIMD- 為什麼會比較快"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">SIMD 為什麼會比較快 </span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#SIMD-instruction- 有哪些 -type"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">SIMD instruction 有哪些 type</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#為什麼需要 -compiler-vector-extension"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">為什麼需要 compiler vector extension</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#如何使用呢"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">如何使用呢?</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#GCC-vector-type-declaration"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">GCC vector type declaration</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#用操作 -scalar- 的方式使用 -SIMD"><span class="toc-nav-number">5.2.</span> <span class="toc-nav-text">用操作 scalar 的方式使用 SIMD</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#再來學下其他的 -Compiler-Build-in-function"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">再來學下其他的 Compiler Build-in function</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#舉個例子"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text">舉個例子 </span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Architecture-Dependent-Compiler-Intrinsics"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">Architecture Dependent Compiler Intrinsics</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#gcc"><span class="toc-nav-number">7.1.</span> <span class="toc-nav-text">gcc:</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#LLVM-clang"><span class="toc-nav-number">7.2.</span> <span class="toc-nav-text">LLVM/clang:</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#其他的 -Tips"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">其他的 Tips</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Porting-amp-Troubleshoot- 的一些方法"><span class="toc-nav-number">8.1.</span> <span class="toc-nav-text">Porting &amp; Troubleshoot 的一些方法 </span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Deployment-Function-Multi-Versioning-a-k-a-FMV"><span class="toc-nav-number">8.2.</span> <span class="toc-nav-text">Deployment - Function Multi-Versioning (a.k.a FMV)</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#使用 -SIMD-Vector- 的一些眉眉角角"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">使用 SIMD/Vector 的一些眉眉角角</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#一些心得"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">一些心得 </span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">11.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#gcc" title="gcc">gcc</a>
+                        
+                          <a class="tag" href="/tags/#performance" title="performance">performance</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "kkcliu";
+    var disqus_identifier = "http://kkc.github.io/2020/11/01/note-for-simd/";
+    var disqus_url = "http://kkc.github.io/2020/11/01/note-for-simd/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Kakashi 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://kkc.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-64932988-1';
+    var _gaDomain = 'kkc.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
