@@ -188,19 +188,15 @@
             <!-- 标签云 -->
             <div id='tag_cloud' class="tags">
                 
-                    <a href="#python" title="python" rel="1">python</a>
-                
                     <a href="#mongodb" title="mongodb" rel="3">mongodb</a>
+                
+                    <a href="#python" title="python" rel="1">python</a>
                 
                     <a href="#mysql" title="mysql" rel="2">mysql</a>
                 
-                    <a href="#monitoring" title="monitoring" rel="2">monitoring</a>
-                
-                    <a href="#graphite" title="graphite" rel="1">graphite</a>
+                    <a href="#golang" title="golang" rel="6">golang</a>
                 
                     <a href="#docker" title="docker" rel="4">docker</a>
-                
-                    <a href="#golang" title="golang" rel="5">golang</a>
                 
                     <a href="#AWS" title="AWS" rel="15">AWS</a>
                 
@@ -229,6 +225,8 @@
                     <a href="#Thanos" title="Thanos" rel="2">Thanos</a>
                 
                     <a href="#prometheus" title="prometheus" rel="1">prometheus</a>
+                
+                    <a href="#monitoring" title="monitoring" rel="2">monitoring</a>
                 
                     <a href="#kubernetes" title="kubernetes" rel="1">kubernetes</a>
                 
@@ -264,32 +262,12 @@
                 
                     <a href="#performance" title="performance" rel="1">performance</a>
                 
+                    <a href="#graphite" title="graphite" rel="1">graphite</a>
+                
             </div>
 
             <!-- 标签列表 -->
 
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="python">
-                    <span class="tag-text">python</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
-                        <h2 class="post-title">
-                            Python 的時間還有時區處理
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
             
             <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="mongodb">
@@ -316,9 +294,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/07/21/mongodb-memory-structure/">
+                     <a href="/2015/08/16/RDBMS-course/">
                         <h2 class="post-title">
-                            Mongodb 如何使用 Memory 和 tuning 的小技巧
+                            RDBMS 先修課程筆記
                         </h2>
                         
                     </a>
@@ -331,9 +309,31 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/08/16/RDBMS-course/">
+                     <a href="/2015/07/21/mongodb-memory-structure/">
                         <h2 class="post-title">
-                            RDBMS 先修課程筆記
+                            Mongodb 如何使用 Memory 和 tuning 的小技巧
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="python">
+                    <span class="tag-text">python</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
+                        <h2 class="post-title">
+                            Python 的時間還有時區處理
                         </h2>
                         
                     </a>
@@ -371,136 +371,6 @@
                      <a href="/2017/07/07/mysql-partitioning/">
                         <h2 class="post-title">
                             MySQL partition 筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="monitoring">
-                    <span class="tag-text">monitoring</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/09/05/monitoring-with-graphite/">
-                        <h2 class="post-title">
-                            使用 statsd + graphite 的 monitoring 心得
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/02/25/install-prometheus-on-EKS/">
-                        <h2 class="post-title">
-                            利用 Helm 在 EKS 上安裝 Prometheus
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                一些踩雷經驗
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="graphite">
-                    <span class="tag-text">graphite</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/09/05/monitoring-with-graphite/">
-                        <h2 class="post-title">
-                            使用 statsd + graphite 的 monitoring 心得
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="docker">
-                    <span class="tag-text">docker</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2016/01/14/docker-registry-installation/">
-                        <h2 class="post-title">
-                            docker registry 的簡單安裝紀錄
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2016/08/22/ubuntu16-04-docker-aufs/">
-                        <h2 class="post-title">
-                            ubuntu16.04-docker-aufs
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2018/04/28/docker-note/">
-                        <h2 class="post-title">
-                            用 docker 改善開發流程筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2018/06/06/gracefully-shutdown-docker-container/">
-                        <h2 class="post-title">
-                            Gracefully Shutdown Docker Container
                         </h2>
                         
                     </a>
@@ -587,6 +457,92 @@
                      <a href="/2020/09/21/coscup-sharing/">
                         <h2 class="post-title">
                             Coscup sharing - How I contribute golang OSS
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2020/12/14/golang-string-interning/">
+                        <h2 class="post-title">
+                            Golang 的 string interning 技巧
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                有趣的技巧
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="docker">
+                    <span class="tag-text">docker</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/08/22/ubuntu16-04-docker-aufs/">
+                        <h2 class="post-title">
+                            ubuntu16.04-docker-aufs
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2018/04/28/docker-note/">
+                        <h2 class="post-title">
+                            用 docker 改善開發流程筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2018/06/06/gracefully-shutdown-docker-container/">
+                        <h2 class="post-title">
+                            Gracefully Shutdown Docker Container
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2016/01/14/docker-registry-installation/">
+                        <h2 class="post-title">
+                            docker registry 的簡單安裝紀錄
                         </h2>
                         
                     </a>
@@ -1291,6 +1247,47 @@
             </div>
             
             <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="monitoring">
+                    <span class="tag-text">monitoring</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/02/25/install-prometheus-on-EKS/">
+                        <h2 class="post-title">
+                            利用 Helm 在 EKS 上安裝 Prometheus
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                一些踩雷經驗
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/09/05/monitoring-with-graphite/">
+                        <h2 class="post-title">
+                            使用 statsd + graphite 的 monitoring 心得
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="kubernetes">
                     <span class="tag-text">kubernetes</span>
                 </span>
@@ -1711,6 +1708,28 @@
                             <h3 class="post-subtitle">
                                 compiler vector extension 好棒棒
                             </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="graphite">
+                    <span class="tag-text">graphite</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/09/05/monitoring-with-graphite/">
+                        <h2 class="post-title">
+                            使用 statsd + graphite 的 monitoring 心得
+                        </h2>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
