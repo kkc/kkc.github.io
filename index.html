@@ -201,6 +201,34 @@
 
 <div class="post-preview">
 
+    <a href="/2021/01/30/integer-compression-note/">
+        <h2 class="post-title">
+            Integer Encoding Algorithm 筆記
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Integer Encoding Algorithm 筆記  現今的電腦在 CPU 和 Memory 的速度上有極大的差距，而 Memory 到 Disk 上面的差距就更大了，所以有許多的壓縮演算法被套用在不同的應用上，例如 IoT, big data 和 database 之類的, 一個是為了節省儲存資料的空間，還有是小批的資料要 load 進 Memory 裡面處理也會比較快，這篇筆記探......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Kakashi on
+            2021-01-30
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#algorithm" title="algorithm">algorithm</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/2020/12/14/golang-string-interning/">
         <h2 class="post-title">
             Golang 的 string interning 技巧
@@ -470,36 +498,6 @@ io_uring 前陣子在......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/2020/03/16/s3-latency/">
-        <h2 class="post-title">
-            How I Analyze S3 Upload Latency Issues
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            TLDR;Recently I helped company to finish S3 bucket migration in order to improve image upload speed of our lambda function. I found out letting lambda function and S3 buckets located in the same re......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2020-03-16
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#AWS" title="AWS">AWS</a>
-            
-              <a href="/tags/#S3" title="S3">S3</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -536,17 +534,19 @@ io_uring 前陣子在......
     <div class="tags">
         
             
-            <a href="/tags/#mongodb" title="mongodb" rel="3">mongodb</a>
-            
-        
-            
         
             
             <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
             
         
             
-            <a href="/tags/#golang" title="golang" rel="6">golang</a>
+            <a href="/tags/#mongodb" title="mongodb" rel="3">mongodb</a>
+            
+        
+            
+            <a href="/tags/#monitoring" title="monitoring" rel="2">monitoring</a>
+            
+        
             
         
             
@@ -554,13 +554,17 @@ io_uring 前陣子在......
             
         
             
+            <a href="/tags/#golang" title="golang" rel="6">golang</a>
+            
+        
+            
             <a href="/tags/#AWS" title="AWS" rel="15">AWS</a>
             
         
             
-            <a href="/tags/#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
-            
         
+            
+            <a href="/tags/#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
             
         
             
@@ -594,19 +598,13 @@ io_uring 前陣子在......
             
         
             
-            <a href="/tags/#monitoring" title="monitoring" rel="2">monitoring</a>
-            
         
             
         
             
         
             
-        
-            
-        
-            
-        
+            <a href="/tags/#algorithm" title="algorithm" rel="2">algorithm</a>
             
         
             
@@ -635,6 +633,8 @@ io_uring 前陣子在......
         
             
         
+            
+        
     </div>
 </section>
 
@@ -644,6 +644,10 @@ io_uring 前陣子在......
   <h5>RECENT POSTS</h3>
   <div class="widget">
     <ul>
+      
+        <li>
+          <a href="/2021/01/30/integer-compression-note/">Integer Encoding Algorithm 筆記</a>
+        </li>
       
         <li>
           <a href="/2020/12/14/golang-string-interning/">Golang 的 string interning 技巧</a>
@@ -661,10 +665,6 @@ io_uring 前陣子在......
           <a href="/2020/09/21/coscup-sharing/">Coscup sharing - How I contribute golang OSS</a>
         </li>
       
-        <li>
-          <a href="/2020/08/22/file-descriptor/">Linux 的 file descriptor 筆記</a>
-        </li>
-      
     </ul>
   </div>
 
@@ -673,7 +673,7 @@ io_uring 前陣子在......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>
@@ -746,7 +746,7 @@ io_uring 前陣子在......
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Kakashi 2020 
+                    Copyright &copy; Kakashi 2021 
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
