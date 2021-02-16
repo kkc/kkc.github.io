@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kkc.github.io/2021/02/16/note-from-werner-vogels-interview/</loc>
+    
+    <lastmod>2021-02-16T13:51:13.369Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/2021/01/30/integer-compression-note/</loc>
     
     <lastmod>2021-01-30T14:46:15.622Z</lastmod>
@@ -177,14 +184,14 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2015/07/14/mongodb-storage/</loc>
+    <loc>http://kkc.github.io/2017/07/23/aws-route-53-multivalue/</loc>
     
     <lastmod>2018-09-28T01:36:07.967Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/07/23/aws-route-53-multivalue/</loc>
+    <loc>http://kkc.github.io/2015/07/14/mongodb-storage/</loc>
     
     <lastmod>2018-09-28T01:36:07.967Z</lastmod>
     
@@ -226,13 +233,6 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/03/21/IPSEC-note/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.962Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://kkc.github.io/2015/08/16/RDBMS-course/</loc>
     
     <lastmod>2018-09-28T01:36:07.962Z</lastmod>
@@ -247,9 +247,9 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/10/08/transaction-note/</loc>
+    <loc>http://kkc.github.io/2018/03/21/IPSEC-note/</loc>
     
-    <lastmod>2018-09-28T01:36:07.961Z</lastmod>
+    <lastmod>2018-09-28T01:36:07.962Z</lastmod>
     
   </url>
   
@@ -261,9 +261,9 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/08/26/build-a-better-client/</loc>
+    <loc>http://kkc.github.io/2017/10/08/transaction-note/</loc>
     
-    <lastmod>2018-09-28T01:36:07.960Z</lastmod>
+    <lastmod>2018-09-28T01:36:07.961Z</lastmod>
     
   </url>
   
@@ -276,6 +276,13 @@
   
   <url>
     <loc>http://kkc.github.io/2015/07/21/mongodb-memory-structure/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.960Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2018/08/26/build-a-better-client/</loc>
     
     <lastmod>2018-09-28T01:36:07.960Z</lastmod>
     
@@ -317,7 +324,7 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2015/07/08/hello-hexo/</loc>
+    <loc>http://kkc.github.io/2017/06/16/acs-engine-note/</loc>
     
     <lastmod>2018-09-28T01:36:07.955Z</lastmod>
     
@@ -331,7 +338,7 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/06/16/acs-engine-note/</loc>
+    <loc>http://kkc.github.io/2015/07/08/hello-hexo/</loc>
     
     <lastmod>2018-09-28T01:36:07.955Z</lastmod>
     
@@ -345,13 +352,6 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2016/12/13/reinvent-netflix-multiregion-deployment/</loc>
-    
-    <lastmod>2018-09-28T01:36:07.954Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://kkc.github.io/2016/08/02/Consistent-Hashing/</loc>
     
     <lastmod>2018-09-28T01:36:07.954Z</lastmod>
@@ -359,9 +359,9 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2017/04/24/azure-note/</loc>
+    <loc>http://kkc.github.io/2016/12/13/reinvent-netflix-multiregion-deployment/</loc>
     
-    <lastmod>2018-09-28T01:36:07.953Z</lastmod>
+    <lastmod>2018-09-28T01:36:07.954Z</lastmod>
     
   </url>
   
@@ -380,7 +380,14 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2018/09/11/EKS-troubleshooting/</loc>
+    <loc>http://kkc.github.io/2017/04/24/azure-note/</loc>
+    
+    <lastmod>2018-09-28T01:36:07.953Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://kkc.github.io/2015/09/05/monitoring-with-graphite/</loc>
     
     <lastmod>2018-09-28T01:36:07.952Z</lastmod>
     
@@ -394,7 +401,7 @@
   </url>
   
   <url>
-    <loc>http://kkc.github.io/2015/09/05/monitoring-with-graphite/</loc>
+    <loc>http://kkc.github.io/2018/09/11/EKS-troubleshooting/</loc>
     
     <lastmod>2018-09-28T01:36:07.952Z</lastmod>
     
