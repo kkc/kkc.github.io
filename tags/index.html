@@ -192,11 +192,11 @@
                 
                     <a href="#mongodb" title="mongodb" rel="3">mongodb</a>
                 
+                    <a href="#mysql" title="mysql" rel="2">mysql</a>
+                
                     <a href="#monitoring" title="monitoring" rel="2">monitoring</a>
                 
                     <a href="#graphite" title="graphite" rel="1">graphite</a>
-                
-                    <a href="#mysql" title="mysql" rel="2">mysql</a>
                 
                     <a href="#docker" title="docker" rel="4">docker</a>
                 
@@ -206,9 +206,9 @@
                 
                     <a href="#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
                 
-                    <a href="#Jenkins" title="Jenkins" rel="1">Jenkins</a>
-                
                     <a href="#reading" title="reading" rel="1">reading</a>
+                
+                    <a href="#Jenkins" title="Jenkins" rel="1">Jenkins</a>
                 
                     <a href="#Azure" title="Azure" rel="1">Azure</a>
                 
@@ -216,11 +216,11 @@
                 
                     <a href="#RDBMS" title="RDBMS" rel="1">RDBMS</a>
                 
-                    <a href="#distributed-system" title="distributed-system" rel="1">distributed-system</a>
-                
                     <a href="#Kubernetes" title="Kubernetes" rel="3">Kubernetes</a>
                 
                     <a href="#EKS" title="EKS" rel="3">EKS</a>
+                
+                    <a href="#distributed-system" title="distributed-system" rel="1">distributed-system</a>
                 
                     <a href="#ffmpeg" title="ffmpeg" rel="1">ffmpeg</a>
                 
@@ -256,13 +256,13 @@
                 
                     <a href="#linux" title="linux" rel="2">linux</a>
                 
-                    <a href="#swisstable" title="swisstable" rel="1">swisstable</a>
-                
-                    <a href="#hashmap" title="hashmap" rel="1">hashmap</a>
-                
                     <a href="#gcc" title="gcc" rel="1">gcc</a>
                 
                     <a href="#performance" title="performance" rel="1">performance</a>
+                
+                    <a href="#swisstable" title="swisstable" rel="1">swisstable</a>
+                
+                    <a href="#hashmap" title="hashmap" rel="1">hashmap</a>
                 
             </div>
 
@@ -301,6 +301,21 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
+                     <a href="/2015/07/14/mongodb-storage/">
+                        <h2 class="post-title">
+                            Mongodb Storage 的架構和問題解法
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
                      <a href="/2015/07/21/mongodb-memory-structure/">
                         <h2 class="post-title">
                             Mongodb 如何使用 Memory 和 tuning 的小技巧
@@ -326,14 +341,36 @@
                 </div>
                 <hr>
                 
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="mysql">
+                    <span class="tag-text">mysql</span>
+                </span>
+                
                   <!-- <li class="listing-item">
                   <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/07/14/mongodb-storage/">
+                     <a href="/2015/08/16/RDBMS-course/">
                         <h2 class="post-title">
-                            Mongodb Storage 的架構和問題解法
+                            RDBMS 先修課程筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2017/07/07/mysql-partitioning/">
+                        <h2 class="post-title">
+                            MySQL partition 筆記
                         </h2>
                         
                     </a>
@@ -397,43 +434,6 @@
                      <a href="/2015/09/05/monitoring-with-graphite/">
                         <h2 class="post-title">
                             使用 statsd + graphite 的 monitoring 心得
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="mysql">
-                    <span class="tag-text">mysql</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/08/16/RDBMS-course/">
-                        <h2 class="post-title">
-                            RDBMS 先修課程筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/07/07/mysql-partitioning/">
-                        <h2 class="post-title">
-                            MySQL partition 筆記
                         </h2>
                         
                     </a>
@@ -681,9 +681,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2017/12/18/Network-Performance-Tuning/">
+                     <a href="/2018/03/14/AWS-VPN-with-RouterBoard/">
                         <h2 class="post-title">
-                            TCP Network Performance Tuning 筆記
+                            AWS VPN with RouterBoard
                         </h2>
                         
                     </a>
@@ -696,9 +696,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2018/03/14/AWS-VPN-with-RouterBoard/">
+                     <a href="/2017/12/18/Network-Performance-Tuning/">
                         <h2 class="post-title">
-                            AWS VPN with RouterBoard
+                            TCP Network Performance Tuning 筆記
                         </h2>
                         
                     </a>
@@ -927,28 +927,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Jenkins">
-                    <span class="tag-text">Jenkins</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/02/13/how-to-use-jenkins-parametered-build/">
-                        <h2 class="post-title">
-                            How To Use Jenkins Parametered Build
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="reading">
                     <span class="tag-text">reading</span>
                 </span>
@@ -961,6 +939,28 @@
                      <a href="/2017/02/19/reading-note-apprenticeship-patterns/">
                         <h2 class="post-title">
                             筆記：學徒模式，優秀軟體開發者的養成之路
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Jenkins">
+                    <span class="tag-text">Jenkins</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2017/02/13/how-to-use-jenkins-parametered-build/">
+                        <h2 class="post-title">
+                            How To Use Jenkins Parametered Build
                         </h2>
                         
                     </a>
@@ -1027,28 +1027,6 @@
                      <a href="/2017/10/08/transaction-note/">
                         <h2 class="post-title">
                             Transaction 筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="distributed-system">
-                    <span class="tag-text">distributed-system</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2018/08/26/build-a-better-client/">
-                        <h2 class="post-title">
-                            Build a better client
                         </h2>
                         
                     </a>
@@ -1170,6 +1148,28 @@
                             <h3 class="post-subtitle">
                                 一些踩雷經驗
                             </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="distributed-system">
+                    <span class="tag-text">distributed-system</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2018/08/26/build-a-better-client/">
+                        <h2 class="post-title">
+                            Build a better client
+                        </h2>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1669,50 +1669,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="swisstable">
-                    <span class="tag-text">swisstable</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2020/10/17/swisstable-hashmap-note/">
-                        <h2 class="post-title">
-                            google 的 swisstable hashmap 筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="hashmap">
-                    <span class="tag-text">hashmap</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2020/10/17/swisstable-hashmap-note/">
-                        <h2 class="post-title">
-                            google 的 swisstable hashmap 筆記
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="gcc">
                     <span class="tag-text">gcc</span>
                 </span>
@@ -1756,6 +1712,50 @@
                             <h3 class="post-subtitle">
                                 compiler vector extension 好棒棒
                             </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="swisstable">
+                    <span class="tag-text">swisstable</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2020/10/17/swisstable-hashmap-note/">
+                        <h2 class="post-title">
+                            google 的 swisstable hashmap 筆記
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="hashmap">
+                    <span class="tag-text">hashmap</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2020/10/17/swisstable-hashmap-note/">
+                        <h2 class="post-title">
+                            google 的 swisstable hashmap 筆記
+                        </h2>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
