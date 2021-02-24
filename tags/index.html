@@ -192,6 +192,10 @@
                 
                     <a href="#mongodb" title="mongodb" rel="3">mongodb</a>
                 
+                    <a href="#monitoring" title="monitoring" rel="2">monitoring</a>
+                
+                    <a href="#graphite" title="graphite" rel="1">graphite</a>
+                
                     <a href="#mysql" title="mysql" rel="2">mysql</a>
                 
                     <a href="#docker" title="docker" rel="4">docker</a>
@@ -200,9 +204,9 @@
                 
                     <a href="#AWS" title="AWS" rel="16">AWS</a>
                 
-                    <a href="#Jenkins" title="Jenkins" rel="1">Jenkins</a>
-                
                     <a href="#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
+                
+                    <a href="#Jenkins" title="Jenkins" rel="1">Jenkins</a>
                 
                     <a href="#reading" title="reading" rel="1">reading</a>
                 
@@ -220,17 +224,15 @@
                 
                     <a href="#ffmpeg" title="ffmpeg" rel="1">ffmpeg</a>
                 
-                    <a href="#prometheus" title="prometheus" rel="1">prometheus</a>
+                    <a href="#Prometheus" title="Prometheus" rel="2">Prometheus</a>
                 
-                    <a href="#monitoring" title="monitoring" rel="2">monitoring</a>
+                    <a href="#Thanos" title="Thanos" rel="2">Thanos</a>
+                
+                    <a href="#prometheus" title="prometheus" rel="1">prometheus</a>
                 
                     <a href="#kubernetes" title="kubernetes" rel="1">kubernetes</a>
                 
                     <a href="#helm" title="helm" rel="1">helm</a>
-                
-                    <a href="#Prometheus" title="Prometheus" rel="2">Prometheus</a>
-                
-                    <a href="#Thanos" title="Thanos" rel="2">Thanos</a>
                 
                     <a href="#Operation" title="Operation" rel="1">Operation</a>
                 
@@ -261,8 +263,6 @@
                     <a href="#gcc" title="gcc" rel="1">gcc</a>
                 
                     <a href="#performance" title="performance" rel="1">performance</a>
-                
-                    <a href="#graphite" title="graphite" rel="1">graphite</a>
                 
             </div>
 
@@ -301,9 +301,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/07/14/mongodb-storage/">
+                     <a href="/2015/07/21/mongodb-memory-structure/">
                         <h2 class="post-title">
-                            Mongodb Storage 的架構和問題解法
+                            Mongodb 如何使用 Memory 和 tuning 的小技巧
                         </h2>
                         
                     </a>
@@ -331,9 +331,72 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2015/07/21/mongodb-memory-structure/">
+                     <a href="/2015/07/14/mongodb-storage/">
                         <h2 class="post-title">
-                            Mongodb 如何使用 Memory 和 tuning 的小技巧
+                            Mongodb Storage 的架構和問題解法
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="monitoring">
+                    <span class="tag-text">monitoring</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/09/05/monitoring-with-graphite/">
+                        <h2 class="post-title">
+                            使用 statsd + graphite 的 monitoring 心得
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/02/25/install-prometheus-on-EKS/">
+                        <h2 class="post-title">
+                            利用 Helm 在 EKS 上安裝 Prometheus
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                一些踩雷經驗
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="graphite">
+                    <span class="tag-text">graphite</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2015/09/05/monitoring-with-graphite/">
+                        <h2 class="post-title">
+                            使用 statsd + graphite 的 monitoring 心得
                         </h2>
                         
                     </a>
@@ -801,29 +864,7 @@
                  <div class="post-preview">
                      <a href="/2021/02/16/note-from-werner-vogels-interview/">
                         <h2 class="post-title">
-                            從 Werner Vogels 的訪談學習 Service-based Architecture
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Jenkins">
-                    <span class="tag-text">Jenkins</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2017/02/13/how-to-use-jenkins-parametered-build/">
-                        <h2 class="post-title">
-                            How To Use Jenkins Parametered Build
+                            Werner Vogels 談 Amaonz 怎麼從 Monolith 到 Service-based Architecture
                         </h2>
                         
                     </a>
@@ -876,6 +917,28 @@
                      <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
                         <h2 class="post-title">
                             Performance tweaking for fluentd aggregator (EFK stack)
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Jenkins">
+                    <span class="tag-text">Jenkins</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2017/02/13/how-to-use-jenkins-parametered-build/">
+                        <h2 class="post-title">
+                            How To Use Jenkins Parametered Build
                         </h2>
                         
                     </a>
@@ -1142,125 +1205,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="prometheus">
-                    <span class="tag-text">prometheus</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/02/25/install-prometheus-on-EKS/">
-                        <h2 class="post-title">
-                            利用 Helm 在 EKS 上安裝 Prometheus
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                一些踩雷經驗
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="monitoring">
-                    <span class="tag-text">monitoring</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/02/25/install-prometheus-on-EKS/">
-                        <h2 class="post-title">
-                            利用 Helm 在 EKS 上安裝 Prometheus
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                一些踩雷經驗
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/09/05/monitoring-with-graphite/">
-                        <h2 class="post-title">
-                            使用 statsd + graphite 的 monitoring 心得
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="kubernetes">
-                    <span class="tag-text">kubernetes</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/02/25/install-prometheus-on-EKS/">
-                        <h2 class="post-title">
-                            利用 Helm 在 EKS 上安裝 Prometheus
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                一些踩雷經驗
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="helm">
-                    <span class="tag-text">helm</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/02/25/install-prometheus-on-EKS/">
-                        <h2 class="post-title">
-                            利用 Helm 在 EKS 上安裝 Prometheus
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                一些踩雷經驗
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="Prometheus">
                     <span class="tag-text">Prometheus</span>
                 </span>
@@ -1341,6 +1285,84 @@
                         
                             <h3 class="post-subtitle">
                                 Thanos 真的很不錯！
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="prometheus">
+                    <span class="tag-text">prometheus</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/02/25/install-prometheus-on-EKS/">
+                        <h2 class="post-title">
+                            利用 Helm 在 EKS 上安裝 Prometheus
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                一些踩雷經驗
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="kubernetes">
+                    <span class="tag-text">kubernetes</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/02/25/install-prometheus-on-EKS/">
+                        <h2 class="post-title">
+                            利用 Helm 在 EKS 上安裝 Prometheus
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                一些踩雷經驗
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="helm">
+                    <span class="tag-text">helm</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/02/25/install-prometheus-on-EKS/">
+                        <h2 class="post-title">
+                            利用 Helm 在 EKS 上安裝 Prometheus
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                一些踩雷經驗
                             </h3>
                         
                     </a>
@@ -1615,14 +1637,10 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/08/22/file-descriptor/">
+                     <a href="/2020/08/19/io-uring/">
                         <h2 class="post-title">
-                            Linux 的 file descriptor 筆記
+                            Linux 5.1 的 io_uring
                         </h2>
-                        
-                            <h3 class="post-subtitle">
-                                FD 真的好重要
-                            </h3>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1634,10 +1652,14 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/08/19/io-uring/">
+                     <a href="/2020/08/22/file-descriptor/">
                         <h2 class="post-title">
-                            Linux 5.1 的 io_uring
+                            Linux 的 file descriptor 筆記
                         </h2>
+                        
+                            <h3 class="post-subtitle">
+                                FD 真的好重要
+                            </h3>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1734,28 +1756,6 @@
                             <h3 class="post-subtitle">
                                 compiler vector extension 好棒棒
                             </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="graphite">
-                    <span class="tag-text">graphite</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2015/09/05/monitoring-with-graphite/">
-                        <h2 class="post-title">
-                            使用 statsd + graphite 的 monitoring 心得
-                        </h2>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
