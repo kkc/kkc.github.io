@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="Integer Encoding Algorithm 筆記 - Kakashi&#39;s Blog">
-    <meta property="og:description" content="null">
-    <meta property="og:image" content="http://kkc.github.io/2021/01/30/integer-compression-note/compress.jpeg">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           Integer Encoding Algorithm 筆記 - Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/2021/01/30/integer-compression-note/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('compress.jpeg')
-            /*post*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('compress.jpeg')
+                /*post*/
+            
         
     }
     
@@ -91,14 +117,30 @@
                             Posted by Kakashi on
                             2021-01-30
                         </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">3.2k</span> and
+                                Reading Time <span class="post-count">12</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -136,14 +178,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -189,9 +231,7 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
+    <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -202,16 +242,17 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h2 id="Integer-Encoding-Algorithm- 筆記"><a href="#Integer-Encoding-Algorithm- 筆記" class="headerlink" title="Integer Encoding Algorithm 筆記"></a>Integer Encoding Algorithm 筆記 </h2><p> 現今的電腦在 CPU 和 Memory 的速度上有極大的差距，而 Memory 到 Disk 上面的差距就更大了，所以有許多的壓縮演算法被套用在不同的應用上，例如 IoT, big data 和 database 之類的, 一個是為了節省儲存資料的空間，還有是小批的資料要 load 進 Memory 裡面處理也會比較快，這篇筆記探討的是像是 integer 類型的數據結構，有什麼樣的演算法可以套用，還是其中的差距是什麼，說到底要解的問題就是，就是給你一串連續的數字，要怎麼樣在壓縮率，encode/decode 的速度上面做改善。</p>
+                <h2 id="Integer-Encoding-Algorithm-筆記"><a href="#Integer-Encoding-Algorithm-筆記" class="headerlink" title="Integer Encoding Algorithm 筆記"></a>Integer Encoding Algorithm 筆記</h2><p>現今的電腦在 CPU 和 Memory 的速度上有極大的差距，而 Memory 到 Disk 上面的差距就更大了，所以有許多的壓縮演算法被套用在不同的應用上，例如 IoT, big data 和 database 之類的, 一個是為了節省儲存資料的空間，還有是小批的資料要 load 進 Memory 裡面處理也會比較快，這篇筆記探討的是像是 integer 類型的數據結構，有什麼樣的演算法可以套用，還是其中的差距是什麼，說到底要解的問題就是，就是給你一串連續的數字，要怎麼樣在壓縮率，encode/decode 的速度上面做改善。</p>
 <p>這篇文章算是自我做的一個筆記，如果有寫錯還請指正，另外要指出以下的演算法都是 lossless data compression。</p>
 <h2 id="History"><a href="#History" class="headerlink" title="History"></a>History</h2><p>這邊條列一下歷史，另外是我覺得蠻值得筆記的幾個演算法，主要從這篇論文來的 <a href="https://arxiv.org/pdf/1908.10598.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1908.10598.pdf</a></p>
 <p>1972: variable-byte (<a href="https://en.wikipedia.org/wiki/Variable-length_quantity" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Variable-length_quantity</a>)<br>1998: frame of reference (FOR)<br>2006: PForDelta<br>2009: Variant-GB<br>2010: simple8b<br>2011: Variant-G8IU<br>2014: Roaring<br>2015: SIMD-BP128, SIMD-FastPFor<br>2018: Stream-VByte</p>
-<h2 id="一些常見的 -Algorithm"><a href="# 一些常見的 -Algorithm" class="headerlink" title="一些常見的 Algorithm"></a>一些常見的 Algorithm</h2><p>基本上討論壓縮率應該要從 bit-aligned, bytes-aligned, word-aligned 提起，不過 bit-aligned 演算法例如 Golomb coding or rice coding，雖然壓縮率很好，但是在 encode/decode 上面因為不符合電腦運作的模式[註 1]，壓縮和解壓縮的速度很差，所以運用在資料庫上面的效果並不好。</p>
-<p>註 1: <a href="https://hackmd.io/@sysprog/c-memory" target="_blank" rel="noopener">你所不知道的 C 語言：記憶體管理、對齊及硬體特性</a></p>
+<h2 id="一些常見的-Algorithm"><a href="#一些常見的-Algorithm" class="headerlink" title="一些常見的 Algorithm"></a>一些常見的 Algorithm</h2><p>基本上討論壓縮率應該要從 bit-aligned, bytes-aligned, word-aligned 提起，不過 bit-aligned 演算法例如 Golomb coding or rice coding，雖然壓縮率很好，但是在 encode/decode 上面因為不符合電腦運作的模式[註1]，壓縮和解壓縮的速度很差，所以運用在資料庫上面的效果並不好。</p>
+<p>註1: <a href="https://hackmd.io/@sysprog/c-memory" target="_blank" rel="noopener">你所不知道的 C 語言：記憶體管理、對齊及硬體特性</a></p>
 <blockquote>
-<p>電腦的 cpu 又是如何抓取資料呢？cpu 不會一次只抓取 1 byte 的資料，因為這樣太慢了，如果有個資料型態是 int 的 資料，如果你只抓取 1 byte , 就必須要抓 4 次(int 為 4 byte)，有夠慢。所以 cpu 通常一次會取 4 byte(要看電腦的規格 32 位元的 cpu 一次可以讀取 32 bit 的資料，64 位元一次可以讀取 64 bit)，並且是按照順序取的</p>
+<p>電腦的 cpu 又是如何抓取資料呢？cpu 不會一次只抓取 1 byte 的資料，因為這樣太慢了，如果有個資料型態是 int 的 資料，如果你只抓取 1 byte ,就必須要抓 4 次(int 為 4 byte)，有夠慢。所以 cpu 通常一次會取 4 byte(要看電腦的規格 32 位元的 cpu 一次可以讀取 32 bit 的資料，64 位元一次可以讀取 64 bit)，並且是按照順序取的</p>
 </blockquote>
 <h3 id="Variable-Byte"><a href="#Variable-Byte" class="headerlink" title="Variable Byte"></a>Variable Byte</h3><p>byte-aligend 顧名思義就是使用最少的 byte 儲存數字，類似原本一個數字是 4 bytes (32bit)，如果可以放進一個 byte 裡面，就可以省下很多的空間，VB 的運作模式很單純，利用 7 個 bits 存放資料，最前面的 1 個 bit 拿來判斷後面是不是有跟著其他 byte，以 128 的例子來看，最後一個 byte 的 binary format 是 10000000，但是我們只有 7bit 能拿來存資料，所以就需要兩個 bytes 把 128 存起來，第一個 byte 的開頭設定為 1，表示這個 byte 後面還有跟著另外一個 byte，到時候要一起拿來 decode 成原始的 binary。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -248,12 +289,14 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>以上的例子都是從 <a href="https://en.wikipedia.org/wiki/Variable-length_quantity" target="_blank" rel="noopener">wiki</a> 來的。</p>
-<p>而 VB 作為一個很廣泛使用，又很好實做的演算法，也是有許多的改進的版本，例如 google 的 Jeff Dean 的 Challenges in Building Large-Scale Information Retrieval Systems <a href="https://static.googleusercontent.com/media/research.google.com/en//people/jeff/WSDM09-keynote.pdf" target="_blank" rel="noopener">投影片 </a> 裡面可以看到 Group Varint Encoding，藉由把 control bit 提到第一個 Byte 的前四個 bit，可以有效地減少 branch prediction miss 的 penalty，以提升 encode/decode 的速度。</p>
+<p>而 VB 作為一個很廣泛使用，又很好實做的演算法，也是有許多的改進的版本，例如 google 的 Jeff Dean 的 Challenges in Building Large-Scale Information Retrieval Systems <a href="https://static.googleusercontent.com/media/research.google.com/en//people/jeff/WSDM09-keynote.pdf" target="_blank" rel="noopener">投影片</a>裡面可以看到 Group Varint Encoding，藉由把 control bit 提到第一個 Byte 的前四個 bit，可以有效地減少 branch prediction miss 的 penalty，以提升 encode/decode 的速度。</p>
 <p>而 2018 年又有新改良的版本叫做 stream VB (尚未研究)</p>
 <p>參考資料: <a href="https://en.wikipedia.org/wiki/Variable-length_quantity" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Variable-length_quantity</a></p>
 <h3 id="Delta-of-Delta-Variable-length-coding"><a href="#Delta-of-Delta-Variable-length-coding" class="headerlink" title="Delta of Delta + Variable length coding"></a>Delta of Delta + Variable length coding</h3><p>delta 也是一個很常見的技巧，像是 influx db 或是 prometheus 這類的 timeseries database 在壓縮 timestamp 時，也是會使用 delta 的方式將數值變小，例如說 [100, 101, 105, 108] 就可以轉成 [100, 1, 5, 8] 的格式，還可以進一步地把 [1, 5, 8] 變成 [1, 4, 3] 這種 <code>delta of delta</code> (DoD) 的格式。 </p>
 <p>在 <a href="https://www.vldb.org/pvldb/vol8/p1816-teller.pdf" target="_blank" rel="noopener">Facebook Gorilla paper</a> 裡面也有提到，他們的 timestamp 也是用 DoD 壓縮出來的，主要他們的格式是 (DoD of time, value), (DoD of time, value) … 聯合起來的，產生出來的 DoD 需要使用 Variable length coding (VLC) 的方式產生 tag bits 才能在 decode 的時候，知道那個 DoD 到底是幾個 bit ，像下面這張表:</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -295,18 +338,20 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>所以在時間那個欄位會長成像下面這樣，透過 tag bits 可以跟 value 的值一起 encode 在一起<br><figure class="highlight smalltalk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">|time   value |   time    value  |     time      value |</span><br><span class="line">| <span class="number">100</span>     <span class="number">1</span>   |  <span class="string">'10'</span>: <span class="number">2</span>    <span class="number">1</span>    |   <span class="string">'110'</span>: <span class="number">100</span>    <span class="number">10</span>  |</span><br></pre></td></tr></table></figure></p>
-<h3 id="Run-Length-encoding-RLE"><a href="#Run-Length-encoding-RLE" class="headerlink" title="Run Length encoding (RLE)"></a>Run Length encoding (RLE)</h3><p><a href="https://en.wikipedia.org/wiki/Run-length_encoding" target="_blank" rel="noopener">RLE</a> 也是一種常見且簡單的壓縮格式，這邊的內容擷取自這篇 <a href="https://wiki.multimedia.cx/index.php/Run_Length_Encoding" target="_blank" rel="noopener"> 文章</a>，</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span> <span class="number">5</span> <span class="number">5</span> <span class="number">5</span> <span class="number">8</span> <span class="number">8</span> <span class="number">8</span> <span class="number">2</span> <span class="number">2</span> <span class="number">2</span> <span class="number">2</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3 id="Run-Length-encoding-RLE"><a href="#Run-Length-encoding-RLE" class="headerlink" title="Run Length encoding (RLE)"></a>Run Length encoding (RLE)</h3><p><a href="https://en.wikipedia.org/wiki/Run-length_encoding" target="_blank" rel="noopener">RLE</a> 也是一種常見且簡單的壓縮格式，這邊的內容擷取自這篇<a href="https://wiki.multimedia.cx/index.php/Run_Length_Encoding" target="_blank" rel="noopener">文章</a>，</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span> <span class="number">5</span> <span class="number">5</span> <span class="number">5</span> <span class="number">8</span> <span class="number">8</span> <span class="number">8</span> <span class="number">2</span> <span class="number">2</span> <span class="number">2</span> <span class="number">2</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
 <p>可以被 encode 為<br><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">4 </span><span class="number">5</span> <span class="number">3</span> <span class="number">8</span> <span class="number">5</span> <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
 <p>這樣有了 50% 的壓縮率。 但是有個特例像是</p>
 <figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">1 </span><span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span></span><br></pre></td></tr></table></figure>
-<p>如果被壓縮為<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">1</span> <span class="number">3</span> <span class="number">1</span> <span class="number">4</span> <span class="number">1</span> <span class="number">5</span> <span class="number">1</span> <span class="number">6</span></span><br></pre></td></tr></table></figure></p>
+<p>如果被壓縮為<br><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">1</span> <span class="number">3</span> <span class="number">1</span> <span class="number">4</span> <span class="number">1</span> <span class="number">5</span> <span class="number">1</span> <span class="number">6</span></span><br></pre></td></tr></table></figure></p>
 <p>這樣反而比原本的資料慘，這時有個方法是可以使用下面的方法</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-6</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-6</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span></span><br></pre></td></tr></table></figure>
 <p>給他一個 indicator 讓他看到 -6 就知道要 copy 後面六個數字出來</p>
 <h3 id="Simple-family"><a href="#Simple-family" class="headerlink" title="Simple family"></a>Simple family</h3><p>simple family 也是一個很有名的演算法，因為名字的開頭就叫做 simple，而依據出現的是 simple9, simple16, 最後是 simple8b，simple8b 的 paper 出現在 2010，目前被廣泛使用在 timeseries database，也算是一個相對新的演算法，核心思想是把數字壓縮在一個 64bit 的 word 裡面，而經過驗證後，也可以發現他有不錯的 encoding/decoding 速度，而由於 simple 系列的演算法是把 integer 盡可能用越少的 bit 去壓縮，例如 1 或是 0 就可以用 1 bit 去表示，這比 Variable Byte 的演算法在壓縮率上面更有優勢，而實作上面也不會太困難，這也是為什麼現在那麼多主流的 database 選用 simple8b 的原因。</p>
 <p>simple8b 的 64 bit 中，後面 60 個 bit 拿來放 data，前 4 個 bit 會被拿來當作 selector，決定有多少的 integer 可以被壓縮在 64 bit 的 word 中，其中的 encoding mode 可以參考下表:</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -370,30 +415,31 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>舉個例子，如果我們要存 [1, 2, 1000, 3, 4, 5, 6, …] 這個陣列，透過 simple8b，可以看出我們最大的值是 1000, 對應到 2^10，代表我們最多只能 pack 6 個值進入到 64 bit 的 word 中，也就是 [1, 2, 1000, 3, 4, 5], 則後面的 6 且其他數值會被 pack 到後面的 word。</p>
 <p>一般來說，simple8b 的 encoding 速度會比 Variable Byte 來得久，不過 decoding 上面應該都會比 Variable Byte 來得好，而壓縮率則是大勝 Variable Byte。</p>
 <h3 id="Binary-Packing-BP128"><a href="#Binary-Packing-BP128" class="headerlink" title="Binary Packing (BP128)"></a>Binary Packing (BP128)</h3><p>Binary Packing 是藉由判斷給定的 array 中最大的數字，需要多少 bit 去存，而將其他數字都用同一種 bits 數量去儲存的方法，例如下面這個範例:</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">7</span>, <span class="number">7</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">7</span>, <span class="number">7</span></span><br></pre></td></tr></table></figure>
 <p>其中最大的數字 8，需要 3 bits 去儲存，這樣我們也把其他的數字也用 3 bits 去 encode，原本一個 integer 需要 32 bits，這樣一來一個 integer 就只需要 3 bits，而 binary packing 還有一個特性是把一組的數字一起壓縮，像是著名的 BP128 講的就是把 128 integer 一起透過 fast bit packing 去做壓縮，如果一個 integer 需要 b 個 bits，這樣總共就需要 128*b bits 就夠了，如果 total 數字沒辦法被 128 整除，就可以透過補零的方式。</p>
 <p>另外是 binary packing 牽扯到 bit packing 怎麼實作的部分，在這篇論文<a href="https://arxiv.org/pdf/1209.2137.pdf" target="_blank" rel="noopener">Decoding billions of integers per second through vectorization</a> 和作者的 <a href="https://lemire.me/blog/2012/03/06/how-fast-is-bit-packing/" target="_blank" rel="noopener">blog</a> 中也有討論，另外是作者的 C++ 實作，只要透過 shift and mask 就可以將不同長度的 bit 壓縮在不同 bytes 裡面，所以壓縮解壓縮的速度非常快，另外是也可以實作出 SIMD 的版本 SIMD-BP128，印象中論文裡面是寫壓縮解壓縮率會比 scalar 的快上一倍。</p>
 <p>整體而言 BP128 不管在壓縮率、encode/decode 速度上面都很不錯，也是在 benchmark 中常常被拿來比較的對象。</p>
 <h3 id="Frame-of-reference-FOR"><a href="#Frame-of-reference-FOR" class="headerlink" title="Frame of reference (FOR)"></a>Frame of reference (FOR)</h3><p>以上的演算法在壓縮前，都是透過 Differential coding， 也就是算 delta 的算法，讓要壓縮前的資料變小，不過這樣的處理方式有個壞處是，沒辦法辦到想快速搜索值，一定都得要把資料先解壓縮回來，而 Frame of reference 的作法可以解決這類的問題。</p>
 <p>Frame of reference 基本上是來自這篇 1998 年的論文 Jonathan Goldstein, Raghu Ramakrishnan, and Uri Shaft. 1998. Compressing Relations and Indexes. In Proceedings of<br>the 14th International Conference on Data Engineering. 370–379.</p>
 <p>而這邊的 frame of reference 講的就是找到一個參照系，frame 跟上面提到的 BP 很類似就是 a sequence of integers with the same bit width。</p>
-<p>Frame of reference 講解主要我是參考 Lemire 寫的這篇 <a href="https://lemire.me/blog/2012/02/08/effective-compression-using-frame-of-reference-and-delta-coding/" target="_blank" rel="noopener"> 文章</a>，Lemire 出了很多 paper 在討論這個議題，文章內容都寫得很棒，很適合大家去爬。</p>
+<p>Frame of reference 講解主要我是參考 Lemire 寫的這篇<a href="https://lemire.me/blog/2012/02/08/effective-compression-using-frame-of-reference-and-delta-coding/" target="_blank" rel="noopener">文章</a>，Lemire 出了很多 paper 在討論這個議題，文章內容都寫得很棒，很適合大家去爬。</p>
 <p>用例子來說明比較快，給定下列的數列</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">107</span>, <span class="number">108</span>, <span class="number">110</span>, <span class="number">115</span>, <span class="number">120</span>, <span class="number">125</span>, <span class="number">132</span>, <span class="number">132</span>, <span class="number">131</span>, <span class="number">135</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">107</span>, <span class="number">108</span>, <span class="number">110</span>, <span class="number">115</span>, <span class="number">120</span>, <span class="number">125</span>, <span class="number">132</span>, <span class="number">132</span>, <span class="number">131</span>, <span class="number">135</span></span><br></pre></td></tr></table></figure>
 <p>每個數字可以用 8 bits，總共需要 80 bits 才能存下全部的數字。frame-of-reference 就是要找出陣列的 range 和最小的數字，這邊我們可以看到是 107 到 135，接著我們對這個陣列減去 107 看看:</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">18</span>, <span class="number">25</span>, <span class="number">25</span>, <span class="number">24</span>, <span class="number">28</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">18</span>, <span class="number">25</span>, <span class="number">25</span>, <span class="number">24</span>, <span class="number">28</span></span><br></pre></td></tr></table></figure>
 <p>再看一次會發現，現在我們一個數字只需要用 5 bits 就存得下了，不過我們當然還是要使用 8 bits，去存下一開始的 reference 107，還需要另外的 3 bit 的 metadata，來紀錄我們目前的資料長度是 5 bits，這樣總共是 8+3+95=45 bits，比起原本的 80bits 省下不少空間，另外是搜索上面也有幫助，像是你要搜索 1000 這個數字，很快的比對 107 和資料長度 5bits，可以馬上知道這個 block 裡面，並沒有 1000 這個數字，對於我們 search 上面也有幫助。</p>
 <h4 id="FOR-variant"><a href="#FOR-variant" class="headerlink" title="FOR variant"></a>FOR variant</h4><p>而 FOR 還有一些變形，像是上面這個數列，還可以透過之前介紹的 delta 的方法進一步壓縮，變成</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">0</span>, <span class="number">-1</span>, <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">0</span>, <span class="number">-1</span>, <span class="number">4</span></span><br></pre></td></tr></table></figure>
 <p>現在我們知道除去 -1, 我們可以用 3bits 把東西存下來，但是這個 -1 還是很討厭，幸好還有一個有名的演算法叫做 <a href="https://developers.google.com/protocol-buffers/docs/encoding" target="_blank" rel="noopener">zigzag</a>，可以將負數都 encode 成正數，在 google 的 protocol buffer 裡面也有用到。</p>
 <p>除了 Delta，另外一種做法是可以透過 XOR，也可以把數字變小，而且不會產生負數。</p>
 <h4 id="Patched-coding"><a href="#Patched-coding" class="headerlink" title="Patched coding"></a>Patched coding</h4><p>其實有件事在 FOR or BP 裡面都可能會遇到的是，像下面的 integer array 處理不好的狀況</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>, <span class="number">4</span>, <span class="number">255</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">12</span>, <span class="number">4294967295</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>, <span class="number">4</span>, <span class="number">255</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">12</span>, <span class="number">4294967295</span></span><br></pre></td></tr></table></figure>
 <p>因為裡面有個超大的數字，變成每個數字又要用回 32bits 去存，那究竟我們有沒有什麼方法可以去改善呢，這邊就有人提出了一個 Patched coding 的方法，這也是常常在論文中看到的 PFor，意思就是決定一個 b bits width 去壓縮，而大於 2^b bits 的數字當作 exception 放在其他的 page 裡面，這邊有蠻多不同的方法去實作這段，詳情還是要看 paper 或是 implementation 如何實作的，不同的實作也是會對不同的測資有影響。</p>
-<h2 id="結論"><a href="# 結論" class="headerlink" title="結論"></a>結論 </h2><p> 在看了幾個資料<a href="https://people.csail.mit.edu/jshun/6886-s19/lectures/lecture19-1.pdf" target="_blank" rel="noopener">1</a>, <a href="https://people.csail.mit.edu/jshun/6886-s20/lectures/lecture19-1.pdf" target="_blank" rel="noopener">2</a> 後發現，壓縮 integer 這擋事不外乎上面講的這幾種方式，不過在 SIMD 慢慢流行下，這些演算法也重新被改良，希望能夠用 SIMD 去加速，這的確是我們蠻樂見的，也有看到 influxdb 想要在 timestamp 壓縮這段，可以從 simple8b 改良成用 SIMD-PFor，這也是因為 SIMD 也漸漸是標準配備了，然後 github 上面可以找到一堆開源的實作，像是 <a href="https://github.com/powturbo/TurboPFor-Integer-Compression" target="_blank" rel="noopener">TurboPFor-Integer-Compression</a> 、<a href="https://github.com/jwilder/encoding/tree/master/simple8b" target="_blank" rel="noopener">simple8b</a> 、<a href="https://github.com/lemire/bp128" target="_blank" rel="noopener">BP128</a> 和 <a href="https://github.com/lemire/FastPFor" target="_blank" rel="noopener">FastPFor</a>，有需要的可以直接拿來套用結果看看。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>在看了幾個資料<a href="https://people.csail.mit.edu/jshun/6886-s19/lectures/lecture19-1.pdf" target="_blank" rel="noopener">1</a>, <a href="https://people.csail.mit.edu/jshun/6886-s20/lectures/lecture19-1.pdf" target="_blank" rel="noopener">2</a> 後發現，壓縮 integer 這擋事不外乎上面講的這幾種方式，不過在 SIMD 慢慢流行下，這些演算法也重新被改良，希望能夠用 SIMD 去加速，這的確是我們蠻樂見的，也有看到 influxdb 想要在 timestamp 壓縮這段，可以從 simple8b 改良成用 SIMD-PFor，這也是因為 SIMD 也漸漸是標準配備了，然後 github 上面可以找到一堆開源的實作，像是 <a href="https://github.com/powturbo/TurboPFor-Integer-Compression" target="_blank" rel="noopener">TurboPFor-Integer-Compression</a> 、<a href="https://github.com/jwilder/encoding/tree/master/simple8b" target="_blank" rel="noopener">simple8b</a> 、<a href="https://github.com/lemire/bp128" target="_blank" rel="noopener">BP128</a> 和 <a href="https://github.com/lemire/FastPFor" target="_blank" rel="noopener">FastPFor</a>，有需要的可以直接拿來套用結果看看。</p>
 <p>而網路上也有幾篇文章蠻值得參考的:</p>
 <ul>
 <li><a href="https://michael.stapelberg.ch/posts/2019-02-05-turbopfor-analysis/" target="_blank" rel="noopener">https://michael.stapelberg.ch/posts/2019-02-05-turbopfor-analysis/</a></li>
@@ -410,35 +456,48 @@
 <p><span>Photo by <a href="https://unsplash.com/@jjying?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank" rel="noopener">JJ Ying</a> on <a href="https://unsplash.com/s/photos/compress?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank" rel="noopener">Unsplash</a></span></p>
 
                 
-
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2021/02/16/note-from-werner-vogels-interview/" data-toggle="tooltip" data-placement="top" title="Werner Vogels 談 Amazon 怎麼從 Monolith 到 Service-based Architecture">&larr; Previous Post</a>
-                        </li>
+                    <li class="previous">
+                        <a href="/2021/02/16/note-from-werner-vogels-interview/" data-toggle="tooltip" data-placement="top" title="Werner Vogels 談 Amazon 怎麼從 Monolith 到 Service-based Architecture">&larr; Previous Post</a>
+                    </li>
                     
                     
-                        <li class="next">
-                            <a href="/2020/12/14/golang-string-interning/" data-toggle="tooltip" data-placement="top" title="Golang 的 string interning 技巧">Next Post &rarr;</a>
-                        </li>
+                    <li class="next">
+                        <a href="/2020/12/14/golang-string-interning/" data-toggle="tooltip" data-placement="top" title="Golang 的 string interning 技巧">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- tip start -->
                 
-                <!-- 多说 Share end-->
 
-                <!-- 多说评论框 start -->
                 
-                <!-- 多说评论框 end -->
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
 
                 <!-- disqus comment start -->
                 
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
                 <!-- disqus comment end -->
             </div>
@@ -447,14 +506,18 @@
             <!-- Table of Contents -->
 
     
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
-        
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Integer-Encoding-Algorithm- 筆記"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Integer Encoding Algorithm 筆記 </span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#History"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">History</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#一些常見的 -Algorithm"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">一些常見的 Algorithm</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Variable-Byte"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">Variable Byte</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Delta-of-Delta-Variable-length-coding"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">Delta of Delta + Variable length coding</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Run-Length-encoding-RLE"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">Run Length encoding (RLE)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Simple-family"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">Simple family</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Binary-Packing-BP128"><span class="toc-nav-number">3.5.</span> <span class="toc-nav-text">Binary Packing (BP128)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Frame-of-reference-FOR"><span class="toc-nav-number">3.6.</span> <span class="toc-nav-text">Frame of reference (FOR)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#FOR-variant"><span class="toc-nav-number">3.6.1.</span> <span class="toc-nav-text">FOR variant</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Patched-coding"><span class="toc-nav-number">3.6.2.</span> <span class="toc-nav-text">Patched coding</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#結論"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">結論 </span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
-        
-        </div>
-      </aside>
+      
+        <aside id="sidebar">
+          <div id="toc" class="toc-article">
+          <strong class="toc-title">Contents</strong>
+          
+            
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Integer-Encoding-Algorithm-筆記"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Integer Encoding Algorithm 筆記</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#History"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">History</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#一些常見的-Algorithm"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">一些常見的 Algorithm</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Variable-Byte"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">Variable Byte</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Delta-of-Delta-Variable-length-coding"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">Delta of Delta + Variable length coding</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Run-Length-encoding-RLE"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">Run Length encoding (RLE)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Simple-family"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">Simple family</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Binary-Packing-BP128"><span class="toc-nav-number">3.5.</span> <span class="toc-nav-text">Binary Packing (BP128)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Frame-of-reference-FOR"><span class="toc-nav-number">3.6.</span> <span class="toc-nav-text">Frame of reference (FOR)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#FOR-variant"><span class="toc-nav-number">3.6.1.</span> <span class="toc-nav-text">FOR variant</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Patched-coding"><span class="toc-nav-number">3.6.2.</span> <span class="toc-nav-text">Patched coding</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#結論"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">結論</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+            
+          
+          </div>
+        </aside>
+      
     
 
                 
@@ -479,12 +542,17 @@
 
                 <!-- Friends Blog -->
                 
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
             </div>
         </div>
     </div>
 </article>
-
-
 
 
 <!-- disqus embedded js code start (one page only need to embed once) -->
@@ -501,7 +569,6 @@
     })();
 </script>
 <!-- disqus embedded js code start end -->
-
 
 
 
@@ -527,7 +594,9 @@
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
-<style>
+
+
+<style  type="text/css">
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
         .anchorjs-link{
@@ -548,31 +617,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -587,6 +631,32 @@
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -596,34 +666,45 @@
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -637,24 +718,6 @@
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -704,6 +767,13 @@
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -711,10 +781,28 @@
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

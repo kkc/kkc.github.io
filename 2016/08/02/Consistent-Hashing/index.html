@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="Consistent Hashing - Kakashi&#39;s Blog">
-    <meta property="og:description" content="undefined">
-    <meta property="og:image" content="http://kkc.github.io/2016/08/02/Consistent-Hashing/undefined">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           Consistent Hashing - Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/2016/08/02/Consistent-Hashing/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('undefined')
-            /*post*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('')
+                /*post*/
+            
         
     }
     
@@ -89,14 +115,30 @@
                             Posted by Kakashi on
                             2016-08-02
                         </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">903</span> and
+                                Reading Time <span class="post-count">3</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -134,14 +176,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -187,9 +229,7 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
+    <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -200,29 +240,29 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h2 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言</h2><p>Consistent Hashing 算是前陣子在看的一個分布式演算法，在以往採用 Load Balance 的演算法有許多種，像是 Round Robin，HASH，Least Connection，Response Time，Weighted，而 Consistent Hashing 這種方式可以應用在某個經典場景：</p>
-<p>舉 Cache 的例子來看，假如你有三個 Node {A, B, C}，然後有 {1, 2, 3, 4, 5, 6} 這六筆資料，一般而言我們會很直覺想把他們平均打散在 cache server 上面，所以會採用 % 3 的方式，而資料也會被映射為</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Consistent Hashing 算是前陣子在看的一個分布式演算法，在以往採用 Load Balance 的演算法有許多種，像是 Round Robin，HASH，Least Connection，Response Time，Weighted，而 Consistent Hashing 這種方式可以應用在某個經典場景：</p>
+<p>舉 Cache 的例子來看，假如你有三個 Node {A, B, C}，然後有 { 1, 2, 3, 4, 5, 6} 這六筆資料，一般而言我們會很直覺想把他們平均打散在 cache server 上面，所以會採用 % 3 的方式，而資料也會被映射為</p>
 <pre><code>A, {1 4}
 B, {2 5}
 C, {3 6}
 </code></pre><p>但現在問題來了，假如我現在想多增加一個 Node，根據我們之前的演算法將會變成</p>
 <pre><code>A, {1 5}
 B, {2 6}
-C, {3}
-D, {4}
+C, {3  }
+D, {4  }
 </code></pre><p>如果這個時候刪除 B 這個 Node</p>
 <pre><code>A, {1 4}
 C, {2 5}
 D, {3 6}
 </code></pre><p>大家可以發現資料搬移量很大，我們必須要把資料移來移去，而這種情況在資料大的時候，非常不利於 Cache Server 的 Performance。</p>
-<h2 id="解決方案 -Consistent-Hashing"><a href="# 解決方案 -Consistent-Hashing" class="headerlink" title="解決方案 Consistent Hashing"></a>解決方案 Consistent Hashing</h2><p>Consistent hashing is a special kind of hashing such that when a hash table is resized and consistent hashing is used, only K/n keys need to be remapped on average, where K is the number of keys, and n is the number of slots.<br>Source: <a href="https://en.wikipedia.org/wiki/Consistent_hashing" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Consistent_hashing</a></p>
-<p>利用 Consistent Hashing 的概念就是，要減少資料的搬移量，而演算法的概念也很簡單，我們會將 Node &amp; Data 對應到一個 0～2^32 的環（continuum）上面</p>
+<h2 id="解決方案-Consistent-Hashing"><a href="#解決方案-Consistent-Hashing" class="headerlink" title="解決方案 Consistent Hashing"></a>解決方案 Consistent Hashing</h2><p>Consistent hashing is a special kind of hashing such that when a hash table is resized and consistent hashing is used, only K/n keys need to be remapped on average, where K is the number of keys, and n is the number of slots.<br>Source: <a href="https://en.wikipedia.org/wiki/Consistent_hashing" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Consistent_hashing</a></p>
+<p>利用 Consistent Hashing 的概念就是，要減少資料的搬移量，而演算法的概念也很簡單，我們會將 Node &amp; Data 對應到一個0～2^32的環（continuum）上面</p>
 <p><img src="/img/2016-08/consistent_hashing_3.png" alt="consistent_hash1"></p>
 <p>然後透過 Hash function 轉換，然後 Data 會存在順時針方向上面的 Node</p>
 <p><img src="/img/2016-08/consistent_hashing_4.png" alt="consistent_hash2"></p>
 <p>新增節點時，需要 remap Data 到新的 Node 上面</p>
 <p>取自「<a href="http://michaelnielsen.org/blog/consistent-hashing/" target="_blank" rel="noopener">Consistent hashing</a>」這裡</p>
-<h2 id="實作"><a href="# 實作" class="headerlink" title="實作"></a>實作 </h2><p> 為了更瞭解 Consistent Hashing，這邊有個小小的用 golang 寫的 <a href="https://github.com/kkc/consistenthash" target="_blank" rel="noopener"> 實作</a>。</p>
+<h2 id="實作"><a href="#實作" class="headerlink" title="實作"></a>實作</h2><p>為了更瞭解 Consistent Hashing，這邊有個小小的用 golang 寫的<a href="https://github.com/kkc/consistenthash" target="_blank" rel="noopener">實作</a>。</p>
 <p>基本上我先定義出我們的環還有上面的節點</p>
 <figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="type">Ring</span> struct &#123;</span><br><span class="line">    <span class="type">Nodes</span>            <span class="type">Nodes</span></span><br><span class="line">    <span class="type">NumberOfReplicas</span> int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="type">Nodes</span> []*<span class="type">Node</span></span><br><span class="line"></span><br><span class="line">// <span class="type">Node</span> is a single entity <span class="keyword">in</span> a ring.</span><br><span class="line"><span class="keyword">type</span> <span class="type">Node</span> struct &#123;</span><br><span class="line">    <span class="type">Id</span>     string</span><br><span class="line">    <span class="type">HashId</span> uint32</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>而每一個 Node 上面都有記錄自己的 HashId</p>
@@ -230,44 +270,57 @@ D, {3 6}
 <p>我們在新增節點時，會對 HashId 去做 Sorting ，這樣一來就可以得到一個排列好的 r.Nodes，而在 Golang 裡面要完成 Sort，只需要提供以下介面</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// implement sort.Interface</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n Nodes)</span> <span class="title">Len</span><span class="params">()</span> <span class="title">int</span></span>           &#123; <span class="keyword">return</span> <span class="built_in">len</span>(n) &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n Nodes)</span> <span class="title">Less</span><span class="params">(i, j <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123; <span class="keyword">return</span> n[i].HashId &lt; n[j].HashId &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n Nodes)</span> <span class="title">Swap</span><span class="params">(i, j <span class="keyword">int</span>)</span></span>      &#123; n[i], n[j] = n[j], n[i] &#125;</span><br></pre></td></tr></table></figure>
 <p>接著我們在實作 Get ，主要會把 Data 的值通過 Hash 後，找到順時針對應的節點。</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">func (r *Ring) Get(key string) string &#123;</span><br><span class="line">    searchfn := func(<span class="selector-tag">i</span> int) bool &#123;</span><br><span class="line">        return r<span class="selector-class">.Nodes</span>[i]<span class="selector-class">.HashId</span> &gt;= crc32.ChecksumIEEE([]byte(key))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">i</span> := sort.Search(r<span class="selector-class">.Nodes</span><span class="selector-class">.Len</span>(), searchfn)</span><br><span class="line">    <span class="keyword">if</span> <span class="selector-tag">i</span> &gt;= r<span class="selector-class">.Nodes</span><span class="selector-class">.Len</span>() &#123;</span><br><span class="line">        <span class="selector-tag">i</span> = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    return r<span class="selector-class">.Nodes</span>[i].Id</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="虛擬節點"><a href="# 虛擬節點" class="headerlink" title="虛擬節點"></a>虛擬節點 </h2><p> 這個演算法真的在實作時，如果 Node 數量太少，其實透過 Hash function 很有可能會 map 到鄰近的位置，導致數據分佈變得極不平均，而就有了虛擬節點這個解法，可以看到下圖，每個 Node 其實都有四個虛擬節點，這樣一來可以更平均的覆蓋這個環</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Ring)</span> <span class="title">Get</span><span class="params">(key <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    searchfn := <span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">        <span class="keyword">return</span> r.Nodes[i].HashId &gt;= crc32.ChecksumIEEE([]<span class="keyword">byte</span>(key))</span><br><span class="line">    &#125;</span><br><span class="line">    i := sort.Search(r.Nodes.Len(), searchfn)</span><br><span class="line">    <span class="keyword">if</span> i &gt;= r.Nodes.Len() &#123;</span><br><span class="line">        i = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> r.Nodes[i].Id</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="虛擬節點"><a href="#虛擬節點" class="headerlink" title="虛擬節點"></a>虛擬節點</h2><p>這個演算法真的在實作時，如果 Node 數量太少，其實透過 Hash function 很有可能會 map 到鄰近的位置，導致數據分佈變得極不平均，而就有了虛擬節點這個解法，可以看到下圖，每個 Node 其實都有四個虛擬節點，這樣一來可以更平均的覆蓋這個環</p>
 <p><img src="/img/2016-08/virtual.jpg" alt="consistent_hash1"></p>
 <p>取自「<a href="http://www.slideshare.net/frodriguezolivera/nosql-essentials-cassandra-15625311" target="_blank" rel="noopener">NoSQL Essentials: Cassandra</a>」這裡</p>
-<h2 id="結論"><a href="# 結論" class="headerlink" title="結論"></a>結論</h2><p>Consistent Hashing 盡力地減少 Hash 過的 Data 重新分布，而真正實作上，免不了要利用 Virtual Node 才能達成平均覆蓋環的功用。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>Consistent Hashing 盡力地減少 Hash 過的 Data 重新分布，而真正實作上，免不了要利用 Virtual Node 才能達成平均覆蓋環的功用。</p>
 <p>另外 gslin 大大提到的 <a href="https://blog.gslin.org/archives/2016/07/26/6688/google-%E6%8F%90%E5%87%BA%E7%9A%84-jump-consistent-hash/" target="_blank" rel="noopener">jump-consistent-hash</a> 也很有趣，可以更有效的提升速度和解決平均性的問題，只是那段 Magic Number 實在太妙了，真的要 K 一下 paper 才看得懂。</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://medium.com/@sent0hil/consistent-hashing-a-guide-go-implementation-fe3421ac3e8f#.d67hxnv1l" target="_blank" rel="noopener">Consistent hashing, a guide &amp; Go library</a><br><a href="http://my.oschina.net/xianggao/blog/394545" target="_blank" rel="noopener">一致性 Hash 算法（Consistent Hash)</a><br><a href="https://github.com/golang/groupcache/blob/master/consistenthash/consistenthash.go" target="_blank" rel="noopener">groupcache</a></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://medium.com/@sent0hil/consistent-hashing-a-guide-go-implementation-fe3421ac3e8f#.d67hxnv1l" target="_blank" rel="noopener">Consistent hashing, a guide &amp; Go library</a><br><a href="http://my.oschina.net/xianggao/blog/394545" target="_blank" rel="noopener">一致性Hash算法（Consistent Hash)</a><br><a href="https://github.com/golang/groupcache/blob/master/consistenthash/consistenthash.go" target="_blank" rel="noopener">groupcache</a></p>
 
                 
-
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2016/08/22/ubuntu16-04-docker-aufs/" data-toggle="tooltip" data-placement="top" title="ubuntu16.04-docker-aufs">&larr; Previous Post</a>
-                        </li>
+                    <li class="previous">
+                        <a href="/2016/08/22/ubuntu16-04-docker-aufs/" data-toggle="tooltip" data-placement="top" title="ubuntu16.04-docker-aufs">&larr; Previous Post</a>
+                    </li>
                     
                     
-                        <li class="next">
-                            <a href="/2016/07/03/golang-ci/" data-toggle="tooltip" data-placement="top" title="Golang x CI x CD">Next Post &rarr;</a>
-                        </li>
+                    <li class="next">
+                        <a href="/2016/07/03/golang-ci/" data-toggle="tooltip" data-placement="top" title="Golang x CI x CD">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- tip start -->
                 
-                <!-- 多说 Share end-->
 
-                <!-- 多说评论框 start -->
                 
-                <!-- 多说评论框 end -->
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
 
                 <!-- disqus comment start -->
                 
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
                 <!-- disqus comment end -->
             </div>
@@ -295,12 +348,17 @@ D, {3 6}
 
                 <!-- Friends Blog -->
                 
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
             </div>
         </div>
     </div>
 </article>
-
-
 
 
 <!-- disqus embedded js code start (one page only need to embed once) -->
@@ -317,7 +375,6 @@ D, {3 6}
     })();
 </script>
 <!-- disqus embedded js code start end -->
-
 
 
 
@@ -343,7 +400,9 @@ D, {3 6}
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
-<style>
+
+
+<style  type="text/css">
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
         .anchorjs-link{
@@ -364,31 +423,6 @@ D, {3 6}
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -403,6 +437,32 @@ D, {3 6}
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -412,34 +472,45 @@ D, {3 6}
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -453,24 +524,6 @@ D, {3 6}
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -520,6 +573,13 @@ D, {3 6}
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -527,10 +587,28 @@ D, {3 6}
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

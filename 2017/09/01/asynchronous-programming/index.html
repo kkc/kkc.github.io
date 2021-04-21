@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="淺談 Asynchronous Programming - Kakashi&#39;s Blog">
-    <meta property="og:description" content="undefined">
-    <meta property="og:image" content="http://kkc.github.io/2017/09/01/asynchronous-programming/undefined">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           淺談 Asynchronous Programming - Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/2017/09/01/asynchronous-programming/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('undefined')
-            /*post*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('')
+                /*post*/
+            
         
     }
     
@@ -91,14 +117,30 @@
                             Posted by Kakashi on
                             2017-09-01
                         </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">1.2k</span> and
+                                Reading Time <span class="post-count">4</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -136,14 +178,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -189,9 +231,7 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
+    <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -204,49 +244,62 @@
 
                 <iframe src="//www.slideshare.net/slideshow/embed_code/key/2OtC3FTsUFvtNN" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> 
 
-<p> 利用這篇文章稍微紀錄一下，最近在公司分享的淺談 Asynchronous programming 的心得，其實在現在各個網路公司盛行的時代，不懂點 Asynchronous model 應該是不太可能的，而且就算不懂實際上大家也是天天在用，類似寫 Browser 端的 javascript，或是不論 nodejs 或是 python (像是 gevent)，都常常看到大家再談 Asynchronous model 對 performance 帶來的好處，正好同事們很多人正在學 javascript，而有些人似乎不知道最初是在解決什麼問題，所以才會有這個投影片的誕生，不過因為太多方法可以處理 Asynchronous model，我並沒有講得太深入，很多地方只有點到為止，希望之後有機會能夠再補充一些。</p>
-<p> 所以到底 Asncyhronous or concurrency 解決了什麼問題呢？一言以敝之，追根究底就是消除等待。<br>concurrency 主要拿來跟 parallellism 比較，concurrency 談的其實就是能夠在同一時間完成很多事情，我喜歡拿做菜為例子，就算只有一個廚師，他還是可以在同時間完成切菜，準備醬料，煮菜等等工作，他會在中間切換來切換去，而不會等到一盤菜好了，再去準備接下來的事情，而 Parallellism 比較像是同時有很多 worker 做差不多事情。</p>
-<p> 我們一般寫的程式，其實大部分都在處理這種問題，像是 GUI 程式，使用者按了一個 button 後，你不可能完全卡在那邊等待其他的程式跑完，又像是你的 API server 經由網路呼叫一個 3rd party 的外部程式，如果你在那邊傻傻的等，是不是浪費了很多 CPU resource。這時候我猜大家都很聰明想到可以直接用 thread 去操作，避免掉 main process 被卡住的情況，而其實 thread 也算是一種 aysnchronous programming 的 model，而且現今的程式語言也有更好語法去使用它們，像是用 Future or Promise。</p>
-<p> 在瞭解完要解決什麼問題後，需要知道的是不同解法之間的差異，因為公司同仁大部分都是寫 javascript 或是 python，所以在 asynchronous flow 上面比較多著墨 callback, eventloop, coroutine 還有最後衍生出來的 async/await，而 javascript 天生就使用一個 thread 去達成 concurrency，這點感覺有點奇妙，所以需要先補充一些 linux IO 的知識，像是 blocking IO/non-blocking IO 的差別，最後導出 IO multiplexing 才能講得下去 event loop 怎麼實作的，nginx 之類的 service 就是利用了 IO multiplexing 才有效的解決 <a href="https://en.wikipedia.org/wiki/C10k_problem" target="_blank" rel="noopener">C10K</a> 的問題，使用一個 thread 處理 network IO 請求，其實就減少了增減 thread 的開銷，memory 的使用量也大減，但取而代之的就是，程式會有點難寫難讀，所以就有了 libev, libevent, libuv 這類 library 幫忙處理 asynchronous IO 這部分，使用這類的 lib，上層 program 很簡單就可以使用 callback function 與之互動，等到 socket 的 file descriptor 被 trigger 時再去呼叫 callback 繼續處理下去。</p>
-<p> 在有了 callback 後，世界並不是就太平了，很快就有人發現可以寫出 callback hell 這種程式，asynchronous progrmamming (主要談 callback) 到這邊就變成語法的改進了，希望能夠把程式寫得更漂亮更易讀一點，所以就有了 promise 或是 coroutine 的方法與其結合，在 coroutine 中會把控制權從 function 中切換回 main task 中，某種程度跟 eventloop 就很相似，所以可以利用 coroutine 的特性加上 non-blocking I/O 成為更好的框架，而程式也會變得像是 synchronous 的樣子，不過要注意一但有程式是 blocking IO 或是 cpu intensive 的任務，就會把這個 thread 卡住，最後提到的 async/await 只不過是語法的變形，其實跟 coroutine 的概念是很相似的，可以讓整個程式更好寫易讀，然後背後又能高效率的處理 IO bound 問題。</p>
-<p> 最後來總結一下，其實這些方法都是為了解決一些任務太慢而產生的，在我們當使用者的時候 (caller)，實際上也許不知道背後這些 async module 是如何運作的，除非是自己要一手從下到上包辦，但還是有些點需要注意，如果這類程式只是處理 networking IO 的話，應該是不會有太大的問題，但如果中間有個 cpu intensive 的任務最好還是要能 fork 出 process/thread 去處理，或是利用 queue 丟給其他的 worker 去處理，所以一旦我們清楚這些架構後，才能知道採取哪種方式處理問題是比較好的。</p>
+<p>利用這篇文章稍微紀錄一下，最近在公司分享的淺談 Asynchronous programming 的心得，其實在現在各個網路公司盛行的時代，不懂點 Asynchronous model 應該是不太可能的，而且就算不懂實際上大家也是天天在用，類似寫 Browser 端的 javascript，或是不論 nodejs 或是 python (像是 gevent)，都常常看到大家再談 Asynchronous model 對 performance 帶來的好處，正好同事們很多人正在學 javascript，而有些人似乎不知道最初是在解決什麼問題，所以才會有這個投影片的誕生，不過因為太多方法可以處理 Asynchronous model，我並沒有講得太深入，很多地方只有點到為止，希望之後有機會能夠再補充一些。</p>
+<p>所以到底 Asncyhronous or concurrency 解決了什麼問題呢？一言以敝之，追根究底就是消除等待。<br>concurrency 主要拿來跟 parallellism 比較，concurrency 談的其實就是能夠在同一時間完成很多事情，我喜歡拿做菜為例子，就算只有一個廚師，他還是可以在同時間完成切菜，準備醬料，煮菜等等工作，他會在中間切換來切換去，而不會等到一盤菜好了，再去準備接下來的事情，而 Parallellism 比較像是同時有很多 worker 做差不多事情。</p>
+<p>我們一般寫的程式，其實大部分都在處理這種問題，像是 GUI 程式，使用者按了一個 button 後，你不可能完全卡在那邊等待其他的程式跑完，又像是你的 API server 經由網路呼叫一個 3rd party 的外部程式，如果你在那邊傻傻的等，是不是浪費了很多 CPU resource。這時候我猜大家都很聰明想到可以直接用 thread 去操作，避免掉 main process 被卡住的情況，而其實 thread 也算是一種 aysnchronous programming 的 model，而且現今的程式語言也有更好語法去使用它們，像是用 Future or Promise。</p>
+<p>在瞭解完要解決什麼問題後，需要知道的是不同解法之間的差異，因為公司同仁大部分都是寫 javascript 或是 python，所以在 asynchronous flow 上面比較多著墨 callback, eventloop, coroutine 還有最後衍生出來的 async/await，而 javascript 天生就使用一個 thread 去達成 concurrency，這點感覺有點奇妙，所以需要先補充一些 linux IO 的知識，像是 blocking IO/non-blocking IO 的差別，最後導出 IO multiplexing 才能講得下去 event loop 怎麼實作的，nginx 之類的 service 就是利用了 IO multiplexing 才有效的解決 <a href="https://en.wikipedia.org/wiki/C10k_problem" target="_blank" rel="noopener">C10K</a> 的問題，使用一個 thread 處理 network IO 請求，其實就減少了增減 thread 的開銷，memory 的使用量也大減，但取而代之的就是，程式會有點難寫難讀，所以就有了 libev, libevent, libuv 這類 library 幫忙處理 asynchronous IO 這部分，使用這類的 lib，上層 program 很簡單就可以使用 callback function 與之互動，等到 socket 的 file descriptor 被 trigger 時再去呼叫 callback 繼續處理下去。</p>
+<p>在有了 callback 後，世界並不是就太平了，很快就有人發現可以寫出 callback hell 這種程式，asynchronous progrmamming (主要談 callback) 到這邊就變成語法的改進了，希望能夠把程式寫得更漂亮更易讀一點，所以就有了 promise 或是 coroutine 的方法與其結合，在 coroutine 中會把控制權從 function 中切換回 main task 中，某種程度跟 eventloop 就很相似，所以可以利用 coroutine 的特性加上 non-blocking I/O 成為更好的框架，而程式也會變得像是 synchronous 的樣子，不過要注意一但有程式是 blocking IO 或是 cpu intensive 的任務，就會把這個 thread 卡住，最後提到的 async/await 只不過是語法的變形，其實跟 coroutine 的概念是很相似的，可以讓整個程式更好寫易讀，然後背後又能高效率的處理 IO bound 問題。</p>
+<p>最後來總結一下，其實這些方法都是為了解決一些任務太慢而產生的，在我們當使用者的時候(caller)，實際上也許不知道背後這些 async module 是如何運作的，除非是自己要一手從下到上包辦，但還是有些點需要注意，如果這類程式只是處理 networking IO 的話，應該是不會有太大的問題，但如果中間有個 cpu intensive 的任務最好還是要能 fork 出 process/thread 去處理，或是利用 queue 丟給其他的 worker 去處理，所以一旦我們清楚這些架構後，才能知道採取哪種方式處理問題是比較好的。</p>
 <p>Reference</p>
 <ol>
-<li><a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ" target="_blank" rel="noopener">What the heck is the event loop anyway</a> 非常棒的 javascript eventloop 講解 </li>
+<li><a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ" target="_blank" rel="noopener">What the heck is the event loop anyway</a> 非常棒的 javascript eventloop 講解</li>
 <li><a href="https://x.st/javascript-coroutines/" target="_blank" rel="noopener">javascript-coroutine</a></li>
 <li><a href="https://codewala.net/2015/07/29/concurrency-vs-multi-threading-vs-asynchronous-programming-explained/" target="_blank" rel="noopener">concurrency-vs-multi-threading-vs-asynchronous-programming-explained</a></li>
 </ol>
 
                 
-
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2017/10/08/transaction-note/" data-toggle="tooltip" data-placement="top" title="Transaction 筆記">&larr; Previous Post</a>
-                        </li>
+                    <li class="previous">
+                        <a href="/2017/10/08/transaction-note/" data-toggle="tooltip" data-placement="top" title="Transaction 筆記">&larr; Previous Post</a>
+                    </li>
                     
                     
-                        <li class="next">
-                            <a href="/2017/08/06/coscup-2017/" data-toggle="tooltip" data-placement="top" title="Coscup Golang 社群議程主持人之簡短心得！">Next Post &rarr;</a>
-                        </li>
+                    <li class="next">
+                        <a href="/2017/08/06/coscup-2017/" data-toggle="tooltip" data-placement="top" title="Coscup Golang 社群議程主持人之簡短心得！">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- tip start -->
                 
-                <!-- 多说 Share end-->
 
-                <!-- 多说评论框 start -->
                 
-                <!-- 多说评论框 end -->
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
 
                 <!-- disqus comment start -->
                 
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
                 <!-- disqus comment end -->
             </div>
@@ -276,12 +329,17 @@
 
                 <!-- Friends Blog -->
                 
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
             </div>
         </div>
     </div>
 </article>
-
-
 
 
 <!-- disqus embedded js code start (one page only need to embed once) -->
@@ -298,7 +356,6 @@
     })();
 </script>
 <!-- disqus embedded js code start end -->
-
 
 
 
@@ -324,7 +381,9 @@
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
-<style>
+
+
+<style  type="text/css">
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
         .anchorjs-link{
@@ -345,31 +404,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -384,6 +418,32 @@
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -393,34 +453,45 @@
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -434,24 +505,6 @@
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -501,6 +554,13 @@
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -508,10 +568,28 @@
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

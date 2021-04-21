@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="undefined - Kakashi&#39;s Blog">
-    <meta property="og:description" content="undefined">
-    <meta property="og:image" content="http://kkc.github.io/archives/2/index.htmlundefined">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/archives/2/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/home-bg.jpg') 
-            /*config*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/img/home-bg.jpg') 
+                /*config*/
+            
         
     }
     
@@ -82,15 +108,16 @@
                     <div class="site-heading">
                         <h1>Kakashi&#39;s Notes</h1>
                         <!--<hr class="small">-->
-                        <span class="subheading">修其本而末自應</span>
+                        <span id="subdusi" class="subheading">修其本而末自應</span>
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -128,14 +155,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -186,7 +213,6 @@
     <div class="row">
         
 
-<!-- USE SIDEBAR -->
     <!-- Post Container -->
             <div class="
                 col-lg-8 col-lg-offset-1
@@ -195,325 +221,480 @@
                 col-xs-12
                 post-container
             ">
-            
-                <!-- Main Content -->
+                <!-- Top -->
 
-
-<div class="post-preview">
-
-    <a href="/2020/03/27/cache-note/">
-        <h2 class="post-title">
-            有關 Cache 的一些筆記
-        </h2>
-        <h3 class="post-subtitle">
-            cache is hard
-        </h3>
-        <div class="post-content-preview">
-            前言  最近看了 Amazon 的一篇文章 Caching challenges and strategies，在談論 cache 的種類，還有一些使用的邏輯和策略，剛好就想稍微整理一下有關於 cache 在分散式系統上面的一些筆記，這中間如果還有看到其他內容，還會再把它補起來，這邊強烈推薦大家看一下AWS 原文，還有筆記最後整理的一些 Reference，相信看完大家都可以學習到很多東西。......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2020-03-27
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#AWS" title="AWS">AWS</a>
-            
-              <a href="/tags/#backend" title="backend">backend</a>
-            
-              <a href="/tags/#redis" title="redis">redis</a>
-            
-        </div>
     
 
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/03/16/s3-latency/">
-        <h2 class="post-title">
-            How I Analyze S3 Upload Latency Issues
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            TLDR;Recently I helped company to finish S3 bucket migration in order to improve image upload speed of our lambda function. I found out letting lambda function and S3 buckets located in the same re......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2020-03-16
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#AWS" title="AWS">AWS</a>
-            
-              <a href="/tags/#S3" title="S3">S3</a>
-            
-        </div>
     
 
-</div>
-<hr>
+    
 
-<div class="post-preview">
+    
 
-    <a href="/2019/11/13/golang-meetup45/">
-        <h2 class="post-title">
-            Golang 10th Anniversary x GTG 45th 心得
-        </h2>
-        <h3 class="post-subtitle">
-            Golang 好棒棒
-        </h3>
-        <div class="post-content-preview">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+<!-- Main Content -->
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2020/03/27/cache-note/">
+                <h2 class="post-title">
+                    有關 Cache 的一些筆記
+                </h2>
+                <h3 class="post-subtitle">
+                    cache is hard
+                </h3>
+                <div class="post-content-preview">
+                    前言最近看了 Amazon 的一篇文章 Caching challenges and strategies，在談論 cache 的種類，還有一些使用的邏輯和策略，剛好就想稍微整理一下有關於 cache 在分散式系統上面的一些筆記，這中間如果還有看到其他內容，還會再把它補起來，這邊強烈推薦大家看一下AWS原文，還有筆記最後整理的一些 Reference，相信看完大家都可以學習到很多東西。
+何時......
+                </div>
+            </a>
             
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2020-03-27
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#AWS" title="AWS">AWS</a>
+                    
+                      <a href="/tags/#backend" title="backend">backend</a>
+                    
+                      <a href="/tags/#redis" title="redis">redis</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2020/03/16/s3-latency/">
+                <h2 class="post-title">
+                    How I Analyze S3 Upload Latency Issues
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    TLDR;Recently I helped company to finish S3 bucket migration in order to improve image upload speed of our lambda function. I found out letting lambda function and S3 buckets located in the same re......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2020-03-16
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#AWS" title="AWS">AWS</a>
+                    
+                      <a href="/tags/#S3" title="S3">S3</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2019/11/13/golang-meetup45/">
+                <h2 class="post-title">
+                    Golang 10th Anniversary x GTG 45th 心得
+                </h2>
+                <h3 class="post-subtitle">
+                    Golang 好棒棒
+                </h3>
+                <div class="post-content-preview">
+                    
 上禮拜很開心可以參加 Golang 10th anniversary 的聚會，身為這次聚會的 co-organizer 加上贊助商，不但要參加 Golang 官方的行前會議，還有準備訂 Pizza 加上當講者，要做的事情真的是蠻多的，然後 Pizza 訂太少，讓晚來的同學沒有吃到，真的是蠻抱歉的，下次還有機會訂 Pizza 就知道該怎麼辦了。
 
 這次聚會相關資料如下，之後有興趣參加的人可以......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2019-11-13
-        </p>
-        <div class="tags">
+                </div>
+            </a>
             
-              <a href="/tags/#golang" title="golang">golang</a>
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2019-11-13
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#golang" title="golang">golang</a>
+                    
+                </div>
             
-        </div>
-    
 
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/08/22/coscup-ha-prometheus-solution-thanos/">
-        <h2 class="post-title">
-            Coscup 分享 - HA Prometheus Solution Thanos
-        </h2>
-        <h3 class="post-subtitle">
-            Thanos 真的很不錯！
-        </h3>
-        <div class="post-content-preview">
-             上個月參加了 Coscup，完成了我的 Coscup 講者處女秀，對比三年前當主持人，其實當講者輕鬆了不少，而且看到很多熟面孔的感覺非常好。
- 這次參加的 SDN x Cloud Native x Golang 議程軌，其實有非常多的好主題，而我也分享了一個跟 CNCF &amp; Golang 有相關的 Opensource Project - Thanos，Thanos 主要就是為了解......
         </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2019-08-22
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Prometheus" title="Prometheus">Prometheus</a>
-            
-              <a href="/tags/#Thanos" title="Thanos">Thanos</a>
-            
-              <a href="/tags/#CNCF" title="CNCF">CNCF</a>
-            
-        </div>
+        <hr>
+
     
 
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
-        <h2 class="post-title">
-            Performance tweaking for fluentd aggregator (EFK stack)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            PrefaceLogging is one of the critical components for developers. Every time when things went wrong, we had no doubt but checked what’s going on in logs. Fluentd is an open source data collector sol......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2019-05-02
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
-            
-              <a href="/tags/#fluentd" title="fluentd">fluentd</a>
-            
-        </div>
     
 
-</div>
-<hr>
+        <div class="post-preview">
 
-<div class="post-preview">
+            <a href="/2019/08/22/coscup-ha-prometheus-solution-thanos/">
+                <h2 class="post-title">
+                    Coscup 分享 - HA Prometheus Solution Thanos
+                </h2>
+                <h3 class="post-subtitle">
+                    Thanos 真的很不錯！
+                </h3>
+                <div class="post-content-preview">
+                    上個月參加了 Coscup，完成了我的 Coscup 講者處女秀，對比三年前當主持人，其實當講者輕鬆了不少，而且看到很多熟面孔的感覺非常好。
+這次參加的 SDN x Cloud Native x Golang 議程軌，其實有非常多的好主題，而我也分享了一個跟 CNCF &amp; Golang 有相關的 Opensource Project - Thanos，Thanos 主要就是為了解決 ......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2019-08-22
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#Prometheus" title="Prometheus">Prometheus</a>
+                    
+                      <a href="/tags/#Thanos" title="Thanos">Thanos</a>
+                    
+                      <a href="/tags/#CNCF" title="CNCF">CNCF</a>
+                    
+                </div>
+            
 
-    <a href="/2019/04/08/analyze-iam-permission-using-iam-access-advisor-api/">
-        <h2 class="post-title">
-            透過 IAM access advisor API 來幫 IAM permission 做大掃除
-        </h2>
-        <h3 class="post-subtitle">
-            終於學會怎麼系統性的清 IAM
-        </h3>
-        <div class="post-content-preview">
-            Preface隨著組織慢慢變大，在 AWS 上面常常會遇到一個問題就是，我的 IAM entity 的 permission 是不是開的太大了，這個問題常常發生在 developer 想要快速驗證自己的 application 能不能 work，而作為 admin 的我們有時會給予太大的權限，等到該專案開展到一定程度的時候，其實需要使用到的權限應該是穩定下來了，但又難以找每個專案負責人慢慢 ......
         </div>
-    </a>
+        <hr>
+
     
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2019-04-08
-        </p>
-        <div class="tags">
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2019/05/02/ultimate-note-for-tweaking-fluentd-aggregator/">
+                <h2 class="post-title">
+                    Performance tweaking for fluentd aggregator (EFK stack)
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    PrefaceLogging is one of the critical components for developers. Every time when things went wrong, we had no doubt but checked what’s going on in logs. Fluentd is an open source data collector sol......
+                </div>
+            </a>
             
-              <a href="/tags/#AWS" title="AWS">AWS</a>
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2019-05-02
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
+                    
+                      <a href="/tags/#fluentd" title="fluentd">fluentd</a>
+                    
+                </div>
             
-              <a href="/tags/#IAM" title="IAM">IAM</a>
-            
+
         </div>
+        <hr>
+
     
 
-</div>
-<hr>
+    
 
-<div class="post-preview">
+        <div class="post-preview">
 
-    <a href="/2019/03/28/learn-loop-invariant-from-binary-search/">
-        <h2 class="post-title">
-            透過 loop invariant 學習怎麼寫正確的 binary search
-        </h2>
-        <h3 class="post-subtitle">
-            不容易，怎麼多年後才懂
-        </h3>
-        <div class="post-content-preview">
-            PrefaceBinary search 記得是我剛入門寫程式的時候，前幾個回家作業，當時寫出來時，覺得整個程式就很直覺，對這個也不太有什麼疑問，直到最近看到 Programming Pearls 這本書裡面，有寫到大概 90% 的 binary search 都是錯誤的，甚至第一版的 binary search (1946 的版本)，直到 1962 年才發現有 Bug。
+            <a href="/2019/04/08/analyze-iam-permission-using-iam-access-advisor-api/">
+                <h2 class="post-title">
+                    透過 IAM access advisor API 來幫 IAM permission 做大掃除
+                </h2>
+                <h3 class="post-subtitle">
+                    終於學會怎麼系統性的清 IAM
+                </h3>
+                <div class="post-content-preview">
+                    Preface隨著組織慢慢變大，在 AWS 上面常常會遇到一個問題就是，我的 IAM entity 的 permission 是不是開的太大了，這個問題常常發生在 developer 想要快速驗證自己的 application 能不能 work，而作為 admin 的我們有時會給予太大的權限，等到該專案開展到一定程度的時候，其實需要使用到的權限應該是穩定下來了，但又難以找每個專案負責人慢慢 ......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2019-04-08
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#AWS" title="AWS">AWS</a>
+                    
+                      <a href="/tags/#IAM" title="IAM">IAM</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2019/03/28/learn-loop-invariant-from-binary-search/">
+                <h2 class="post-title">
+                    透過 loop invariant 學習怎麼寫正確的 binary search
+                </h2>
+                <h3 class="post-subtitle">
+                    不容易，怎麼多年後才懂
+                </h3>
+                <div class="post-content-preview">
+                    PrefaceBinary search 記得是我剛入門寫程式的時候，前幾個回家作業，當時寫出來時，覺得整個程式就很直覺，對這個也不太有什麼疑問，直到最近看到 Programming Pearls 這本書裡面，有寫到大概 90% 的 binary search 都是錯誤的，甚至第一版的 binary search (1946 的版本)，直到 1962 年才發現有 Bug。
 
 I’ve ass......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2019-03-28
-        </p>
-        <div class="tags">
+                </div>
+            </a>
             
-              <a href="/tags/#algorithm" title="algorithm">algorithm</a>
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2019-03-28
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#algorithm" title="algorithm">algorithm</a>
+                    
+                </div>
             
-        </div>
-    
 
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/03/04/AWS-Shuffle-Sharding/">
-        <h2 class="post-title">
-            AWS Shuffle Sharding
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            PrefaceColm MacCárthaigh 是 AWS 的 Senior Principal Engineer，如果常在追他的 Twitter 帳號  會看到很多有趣的 AWS 內部的 architecture 設計，像是最近有人在 og-aws.slack.com 的討論區問到為什麼 AWS 的 status alert 不一定會影響到該 region 的全部 customer 呢?......
         </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2019-03-04
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#AWS" title="AWS">AWS</a>
-            
-              <a href="/tags/#Operation" title="Operation">Operation</a>
-            
-        </div>
+        <hr>
+
     
 
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/02/25/install-prometheus-on-EKS/">
-        <h2 class="post-title">
-            利用 Helm 在 EKS 上安裝 Prometheus
-        </h2>
-        <h3 class="post-subtitle">
-            一些踩雷經驗
-        </h3>
-        <div class="post-content-preview">
-            Preface最近把玩了 EKS 一陣子，基本上 EKS 就是 AWS 提供的 Managed Kubernetes，主要是幫你管理 Kubernetes 的 master node，我們只需要管理 worker node 就好了，所以很多的服務還是可以用原本的 helm chart 裝起來，這篇文章會介紹怎麼在 EKS 上面利用 helm 安裝 Prometheus 相關的套件，還有一些簡......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2019-02-25
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#monitoring" title="monitoring">monitoring</a>
-            
-              <a href="/tags/#AWS" title="AWS">AWS</a>
-            
-              <a href="/tags/#EKS" title="EKS">EKS</a>
-            
-              <a href="/tags/#prometheus" title="prometheus">prometheus</a>
-            
-              <a href="/tags/#kubernetes" title="kubernetes">kubernetes</a>
-            
-              <a href="/tags/#helm" title="helm">helm</a>
-            
-        </div>
     
 
-</div>
-<hr>
+        <div class="post-preview">
 
-<div class="post-preview">
+            <a href="/2019/03/04/AWS-Shuffle-Sharding/">
+                <h2 class="post-title">
+                    AWS Shuffle Sharding
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    PrefaceColm MacCárthaigh 是 AWS 的 Senior Principal Engineer，如果常在追他的 Twitter 帳號會看到很多有趣的 AWS 內部的 architecture 設計，像是最近有人在 og-aws.slack.com 的討論區問到為什麼 AWS 的 status alert 不一定會影響到該 region 的全部 customer 呢? 我......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2019-03-04
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#AWS" title="AWS">AWS</a>
+                    
+                      <a href="/tags/#Operation" title="Operation">Operation</a>
+                    
+                </div>
+            
 
-    <a href="/2019/02/10/prometheus-operator-with-thanos/">
-        <h2 class="post-title">
-            Deploy Prometheus Operator With Thanos
-        </h2>
-        <h3 class="post-subtitle">
-            Solve HA and long term storage of Prometheus
-        </h3>
-        <div class="post-content-preview">
-            PrefacePrometheus is widely adopted as a standard monitoring tool with Kubernetes because it provides many useful features such as dynamic service discovery, powerful queries, and seamless alert no......
         </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2019-02-10
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
-            
-              <a href="/tags/#Prometheus" title="Prometheus">Prometheus</a>
-            
-              <a href="/tags/#Thanos" title="Thanos">Thanos</a>
-            
-        </div>
+        <hr>
+
     
 
-</div>
-<hr>
+    
+
+        <div class="post-preview">
+
+            <a href="/2019/02/25/install-prometheus-on-EKS/">
+                <h2 class="post-title">
+                    利用 Helm 在 EKS 上安裝 Prometheus
+                </h2>
+                <h3 class="post-subtitle">
+                    一些踩雷經驗
+                </h3>
+                <div class="post-content-preview">
+                    Preface最近把玩了 EKS 一陣子，基本上 EKS 就是 AWS 提供的 Managed Kubernetes，主要是幫你管理 Kubernetes 的 master node，我們只需要管理 worker node 就好了，所以很多的服務還是可以用原本的 helm chart 裝起來，這篇文章會介紹怎麼在 EKS 上面利用 helm 安裝 Prometheus 相關的套件，還有一些簡......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2019-02-25
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#monitoring" title="monitoring">monitoring</a>
+                    
+                      <a href="/tags/#AWS" title="AWS">AWS</a>
+                    
+                      <a href="/tags/#EKS" title="EKS">EKS</a>
+                    
+                      <a href="/tags/#prometheus" title="prometheus">prometheus</a>
+                    
+                      <a href="/tags/#kubernetes" title="kubernetes">kubernetes</a>
+                    
+                      <a href="/tags/#helm" title="helm">helm</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2019/02/10/prometheus-operator-with-thanos/">
+                <h2 class="post-title">
+                    Deploy Prometheus Operator With Thanos
+                </h2>
+                <h3 class="post-subtitle">
+                    Solve HA and long term storage of Prometheus
+                </h3>
+                <div class="post-content-preview">
+                    PrefacePrometheus is widely adopted as a standard monitoring tool with Kubernetes because it provides many useful features such as dynamic service discovery, powerful queries, and seamless alert no......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2019-02-10
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
+                    
+                      <a href="/tags/#Prometheus" title="Prometheus">Prometheus</a>
+                    
+                      <a href="/tags/#Thanos" title="Thanos">Thanos</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
 
 
 
@@ -533,12 +714,9 @@ I’ve ass......
 </ul>
 
 
-
-                <!-- 如果开启评论功能 -->
-                
             </div>
 
-          <!-- Sidebar Container -->
+            <!-- Sidebar Container -->
 <div class="
     col-lg-3 col-lg-offset-0
     col-md-3 col-md-offset-0
@@ -555,21 +733,13 @@ I’ve ass......
     <div class="tags">
         
             
-            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
-            
         
             
             <a href="/tags/#mongodb" title="mongodb" rel="3">mongodb</a>
             
         
             
-        
-            
-            <a href="/tags/#golang" title="golang" rel="6">golang</a>
-            
-        
-            
-            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
             
         
             
@@ -579,13 +749,19 @@ I’ve ass......
             
         
             
+            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+            
+        
+            
+            <a href="/tags/#golang" title="golang" rel="6">golang</a>
+            
+        
+            
             <a href="/tags/#AWS" title="AWS" rel="16">AWS</a>
             
         
             
             <a href="/tags/#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
-            
-        
             
         
             
@@ -641,11 +817,13 @@ I’ve ass......
             
         
             
+        
+            
+        
+            
+        
+            
             <a href="/tags/#linux" title="linux" rel="2">linux</a>
-            
-        
-            
-        
             
         
             
@@ -662,7 +840,7 @@ I’ve ass......
         <hr>
     
         
-  <h5>RECENT POSTS</h3>
+  <h5>RECENT POSTS</h5>
   <div class="widget">
     <ul>
       
@@ -699,7 +877,17 @@ I’ve ass......
 
         <hr>
     
-        <!-- Categories -->
+        
+  <h5>VISITORS</h5>
+  <div class="widget">
+    <span>
+    	Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
+	</span>
+	<br/>
+	<span>
+		<b><i><span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Visitors In Total
+	</span>
+  </div>
 
         <hr>
     
@@ -717,31 +905,6 @@ I’ve ass......
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -756,6 +919,32 @@ I’ve ass......
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -765,34 +954,45 @@ I’ve ass......
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -806,24 +1006,6 @@ I’ve ass......
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -873,6 +1055,13 @@ I’ve ass......
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -880,10 +1069,28 @@ I’ve ass......
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

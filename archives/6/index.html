@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="undefined - Kakashi&#39;s Blog">
-    <meta property="og:description" content="undefined">
-    <meta property="og:image" content="http://kkc.github.io/archives/6/index.htmlundefined">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/archives/6/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/home-bg.jpg') 
-            /*config*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/img/home-bg.jpg') 
+                /*config*/
+            
         
     }
     
@@ -82,15 +108,16 @@
                     <div class="site-heading">
                         <h1>Kakashi&#39;s Notes</h1>
                         <!--<hr class="small">-->
-                        <span class="subheading">修其本而末自應</span>
+                        <span id="subdusi" class="subheading">修其本而末自應</span>
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -128,14 +155,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -186,7 +213,6 @@
     <div class="row">
         
 
-<!-- USE SIDEBAR -->
     <!-- Post Container -->
             <div class="
                 col-lg-8 col-lg-offset-1
@@ -195,193 +221,331 @@
                 col-xs-12
                 post-container
             ">
-            
-                <!-- Main Content -->
+                <!-- Top -->
 
-
-<div class="post-preview">
-
-    <a href="/2015/09/05/monitoring-with-graphite/">
-        <h2 class="post-title">
-            使用 statsd + graphite 的 monitoring 心得
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            上上個禮拜看到威廉大大在 DevOps conf 裡面發表了 Whoscall 的 Realtime Monitoring 經驗分享，下面這張圖其實勾起我不少回憶，尤其是過去快兩年的時間內，親身體驗架起來的一些東西，有些是我曾經在內部分享過的，想說應該也要分享一下給大家。
-
-緣起  說來也蠻有趣的，當年使用 Graphite 的際遇其實是為了記錄 whoscall 的 Hitrate，而所謂......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2015-09-05
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#monitoring" title="monitoring">monitoring</a>
-            
-              <a href="/tags/#graphite" title="graphite">graphite</a>
-            
-        </div>
     
 
-</div>
-<hr>
+    
 
-<div class="post-preview">
+    
 
-    <a href="/2015/08/16/RDBMS-course/">
-        <h2 class="post-title">
-            RDBMS 先修課程筆記
-        </h2>
-        <h3 class="post-subtitle">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+<!-- Main Content -->
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2015/09/05/monitoring-with-graphite/">
+                <h2 class="post-title">
+                    使用 statsd + graphite 的 monitoring 心得
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    上上個禮拜看到威廉大大在 DevOps conf 裡面發表了 Whoscall 的 Realtime Monitoring 經驗分享，下面這張圖其實勾起我不少回憶，尤其是過去快兩年的時間內，親身體驗架起來的一些東西，有些是我曾經在內部分享過的，想說應該也要分享一下給大家。
+
+緣起說來也蠻有趣的，當年使用 Graphite 的際遇其實是為了記錄 whoscall 的 Hitrate，而所謂的 ......
+                </div>
+            </a>
             
-        </h3>
-        <div class="post-content-preview">
-            這個禮拜一放棄 DevOps 聚會, 跑去上 TritonHo 的 RDBMS 先修課程, 感覺收穫頗多的, 可惜沒時間在平日的時候繼續上, 把不足的知識補起來, 其實類似的課程還蠻推薦大家參加的, 因為很少有大大會出來無私分享。
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2015-09-05
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#monitoring" title="monitoring">monitoring</a>
+                    
+                      <a href="/tags/#graphite" title="graphite">graphite</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2015/08/16/RDBMS-course/">
+                <h2 class="post-title">
+                    RDBMS 先修課程筆記
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    這個禮拜一放棄DevOps聚會, 跑去上TritonHo的 RDBMS 先修課程, 感覺收穫頗多的, 可惜沒時間在平日的時候繼續上, 把不足的知識補起來, 其實類似的課程還蠻推薦大家參加的, 因為很少有大大會出來無私分享。
 以下是那天的投影片:
 
 
-主要在談論 RDBMS 的一些基本概念, 還有這是一場破除 RDBMS 就是比 NoSQL 慢的演講, 講者談到幾個重點, 我個人覺得頗......
+主要在談論 RDBMS 的一些基本概念, 還有這是一場破除 RDBMS 就是比 NoSQL 慢的演講, 講者談到幾個重點, 我個人覺得頗重要的:......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2015-08-16
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#mongodb" title="mongodb">mongodb</a>
+                    
+                      <a href="/tags/#mysql" title="mysql">mysql</a>
+                    
+                </div>
+            
+
         </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2015-08-16
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#mysql" title="mysql">mysql</a>
-            
-              <a href="/tags/#mongodb" title="mongodb">mongodb</a>
-            
-        </div>
+        <hr>
+
     
 
-</div>
-<hr>
+    
 
-<div class="post-preview">
+        <div class="post-preview">
 
-    <a href="/2015/07/21/mongodb-memory-structure/">
-        <h2 class="post-title">
-            Mongodb 如何使用 Memory 和 tuning 的小技巧
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            開始翻以前在 evernote 的連結，發現這篇對於 mongodb 如何使用 memory 的介紹算是簡單易懂，這邊做個小筆記
+            <a href="/2015/07/21/mongodb-memory-structure/">
+                <h2 class="post-title">
+                    Mongodb 如何使用Memory和tuning的小技巧
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    開始翻以前在 evernote 的連結，發現這篇對於 mongodb 如何使用 memory 的介紹算是簡單易懂，這邊做個小筆記
     MongoDB London 2013:Understanding MongoDB Storage for Performance and Data Safety by Christian Kvalheim, 10gen   from MongoDB 
 m......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2015-07-21
-        </p>
-        <div class="tags">
+                </div>
+            </a>
             
-              <a href="/tags/#mongodb" title="mongodb">mongodb</a>
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2015-07-21
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#mongodb" title="mongodb">mongodb</a>
+                    
+                </div>
             
-        </div>
-    
 
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2015/07/14/mongodb-storage/">
-        <h2 class="post-title">
-            Mongodb Storage 的架構和問題解法
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab 這篇  和自己一些經驗心得。
-MongoDB storage 架構 Database and Extents 首先參考下面這張圖(與原文不同，我稍微做了點修改)
-
-假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp; B)，而基本上會被這樣儲存，test.0......
         </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2015-07-14
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#mongodb" title="mongodb">mongodb</a>
-            
-        </div>
+        <hr>
+
     
 
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
-        <h2 class="post-title">
-            Python 的時間還有時區處理
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            身為一個程式設計師，很容易就會碰到時間處理的問題，如果你的服務是跨國的應用，也會需要瞭解怎麼去換算時區。舉個例子來說，David 在美西時間的 20:00 (GMT-8) 發表了一則留言，而他在台灣的女朋友 Mary 看到的時間應該是 12:00 (GMT+8)。
-Python 的時間處理python 的時間處理其實頗簡單
-利用 timestamp 產生 python datetime 物件......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2015-07-08
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#python" title="python">python</a>
-            
-        </div>
     
 
-</div>
-<hr>
+        <div class="post-preview">
 
-<div class="post-preview">
+            <a href="/2015/07/14/mongodb-storage/">
+                <h2 class="post-title">
+                    Mongodb Storage 的架構和問題解法
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    Mongodb 的 Storage 架構其實很簡單，這篇文章其實是看完 mongolab 這篇和自己一些經驗心得。
+MongoDB storage 架構Database and Extents首先參考下面這張圖(與原文不同，我稍微做了點修改)
 
-    <a href="/2015/07/08/hello-hexo/">
-        <h2 class="post-title">
-            hell-hexo
-        </h2>
-        <h3 class="post-subtitle">
+假設我們有個 database 叫做 test，裡面有兩個 collection (A &amp; B)，而基本上會被這樣儲存，test.0 &am......
+                </div>
+            </a>
             
-        </h3>
-        <div class="post-content-preview">
-            Hello Hexo !!!
- 一直想要把 Blog 轉到比較好書寫的平台, 在使用過 Blogspot 還有 Medium 後, 覺得還是要自己架架看 static blog, 之前原本是想用 spf13 開發的 Hugo, 不過後來有人推薦我 Hexo, 而讓人感到熱血的地方, 就是 Hexo 是台灣的 Developer 開發的, 加上蠻多人在使用, 就毅然決然跳過來嚕, 希望之後能夠......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Kakashi on
-            2015-07-08
-        </p>
-        <div class="tags">
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2015-07-14
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#mongodb" title="mongodb">mongodb</a>
+                    
+                </div>
             
+
         </div>
+        <hr>
+
     
 
-</div>
-<hr>
+    
+
+        <div class="post-preview">
+
+            <a href="/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
+                <h2 class="post-title">
+                    Python 的時間還有時區處理
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    身為一個程式設計師，很容易就會碰到時間處理的問題，如果你的服務是跨國的應用，也會需要瞭解怎麼去換算時區。舉個例子來說，David 在美西時間的 20:00 (GMT-8) 發表了一則留言，而他在台灣的女朋友 Mary 看到的時間應該是 12:00 (GMT+8)。
+Python的時間處理python 的時間處理其實頗簡單
+利用 timestamp 產生 python datetime 物件1......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2015-07-08
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#python" title="python">python</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2015/07/08/hello-hexo/">
+                <h2 class="post-title">
+                    hell-hexo
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    Hello Hexo !!!
+一直想要把 Blog 轉到比較好書寫的平台, 在使用過 Blogspot 還有 Medium 後, 覺得還是要自己架架看 static blog, 之前原本是想用 spf13 開發的 Hugo, 不過後來有人推薦我 Hexo, 而讓人感到熱血的地方, 就是 Hexo 是台灣的 Developer 開發的, 加上蠻多人在使用, 就毅然決然跳過來嚕, 希望之後能夠好......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2015-07-08
+                </p>
+                <div class="tags">
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
 
 
 
@@ -397,12 +561,9 @@ Python 的時間處理python 的時間處理其實頗簡單
 </ul>
 
 
-
-                <!-- 如果开启评论功能 -->
-                
             </div>
 
-          <!-- Sidebar Container -->
+            <!-- Sidebar Container -->
 <div class="
     col-lg-3 col-lg-offset-0
     col-md-3 col-md-offset-0
@@ -419,21 +580,13 @@ Python 的時間處理python 的時間處理其實頗簡單
     <div class="tags">
         
             
-            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
-            
         
             
             <a href="/tags/#mongodb" title="mongodb" rel="3">mongodb</a>
             
         
             
-        
-            
-            <a href="/tags/#golang" title="golang" rel="6">golang</a>
-            
-        
-            
-            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+            <a href="/tags/#mysql" title="mysql" rel="2">mysql</a>
             
         
             
@@ -443,13 +596,19 @@ Python 的時間處理python 的時間處理其實頗簡單
             
         
             
+            <a href="/tags/#docker" title="docker" rel="4">docker</a>
+            
+        
+            
+            <a href="/tags/#golang" title="golang" rel="6">golang</a>
+            
+        
+            
             <a href="/tags/#AWS" title="AWS" rel="16">AWS</a>
             
         
             
             <a href="/tags/#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
-            
-        
             
         
             
@@ -505,11 +664,13 @@ Python 的時間處理python 的時間處理其實頗簡單
             
         
             
+        
+            
+        
+            
+        
+            
             <a href="/tags/#linux" title="linux" rel="2">linux</a>
-            
-        
-            
-        
             
         
             
@@ -526,7 +687,7 @@ Python 的時間處理python 的時間處理其實頗簡單
         <hr>
     
         
-  <h5>RECENT POSTS</h3>
+  <h5>RECENT POSTS</h5>
   <div class="widget">
     <ul>
       
@@ -563,7 +724,17 @@ Python 的時間處理python 的時間處理其實頗簡單
 
         <hr>
     
-        <!-- Categories -->
+        
+  <h5>VISITORS</h5>
+  <div class="widget">
+    <span>
+    	Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
+	</span>
+	<br/>
+	<span>
+		<b><i><span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Visitors In Total
+	</span>
+  </div>
 
         <hr>
     
@@ -581,31 +752,6 @@ Python 的時間處理python 的時間處理其實頗簡單
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -620,6 +766,32 @@ Python 的時間處理python 的時間處理其實頗簡單
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -629,34 +801,45 @@ Python 的時間處理python 的時間處理其實頗簡單
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -670,24 +853,6 @@ Python 的時間處理python 的時間處理其實頗簡單
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -737,6 +902,13 @@ Python 的時間處理python 的時間處理其實頗簡單
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -744,10 +916,28 @@ Python 的時間處理python 的時間處理其實頗簡單
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

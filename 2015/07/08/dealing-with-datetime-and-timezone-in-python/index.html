@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="Python 的時間還有時區處理 - Kakashi&#39;s Blog">
-    <meta property="og:description" content="undefined">
-    <meta property="og:image" content="http://kkc.github.io/2015/07/08/dealing-with-datetime-and-timezone-in-python/undefined">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           Python 的時間還有時區處理 - Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/2015/07/08/dealing-with-datetime-and-timezone-in-python/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('undefined')
-            /*post*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('')
+                /*post*/
+            
         
     }
     
@@ -91,14 +117,30 @@
                             Posted by Kakashi on
                             2015-07-08
                         </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">694</span> and
+                                Reading Time <span class="post-count">3</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -136,14 +178,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -189,9 +231,7 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
+    <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -203,52 +243,65 @@
                 post-container">
 
                 <p>身為一個程式設計師，很容易就會碰到時間處理的問題，如果你的服務是跨國的應用，也會需要瞭解怎麼去換算時區。<br>舉個例子來說，David 在美西時間的 20:00 (GMT-8) 發表了一則留言，而他在台灣的女朋友 Mary 看到的時間應該是 12:00 (GMT+8)。</p>
-<h2 id="Python 的時間處理"><a href="#Python 的時間處理" class="headerlink" title="Python 的時間處理"></a>Python 的時間處理</h2><p>python 的時間處理其實頗簡單</p>
-<h3 id="利用 -timestamp- 產生 -python-datetime- 物件"><a href="# 利用 -timestamp- 產生 -python-datetime- 物件" class="headerlink" title="利用 timestamp 產生 python datetime 物件"></a>利用 timestamp 產生 python datetime 物件</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="comment"># timestamp</span></span><br><span class="line">t = time.time()</span><br><span class="line"><span class="comment"># datetime 物件</span></span><br><span class="line">dt = datetime.datetime.fromtimestamp(t)</span><br></pre></td></tr></table></figure>
-<h3 id="利用字串產生 -python-datetime- 物件"><a href="# 利用字串產生 -python-datetime- 物件" class="headerlink" title="利用字串產生 python datetime 物件"></a>利用字串產生 python datetime 物件</h3><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.strptime(‘<span class="number">2015</span><span class="number">-07</span><span class="number">-08</span> <span class="number">11</span>:<span class="number">20</span>:<span class="number">28</span><span class="string">','</span>%Y-%m-%d %H:%M:%S<span class="string">')</span></span><br></pre></td></tr></table></figure>
-<h3 id="利用 -python-datetime- 物件產生字串"><a href="# 利用 -python-datetime- 物件產生字串" class="headerlink" title="利用 python datetime 物件產生字串"></a>利用 python datetime 物件產生字串</h3><figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">datetime.datetime.fromtimestamp(t).strftime('<span class="built_in">%Y</span>-<span class="built_in">%m</span>-<span class="built_in">%d</span> <span class="built_in">%H</span>:<span class="built_in">%M</span>:<span class="built_in">%S</span>')</span><br><span class="line"># Output -&gt; '<span class="number">2015</span>-<span class="number">07</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">20</span>:<span class="number">28</span>'</span><br></pre></td></tr></table></figure>
-<h3 id="利用 -python-datetime- 物件產生 -timestamp"><a href="# 利用 -python-datetime- 物件產生 -timestamp" class="headerlink" title="利用 python datetime 物件產生 timestamp"></a>利用 python datetime 物件產生 timestamp</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">time</span><span class="selector-class">.mktime</span>(<span class="selector-tag">dt</span><span class="selector-class">.timetuple</span>()) + 1<span class="selector-tag">e-6</span> * <span class="selector-tag">dt</span><span class="selector-class">.microsecond</span></span><br></pre></td></tr></table></figure>
-<h2 id="Python 的時區處理"><a href="#Python 的時區處理" class="headerlink" title="Python 的時區處理"></a>Python 的時區處理 </h2><h3 id="更改時區"><a href="# 更改時區" class="headerlink" title="更改時區"></a> 更改時區 </h3><p> 利用 pytz 來更改時區，以下我們先拿來得出美西時間的 2015-07-03 20:25</p>
-<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytz</span><br><span class="line">us = pytz.timezone(<span class="string">'US/Pacific'</span>)</span><br><span class="line">dt = datetime.datetime.strptime(<span class="string">'2015-07-03 20:25'</span>, <span class="string">'%Y-%m-%d %H:%M'</span>).replace(tzinfo=us)</span><br><span class="line"># 物件為 datetime.datetime(<span class="number">2015</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">20</span>, <span class="number">25</span>, tzinfo=&lt;DstTzInfo <span class="string">'US/Pacific'</span> PST<span class="number">-1</span> day, <span class="number">16</span>:<span class="number">00</span>:<span class="number">00</span> STD&gt;)</span><br></pre></td></tr></table></figure>
-<h3 id="也可以利用 asttimezone 更改時區"><a href="# 也可以利用 asttimezone 更改時區" class="headerlink" title="也可以利用 asttimezone 更改時區"></a>也可以利用 asttimezone 更改時區</h3><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dt.astimezone(pytz.utc)</span><br><span class="line"># 物件為 datetime.datetime(<span class="number">2015</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">25</span>, tzinfo=&lt;UTC&gt;)</span><br></pre></td></tr></table></figure>
-<p>在處理時區問題時，我們會推薦要儲存 UTC 的時間 (timestamp)，等到 User 存取資料時在去換時區， 而儲存時間也是一樣，要先把 User 傳上來的資料轉成 UTC 的時間，這時我們要注意在 python 中， datetime 物件的 timetuple 其實是沒有帶時區的資訊，<code>time.mktime</code> 是利用你本地端電腦的時區 轉出 timestamp，而 <code>calendar.timegm</code> 是不會自動幫你加時區的，這也是很多人沒搞懂的地方。</p>
-<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.strptime('2015<span class="string">-07</span><span class="string">-03</span> 20:25', '%Y-%m-%d %H:%M')</span><br><span class="line">time.mktime(dt.timetuple())</span><br><span class="line"># 1435926300 =&gt; 2015<span class="string">-07</span><span class="string">-03</span> 12:25 GMT</span><br><span class="line">calendar.timegm(dt.timetuple())</span><br><span class="line"># 1435955100 =&gt; 2015<span class="string">-07</span><span class="string">-03</span> 20:25 GMT</span><br></pre></td></tr></table></figure>
-<p>下面這個例子，我們先更換時區，在產生出 timestamp，可以拿來跟樓上的例子比較</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.strptime(<span class="string">'2015-07-03 20:25'</span>, <span class="string">'%Y-%m-%d %H:%M'</span>).<span class="built_in">replace</span>(tzinfo=us)</span><br><span class="line"><span class="built_in">time</span>.mktime(dt.timetuple())</span><br><span class="line"><span class="comment"># 1435926300 =&gt; 2015-07-03 12:25 GMT</span></span><br><span class="line">calendar.timegm(dt.timetuple())</span><br><span class="line"><span class="comment"># 1435955100 =&gt; 2015-07-03 20:25 GMT</span></span><br></pre></td></tr></table></figure>
+<h2 id="Python的時間處理"><a href="#Python的時間處理" class="headerlink" title="Python的時間處理"></a>Python的時間處理</h2><p>python 的時間處理其實頗簡單</p>
+<h3 id="利用-timestamp-產生-python-datetime-物件"><a href="#利用-timestamp-產生-python-datetime-物件" class="headerlink" title="利用 timestamp 產生 python datetime 物件"></a>利用 timestamp 產生 python datetime 物件</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="comment"># timestamp</span></span><br><span class="line">t = time.time()</span><br><span class="line"><span class="comment"># datetime物件</span></span><br><span class="line">dt = datetime.datetime.fromtimestamp(t)</span><br></pre></td></tr></table></figure>
+<h3 id="利用字串產生-python-datetime-物件"><a href="#利用字串產生-python-datetime-物件" class="headerlink" title="利用字串產生 python datetime 物件"></a>利用字串產生 python datetime 物件</h3><figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.str<span class="meta">ptime(</span>‘2015-07-08 11:20:28<span class="string">', '</span><span class="name">%Y</span>-<span class="name">%m</span>-<span class="name">%d</span> <span class="name">%H</span>:<span class="name">%M</span>:<span class="name">%S</span><span class="string">')</span></span><br></pre></td></tr></table></figure>
+<h3 id="利用-python-datetime-物件產生字串"><a href="#利用-python-datetime-物件產生字串" class="headerlink" title="利用 python datetime 物件產生字串"></a>利用 python datetime 物件產生字串</h3><figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">datetime.datetime.fromtimestamp(t).strftime('<span class="built_in">%Y</span>-<span class="built_in">%m</span>-<span class="built_in">%d</span> <span class="built_in">%H</span>:<span class="built_in">%M</span>:<span class="built_in">%S</span>')</span><br><span class="line"># Output -&gt; '<span class="number">2015</span>-<span class="number">07</span>-<span class="number">08</span> <span class="number">11</span>:<span class="number">20</span>:<span class="number">28</span>'</span><br></pre></td></tr></table></figure>
+<h3 id="利用-python-datetime-物件產生-timestamp"><a href="#利用-python-datetime-物件產生-timestamp" class="headerlink" title="利用 python datetime 物件產生 timestamp"></a>利用 python datetime 物件產生 timestamp</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">time</span><span class="selector-class">.mktime</span>(<span class="selector-tag">dt</span><span class="selector-class">.timetuple</span>()) + 1<span class="selector-tag">e-6</span> * <span class="selector-tag">dt</span><span class="selector-class">.microsecond</span></span><br></pre></td></tr></table></figure>
+<h2 id="Python的時區處理"><a href="#Python的時區處理" class="headerlink" title="Python的時區處理"></a>Python的時區處理</h2><h3 id="更改時區"><a href="#更改時區" class="headerlink" title="更改時區"></a>更改時區</h3><p>利用pytz來更改時區，以下我們先拿來得出美西時間的2015-07-03 20:25</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytz</span><br><span class="line">us = pytz.timezone(<span class="string">'US/Pacific'</span>)</span><br><span class="line">dt = datetime.datetime.strptime(<span class="string">'2015-07-03 20:25'</span>, <span class="string">'%Y-%m-%d %H:%M'</span>).replace(tzinfo=us)</span><br><span class="line"># 物件為 datetime.datetime(<span class="number">2015</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">20</span>, <span class="number">25</span>, tzinfo=&lt;DstTzInfo <span class="string">'US/Pacific'</span> PST<span class="number">-1</span> day, <span class="number">16</span>:<span class="number">00</span>:<span class="number">00</span> STD&gt;)</span><br></pre></td></tr></table></figure>
+<h3 id="也可以利用asttimezone更改時區"><a href="#也可以利用asttimezone更改時區" class="headerlink" title="也可以利用asttimezone更改時區"></a>也可以利用asttimezone更改時區</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dt.astimezone(pytz.utc)</span><br><span class="line"># 物件為 datetime.datetime(<span class="number">2015</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">25</span>, tzinfo=&lt;UTC&gt;)</span><br></pre></td></tr></table></figure>
+<p>在處理時區問題時，我們會推薦要儲存 UTC 的時間(timestamp)，等到 User 存取資料時在去換時區， 而儲存時間也是一樣，要先把 User 傳上來的資料轉成 UTC 的時間，這時我們要注意在 python 中， datetime 物件的 timetuple 其實是沒有帶時區的資訊，<code>time.mktime</code>是利用你本地端電腦的時區 轉出timestamp，而<code>calendar.timegm</code>是不會自動幫你加時區的，這也是很多人沒搞懂的地方。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.strptime(<span class="string">'2015-07-03 20:25'</span>, <span class="string">'%Y-%m-%d %H:%M'</span>)</span><br><span class="line">time.mktime(dt.timetuple())</span><br><span class="line"># <span class="number">1435926300</span> =&gt; <span class="number">2015</span><span class="number">-07</span><span class="number">-03</span> <span class="number">12</span>:<span class="number">25</span> GMT</span><br><span class="line">calendar.timegm(dt.timetuple())</span><br><span class="line"># <span class="number">1435955100</span> =&gt; <span class="number">2015</span><span class="number">-07</span><span class="number">-03</span> <span class="number">20</span>:<span class="number">25</span> GMT</span><br></pre></td></tr></table></figure>
+<p>下面這個例子，我們先更換時區，在產生出timestamp，可以拿來跟樓上的例子比較</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.strptime(<span class="string">'2015-07-03 20:25'</span>, <span class="string">'%Y-%m-%d %H:%M'</span>).replace(tzinfo=us)</span><br><span class="line">time.mktime(dt.timetuple())</span><br><span class="line"># <span class="number">1435926300</span> =&gt; <span class="number">2015</span><span class="number">-07</span><span class="number">-03</span> <span class="number">12</span>:<span class="number">25</span> GMT</span><br><span class="line">calendar.timegm(dt.timetuple())</span><br><span class="line"># <span class="number">1435955100</span> =&gt; <span class="number">2015</span><span class="number">-07</span><span class="number">-03</span> <span class="number">20</span>:<span class="number">25</span> GMT</span><br></pre></td></tr></table></figure>
 <p>tamp 還是跟先前一樣， 就是因為 timetuple 不會有 timezone 資訊，所以我們要利用<code>utctimetuple</code>， 讓他對應到正確的 UTC 時間的 timestamp。</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.strptime(<span class="string">'2015-07-03 20:25'</span>, <span class="string">'%Y-%m-%d %H:%M'</span>).<span class="built_in">replace</span>(tzinfo=us)</span><br><span class="line"><span class="built_in">time</span>.mktime(dt.utctimetuple())</span><br><span class="line"><span class="comment"># 1435955100 =&gt; 2015-07-03 20:25 GMT</span></span><br><span class="line">calendar.timegm(dt.utctimetuple())</span><br><span class="line"><span class="comment"># 1435983900 =&gt; 2015-07-04 04:25 GMT</span></span><br></pre></td></tr></table></figure>
-<p>從上面的過程中，我們最後可以得出，在轉換時區後，要取得正確的 timestamp， 必須要將 <code>calendar.timegm</code> 和<code>utctimetuple</code>一起服用，或是利用<code>dt.astimezone(pytz.utc)</code> 把時區先轉成 UTC 時間，才能得到我們真正想要的。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dt = datetime.datetime.strptime(<span class="string">'2015-07-03 20:25'</span>, <span class="string">'%Y-%m-%d %H:%M'</span>).replace(tzinfo=us)</span><br><span class="line">time.mktime(dt.utctimetuple())</span><br><span class="line"># <span class="number">1435955100</span> =&gt; <span class="number">2015</span><span class="number">-07</span><span class="number">-03</span> <span class="number">20</span>:<span class="number">25</span> GMT</span><br><span class="line">calendar.timegm(dt.utctimetuple())</span><br><span class="line"># <span class="number">1435983900</span> =&gt; <span class="number">2015</span><span class="number">-07</span><span class="number">-04</span> <span class="number">04</span>:<span class="number">25</span> GMT</span><br></pre></td></tr></table></figure>
+<p>從上面的過程中，我們最後可以得出，在轉換時區後，要取得正確的 timestamp， 必須要將<code>calendar.timegm</code>和<code>utctimetuple</code>一起服用，或是利用<code>dt.astimezone(pytz.utc)</code> 把時區先轉成UTC時間，才能得到我們真正想要的。</p>
 
                 
-
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2015/07/14/mongodb-storage/" data-toggle="tooltip" data-placement="top" title="Mongodb Storage 的架構和問題解法">&larr; Previous Post</a>
-                        </li>
+                    <li class="previous">
+                        <a href="/2015/07/14/mongodb-storage/" data-toggle="tooltip" data-placement="top" title="Mongodb Storage 的架構和問題解法">&larr; Previous Post</a>
+                    </li>
                     
                     
-                        <li class="next">
-                            <a href="/2015/07/08/hello-hexo/" data-toggle="tooltip" data-placement="top" title="hell-hexo">Next Post &rarr;</a>
-                        </li>
+                    <li class="next">
+                        <a href="/2015/07/08/hello-hexo/" data-toggle="tooltip" data-placement="top" title="hell-hexo">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- tip start -->
                 
-                <!-- 多说 Share end-->
 
-                <!-- 多说评论框 start -->
                 
-                <!-- 多说评论框 end -->
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
 
                 <!-- disqus comment start -->
                 
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
                 <!-- disqus comment end -->
             </div>
@@ -278,12 +331,17 @@
 
                 <!-- Friends Blog -->
                 
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
             </div>
         </div>
     </div>
 </article>
-
-
 
 
 <!-- disqus embedded js code start (one page only need to embed once) -->
@@ -300,7 +358,6 @@
     })();
 </script>
 <!-- disqus embedded js code start end -->
-
 
 
 
@@ -326,7 +383,9 @@
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
-<style>
+
+
+<style  type="text/css">
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
         .anchorjs-link{
@@ -347,31 +406,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -386,6 +420,32 @@
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -395,34 +455,45 @@
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -436,24 +507,6 @@
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -503,6 +556,13 @@
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -510,10 +570,28 @@
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

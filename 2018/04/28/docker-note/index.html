@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="用 docker 改善開發流程筆記 - Kakashi&#39;s Blog">
-    <meta property="og:description" content="undefined">
-    <meta property="og:image" content="http://kkc.github.io/2018/04/28/docker-note/undefined">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           用 docker 改善開發流程筆記 - Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/2018/04/28/docker-note/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('undefined')
-            /*post*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('')
+                /*post*/
+            
         
     }
     
@@ -91,14 +117,30 @@
                             Posted by Kakashi on
                             2018-04-28
                         </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">2.4k</span> and
+                                Reading Time <span class="post-count">10</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -136,14 +178,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -189,9 +231,7 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
+    <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -202,10 +242,10 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言 </h1><p> 在接觸 docker 的這三年中，從一開始的好奇和迷惘，到後來接受並享受了它的好處，途中經歷了一些不為人知的小困難，最近想寫這篇文慢慢回味並且分享一下我的 docker 學習心得，又因為我在 development + operation 方面的工作都有涉獵，更讓我對使用 docker 有不同的體會。</p>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在接觸 docker 的這三年中，從一開始的好奇和迷惘，到後來接受並享受了它的好處，途中經歷了一些不為人知的小困難，最近想寫這篇文慢慢回味並且分享一下我的 docker 學習心得，又因為我在 development + operation 方面的工作都有涉獵，更讓我對使用 docker 有不同的體會。</p>
 <p>加入目前的公司 <a href="https://umbocv.ai/" target="_blank" rel="noopener">Umbo CV</a> 兩年多來，對於裡面的大小夥伴們能夠一起接受並學習 docker 作為開發環境，並且部署到 production 系統，現在回想起來，著實讓人感到興奮，畢竟在當時，使用 docker 並且跑在 production 上面的公司，少之又少，即使到了現在，也是有些公司尚未 dockerize 他們重要的 components，而我們在當時就毅然決然的全面採用 docker，真的是一項不錯的投資。</p>
-<h1 id="Docker- 解決了什麼呢"><a href="#Docker- 解決了什麼呢" class="headerlink" title="Docker 解決了什麼呢?"></a>Docker 解決了什麼呢?</h1><p>這個問題讓我回想到大學時期當網管的時候，那時有一個很重要的任務，叫做電腦教室系統還原，印象深刻的是，我採用的高科技玩意叫做 Ghost，而把硬碟 mirror 後就會產生一個文件，我們稱它為映像檔 (image)，最棒的地方在於，不管你在哪台電腦上面用這個 image 做還原，他就會跟原本的製作的環境一模一樣，這帶來的好處很明顯，就是我們只要透過網路，而不需要一台一台電腦用磁片重新安裝就能使他們回復到一樣的狀態。</p>
-<p>回過頭來講到執行環境，不管對於使用者或是開發者來說，都是一個很困擾的問題，同樣的程式在不同的 OS, libarary 下面執行，總是會有不同的執行結果和產生不同的臭蟲。舉個例子，在我的大學期末專題中，常常遇到不同人開發的程式，在其他人的電腦上面執行不了的問題，最慘的就是沒辦法在助教的電腦上面執行，而在當時筆記型電腦不盛行的時代，還需要人肉到助教的實驗室，借用電腦把程式修好。</p>
+<h1 id="Docker-解決了什麼呢"><a href="#Docker-解決了什麼呢" class="headerlink" title="Docker 解決了什麼呢?"></a>Docker 解決了什麼呢?</h1><p>這個問題讓我回想到大學時期當網管的時候，那時有一個很重要的任務，叫做電腦教室系統還原，印象深刻的是，我採用的高科技玩意叫做 Ghost，而把硬碟 mirror 後就會產生一個文件，我們稱它為映像檔 (image)，最棒的地方在於，不管你在哪台電腦上面用這個 image 做還原，他就會跟原本的製作的環境一模一樣，這帶來的好處很明顯，就是我們只要透過網路，而不需要一台一台電腦用磁片重新安裝就能使他們回復到一樣的狀態。</p>
+<p>回過頭來講到執行環境，不管對於使用者或是開發者來說，都是一個很困擾的問題，同樣的程式在不同的 OS, libarary下面執行，總是會有不同的執行結果和產生不同的臭蟲。舉個例子，在我的大學期末專題中，常常遇到不同人開發的程式，在其他人的電腦上面執行不了的問題，最慘的就是沒辦法在助教的電腦上面執行，而在當時筆記型電腦不盛行的時代，還需要人肉到助教的實驗室，借用電腦把程式修好。</p>
 <p>再來到了雲端時代，在 AWS/Azure/GCP 上面有很方便的方法，幫忙你把既有的 VM 打成 image，可以很快地在不同的 instance type 上面做還原，然後個人電腦也有像是 virtualbox, vmware 加上 vagrant 去模擬不同的環境，打包好的 image 還有 config 也可以跟其他人互通有無，其實已經比以前方便非常多了!</p>
 <p>而 docker 的橫空出世又是一個非常重要的里程碑，傳統的 VM solution 雖然是好棒棒，但是速度和體積來說真的是太大太肥，而開機的時間不管再怎麼壓縮，最快還是需要個 3~5 分鐘，當然這是相對 docker 而言，要不然 VM 已經是稱霸了好一陣子。 另外 docker 的出現真的是消弭了 development 和 operation 之間的環境差距，就像之前講的 developer 的環境有可能是自己安裝，或是使用 virtualbox 之類的工具，然後用 bash script/Makefile 或是寫進 Readme 文件裡面紀錄怎麼安裝，而負責 operation 的人也必須要花時間，看能不能成功裝在 AWS/Azure/GCP 這些 cloud provider 的 VM 上，這些工作常常需要耐心和時間，也常常因為版本的不同，導致 program 有不一樣的 behavior。</p>
 <p><img src="/img/2018-04/say-it-works-on-my-computer-one-more-time.jpg" alt="say-it-works-on-my-computer-one-more-time.jpg"></p>
@@ -219,7 +259,7 @@
 <li>Registry: 擺放 docker image 的倉庫。</li>
 <li>Dockerfile: 用來記錄構建 image 的 instructions。 (上面這張圖沒畫出來)</li>
 </ul>
-<h2 id="基本指令"><a href="# 基本指令" class="headerlink" title="基本指令"></a>基本指令 </h2><p> 這邊只會做個簡單紀錄，很多網路上的文章都有詳細介紹惹！</p>
+<h2 id="基本指令"><a href="#基本指令" class="headerlink" title="基本指令"></a>基本指令</h2><p>這邊只會做個簡單紀錄，很多網路上的文章都有詳細介紹惹！</p>
 <ol>
 <li>建構 docker image: <code>docker build --tag hello -f Dockerfile .</code></li>
 <li>列出 docker images: <code>docker images</code></li>
@@ -227,8 +267,8 @@
 <li>將 image 推到 docker registry: <code>docker push hello</code></li>
 <li>將 image 從 docker registry 下載: <code>docker pull hello</code></li>
 </ol>
-<h1 id="建構 -docker-image-w-Dockerfile"><a href="# 建構 -docker-image-w-Dockerfile" class="headerlink" title="建構 docker image w/ Dockerfile"></a>建構 docker image w/ Dockerfile</h1><p>dockerfile 是拿來建構 image 的 file，而最基本的 Dockerfile 可以寫成下面這樣</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> busybox</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> /hello /</span></span><br><span class="line"><span class="bash">RUN cat /hello</span></span><br></pre></td></tr></table></figure>
+<h1 id="建構-docker-image-w-Dockerfile"><a href="#建構-docker-image-w-Dockerfile" class="headerlink" title="建構 docker image w/ Dockerfile"></a>建構 docker image w/ Dockerfile</h1><p>dockerfile 是拿來建構 image 的 file，而最基本的 Dockerfile 可以寫成下面這樣</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> busybox</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> /hello /</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> cat /hello</span></span><br></pre></td></tr></table></figure>
 <p>然後使用指令 <code>docker build -t hello:v1 -f Dockerfile .</code> 來建構我們的 image</p>
 <h2 id="build-context"><a href="#build-context" class="headerlink" title="build context"></a>build context</h2><p>build context 的概念也是需要知道的一件事，會加速我們建構 docker image 的時間，而 context 可以是本地端的目錄或是遠端的 URL，而 docker 在 build stage 時，其實是把 context 傳進 docker daemon，然後透過 docker daemon 來 build image，而上面的指令可以視為 <code>docker build -t hello:v1 -f Dockerfile context</code>。</p>
 <p>我們可以使用 <code>.dockerignore</code> 去定義哪些檔案不需要傳入 docker daemon，基本上在 build 時，會看到一個訊息像是 <code>Sending build context to Docker daemon  142.5MB</code> 就可以知道 build context 有多大。</p>
@@ -236,58 +276,71 @@
 <ul>
 <li>有安裝 Build tool chain 的 docker image</li>
 <li><p>專門跑 production application 的 image</p>
-  <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ---- Build ----</span></span><br><span class="line"><span class="keyword">FROM</span> python:<span class="number">3</span> as build</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> requirements.txt .</span></span><br><span class="line"><span class="bash">RUN pip install -r requirements.txt</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment">#</span></span></span><br><span class="line"><span class="bash"><span class="comment">#---- Test ----</span></span></span><br><span class="line"><span class="bash"><span class="comment">## run test</span></span></span><br><span class="line"><span class="bash">FROM build as <span class="built_in">test</span></span></span><br><span class="line"><span class="bash">RUN pip install pylint &amp;&amp; \</span></span><br><span class="line"><span class="bash">    pip install pytest</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment">#</span></span></span><br><span class="line"><span class="bash"><span class="comment">#---- Release ----</span></span></span><br><span class="line"><span class="bash">FROM python:3-alpine</span></span><br><span class="line"><span class="bash">COPY --from=build /root/.cache /root/.cache</span></span><br><span class="line"><span class="bash">COPY --from=build requirements.txt .</span></span><br><span class="line"><span class="bash">RUN pip install -r requirements.txt &amp;&amp; rm -rf /root/.cache</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ---- Build ----</span></span><br><span class="line"><span class="keyword">FROM</span> python:<span class="number">3</span> as build</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> requirements.txt .</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> pip install -r requirements.txt</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#---- Test ----</span></span><br><span class="line"><span class="comment">## run test</span></span><br><span class="line"><span class="keyword">FROM</span> build as test</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> pip install pylint &amp;&amp; \</span></span><br><span class="line"><span class="bash">    pip install pytest</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#---- Release ----</span></span><br><span class="line"><span class="keyword">FROM</span> python:<span class="number">3</span>-alpine</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> --from=build /root/.cache /root/.cache</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> --from=build requirements.txt .</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> pip install -r requirements.txt &amp;&amp; rm -rf /root/.cache</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>而有了 multi-stage build 就可以利用一個 Dockerfile build 出不同 stage 的 image，例如</p>
 <p><code>docker build --target build -t builder-stage -f Dockerfile .</code><br><code>docker build --target test -t test -f Dockerfile .</code><br><code>docker build -t release -f Dockerfile .</code></p>
 <p>然後可以看到最後要 release 的版本，我們是利用 alpine，足足可以省下好幾百 mb 的空間。</p>
-<h2 id="Optimization-amp-amp-Debugging-skill"><a href="#Optimization-amp-amp-Debugging-skill" class="headerlink" title="Optimization &amp;&amp; Debugging skill"></a>Optimization &amp;&amp; Debugging skill</h2><p>docker image 最佳化的部分，不免是減少 layer，將一些垃圾砍掉，但是有了 multistage build 之後，其實改善的空間更大，而很多其實參考 <a href="https://docs.docker.com/v17.09/engine/userguide/eng-image/dockerfile_best-practices/" target="_blank" rel="noopener"> 官網文件 </a> 也有寫到。</p>
+<h2 id="Optimization-amp-amp-Debugging-skill"><a href="#Optimization-amp-amp-Debugging-skill" class="headerlink" title="Optimization &amp;&amp; Debugging skill"></a>Optimization &amp;&amp; Debugging skill</h2><p>docker image 最佳化的部分，不免是減少 layer，將一些垃圾砍掉，但是有了 multistage build 之後，其實改善的空間更大，而很多其實參考<a href="https://docs.docker.com/v17.09/engine/userguide/eng-image/dockerfile_best-practices/" target="_blank" rel="noopener">官網文件</a>也有寫到。</p>
 <p>Debugging skill 的部分，我想很值得一提，以往我們常常在 build image 的時候，可能會有一些 package conflict 或是有些 library 裝不起來，但是一直使用 docker build 試誤也是很煩人的事情，舉個例子，如果上面的那個範例不小心打成</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#---- Test ----</span></span><br><span class="line"><span class="comment">## run test</span></span><br><span class="line"><span class="keyword">FROM</span> build as test</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> pip install pylint</span></span><br><span class="line"><span class="bash">    pip install pytest</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#---- Test ----</span></span><br><span class="line"><span class="comment">## run test</span></span><br><span class="line">FROM build as <span class="keyword">test</span></span><br><span class="line">RUN pip <span class="keyword">install</span> pylint</span><br><span class="line">    pip <span class="keyword">install</span> pytest</span><br></pre></td></tr></table></figure>
 <p>少了 &amp;&amp; \ 會看到下列錯誤訊息</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Sending build context to Docker daemon   2.56kB</span><br><span class="line">Step 1/10 : FROM python:3 as build</span><br><span class="line"> <span class="comment">---&gt; 6bf7a4fa2d45</span></span><br><span class="line">Step 2/10 : LABEL builder=true</span><br><span class="line"> <span class="comment">---&gt; Using cache</span></span><br><span class="line"> <span class="comment">---&gt; 472d4ae6ffaa</span></span><br><span class="line">Step 3/10 : COPY requirements.txt .</span><br><span class="line"> <span class="comment">---&gt; Using cache</span></span><br><span class="line"> <span class="comment">---&gt; ba0558adfb4d</span></span><br><span class="line">Step 4/10 : RUN pip <span class="keyword">install</span> -r requirements.txt</span><br><span class="line"> <span class="comment">---&gt; Using cache</span></span><br><span class="line"> <span class="comment">---&gt; 9b432c1c82e4</span></span><br><span class="line">Step <span class="number">5</span>/<span class="number">10</span> : <span class="keyword">FROM</span> <span class="keyword">build</span> <span class="keyword">as</span> <span class="keyword">test</span></span><br><span class="line"> <span class="comment">---&gt; 9b432c1c82e4</span></span><br><span class="line">Step <span class="number">6</span>/<span class="number">10</span> : RUN pip <span class="keyword">install</span> pylint      pip <span class="keyword">install</span> pytest</span><br><span class="line"> <span class="comment">---&gt; Running in 01fde55c23d9</span></span><br><span class="line">Collecting pylint</span><br><span class="line">  Downloading https://files.pythonhosted.org/packages/<span class="number">8</span>b/<span class="number">62</span>/b2c07085dd7bb4b7e8bb813873421692c1157191e87234550a1c39dff232/pylint<span class="number">-1.8</span><span class="number">.4</span>-py2.py3-<span class="keyword">none</span>-any.whl (<span class="number">690</span>kB)</span><br><span class="line">Requirement already satisfied: pip <span class="keyword">in</span> /usr/<span class="keyword">local</span>/lib/python3<span class="number">.6</span>/site-packages (<span class="number">10.0</span><span class="number">.1</span>)</span><br><span class="line">Collecting <span class="keyword">install</span></span><br><span class="line">  Could <span class="keyword">not</span> find a <span class="keyword">version</span> that satisfies the requirement <span class="keyword">install</span> (<span class="keyword">from</span> <span class="keyword">versions</span>: )</span><br><span class="line"><span class="keyword">No</span> matching distribution <span class="keyword">found</span> <span class="keyword">for</span> <span class="keyword">install</span></span><br><span class="line">The command <span class="string">'/bin/sh -c pip install pylint      pip install pytest'</span> returned a non-zero code: <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>這時候其實可以使用指令 <code>docker run -ti --rm 9b432c1c82e4 bash</code> 登入 intermediate layer 來 debug，這個技巧在實務上面蠻需要的。</p>
 <h1 id="Development-environment-revolution"><a href="#Development-environment-revolution" class="headerlink" title="Development environment revolution"></a>Development environment revolution</h1><p>重朔 Development environment ，我認為是 docker 對 developer 來說最大的改變，就如我之前講的 developer 寫好的 code ，常常離實際的 production 環境有段距離，更別說現在有些採用 microservice 架構的應用，更是難以在本機建構一模一樣的環境做測試，以下會介紹一下我們 project 的 layout，加上如何採用 docker 來建構開發環境。</p>
 <p>以下是 project layout，可以看到我們會擺放 <code>Dockerfile</code>，還有會放一個 <code>enter_dev_env.sh</code> 的 bash script 以供 developer 快速啟動 docker 的開發環境。</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── Dockerfile</span><br><span class="line">├── README.md</span><br><span class="line">├── app</span><br><span class="line">│   └── main.py</span><br><span class="line">├── enter_dev_env.sh</span><br><span class="line">└── requirements.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── <span class="selector-tag">Dockerfile</span></span><br><span class="line">├── <span class="selector-tag">README</span><span class="selector-class">.md</span></span><br><span class="line">├── <span class="selector-tag">app</span></span><br><span class="line">│   └── <span class="selector-tag">main</span><span class="selector-class">.py</span></span><br><span class="line">├── <span class="selector-tag">enter_dev_env</span><span class="selector-class">.sh</span></span><br><span class="line">└── <span class="selector-tag">requirements</span><span class="selector-class">.txt</span></span><br></pre></td></tr></table></figure>
 <p>enter_dev_env.sh 的內容</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash -xe</span></span><br><span class="line"><span class="attribute">CONTAINER</span>=<span class="string">"<span class="variable">$&#123;USER&#125;</span>_application_container"</span></span><br><span class="line"><span class="attribute">START_SHELL</span>=<span class="string">"/bin/bash"</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">BASE_IMAGE</span>=python:3.6-slim</span><br><span class="line"></span><br><span class="line"><span class="comment"># test if the container is running</span></span><br><span class="line"><span class="attribute">HASH</span>=`docker ps -q -f <span class="attribute">name</span>=<span class="variable">$CONTAINER</span>`</span><br><span class="line"></span><br><span class="line"><span class="comment"># test if the container is stopped</span></span><br><span class="line"><span class="attribute">HASH_STOPPED</span>=`docker ps -qa -f <span class="attribute">name</span>=<span class="variable">$CONTAINER</span>`</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [-n <span class="string">"<span class="variable">$HASH</span>"</span> ];then</span><br><span class="line">    echo <span class="string">"founding existing running container <span class="variable">$CONTAINER</span>, proceed to exec another shell"</span></span><br><span class="line">    docker exec -it <span class="variable">$HASH</span> <span class="variable">$START_SHELL</span></span><br><span class="line">elif [-n <span class="string">"<span class="variable">$HASH_STOPPED</span>"</span> ];then</span><br><span class="line">    echo <span class="string">"founding existing stopped container <span class="variable">$CONTAINER</span>, proceed to start"</span></span><br><span class="line">    docker start --attach -i <span class="variable">$HASH_STOPPED</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    echo <span class="string">"existing container not found, createing a new one, named <span class="variable">$CONTAINER</span>"</span></span><br><span class="line">    docker pull <span class="variable">$BASE_IMAGE</span></span><br><span class="line">    docker <span class="builtin-name">run</span> <span class="attribute">--name</span>=<span class="variable">$CONTAINER</span> <span class="attribute">--hostname</span>=<span class="variable">$CONTAINER</span> -ti \</span><br><span class="line">        -v ~/.aws:/root/.aws:ro -v ~/.ssh:/root/.ssh:ro \</span><br><span class="line">        -v <span class="variable">$PWD</span>:/app -w /app <span class="attribute">--entrypoint</span>=<span class="variable">$START_SHELL</span> <span class="variable">$BASE_IMAGE</span></span><br><span class="line">fi</span><br><span class="line">echo <span class="string">"see you, use'docker rm <span class="variable">$CONTAINER</span>'to kill the vm if you want a fresh env next time"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash -xe</span></span><br><span class="line"><span class="attribute">CONTAINER</span>=<span class="string">"<span class="variable">$&#123;USER&#125;</span>_application_container"</span></span><br><span class="line"><span class="attribute">START_SHELL</span>=<span class="string">"/bin/bash"</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">BASE_IMAGE</span>=python:3.6-slim</span><br><span class="line"></span><br><span class="line"><span class="comment"># test if the container is running</span></span><br><span class="line"><span class="attribute">HASH</span>=`docker ps -q -f <span class="attribute">name</span>=<span class="variable">$CONTAINER</span>`</span><br><span class="line"></span><br><span class="line"><span class="comment"># test if the container is stopped</span></span><br><span class="line"><span class="attribute">HASH_STOPPED</span>=`docker ps -qa -f <span class="attribute">name</span>=<span class="variable">$CONTAINER</span>`</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$HASH</span>"</span> ];then</span><br><span class="line">    echo <span class="string">"founding existing running container <span class="variable">$CONTAINER</span>, proceed to exec another shell"</span></span><br><span class="line">    docker exec -it <span class="variable">$HASH</span> <span class="variable">$START_SHELL</span></span><br><span class="line">elif [ -n <span class="string">"<span class="variable">$HASH_STOPPED</span>"</span> ];then</span><br><span class="line">    echo <span class="string">"founding existing stopped container <span class="variable">$CONTAINER</span>, proceed to start"</span></span><br><span class="line">    docker start --attach -i <span class="variable">$HASH_STOPPED</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    echo <span class="string">"existing container not found, createing a new one, named <span class="variable">$CONTAINER</span>"</span></span><br><span class="line">    docker pull <span class="variable">$BASE_IMAGE</span></span><br><span class="line">    docker <span class="builtin-name">run</span> <span class="attribute">--name</span>=<span class="variable">$CONTAINER</span> <span class="attribute">--hostname</span>=<span class="variable">$CONTAINER</span> -ti \</span><br><span class="line">        -v ~/.aws:/root/.aws:ro -v ~/.ssh:/root/.ssh:ro \</span><br><span class="line">        -v <span class="variable">$PWD</span>:/app -w /app <span class="attribute">--entrypoint</span>=<span class="variable">$START_SHELL</span> <span class="variable">$BASE_IMAGE</span></span><br><span class="line">fi</span><br><span class="line">echo <span class="string">"see you, use 'docker rm <span class="variable">$CONTAINER</span>' to kill the vm if you want a fresh env next time"</span></span><br></pre></td></tr></table></figure>
 <p>通過這個 file 可以讓全部的開發者，擁有一樣的開發環境，也可以自行修改 <code>$BASE_IMAGE</code> 使用不同的版本和自己建構的 base image，也可以中途離開 container 後，使用同樣這個 script 在登入，接著接續上次的工作。然後</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=<span class="variable">$CONTAINER</span> --hostname=<span class="variable">$CONTAINER</span> -ti \</span><br><span class="line">        -v ~/<span class="selector-class">.aws</span>:/root/<span class="selector-class">.aws</span>:ro -v ~/<span class="selector-class">.ssh</span>:/root/<span class="selector-class">.ssh</span>:ro \</span><br><span class="line">        -v <span class="variable">$PWD</span>:/app -w /app --entrypoint=<span class="variable">$START_SHELL</span> <span class="variable">$BASE_IMAGE</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="builtin-name">run</span> <span class="attribute">--name</span>=<span class="variable">$CONTAINER</span> <span class="attribute">--hostname</span>=<span class="variable">$CONTAINER</span> -ti \</span><br><span class="line">        -v ~/.aws:/root/.aws:ro -v ~/.ssh:/root/.ssh:ro \</span><br><span class="line">        -v <span class="variable">$PWD</span>:/app -w /app <span class="attribute">--entrypoint</span>=<span class="variable">$START_SHELL</span> <span class="variable">$BASE_IMAGE</span></span><br></pre></td></tr></table></figure>
 <p>這段是將 base image 跑起來的指令，這邊大家可以自行調整，除了 application 的目錄外，我還習慣把 aws &amp; ssh key 給掛進去以方便開發。</p>
-<h1 id="待續"><a href="# 待續" class="headerlink" title="待續"></a>待續 </h1><p> 這篇文章打到這邊也有點手軟惹，接下來如果有機會，想要把如何使用 docker-compose 做 integration test ，還有搭配 Jenkinsfile 的部署流程分享一下。</p>
+<h1 id="待續"><a href="#待續" class="headerlink" title="待續"></a>待續</h1><p>這篇文章打到這邊也有點手軟惹，接下來如果有機會，想要把如何使用 docker-compose 做 integration test ，還有搭配 Jenkinsfile 的部署流程分享一下。</p>
 
                 
-
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2018/06/06/gracefully-shutdown-docker-container/" data-toggle="tooltip" data-placement="top" title="Gracefully Shutdown Docker Container">&larr; Previous Post</a>
-                        </li>
+                    <li class="previous">
+                        <a href="/2018/06/06/gracefully-shutdown-docker-container/" data-toggle="tooltip" data-placement="top" title="Gracefully Shutdown Docker Container">&larr; Previous Post</a>
+                    </li>
                     
                     
-                        <li class="next">
-                            <a href="/2018/03/21/IPSEC-note/" data-toggle="tooltip" data-placement="top" title="IPSec 筆記">Next Post &rarr;</a>
-                        </li>
+                    <li class="next">
+                        <a href="/2018/03/21/IPSEC-note/" data-toggle="tooltip" data-placement="top" title="IPSec 筆記">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- tip start -->
                 
-                <!-- 多说 Share end-->
 
-                <!-- 多说评论框 start -->
                 
-                <!-- 多说评论框 end -->
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
 
                 <!-- disqus comment start -->
                 
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
                 <!-- disqus comment end -->
             </div>
@@ -317,12 +370,17 @@
 
                 <!-- Friends Blog -->
                 
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
             </div>
         </div>
     </div>
 </article>
-
-
 
 
 <!-- disqus embedded js code start (one page only need to embed once) -->
@@ -339,7 +397,6 @@
     })();
 </script>
 <!-- disqus embedded js code start end -->
-
 
 
 
@@ -365,7 +422,9 @@
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
-<style>
+
+
+<style  type="text/css">
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
         .anchorjs-link{
@@ -386,31 +445,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -425,6 +459,32 @@
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -434,34 +494,45 @@
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -475,24 +546,6 @@
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -542,6 +595,13 @@
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -549,10 +609,28 @@
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="使用 statsd + graphite 的 monitoring 心得 - Kakashi&#39;s Blog">
-    <meta property="og:description" content="undefined">
-    <meta property="og:image" content="http://kkc.github.io/2015/09/05/monitoring-with-graphite/undefined">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           使用 statsd + graphite 的 monitoring 心得 - Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/2015/09/05/monitoring-with-graphite/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('undefined')
-            /*post*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('')
+                /*post*/
+            
         
     }
     
@@ -93,14 +119,30 @@
                             Posted by Kakashi on
                             2015-09-05
                         </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">1.9k</span> and
+                                Reading Time <span class="post-count">7</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -138,14 +180,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -191,9 +233,7 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
+    <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -206,100 +246,113 @@
 
                 <p>上上個禮拜看到威廉大大在 DevOps conf 裡面發表了 <a href="http://www.slideshare.net/williamyeh/whoscall-realtime-monitoring" target="_blank" rel="noopener">Whoscall 的 Realtime Monitoring 經驗分享</a>，下面這張圖其實勾起我不少回憶，尤其是過去快兩年的時間內，親身體驗架起來的一些東西，有些是我曾經在內部分享過的，想說應該也要分享一下給大家。</p>
 <p><img src="/img/whoscall_monitoring.png" alt="whoscall_monitoring"></p>
-<h2 id="緣起"><a href="# 緣起" class="headerlink" title="緣起"></a>緣起 </h2><p> 說來也蠻有趣的，當年使用 Graphite 的際遇其實是為了記錄 whoscall 的 Hitrate，而所謂的 Hitrate，一開始的需求是 <code> 查詢有結果的次數 / 查詢次數 </code> 來衡量服務品質，我加入時看到的架構是使用 Mongodb 去紀錄的:</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attribute">TW</span>: &#123;</span><br><span class="line">    <span class="attribute">hit</span>: &#123;</span><br><span class="line">      <span class="attribute">y</span>: <span class="number">1000</span>,</span><br><span class="line">      <span class="attribute">n</span>: <span class="number">200</span></span><br><span class="line">    &#125;,</span><br><span class="line">  <span class="attribute">KR</span>: &#123;</span><br><span class="line">    <span class="attribute">hit</span>: &#123;</span><br><span class="line">      <span class="attribute">y</span>: <span class="number">500</span>,</span><br><span class="line">      <span class="attribute">n</span>: <span class="number">100</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attribute">createdAt</span>: ISODate(<span class="string">'2015-09-05'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>每天產生一條紀錄，然後每個國家都記在同一個 document 內，這樣雖然解了燃眉之急，不過從這個架構來看，代表每接收一條 Request ，就要花一個寫入的 IO，久而久之 Disk 的 IOPS 消耗加劇，而且如果同時有 TW 和 KR 的 Request 發生，還會有寫入競爭的問題，讓 API server 回應給 client 的速度更慢，再者，我們之後想要加入更多的資訊，類似到底是命中什麼，沒有命中的原因是什麼，就這樣不得不尋找更好的方案。</p>
-<h2 id="為什麼選擇 -Graphite"><a href="# 為什麼選擇 -Graphite" class="headerlink" title="為什麼選擇 Graphite"></a>為什麼選擇 Graphite</h2><p>在有這個問題後，我立刻向我的學長 <a href="https://www.facebook.com/titanjer" target="_blank" rel="noopener">@titanjer</a> 求助，他其實是一個不世出的高人，整天看內容農場和尾隨正妹，但技術實力實在太過於強大，總是有很不錯的 solution ，而在求助後他給了我一句話:</p>
+<h2 id="緣起"><a href="#緣起" class="headerlink" title="緣起"></a>緣起</h2><p>說來也蠻有趣的，當年使用 Graphite 的際遇其實是為了記錄 whoscall 的 Hitrate，而所謂的 Hitrate，一開始的需求是<code>查詢有結果的次數/查詢次數</code>來衡量服務品質，我加入時看到的架構是使用 Mongodb 去紀錄的:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#123;</span></span><br><span class="line">  <span class="attr">TW:</span> <span class="string">&#123;</span></span><br><span class="line">    <span class="attr">hit:</span> <span class="string">&#123;</span></span><br><span class="line">      <span class="attr">y:</span> <span class="number">1000</span><span class="string">,</span></span><br><span class="line">      <span class="attr">n:</span> <span class="number">200</span></span><br><span class="line">    <span class="string">&#125;,</span></span><br><span class="line">  <span class="attr">KR:</span> <span class="string">&#123;</span></span><br><span class="line">    <span class="attr">hit:</span> <span class="string">&#123;</span></span><br><span class="line">      <span class="attr">y:</span> <span class="number">500</span><span class="string">,</span></span><br><span class="line">      <span class="attr">n:</span> <span class="number">100</span></span><br><span class="line">    <span class="string">&#125;</span></span><br><span class="line">  <span class="string">&#125;,</span></span><br><span class="line">  <span class="attr">createdAt:</span> <span class="string">ISODate('2015-09-05')</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>每天產生一條紀錄，然後每個國家都記在同一個 document 內，這樣雖然解了燃眉之急，不過從這個架構來看，代表每接收一條 Request ，就要花一個寫入的IO，久而久之 Disk 的 IOPS 消耗加劇，而且如果同時有 TW 和 KR 的 Request 發生，還會有寫入競爭的問題，讓 API server 回應給 client 的速度更慢，再者，我們之後想要加入更多的資訊，類似到底是命中什麼，沒有命中的原因是什麼，就這樣不得不尋找更好的方案。</p>
+<h2 id="為什麼選擇-Graphite"><a href="#為什麼選擇-Graphite" class="headerlink" title="為什麼選擇 Graphite"></a>為什麼選擇 Graphite</h2><p>在有這個問題後，我立刻向我的學長 <a href="https://www.facebook.com/titanjer" target="_blank" rel="noopener">@titanjer</a> 求助，他其實是一個不世出的高人，整天看內容農場和尾隨正妹，但技術實力實在太過於強大，總是有很不錯的 solution ，而在求助後他給了我一句話:</p>
 <blockquote><p>Measure Anything, Measure Everything, You should use Graphite.</p>
 </blockquote>
 <p>被當頭棒喝後，我開始疑問 Grapite 是啥？用這個有啥好處?</p>
-<h3 id="Graphite- 好處"><a href="#Graphite- 好處" class="headerlink" title="Graphite 好處"></a>Graphite 好處 </h3><p> 搜索之後發現了…</p>
+<h3 id="Graphite-好處"><a href="#Graphite-好處" class="headerlink" title="Graphite 好處"></a>Graphite 好處</h3><p>搜索之後發現了…</p>
 <ul>
-<li>RRD-liked service, 支援 Metrics 的精度遞減, 一天內 10s 一條, 七天內合成為 1m 一條, 一年內 1hr 一條</li>
+<li>RRD-liked service, 支援Metrics的精度遞減, 一天內10s一條, 七天內合成為1m一條, 一年內1hr一條</li>
 <li>有豐富的查詢函數, sum/min/max/avg … etc</li>
 <li>有完整的 ecosystem , , 簡單的 TCP/UDP 協議, 很容易可以插入數據</li>
 <li>有完整的 HA &amp; Scalable 方案 - Carbon-Relay</li>
 <li>有數據 aggregator 方案 - Carbon-aggregator</li>
 <li>支援 Restful-API, 可以利用 Grafana 顯示數據</li>
-<li>簡單的配置方式, 只要會修改 config, 就可以建構百萬數據收集的架構</li>
-<li>非常多的 <a href="http://graphite.readthedocs.org/en/latest/who-is-using.html" target="_blank" rel="noopener"> 公司 </a> 採用</li>
+<li>簡單的配置方式, 只要會修改config, 就可以建構百萬數據收集的架構</li>
+<li>非常多的<a href="http://graphite.readthedocs.org/en/latest/who-is-using.html" target="_blank" rel="noopener">公司</a>採用</li>
 </ul>
-<h3 id="基本架構"><a href="# 基本架構" class="headerlink" title="基本架構"></a>基本架構</h3><p><img src="/img/graphite-architecture.png" alt="whoscall_monitoring"></p>
+<h3 id="基本架構"><a href="#基本架構" class="headerlink" title="基本架構"></a>基本架構</h3><p><img src="/img/graphite-architecture.png" alt="whoscall_monitoring"></p>
 <p>在架設前，先來搞懂架構長怎樣，這張圖我一直覺得畫得很棒，來自 whisper 的 github <a href="https://github.com/graphite-project/whisper" target="_blank" rel="noopener">頁面</a>，基本上 Graphite 的組件共有三項:</p>
 <ul>
 <li>Carbon: 負責接受數據，把數據暫存到記憶體中</li>
 <li>Whisper: Graphite 專用的 RRD-style database，而且是 fixed-size databases，也就是根據你設定的 retention，建立出來的資料庫就是多大，好處就是很容易估算要多少 disk 空間，但根據我的經驗是 Whisper 其實儲存所需要的空間很少。</li>
-<li>Graphite-Web: 開放一堆 API &amp; Web UI 給你去存取資料</li>
+<li>Graphite-Web: 開放一堆API &amp; Web UI 給你去存取資料</li>
 </ul>
-<p>基本上 Carbon-cache 就是個 queue 的角色，會先把數據寫在 memory 裡面，等到時間到了後，一口氣 flush data 進到 whisper，然後 Carbon 可以設定 <code>MAX_UPDATES_PER_SECOND</code>，預設是 500，也就是一秒內呼叫多少次 whisper update 的 function ，這關係到你的 queue 內資料的多寡和 disk 的 IOPS，如果設定的太快，會導致 IOPS 上升，想要看資料也就是讀取時過慢(因為讀取有時候也需要做 aggregation) ，而設定太低又會讓 queue 內的資料來不及寫入 disk ，詳細的說明可以看這篇<a href="https://grey-boundary.io/minimizing-datapoint-lag-in-graphite/" target="_blank" rel="noopener">minimizing-datapoint-lag-in-graphite</a>。Whisper 基本上是 file based 的 database 系統，然後一個 time series 的 Metris 用一個 file 去紀錄，在每次寫入時都會去檢查 retention ，進而達成 RRD 的功效，Graphite-Web 則提供了 WebUI 還有一些 API 讓你去呼叫寫入的資料，當資料還在 carbon-cache 時，會直接去讀取 memory 內的資料，如果已經寫入 whisper ，則會去 disk 存取，當然也可以設定一些 cache，讓他不需要直接讀取 carbon 或是 whisper。</p>
+<p>基本上 Carbon-cache 就是個queue的角色，會先把數據寫在 memory 裡面，等到時間到了後，一口氣 flush data 進到whisper，然後 Carbon 可以設定 <code>MAX_UPDATES_PER_SECOND</code>，預設是500，也就是一秒內呼叫多少次 whisper update 的 function ，這關係到你的 queue 內資料的多寡和 disk 的 IOPS，如果設定的太快，會導致 IOPS 上升，想要看資料也就是讀取時過慢(因為讀取有時候也需要做aggregation) ，而設定太低又會讓 queue 內的資料來不及寫入 disk ，詳細的說明可以看這篇<a href="https://grey-boundary.io/minimizing-datapoint-lag-in-graphite/" target="_blank" rel="noopener">minimizing-datapoint-lag-in-graphite</a>。Whisper 基本上是 file based 的database系統，然後一個 time series 的 Metris 用一個 file 去紀錄，在每次寫入時都會去檢查 retention ，進而達成 RRD 的功效，Graphite-Web 則提供了 WebUI 還有一些 API 讓你去呼叫寫入的資料，當資料還在 carbon-cache 時，會直接去讀取 memory 內的資料，如果已經寫入 whisper ，則會去 disk 存取，當然也可以設定一些 cache，讓他不需要直接讀取 carbon 或是 whisper。</p>
 <p>這邊順便提一下 Optional 的組件:</p>
 <ul>
 <li>carbon-relay: 拿來處理 HA 的，可以想成是個 Router ，設定後可以做到水平或是垂直 scale 數據儲存。</li>
 <li>carbon-aggregator: 這個套件可以先預先寫好一些 Rule ，例如你可以寫 PRODUCTION.host.*.requests 要直接存成 PRODUCTION.host.all.requests, 去減少寫入的維度。</li>
 <li>memcached: 這應該就不用提了，提供 API 那部份的 cache。</li>
 </ul>
-<h3 id="採用的 Stack-Statsd-Graphite-Grafana"><a href="# 採用的 Stack-Statsd-Graphite-Grafana" class="headerlink" title="採用的 Stack: Statsd + Graphite + Grafana"></a>採用的 Stack: Statsd + Graphite + Grafana</h3><p>而後來採用的方法，其實是在 carbon 前面多塞一個 statsd 當作緩衝，主要原因是 server-side 想利用 UDP 傳輸資料，而 Hitrate 這種屬於統計型態的資料，掉個幾筆其實並不會影響主要的趨勢，而利用 UDP 有個好處是，當 statsd + graphite 掛掉 server 也不會因此而卡住， statsd 提供的 library 蠻全面的，並且是 nodejs-based 的，對於這種大量連接的工作，處理的效率很好，而且國外也有許多 production 的案例，這也是採用的原因。</p>
+<h3 id="採用的Stack-Statsd-Graphite-Grafana"><a href="#採用的Stack-Statsd-Graphite-Grafana" class="headerlink" title="採用的Stack: Statsd + Graphite + Grafana"></a>採用的Stack: Statsd + Graphite + Grafana</h3><p>而後來採用的方法，其實是在 carbon 前面多塞一個 statsd 當作緩衝，主要原因是 server-side 想利用UDP 傳輸資料，而 Hitrate 這種屬於統計型態的資料，掉個幾筆其實並不會影響主要的趨勢，而利用 UDP 有個好處是，當 statsd + graphite 掛掉server 也不會因此而卡住， statsd 提供的 library 蠻全面的，並且是 nodejs-based 的，對於這種大量連接的工作，處理的效率很好，而且國外也有許多 production 的案例，這也是採用的原因。</p>
 <p>紀錄的方法很簡單：<br>使用<a href="https://pypi.python.org/pypi/statsd" target="_blank" rel="noopener">python statsd</a> library，利用 <code>incr</code> 的呼叫去累加數字</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">statsd</span><span class="selector-class">.incr</span>(<span class="string">'TW.queryin.y'</span>)</span><br><span class="line"><span class="selector-tag">statsd</span><span class="selector-class">.incr</span>(<span class="string">'TW.queryin.n'</span>)</span><br><span class="line"><span class="selector-tag">statsd</span><span class="selector-class">.incr</span>(<span class="string">'TW.widget.y'</span>)</span><br><span class="line"><span class="selector-tag">statsd</span><span class="selector-class">.incr</span>(<span class="string">'TW.widget.n'</span>)</span><br><span class="line"><span class="selector-tag">statsd</span><span class="selector-class">.incr</span>(<span class="string">'KR.queryin.y'</span>)</span><br><span class="line"><span class="selector-tag">statsd</span><span class="selector-class">.incr</span>(<span class="string">'KR.queryin.n'</span>)</span><br></pre></td></tr></table></figure>
 <p>如此一來我們可以用<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">sumSeries</span><span class="params">(TW.*.*)</span></span> 來觀看總數是多少</span><br></pre></td></tr></table></figure></p>
 <p>再搭配 graphite 的 dashbaord，很簡單就可以看到下面這種圖<br><img src="/img/graphite_sample.png" alt="grpahite_sample"></p>
 <p>這邊也只是範例，當然實際的紀錄是比這個複雜許多，不過用這個方法，其實得到蠻多方便性和彈性，當然 API 的 performance 也有大幅的提升!</p>
-<h3 id="遇到的問題"><a href="# 遇到的問題" class="headerlink" title="遇到的問題"></a>遇到的問題 </h3><p> 當然在採用這個方案時，也是有些坑要注意</p>
+<h3 id="遇到的問題"><a href="#遇到的問題" class="headerlink" title="遇到的問題"></a>遇到的問題</h3><p>當然在採用這個方案時，也是有些坑要注意</p>
 <ol>
 <li>Carbon-cache 還沒寫入完成就被關閉，queue 裡面的資料會掉，怕的話可以用 Carbon-relay 做 HA。</li>
-<li>每個 Metric 都存在一個檔案裡面，當你要做 aggregator 動到太多數據時，其實是會同時打開這些檔案(想想看同時開啟 1000 個 file)。</li>
+<li>每個 Metric 都存在一個檔案裡面，當你要做 aggregator 動到太多數據時，其實是會同時打開這些檔案(想想看同時開啟1000個file)。</li>
 <li>Python 的 GIL 問題，導致只能用一個 core 跑，這對 aggregator 的效率也是有影響。</li>
-<li>IOPS 的不足，同問題 1，因為寫入數據是寫到個別檔案，而 Whisper 每次最多才寫入 120 bytes，通常系統先會遇到 IO-bound。</li>
-<li>Statsd 和 Carbon-cache 的 flush-interval 要同步，像我們是都用 10s，這樣才不會寫入錯誤的資料，最下面會附上我的設定檔。</li>
+<li>IOPS 的不足，同問題1，因為寫入數據是寫到個別檔案，而 Whisper 每次最多才寫入 120 bytes，通常系統先會遇到IO-bound。</li>
+<li>Statsd 和 Carbon-cache 的 flush-interval 要同步，像我們是都用10s，這樣才不會寫入錯誤的資料，最下面會附上我的設定檔。</li>
 </ol>
-<h3 id="結語"><a href="# 結語" class="headerlink" title="結語"></a>結語 </h3><p> 其實我用 statsd + graphite + grafana 覺得蠻不錯的，因為太好用了，後來還有導入一些數據:</p>
+<h3 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h3><p>其實我用 statsd + graphite + grafana 覺得蠻不錯的，因為太好用了，後來還有導入一些數據:</p>
 <ol>
 <li>application 層面去紀錄每個 API 的次數還有呼叫時間</li>
 <li>每個 Queue worker 的執行時間還有 items 數量</li>
-<li><a href="https://twitter.com/suitingtseng" target="_blank" rel="noopener">@suiting</a> 大大還有幫忙導入 cloudwatch 的數據，因為 cloudwatch 只能儲存 2 周的資料，而導入後我們就可以看經年累月的資料比較了。</li>
+<li><a href="https://twitter.com/suitingtseng" target="_blank" rel="noopener">@suiting</a> 大大還有幫忙導入 cloudwatch 的數據，因為cloudwatch 只能儲存2周的資料，而導入後我們就可以看經年累月的資料比較了。</li>
 </ol>
-<p>最讓我驚艷的地方在於，從剛開始架設使用一台 AWS m3.medium 到現在，經過了一年半以上，公司的 request 量也早就成長一倍，居然還是非常堪用，CPU 使用率也維持在 25%~30% 中，Memory 大概吃 180 MB，然後到現在資料共佔了 13GB，雖然紀錄的資料部份是有經過 sampling 的，不過總體而已還是看得出趨勢，搭配 Grafana 很容易就可以看出是否有異常。</p>
-<h3 id="設定檔"><a href="# 設定檔" class="headerlink" title="設定檔"></a>設定檔</h3><ol>
+<p>最讓我驚艷的地方在於，從剛開始架設使用一台 AWS m3.medium 到現在，經過了一年半以上，公司的 request 量也早就成長一倍，居然還是非常堪用，CPU 使用率也維持在 25%~30% 中，Memory 大概吃 180 MB，然後到現在資料共佔了13GB，雖然紀錄的資料部份是有經過 sampling 的，不過總體而已還是看得出趨勢，搭配 Grafana 很容易就可以看出是否有異常。</p>
+<h3 id="設定檔"><a href="#設定檔" class="headerlink" title="設定檔"></a>設定檔</h3><ol>
 <li><p>statsd<br><code>statsd/config.conf</code></p>
- <figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">graphitePort:</span> <span class="number">2003</span></span><br><span class="line"><span class="symbol">graphiteHost:</span> <span class="string">"127.0.0.1"</span></span><br><span class="line"><span class="symbol">address:</span> <span class="string">"0.0.0.0"</span></span><br><span class="line"><span class="symbol">flushInterval:</span> <span class="number">10000</span></span><br><span class="line"><span class="symbol">port:</span> <span class="number">8125</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">graphitePort:</span> <span class="number">2003</span></span><br><span class="line"><span class="attr">graphiteHost:</span> <span class="string">"127.0.0.1"</span></span><br><span class="line"><span class="attr">address:</span> <span class="string">"0.0.0.0"</span></span><br><span class="line"><span class="attr">flushInterval:</span> <span class="number">10000</span></span><br><span class="line"><span class="attr">port:</span> <span class="number">8125</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>carbon<br><code>storage-schemas.conf</code></p>
- <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[stats]</span></span><br><span class="line"><span class="attr">pattern</span> = *</span><br><span class="line"><span class="attr">retentions</span> = <span class="number">10</span>s:<span class="number">6</span>h,<span class="number">10</span>m:<span class="number">7</span>d,<span class="number">1</span>d:<span class="number">5</span>y</span><br></pre></td></tr></table></figure>
+ <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[stats]</span><br><span class="line">pattern = *</span><br><span class="line">retentions = <span class="number">10</span>s:<span class="number">6</span>h,<span class="number">10</span>m:<span class="number">7</span>d,<span class="number">1</span>d:<span class="number">5</span>y</span><br></pre></td></tr></table></figure>
 <p> <code>carbon.conf</code></p>
  <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">MAX_CACHE_SIZE</span> = inf</span><br><span class="line"><span class="attr">MAX_UPDATES_PER_SECOND</span> = <span class="number">400</span></span><br><span class="line"><span class="attr">WHISPER_AUTOFLUSH</span> = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 
                 
-
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2016/01/14/docker-registry-installation/" data-toggle="tooltip" data-placement="top" title="docker registry 的簡單安裝紀錄">&larr; Previous Post</a>
-                        </li>
+                    <li class="previous">
+                        <a href="/2016/01/14/docker-registry-installation/" data-toggle="tooltip" data-placement="top" title="docker registry 的簡單安裝紀錄">&larr; Previous Post</a>
+                    </li>
                     
                     
-                        <li class="next">
-                            <a href="/2015/08/16/RDBMS-course/" data-toggle="tooltip" data-placement="top" title="RDBMS 先修課程筆記">Next Post &rarr;</a>
-                        </li>
+                    <li class="next">
+                        <a href="/2015/08/16/RDBMS-course/" data-toggle="tooltip" data-placement="top" title="RDBMS 先修課程筆記">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- tip start -->
                 
-                <!-- 多说 Share end-->
 
-                <!-- 多说评论框 start -->
                 
-                <!-- 多说评论框 end -->
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
 
                 <!-- disqus comment start -->
                 
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
                 <!-- disqus comment end -->
             </div>
@@ -331,12 +384,17 @@
 
                 <!-- Friends Blog -->
                 
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
             </div>
         </div>
     </div>
 </article>
-
-
 
 
 <!-- disqus embedded js code start (one page only need to embed once) -->
@@ -353,7 +411,6 @@
     })();
 </script>
 <!-- disqus embedded js code start end -->
-
 
 
 
@@ -379,7 +436,9 @@
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
-<style>
+
+
+<style  type="text/css">
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
         .anchorjs-link{
@@ -400,31 +459,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -439,6 +473,32 @@
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -448,34 +508,45 @@
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -489,24 +560,6 @@
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -556,6 +609,13 @@
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -563,10 +623,28 @@
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="Linux 5.1 的 io_uring - Kakashi&#39;s Blog">
-    <meta property="og:description" content="null">
-    <meta property="og:image" content="http://kkc.github.io/2020/08/19/io-uring/ring.jpeg">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           Linux 5.1 的 io_uring - Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/2020/08/19/io-uring/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('ring.jpeg')
-            /*post*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('ring.jpeg')
+                /*post*/
+            
         
     }
     
@@ -91,14 +117,30 @@
                             Posted by Kakashi on
                             2020-08-19
                         </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">765</span> and
+                                Reading Time <span class="post-count">3</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -136,14 +178,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -189,9 +231,7 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
+    <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -202,21 +242,21 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p> 之前在 Facebook 上面分享不少技術文章的心得，被網友建議說可以放在 blog 上面，其實原本想在 blog 上面放一些比較長且整理過的東西，不過想想如果自己的心得能讓更多人看見，並且有機會交流也是不錯的事情，接下來應該會慢慢將之前的筆記謄過來。</p>
+                <p>之前在 Facebook 上面分享不少技術文章的心得，被網友建議說可以放在 blog 上面，其實原本想在 blog 上面放一些比較長且整理過的東西，不過想想如果自己的心得能讓更多人看見，並且有機會交流也是不錯的事情，接下來應該會慢慢將之前的筆記謄過來。</p>
 <p><a href="https://www.facebook.com/kkcliu/posts/10157179358206129" target="_blank" rel="noopener">https://www.facebook.com/kkcliu/posts/10157179358206129</a></p>
-<h1 id="io-uring"><a href="#io-uring" class="headerlink" title="io_uring"></a>io_uring</h1><p> 前陣子在寫 epoll 文章的時候，剛好看到了一個討論串裡面談到 io_uring，其實原本沒聽過這個是什麼，後來查了一下才知道是新版的 Linux kernel 5.1 會加入這個 io_uring，主要目的是可以很好的改善原本 Linux native AIO 的問題，其實一般來說 AIO 的效能應該會比 epoll 還好，簡單一點的比較可以看 stackoverflow 上面寫的，<a href="https://stackoverflow.com/questions/5844955/whats-the-difference-between-event-driven-and-asynchronous-between-epoll-and-a" target="_blank" rel="noopener">https://stackoverflow.com/questions/5844955/whats-the-difference-between-event-driven-and-asynchronous-between-epoll-and-a</a></p>
+<h1 id="io-uring"><a href="#io-uring" class="headerlink" title="io_uring"></a>io_uring</h1><p>前陣子在寫 epoll 文章的時候，剛好看到了一個討論串裡面談到 io_uring，其實原本沒聽過這個是什麼，後來查了一下才知道是新版的 Linux kernel 5.1 會加入這個 io_uring，主要目的是可以很好的改善原本 Linux native AIO 的問題，其實一般來說 AIO 的效能應該會比 epoll 還好，簡單一點的比較可以看 stackoverflow 上面寫的，<a href="https://stackoverflow.com/questions/5844955/whats-the-difference-between-event-driven-and-asynchronous-between-epoll-and-a" target="_blank" rel="noopener">https://stackoverflow.com/questions/5844955/whats-the-difference-between-event-driven-and-asynchronous-between-epoll-and-a</a></p>
 <ul>
 <li>epoll is a blocking operation (epoll_wait()) - you block the thread until some event happens and then you dispatch the event to different procedures/functions/branches in your code.</li>
 <li>In AIO, you pass the address of your callback function (completion routine) to the system and the system calls your function when something happens.</li>
 </ul>
-<p> 簡單來說 epoll 是等待 event 發生，才去做事情，所以 epoll_wait 是個 blocking 的 operation，而 AIO 是把對應的 callback function 交給系統去做，算是真正的 asynchronous， Mysql 的 innodb 也是使用了 native linux AIO，但是看了下原生的 Linux AIO 有蠻多大大小小的問題，所以並不是真的太流行，這邊可以推薦大家看一下 cloudflare 這篇 <a href="https://blog.cloudflare.com/io_submit-the-epoll-alternative-youve-never-heard-about/" target="_blank" rel="noopener">https://blog.cloudflare.com/io_submit-the-epoll-alternative-youve-never-heard-about/</a> ， 有介紹怎麼使用 AIO，也提到 AIO 的一些問題，有趣的地方像是提到 Linus 對 AIO 的評價:</p>
+<p>簡單來說 epoll 是等待 event 發生，才去做事情，所以 epoll_wait 是個 blocking 的 operation，而 AIO 是把對應的 callback function 交給系統去做，算是真正的 asynchronous， Mysql 的 innodb 也是使用了 native linux AIO，但是看了下原生的 Linux AIO 有蠻多大大小小的問題，所以並不是真的太流行，這邊可以推薦大家看一下 cloudflare 這篇 <a href="https://blog.cloudflare.com/io_submit-the-epoll-alternative-youve-never-heard-about/" target="_blank" rel="noopener">https://blog.cloudflare.com/io_submit-the-epoll-alternative-youve-never-heard-about/</a> ， 有介紹怎麼使用 AIO，也提到 AIO 的一些問題，有趣的地方像是提到 Linus 對 AIO 的評價:</p>
 <blockquote>
 <p>AIO is a horrible ad-hoc design, with the main excuse being “other, less gifted people, made that design, and we are implementing it for compatibility because database people - who seldom have any shred of taste - actually use it”. But AIO was always really really ugly.</p>
 </blockquote>
-<p> 接著是又看到 Facebook 分享的 slides: <a href="https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring" target="_blank" rel="noopener">https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring</a> 和 Hackernews <a href="https://news.ycombinator.com/item?id=19843464" target="_blank" rel="noopener">https://news.ycombinator.com/item?id=19843464</a> 上面的介紹，最重要的是 performance 真的好上不少，從這邊 <a href="https://github.com/frevib/io_uring-echo-server/blob/io-uring-feat-fast-poll/benchmarks/benchmarks.md" target="_blank" rel="noopener">https://github.com/frevib/io_uring-echo-server/blob/io-uring-feat-fast-poll/benchmarks/benchmarks.md</a> ，可以找到 epoll vs io_uring 的 benchmark ，可以看出 io_uring 的效能可以快到 40% 以上。</p>
-<p><img src="./benchmark.png" alt></p>
-<p> 然後也看到很多不同的 project 像是 libuv, rust, ceph, rocksdb，正在討論或是進行 io_uring integration，這對 database &amp; cloud 相關的產業會有重大的影響，省下來的成本光用想的就很驚人，雖然要等到大家升到 5.1 不容易，但是越來越期待這個發展了。</p>
-<p> 後記: 同事 Champ 大大有提點, Linux AIO 的問題是因為只能用在 DIRECT_IO 上面，所以對於很多程式來說，就沒辦法得到系統上面的 page cache 的好處，這也是為什麼 AIO 不好用的原因。</p>
+<p>接著是又看到 Facebook 分享的 slides: <a href="https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring" target="_blank" rel="noopener">https://www.slideshare.net/ennael/kernel-recipes-2019-faster-io-through-iouring</a> 和 Hackernews <a href="https://news.ycombinator.com/item?id=19843464" target="_blank" rel="noopener">https://news.ycombinator.com/item?id=19843464</a> 上面的介紹，最重要的是 performance 真的好上不少，從這邊 <a href="https://github.com/frevib/io_uring-echo-server/blob/io-uring-feat-fast-poll/benchmarks/benchmarks.md" target="_blank" rel="noopener">https://github.com/frevib/io_uring-echo-server/blob/io-uring-feat-fast-poll/benchmarks/benchmarks.md</a> ，可以找到 epoll vs io_uring 的 benchmark ，可以看出 io_uring 的效能可以快到 40% 以上。</p>
+<p><img src="./benchmark.png" alt=""></p>
+<p>然後也看到很多不同的 project 像是 libuv, rust, ceph, rocksdb，正在討論或是進行 io_uring integration，這對 database &amp; cloud 相關的產業會有重大的影響，省下來的成本光用想的就很驚人，雖然要等到大家升到 5.1 不容易，但是越來越期待這個發展了。</p>
+<p>後記: 同事 Champ 大大有提點, Linux AIO 的問題是因為只能用在 DIRECT_IO 上面，所以對於很多程式來說，就沒辦法得到系統上面的 page cache 的好處，這也是為什麼 AIO 不好用的原因。</p>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
 <li><a href="https://kernel.dk/io_uring-whatsnew.pdf" target="_blank" rel="noopener">https://kernel.dk/io_uring-whatsnew.pdf</a></li>
 <li><a href="https://github.com/agnivade/frodo" target="_blank" rel="noopener">https://github.com/agnivade/frodo</a></li>
@@ -227,35 +267,48 @@
 <p>Header photo is from <a href="https://unsplash.com/photos/1XgFFEG_RGA" target="_blank" rel="noopener">https://unsplash.com/photos/1XgFFEG_RGA</a></p>
 
                 
-
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2020/08/22/file-descriptor/" data-toggle="tooltip" data-placement="top" title="Linux 的 file descriptor 筆記">&larr; Previous Post</a>
-                        </li>
+                    <li class="previous">
+                        <a href="/2020/08/22/file-descriptor/" data-toggle="tooltip" data-placement="top" title="Linux 的 file descriptor 筆記">&larr; Previous Post</a>
+                    </li>
                     
                     
-                        <li class="next">
-                            <a href="/2020/06/05/improve-cpu-utilization-by-using-bpf/" data-toggle="tooltip" data-placement="top" title="Improve CPU Utilization of Go app By Using BPF">Next Post &rarr;</a>
-                        </li>
+                    <li class="next">
+                        <a href="/2020/06/05/improve-cpu-utilization-by-using-bpf/" data-toggle="tooltip" data-placement="top" title="Improve CPU Utilization of Go app By Using BPF">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- tip start -->
                 
-                <!-- 多说 Share end-->
 
-                <!-- 多说评论框 start -->
                 
-                <!-- 多说评论框 end -->
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
 
                 <!-- disqus comment start -->
                 
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
                 <!-- disqus comment end -->
             </div>
@@ -264,14 +317,18 @@
             <!-- Table of Contents -->
 
     
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
-        
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#io-uring"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">io_uring</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
-        
-        </div>
-      </aside>
+      
+        <aside id="sidebar">
+          <div id="toc" class="toc-article">
+          <strong class="toc-title">Contents</strong>
+          
+            
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#io-uring"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">io_uring</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+            
+          
+          </div>
+        </aside>
+      
     
 
                 
@@ -296,12 +353,17 @@
 
                 <!-- Friends Blog -->
                 
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
             </div>
         </div>
     </div>
 </article>
-
-
 
 
 <!-- disqus embedded js code start (one page only need to embed once) -->
@@ -318,7 +380,6 @@
     })();
 </script>
 <!-- disqus embedded js code start end -->
-
 
 
 
@@ -344,7 +405,9 @@
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
-<style>
+
+
+<style  type="text/css">
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
         .anchorjs-link{
@@ -365,31 +428,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -404,6 +442,32 @@
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -413,34 +477,45 @@
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -454,24 +529,6 @@
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -521,6 +578,13 @@
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -528,10 +592,28 @@
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="Deploy Prometheus Operator With Thanos - Kakashi&#39;s Blog">
-    <meta property="og:description" content="Solve HA and long term storage of Prometheus">
-    <meta property="og:image" content="http://kkc.github.io/2019/02/10/prometheus-operator-with-thanos/univer.jpeg">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           Deploy Prometheus Operator With Thanos - Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/2019/02/10/prometheus-operator-with-thanos/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('univer.jpeg')
-            /*post*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('univer.jpeg')
+                /*post*/
+            
         
     }
     
@@ -95,14 +121,30 @@
                             Posted by Kakashi on
                             2019-02-10
                         </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">1.2k</span> and
+                                Reading Time <span class="post-count">7</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -140,14 +182,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -193,9 +235,7 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
+    <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -222,7 +262,7 @@
 <li>MacOS: <code>brew install kubernetes-helm</code></li>
 <li>Linux: <code>sudo snap install helm</code></li>
 </ul>
-<h2 id="2-Initialize-helm-and-install-tiller"><a href="#2-Initialize-helm-and-install-tiller" class="headerlink" title="2. Initialize helm and install tiller"></a>2. Initialize helm and install tiller</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> helm init</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-Initialize-helm-and-install-tiller"><a href="#2-Initialize-helm-and-install-tiller" class="headerlink" title="2. Initialize helm and install tiller"></a>2. Initialize helm and install tiller</h2><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>helm init</span><br></pre></td></tr></table></figure>
 <h2 id="3-Install-coreos-prometheus-operator"><a href="#3-Install-coreos-prometheus-operator" class="headerlink" title="3. Install coreos prometheus operator"></a>3. Install coreos prometheus operator</h2><p>Note that we are using <code>stable/prometheus-operator</code> because <code>coreos/prometheus-operator</code> helm is going to be deprecated. We later need to modify chart value to provision prometheus cluster along with thanos sidecar. To install a stable helm chart with custom value, you need to download <code>values.yaml</code> from <a href="https://github.com/helm/charts/blob/master/stable/prometheus-operator/values.yaml" target="_blank" rel="noopener">github repo</a>.</p>
 <p>In this example, we named our prometheus operator as <code>prom-op</code> and install it under <code>monitoring</code> namespace.</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ helm<span class="built_in"> upgrade </span>--install prom-op stable/prometheus-operator --namespace monitoring -f values.yaml</span><br></pre></td></tr></table></figure>
@@ -249,62 +289,75 @@
 <h2 id="Install-Thanos-sidecar"><a href="#Install-Thanos-sidecar" class="headerlink" title="Install Thanos sidecar"></a>Install Thanos sidecar</h2><p>To install Thanos sidecar along with prometheus-operator, we should specify thanos sidecar in the chart value as following:</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">thanos</span>:</span><br><span class="line">    <span class="attribute">baseImage</span>: improbable/thanos</span><br><span class="line">    <span class="attribute">version</span>: v0.<span class="number">2.1</span></span><br><span class="line">    <span class="attribute">peers</span>: thanos-peers.monitoring.<span class="attribute">svc</span>:<span class="number">10900</span></span><br><span class="line">    <span class="attribute">objectStorageConfig</span>:</span><br><span class="line">      <span class="attribute">key</span>: thanos.yaml</span><br><span class="line">      <span class="attribute">name</span>: thanos-objstore-config</span><br></pre></td></tr></table></figure>
 <p><code>objectStorageConfig</code> can be configured through configuration file <code>thanos.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">type:</span> <span class="string">s3</span></span><br><span class="line"><span class="attr">config:</span></span><br><span class="line"><span class="attr">  bucket:</span> <span class="string">test-prometheus-thanos</span></span><br><span class="line"><span class="attr">  endpoint:</span> <span class="string">s3.us-west-2.amazonaws.com</span></span><br><span class="line"><span class="attr">  encryptsse:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">type:</span> <span class="string">s3</span></span><br><span class="line"><span class="attr">config:</span></span><br><span class="line">  <span class="attr">bucket:</span> <span class="string">test-prometheus-thanos</span></span><br><span class="line">  <span class="attr">endpoint:</span> <span class="string">s3.us-west-2.amazonaws.com</span></span><br><span class="line">  <span class="attr">encryptsse:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>Creating the kubernetes secret by applying following command</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n monitoring create<span class="built_in"> secret </span>generic thanos-objstore-config <span class="attribute">--from-file</span>=thanos.yaml=/tmp/thanos-config.yaml</span><br></pre></td></tr></table></figure>
 <p><strong>Warn</strong>: <code>endpoint</code> needs to be set in order to specify bucket located in which region.</p>
 <h2 id="Verify-Thanos-Sidecar"><a href="#Verify-Thanos-Sidecar" class="headerlink" title="Verify Thanos Sidecar"></a>Verify Thanos Sidecar</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl <span class="builtin-name">get</span> po -n monitoring</span><br></pre></td></tr></table></figure>
 <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">describe</span> po/prometheus-prom-<span class="built_in">op</span>-prometheus-<span class="number">0</span> -n monitoring</span><br></pre></td></tr></table></figure>
 <p>If everything goes well, we could find out there is thanos-sidecar in the prometheus pod</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">thanos-<span class="string">sidecar:</span></span><br><span class="line">  Container <span class="string">ID:</span>  <span class="string">docker:</span><span class="comment">//e52df9fda7b0c43eea297d273169cf33e4aa49780fd8d5192c23f497c78b2007</span></span><br><span class="line"><span class="symbol">  Image:</span>         improbable/<span class="string">thanos:</span>v0<span class="number">.2</span><span class="number">.1</span></span><br><span class="line">  Image <span class="string">ID:</span>      docker-<span class="string">pullable:</span><span class="comment">//improbable/thanos@sha256:4ee0774316a5d57f78d243fe4afb10e9e889670d3facfdda70aae76f7165a16b</span></span><br><span class="line"><span class="symbol">  Ports:</span>         <span class="number">10902</span><span class="regexp">/TCP, 10901/</span>TCP, <span class="number">10900</span>/TCP</span><br><span class="line">  Host <span class="string">Ports:</span>    <span class="number">0</span><span class="regexp">/TCP, 0/</span>TCP, <span class="number">0</span>/TCP</span><br><span class="line"><span class="symbol">  Args:</span></span><br><span class="line">    sidecar</span><br><span class="line">    --prometheus.url=<span class="string">http:</span><span class="comment">//127.0.0.1:9090</span></span><br><span class="line">    --tsdb.path=/prometheus</span><br><span class="line">    --cluster.address=[$(POD_IP)]:<span class="number">10900</span></span><br><span class="line">    --grpc-address=[$(POD_IP)]:<span class="number">10901</span></span><br><span class="line">    --cluster.peers=thanos-peers.monitoring.svc.cluster.<span class="string">local:</span><span class="number">10900</span></span><br><span class="line"><span class="symbol">  State:</span>          Running</span><br><span class="line"><span class="symbol">    Started:</span>      Fri, <span class="number">01</span> Feb <span class="number">2019</span> <span class="number">12</span>:<span class="number">24</span>:<span class="number">38</span> +<span class="number">0800</span></span><br><span class="line"><span class="symbol">  Ready:</span>          True</span><br><span class="line">  Restart <span class="string">Count:</span>  <span class="number">0</span></span><br><span class="line"><span class="symbol">  Environment:</span></span><br><span class="line"><span class="symbol">    POD_IP:</span>   (<span class="string">v1:</span>status.podIP)</span><br><span class="line"><span class="symbol">  Mounts:</span></span><br><span class="line">    /prometheus from prometheus-prom-op-prometheus-db (rw)</span><br><span class="line">    <span class="regexp">/var/</span>run<span class="regexp">/secrets/</span>kubernetes.io/serviceaccount from prom-op-prometheus-token<span class="number">-7</span>gvcp (ro)</span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">thanos-sidecar:</span></span><br><span class="line">  <span class="attr">Container ID:</span>  <span class="string">docker://e52df9fda7b0c43eea297d273169cf33e4aa49780fd8d5192c23f497c78b2007</span></span><br><span class="line">  <span class="attr">Image:</span>         <span class="string">improbable/thanos:v0.2.1</span></span><br><span class="line">  <span class="attr">Image ID:</span>      <span class="string">docker-pullable://improbable/thanos@sha256:4ee0774316a5d57f78d243fe4afb10e9e889670d3facfdda70aae76f7165a16b</span></span><br><span class="line">  <span class="attr">Ports:</span>         <span class="number">10902</span><span class="string">/TCP,</span> <span class="number">10901</span><span class="string">/TCP,</span> <span class="number">10900</span><span class="string">/TCP</span></span><br><span class="line">  <span class="attr">Host Ports:</span>    <span class="number">0</span><span class="string">/TCP,</span> <span class="number">0</span><span class="string">/TCP,</span> <span class="number">0</span><span class="string">/TCP</span></span><br><span class="line">  <span class="attr">Args:</span></span><br><span class="line">    <span class="string">sidecar</span></span><br><span class="line">    <span class="string">--prometheus.url=http://127.0.0.1:9090</span></span><br><span class="line">    <span class="string">--tsdb.path=/prometheus</span></span><br><span class="line">    <span class="string">--cluster.address=[$(POD_IP)]:10900</span></span><br><span class="line">    <span class="string">--grpc-address=[$(POD_IP)]:10901</span></span><br><span class="line">    <span class="string">--cluster.peers=thanos-peers.monitoring.svc.cluster.local:10900</span></span><br><span class="line">  <span class="attr">State:</span>          <span class="string">Running</span></span><br><span class="line">    <span class="attr">Started:</span>      <span class="string">Fri,</span> <span class="number">01</span> <span class="string">Feb</span> <span class="number">2019</span> <span class="number">12</span><span class="string">:24:38</span> <span class="string">+0800</span></span><br><span class="line">  <span class="attr">Ready:</span>          <span class="literal">True</span></span><br><span class="line">  <span class="attr">Restart Count:</span>  <span class="number">0</span></span><br><span class="line">  <span class="attr">Environment:</span></span><br><span class="line">    <span class="attr">POD_IP:</span>   <span class="string">(v1:status.podIP)</span></span><br><span class="line">  <span class="attr">Mounts:</span></span><br><span class="line">    <span class="string">/prometheus</span> <span class="string">from</span> <span class="string">prometheus-prom-op-prometheus-db</span> <span class="string">(rw)</span></span><br><span class="line">    <span class="string">/var/run/secrets/kubernetes.io/serviceaccount</span> <span class="string">from</span> <span class="string">prom-op-prometheus-token-7gvcp</span> <span class="string">(ro)</span></span><br></pre></td></tr></table></figure>
 <p>and if you check the log of sidecar, you will see following messages.<br><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">log</span> -f  po/prometheus-prom-op-prometheus-<span class="number">0</span> -<span class="built_in">n</span> monitoring -c thanos-sidecar</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">level</span>=info <span class="attribute">ts</span>=2019-02-01T09:33:15.173007261Z <span class="attribute">caller</span>=flags.go:90 <span class="attribute">msg</span>=<span class="string">"StoreAPI address that will be propagated through gossip"</span> <span class="attribute">address</span>=10.11.29.191:10901</span><br><span class="line"><span class="attribute">level</span>=info <span class="attribute">ts</span>=2019-02-01T09:33:20.178094001Z <span class="attribute">caller</span>=main.go:256 <span class="attribute">component</span>=sidecar <span class="attribute">msg</span>=<span class="string">"disabled TLS, key and cert must be set to enable"</span></span><br><span class="line"><span class="attribute">level</span>=info <span class="attribute">ts</span>=2019-02-01T09:33:20.178211091Z <span class="attribute">caller</span>=factory.go:39 <span class="attribute">msg</span>=<span class="string">"loading bucket configuration"</span></span><br><span class="line"><span class="attribute">level</span>=info <span class="attribute">ts</span>=2019-02-01T09:33:20.17855779Z <span class="attribute">caller</span>=sidecar.go:280 <span class="attribute">msg</span>=<span class="string">"starting sidecar"</span> peer=</span><br><span class="line"><span class="attribute">level</span>=info <span class="attribute">ts</span>=2019-02-01T09:33:20.179145313Z <span class="attribute">caller</span>=sidecar.go:220 <span class="attribute">component</span>=sidecar <span class="attribute">msg</span>=<span class="string">"Listening for StoreAPI gRPC"</span> address=[10.11.29.191]:10901</span><br><span class="line"><span class="attribute">level</span>=info <span class="attribute">ts</span>=2019-02-01T09:33:20.179187469Z <span class="attribute">caller</span>=main.go:308 <span class="attribute">msg</span>=<span class="string">"Listening for metrics"</span> <span class="attribute">address</span>=0.0.0.0:10902</span><br><span class="line"><span class="attribute">level</span>=info <span class="attribute">ts</span>=2019-02-01T12:33:50.282222532Z <span class="attribute">caller</span>=shipper.go:201 <span class="attribute">msg</span>=<span class="string">"upload new block"</span> <span class="attribute">id</span>=01D2MGSADK1860F4APSD7CFZ7C</span><br></pre></td></tr></table></figure>
 <h2 id="Install-Thanos-Querier"><a href="#Install-Thanos-Querier" class="headerlink" title="Install Thanos Querier"></a>Install Thanos Querier</h2><p>Thanos Querier Layer provides the ability to retrieve metrics from all prometheus instances at once. It’s fully compatible with original prometheus PromQL and HTTP APIs so that it can be used along with Grafana.</p>
 <p>Since there are too many yaml files, I put everything in my <a href="https://github.com/kkc/prometheus-thanos" target="_blank" rel="noopener">github repo</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> thanos</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f querier-deployment.yaml</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f querier-service.yaml</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f querier-service-monitor.yaml</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f thanos-peers-svc.yaml</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span> cd thanos</span><br><span class="line"><span class="variable">$</span> kubectl apply <span class="operator">-f</span> querier<span class="literal">-deployment</span>.yaml</span><br><span class="line"><span class="variable">$</span> kubectl apply <span class="operator">-f</span> querier<span class="literal">-service</span>.yaml</span><br><span class="line"><span class="variable">$</span> kubectl apply <span class="operator">-f</span> querier<span class="literal">-service</span><span class="literal">-monitor</span>.yaml</span><br><span class="line"><span class="variable">$</span> kubectl apply <span class="operator">-f</span> thanos<span class="literal">-peers</span><span class="literal">-svc</span>.yaml</span><br></pre></td></tr></table></figure>
 <h2 id="Install-Thanos-Store"><a href="#Install-Thanos-Store" class="headerlink" title="Install Thanos Store"></a>Install Thanos Store</h2><p>Thanos Store collaborates with <code>querier</code> for retrieving historical data from the given bucket. It will join the Thanos cluster on setup. </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f thanos-store.yaml</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span> kubectl apply <span class="operator">-f</span> thanos<span class="literal">-store</span>.yaml</span><br></pre></td></tr></table></figure>
 <h2 id="Install-Thanos-Compactor"><a href="#Install-Thanos-Compactor" class="headerlink" title="Install Thanos Compactor"></a>Install Thanos Compactor</h2><p>Thanos Compactor will do downsampling for your all historical data. It’s a really useful component which can reduce file size. Recommend everyone read this well explained <a href="https://improbable.io/games/blog/thanos-prometheus-at-scale" target="_blank" rel="noopener">article</a>. </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f thanos-compactor.yaml</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f thanos-compactor-service.yaml</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f thanos-compactor-service-monitor.yaml</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span> kubectl apply <span class="operator">-f</span> thanos<span class="literal">-compactor</span>.yaml</span><br><span class="line"><span class="variable">$</span> kubectl apply <span class="operator">-f</span> thanos<span class="literal">-compactor</span><span class="literal">-service</span>.yaml</span><br><span class="line"><span class="variable">$</span> kubectl apply <span class="operator">-f</span> thanos<span class="literal">-compactor</span><span class="literal">-service</span><span class="literal">-monitor</span>.yaml</span><br></pre></td></tr></table></figure>
 <h1 id="Troubleshooting"><a href="#Troubleshooting" class="headerlink" title="Troubleshooting"></a>Troubleshooting</h1><h2 id="Peering-service-didn’t-set-up-properly"><a href="#Peering-service-didn’t-set-up-properly" class="headerlink" title="Peering service didn’t set up properly"></a>Peering service didn’t set up properly</h2><p>you will see this kind of message of thanos component<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">level</span>=error <span class="attribute">ts</span>=2019-02-01T05:11:40.805153721Z <span class="attribute">caller</span>=cluster.go:269 <span class="attribute">component</span>=cluster <span class="attribute">msg</span>=<span class="string">"Refreshing memberlist"</span> <span class="attribute">err</span>=<span class="string">"join peers thanos-peers.monitoring.svc.cluster.local:10900 : 1 error occurred:\n\t* Failed to resolve thanos-peers.monitoring.svc.cluster.local:10900: lookup thanos-peers.monitoring.svc.cluster.local on 172.20.0.10:53: no such host\n\n"</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f thanos-peers-svc.yaml</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span> kubectl apply <span class="operator">-f</span> thanos<span class="literal">-peers</span><span class="literal">-svc</span>.yaml</span><br></pre></td></tr></table></figure>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ol>
 <li><a href="https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/getting-started.md" target="_blank" rel="noopener">https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/getting-started.md</a></li>
 <li><a href="https://sysdig.com/blog/kubernetes-monitoring-prometheus-operator-part3/" target="_blank" rel="noopener">https://sysdig.com/blog/kubernetes-monitoring-prometheus-operator-part3/</a></li>
 <li><a href="https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/alerting.md" target="_blank" rel="noopener">https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/alerting.md</a></li>
-<li><a href="https://fosdem.org/2019/schedule/event/thanos_transforming_prometheus_to_a_global_scale_in_a_seven_simple_steps/attachments/slides/3178/export/events/attachments/thanos_transforming_prometheus_to_a_global_scale_in_a_seven_simple_steps/slides/3178/Thanos___Transforming_Prometheus_to_a_Global_Scale_in_a_Seven_Simple_Steps_(FOSDEM" target="_blank" rel="noopener">Thanos___Transforming_Prometheus_to_a_Global_Scale_in_a_Seven_Simple_Steps_(FOSDEM).pdf</a>.pdf)</li>
+<li><a href="https://fosdem.org/2019/schedule/event/thanos_transforming_prometheus_to_a_global_scale_in_a_seven_simple_steps/attachments/slides/3178/export/events/attachments/thanos_transforming_prometheus_to_a_global_scale_in_a_seven_simple_steps/slides/3178/Thanos___Transforming_Prometheus_to_a_Global_Scale_in_a_Seven_Simple_Steps_(FOSDEM" target="_blank" rel="noopener">Thanos<em>__Transforming_Prometheus_to_a_Global_Scale_in_a_Seven_Simple_Steps</em>(FOSDEM).pdf</a>.pdf)</li>
 </ol>
 
                 
-
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2019/02/25/install-prometheus-on-EKS/" data-toggle="tooltip" data-placement="top" title="利用 Helm 在 EKS 上安裝 Prometheus">&larr; Previous Post</a>
-                        </li>
+                    <li class="previous">
+                        <a href="/2019/02/25/install-prometheus-on-EKS/" data-toggle="tooltip" data-placement="top" title="利用 Helm 在 EKS 上安裝 Prometheus">&larr; Previous Post</a>
+                    </li>
                     
                     
-                        <li class="next">
-                            <a href="/2019/01/12/ffmpeg-libav-decode-note/" data-toggle="tooltip" data-placement="top" title="FFmpeg libav decode 筆記">Next Post &rarr;</a>
-                        </li>
+                    <li class="next">
+                        <a href="/2019/01/12/ffmpeg-libav-decode-note/" data-toggle="tooltip" data-placement="top" title="FFmpeg libav decode 筆記">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- tip start -->
                 
-                <!-- 多说 Share end-->
 
-                <!-- 多说评论框 start -->
                 
-                <!-- 多说评论框 end -->
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
 
                 <!-- disqus comment start -->
                 
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
                 <!-- disqus comment end -->
             </div>
@@ -313,14 +366,18 @@
             <!-- Table of Contents -->
 
     
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
-        
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Preface"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Preface</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Thanos-comes-to-the-rescue"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Thanos comes to the rescue</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Install-Prometheus-through-Prometheus-operator"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Install Prometheus through Prometheus operator</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-Install-Helm-in-your-environment"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">1. Install Helm in your environment</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-Initialize-helm-and-install-tiller"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">2. Initialize helm and install tiller</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-Install-coreos-prometheus-operator"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">3. Install coreos prometheus operator</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Thanos-Deployment"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Thanos Deployment</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Thanos-Architecture"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">Thanos Architecture</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Install-Thanos-sidecar"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">Install Thanos sidecar</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Verify-Thanos-Sidecar"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text">Verify Thanos Sidecar</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Install-Thanos-Querier"><span class="toc-nav-number">4.4.</span> <span class="toc-nav-text">Install Thanos Querier</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Install-Thanos-Store"><span class="toc-nav-number">4.5.</span> <span class="toc-nav-text">Install Thanos Store</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Install-Thanos-Compactor"><span class="toc-nav-number">4.6.</span> <span class="toc-nav-text">Install Thanos Compactor</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Troubleshooting"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Troubleshooting</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Peering-service-didn’t-set-up-properly"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">Peering service didn’t set up properly</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#References"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">References</span></a></li></ol>
-        
-        </div>
-      </aside>
+      
+        <aside id="sidebar">
+          <div id="toc" class="toc-article">
+          <strong class="toc-title">Contents</strong>
+          
+            
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Preface"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Preface</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Thanos-comes-to-the-rescue"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Thanos comes to the rescue</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Install-Prometheus-through-Prometheus-operator"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Install Prometheus through Prometheus operator</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-Install-Helm-in-your-environment"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">1. Install Helm in your environment</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-Initialize-helm-and-install-tiller"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">2. Initialize helm and install tiller</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-Install-coreos-prometheus-operator"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">3. Install coreos prometheus operator</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Thanos-Deployment"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Thanos Deployment</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Thanos-Architecture"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">Thanos Architecture</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Install-Thanos-sidecar"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">Install Thanos sidecar</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Verify-Thanos-Sidecar"><span class="toc-nav-number">4.3.</span> <span class="toc-nav-text">Verify Thanos Sidecar</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Install-Thanos-Querier"><span class="toc-nav-number">4.4.</span> <span class="toc-nav-text">Install Thanos Querier</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Install-Thanos-Store"><span class="toc-nav-number">4.5.</span> <span class="toc-nav-text">Install Thanos Store</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Install-Thanos-Compactor"><span class="toc-nav-number">4.6.</span> <span class="toc-nav-text">Install Thanos Compactor</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Troubleshooting"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Troubleshooting</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Peering-service-didn’t-set-up-properly"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">Peering service didn’t set up properly</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#References"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">References</span></a></li></ol>
+            
+          
+          </div>
+        </aside>
+      
     
 
                 
@@ -349,12 +406,17 @@
 
                 <!-- Friends Blog -->
                 
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
             </div>
         </div>
     </div>
 </article>
-
-
 
 
 <!-- disqus embedded js code start (one page only need to embed once) -->
@@ -371,7 +433,6 @@
     })();
 </script>
 <!-- disqus embedded js code start end -->
-
 
 
 
@@ -397,7 +458,9 @@
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
-<style>
+
+
+<style  type="text/css">
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
         .anchorjs-link{
@@ -418,31 +481,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -457,6 +495,32 @@
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -466,34 +530,45 @@
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -507,24 +582,6 @@
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -574,6 +631,13 @@
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -581,10 +645,28 @@
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

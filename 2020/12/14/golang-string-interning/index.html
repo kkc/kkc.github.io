@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="Golang 的 string interning 技巧 - Kakashi&#39;s Blog">
-    <meta property="og:description" content="null">
-    <meta property="og:image" content="http://kkc.github.io/2020/12/14/golang-string-interning/interning.jpg">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           Golang 的 string interning 技巧 - Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/2020/12/14/golang-string-interning/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('interning.jpg')
-            /*post*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('interning.jpg')
+                /*post*/
+            
         
     }
     
@@ -91,14 +117,30 @@
                             Posted by Kakashi on
                             2020-12-14
                         </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">1.2k</span> and
+                                Reading Time <span class="post-count">4</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -136,14 +178,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -189,9 +231,7 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
+    <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -205,18 +245,17 @@
                 <h2 id="String-Interning"><a href="#String-Interning" class="headerlink" title="String Interning"></a>String Interning</h2><p>最近在 twitter 上面看到一篇推文</p>
 <p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Hacked string interning profiler for <a href="https://twitter.com/hashtag/golang?src=hash&amp;ref_src=twsrc%5Etfw" target="_blank" rel="noopener">#golang</a>:<a href="https://t.co/EB2uJwzvtx" target="_blank" rel="noopener">https://t.co/EB2uJwzvtx</a><br>Allows to understand where to use interning &amp; exact savings for heap size/garbage rate. May be useful for larger projects.<br>Yay or nay? <a href="https://t.co/71h6tNJHaX" target="_blank" rel="noopener">pic.twitter.com/71h6tNJHaX</a></p>&mdash; Dmitry Vyukov (@dvyukov) <a href="https://twitter.com/dvyukov/status/1337847667125313538?ref_src=twsrc%5Etfw" target="_blank" rel="noopener">December 12, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
 <p>具體在討論這個 <a href="https://go-review.googlesource.com/c/go/+/277376" target="_blank" rel="noopener">CL</a> 要加入 string interning profile，而利用這個可以測量是否該加入 string interning，原本不知道這個是幹嘛的，後來看了一下 comments 內的一些解釋和文章，才知道原來 String interning 是個可以拿來有效減少 memory 使用量的技巧，原理相當簡單，而在其他語言裡面也有這種東西，像是 python 在一些小的數字和文字上面，都是會指向同一組記憶體，藉此來減少 memory allocation 的時間和用量，而 string intening 也是這類技巧的名字(<a href="https://en.wikipedia.org/wiki/String_interning)。" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/String_interning)。</a></p>
-<h2 id="Golang- 裡面的運用"><a href="#Golang- 裡面的運用" class="headerlink" title="Golang 裡面的運用"></a>Golang 裡面的運用 </h2><p> 在 golang 裡面在什麼地方被用到，也可以看下面幾篇的解釋，個人覺得已經很清楚</p>
+<h2 id="Golang-裡面的運用"><a href="#Golang-裡面的運用" class="headerlink" title="Golang 裡面的運用"></a>Golang 裡面的運用</h2><p>在 golang 裡面在什麼地方被用到，也可以看下面幾篇的解釋，個人覺得已經很清楚</p>
 <ul>
 <li><a href="https://artem.krylysov.com/blog/2018/12/12/string-interning-in-go/" target="_blank" rel="noopener">https://artem.krylysov.com/blog/2018/12/12/string-interning-in-go/</a></li>
 <li><a href="https://commaok.xyz/post/intern-strings/" target="_blank" rel="noopener">https://commaok.xyz/post/intern-strings/</a></li>
 </ul>
-<p>基本上要做實驗可以透過下面的 function 去看 string 的 pointer 位置，看是不是同一份<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pointer</span><span class="params">(s <span class="keyword">string</span>)</span> <span class="title">uintptr</span></span> &#123;</span><br><span class="line">    p := unsafe.Pointer(&amp;s)</span><br><span class="line">    h := *(*reflect.StringHeader)(p)</span><br><span class="line">    <span class="keyword">return</span> h.Data</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    b := []<span class="keyword">byte</span>(<span class="string">"hello"</span>)</span><br><span class="line">    s := <span class="keyword">string</span>(b)</span><br><span class="line">    t := <span class="keyword">string</span>(b)</span><br><span class="line">    fmt.Println(pointer(s), pointer(t))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>相關的 playgound 連結在 <a href="https://play.golang.org/p/oyq6Pz79EGa" target="_blank" rel="noopener"> 這邊</a>，從這個實驗中，我們可以很快發現，兩個字串指向的記憶體不同，而在 golang 裡面比對 string 如果是同一個 pointer 而且 Len 都一樣，就可以加速比對的過程，而不用一個 byte 一個 byte 的去比較，所謂的 interning，也就是如果我們能夠不重複 allocate 記憶體，都用同一個字串。</p>
+<p>基本上要做實驗可以透過下面的 function 去看 string 的 pointer 位置，看是不是同一份<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pointer</span><span class="params">(s <span class="keyword">string</span>)</span> <span class="title">uintptr</span></span> &#123;</span><br><span class="line">    p := unsafe.Pointer(&amp;s)</span><br><span class="line">    h := *(*reflect.StringHeader)(p)</span><br><span class="line">    <span class="keyword">return</span> h.Data</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    b := []<span class="keyword">byte</span>(<span class="string">"hello"</span>)</span><br><span class="line">    s := <span class="keyword">string</span>(b)</span><br><span class="line">    t := <span class="keyword">string</span>(b)</span><br><span class="line">    fmt.Println(pointer(s), pointer(t))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>相關的 playgound 連結在<a href="https://play.golang.org/p/oyq6Pz79EGa" target="_blank" rel="noopener">這邊</a>，從這個實驗中，我們可以很快發現，兩個字串指向的記憶體不同，而在 golang 裡面比對 string 如果是同一個 pointer 而且 Len 都一樣，就可以加速比對的過程，而不用一個 byte 一個 byte 的去比較，所謂的 interning，也就是如果我們能夠不重複 allocate 記憶體，都用同一個字串。</p>
 <ul>
-<li>而有另外一個有趣的點是，這個 playground 裡面可以把 hello 改成 h, 可以看到 pointer 都指向同一個位置，這是透過 compile time constant 的結果，具體可以看這個 <a href="https://go-review.googlesource.com/c/go/+/97717/" target="_blank" rel="noopener">CL</a> 的解釋，透過 benchmark 提前先 allocate 一個字元在效率上面可以提升很多。</li>
+<li>而有另外一個有趣的點是，這個 playground 裡面可以把 hello 改成 h, 可以看到 pointer 都指向同一個位置，這是透過 compile time constant 的結果，具體可以看這個<a href="https://go-review.googlesource.com/c/go/+/97717/" target="_blank" rel="noopener">CL</a>的解釋，透過 benchmark 提前先 allocate 一個字元在效率上面可以提升很多。</li>
 </ul>
-<h2 id="自幹 -string-interning"><a href="# 自幹 -string-interning" class="headerlink" title="自幹 string interning"></a>自幹 string interning</h2><p>而在 golang 裡面其實並沒有很多地方有做 interning，但是我們在處理一些資料的時候，其實有機會用到這個技巧，像是第一篇文章裡面有寫到，如果我們要處理大量的 text，如果沒有 interning，可能就需要 allocate 很大量的記憶體去儲存這些資料，另外是像從資料庫讀取東西時，也可以有些數據是一直重複出現的，這時也可以應用同樣的技巧。</p>
-<p>而一般來說透過類似 cache 的方式可以自幹 string interning，像是第二篇文章的 code<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">func intern(m map[string]string, b []byte) string &#123; </span><br><span class="line">    // look for an existing string to re-use </span><br><span class="line">    c, ok := m[string(b)] </span><br><span class="line">    if ok &#123; </span><br><span class="line">        // found an existing string return c </span><br><span class="line">    &#125; </span><br><span class="line">    // didn&apos;t find one, so make one and store it </span><br><span class="line">    s := string(b) </span><br><span class="line">    m[s] = s return s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="自幹-string-interning"><a href="#自幹-string-interning" class="headerlink" title="自幹 string interning"></a>自幹 string interning</h2><p>而在 golang 裡面其實並沒有很多地方有做 interning，但是我們在處理一些資料的時候，其實有機會用到這個技巧，像是第一篇文章裡面有寫到，如果我們要處理大量的 text，如果沒有 interning，可能就需要 allocate 很大量的記憶體去儲存這些資料，另外是像從資料庫讀取東西時，也可以有些數據是一直重複出現的，這時也可以應用同樣的技巧。</p>
+<p>而一般來說透過類似 cache 的方式可以自幹 string interning，像是第二篇文章的 code<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">func intern(m map[string]string, b []byte) string &#123; </span><br><span class="line">    &#x2F;&#x2F; look for an existing string to re-use </span><br><span class="line">    c, ok :&#x3D; m[string(b)] </span><br><span class="line">    if ok &#123; </span><br><span class="line">        &#x2F;&#x2F; found an existing string return c </span><br><span class="line">    &#125; </span><br><span class="line">    &#x2F;&#x2F; didn&#39;t find one, so make one and store it </span><br><span class="line">    s :&#x3D; string(b) </span><br><span class="line">    m[s] &#x3D; s return s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>但是麻煩的地方跟自己維護 LRU cache 一樣，如果有不需要用到的字串需要被 evict 掉，要不然也會佔據記憶體，另外是要做一個能夠 concurrent 存取的 LRU cache 也是不容易，所以這個東西沒處理也會變成反效果，而大家都會談論到這個 project <a href="https://github.com/josharian/intern" target="_blank" rel="noopener">https://github.com/josharian/intern</a>，裡面是用 sync.map 實作 interning，但是還是要斟酌一下是不是真的該用。</p>
 <p>順帶一提是透過這個 CL，我又追到這個 <a href="https://github.com/golang/go/issues/32779#issuecomment-731623919" target="_blank" rel="noopener">CL</a>，裡面的討論也蠻不錯的，也讓我了解到設計系統需要考量的一些東西，我蠻建議看下 dsnet 對做 memorize stirngs during decode 的一些看法和實驗，很多地值得借鑒，像是</p>
 <ul>
@@ -225,7 +264,7 @@
 <li>JSON 的 object name 有 high degree of locality，所以有個很小的 cache 去存這段東西很值得</li>
 <li>而 JSON 的 value 可能就沒那麼值得去 cache，因為 locality 不好</li>
 </ul>
-<h2 id="結論"><a href="# 結論" class="headerlink" title="結論"></a>結論 </h2><p> 總的來說，string interning 也許不是很常會使用的技巧，但是如果真的有極端的 case，也許拿來使用減少記憶體和 gc 壓力也是不錯的途徑，當然前提還是要經過縝密的 benchmark。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>總的來說，string interning 也許不是很常會使用的技巧，但是如果真的有極端的 case，也許拿來使用減少記憶體和 gc 壓力也是不錯的途徑，當然前提還是要經過縝密的 benchmark。</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
 <li><a href="https://commaok.xyz/post/intern-strings/" target="_blank" rel="noopener">https://commaok.xyz/post/intern-strings/</a></li>
 <li><a href="https://github.com/bserdar/go/commit/9829fb1b5501df91a44cb24e554310a6f28f123c" target="_blank" rel="noopener">https://github.com/bserdar/go/commit/9829fb1b5501df91a44cb24e554310a6f28f123c</a></li>
@@ -233,35 +272,48 @@
 <p><span>Photo by <a href="https://unsplash.com/@jessedo81?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank" rel="noopener">jesse orrico</a> on <a href="https://unsplash.com/s/photos/storage?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank" rel="noopener">Unsplash</a></span></p>
 
                 
-
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2021/01/30/integer-compression-note/" data-toggle="tooltip" data-placement="top" title="Integer Encoding Algorithm 筆記">&larr; Previous Post</a>
-                        </li>
+                    <li class="previous">
+                        <a href="/2021/01/30/integer-compression-note/" data-toggle="tooltip" data-placement="top" title="Integer Encoding Algorithm 筆記">&larr; Previous Post</a>
+                    </li>
                     
                     
-                        <li class="next">
-                            <a href="/2020/11/01/note-for-simd/" data-toggle="tooltip" data-placement="top" title="學習使用 compiler vector extension 去寫 SIMD 程式">Next Post &rarr;</a>
-                        </li>
+                    <li class="next">
+                        <a href="/2020/11/01/note-for-simd/" data-toggle="tooltip" data-placement="top" title="學習使用 compiler vector extension 去寫 SIMD 程式">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- tip start -->
                 
-                <!-- 多说 Share end-->
 
-                <!-- 多说评论框 start -->
                 
-                <!-- 多说评论框 end -->
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
 
                 <!-- disqus comment start -->
                 
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
                 <!-- disqus comment end -->
             </div>
@@ -270,14 +322,18 @@
             <!-- Table of Contents -->
 
     
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
-        
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#String-Interning"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">String Interning</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Golang- 裡面的運用"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Golang 裡面的運用 </span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#自幹 -string-interning"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">自幹 string interning</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#結論"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">結論 </span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
-        
-        </div>
-      </aside>
+      
+        <aside id="sidebar">
+          <div id="toc" class="toc-article">
+          <strong class="toc-title">Contents</strong>
+          
+            
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#String-Interning"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">String Interning</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Golang-裡面的運用"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Golang 裡面的運用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#自幹-string-interning"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">自幹 string interning</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#結論"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">結論</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+            
+          
+          </div>
+        </aside>
+      
     
 
                 
@@ -302,12 +358,17 @@
 
                 <!-- Friends Blog -->
                 
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
             </div>
         </div>
     </div>
 </article>
-
-
 
 
 <!-- disqus embedded js code start (one page only need to embed once) -->
@@ -324,7 +385,6 @@
     })();
 </script>
 <!-- disqus embedded js code start end -->
-
 
 
 
@@ -350,7 +410,9 @@
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
-<style>
+
+
+<style  type="text/css">
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
         .anchorjs-link{
@@ -371,31 +433,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -410,6 +447,32 @@
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -419,34 +482,45 @@
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -460,24 +534,6 @@
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -527,6 +583,13 @@
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -534,10 +597,28 @@
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

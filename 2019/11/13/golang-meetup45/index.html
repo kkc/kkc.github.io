@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="Golang 10th Anniversary x GTG 45th 心得 - Kakashi&#39;s Blog">
-    <meta property="og:description" content="Golang 好棒棒">
-    <meta property="og:image" content="http://kkc.github.io/2019/11/13/golang-meetup45/./go10.jpeg">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           Golang 10th Anniversary x GTG 45th 心得 - Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/2019/11/13/golang-meetup45/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('./go10.jpeg')
-            /*post*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('./go10.jpeg')
+                /*post*/
+            
         
     }
     
@@ -91,14 +117,30 @@
                             Posted by Kakashi on
                             2019-11-13
                         </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">762</span> and
+                                Reading Time <span class="post-count">2</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -136,14 +178,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -189,9 +231,7 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
+    <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -202,7 +242,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p><img src="./10th.jpeg" alt="10 週年"></p>
+                <p><img src="./10th.jpeg" alt="10週年"></p>
 <p>上禮拜很開心可以參加 Golang 10th anniversary 的聚會，身為這次聚會的 co-organizer 加上贊助商，不但要參加 Golang 官方的行前會議，還有準備訂 Pizza 加上當講者，要做的事情真的是蠻多的，然後 Pizza 訂太少，讓晚來的同學沒有吃到，真的是蠻抱歉的，下次還有機會訂 Pizza 就知道該怎麼辦了。</p>
 <p><img src="./pizza.jpeg" alt="Pizza"></p>
 <p>這次聚會相關資料如下，之後有興趣參加的人可以先加 meetup 帳號:</p>
@@ -211,47 +251,60 @@
 <li>本次活動網頁: <a href="https://www.meetup.com/golang-taipei-meetup/events/264921214/" target="_blank" rel="noopener">活動網址</a></li>
 </ul>
 <h2 id="How-I-become-Go-GDE"><a href="#How-I-become-Go-GDE" class="headerlink" title="How I become Go GDE"></a>How I become Go GDE</h2><p><img src="./evan.jpeg" alt="evan"></p>
-<p><a href="https://blog.golang.org/10years" target="_blank" rel="noopener">十週年 </a> 聚會一開始就是 Golang 社群的扛霸子 Evan 大大主講，然後給的題目我覺得真的很適合十週年聚會，告訴大家了 Golang 這十年來的發展，還有 Evan 為什麼會接觸 Golang ，而其實我會學習 Golang 其實或多或少跟 Evan 也有關係，大概也是五年前，看到 Evan 在開 <a href="https://pdos.csail.mit.edu/6.824/" target="_blank" rel="noopener">MIT 6.824</a> 的讀書會時，所使用到的語言，接下來也是越來越多 infra 相關的 tool，像是 etcd, docker, k8s, terraform 等等都是用 Golang 開發的，讓我也對這個語言有了很大的興趣。</p>
+<p><a href="https://blog.golang.org/10years" target="_blank" rel="noopener">十週年</a>聚會一開始就是 Golang 社群的扛霸子 Evan 大大主講，然後給的題目我覺得真的很適合十週年聚會，告訴大家了 Golang 這十年來的發展，還有 Evan 為什麼會接觸 Golang ，而其實我會學習 Golang 其實或多或少跟 Evan 也有關係，大概也是五年前，看到 Evan 在開 <a href="https://pdos.csail.mit.edu/6.824/" target="_blank" rel="noopener">MIT 6.824</a> 的讀書會時，所使用到的語言，接下來也是越來越多 infra 相關的 tool，像是 etcd, docker, k8s, terraform 等等都是用 Golang 開發的，讓我也對這個語言有了很大的興趣。</p>
 <p>然後 Evan 也分享了他的學習過程與方法，寫部落格和分享大概是我從 Evan 身上學到最多的東西，雖然值和量還遠遠不及啊（抱頭），但是真的透過分享和寫作，可以把自己不熟悉的地方重複思考，因為真的是很怕講錯或是寫錯，這樣一來就有機會窺探自己的盲點。</p>
 <p>投影片:</p>
 <p><iframe src="//www.slideshare.net/slideshow/embed_code/key/iBL48fizlti9dZ" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/EvansLin/golang-taipei-45-10th-birthday" title="Golang taipei #45 10th birthday" target="_blank">Golang taipei #45 10th birthday</a> </strong> from <strong><a href="https://www.slideshare.net/EvansLin" target="_blank">Evan Lin</a></strong> </div></p>
 <h2 id="Understanding-real-world-concurrency-bugs-in-go"><a href="#Understanding-real-world-concurrency-bugs-in-go" class="headerlink" title="Understanding real world concurrency bugs in go"></a>Understanding real world concurrency bugs in go</h2><p><img src="./kakashi.jpeg" alt="kakashi"></p>
-<p>我給的 talk 主要是想跟大家聊聊一篇 <a href="https://songlh.github.io/paper/go-study.pdf" target="_blank" rel="noopener"> 論文</a> 的內容，他將 Golang 裡面的 bugs 分為 blocking &amp; non-blocking 兩種，並且給出結論是， Golang 的語法或是 practice ，不一定比傳統 mutex 的方式少 blocking 的 bugs，而在 non-blocking 的 bugs 上面，的確會少許多，並且給出了一些真實世界的範例，而這些範例都出自於很熱門的 open source project 像是 Docker, Kubernetes, etcd ，其實我對於讀那些 Bugs 比較有興趣，可以看到有些其實是不熟 Golang 語法而產生的，而這些 Bugs，又是在一般情況下，不太容易被走到的 path，從這些 Bugs 中，我們可以學習到很多有可能會犯錯的場景，相關的內容可以看我的投影片或是到論文的 <a href="https://github.com/system-pclub/go-concurrency-bugs" target="_blank" rel="noopener">GitHub repo</a> 找，很推薦大家去讀。</p>
+<p>我給的 talk 主要是想跟大家聊聊一篇<a href="https://songlh.github.io/paper/go-study.pdf" target="_blank" rel="noopener">論文</a> 的內容，他將 Golang 裡面的 bugs 分為 blocking &amp; non-blocking 兩種，並且給出結論是， Golang 的語法或是 practice ，不一定比傳統 mutex 的方式少 blocking 的 bugs，而在 non-blocking 的 bugs 上面，的確會少許多，並且給出了一些真實世界的範例，而這些範例都出自於很熱門的 open source project 像是 Docker, Kubernetes, etcd ，其實我對於讀那些 Bugs 比較有興趣，可以看到有些其實是不熟 Golang 語法而產生的，而這些 Bugs，又是在一般情況下，不太容易被走到的 path，從這些 Bugs 中，我們可以學習到很多有可能會犯錯的場景，相關的內容可以看我的投影片或是到論文的 <a href="https://github.com/system-pclub/go-concurrency-bugs" target="_blank" rel="noopener">GitHub repo</a> 找，很推薦大家去讀。</p>
 <p>投影片:</p>
 <p><iframe src="//www.slideshare.net/slideshow/embed_code/key/zqstqPzCiwSA6H" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/kakashiliu/understanding-real-world-concurrency-bugs-in-go-191283124" title="Understanding real world concurrency bugs in go (fixed)" target="_blank">Understanding real world concurrency bugs in go (fixed)</a> </strong> de <strong><a href="https://www.slideshare.net/kakashiliu" target="_blank">cc liu</a></strong> </div></p>
-<h2 id="小結"><a href="# 小結" class="headerlink" title="小結"></a>小結 </h2><p>Golang meetup 也辦到第 45 場了，而且這次還上了 meetup Twitter 的<a href="https://twitter.com/Meetup/status/1193528748857024512" target="_blank" rel="noopener"> 推</a>，感覺真的是蠻棒的，希望台灣有越來越多寫 Golang 的人和公司，然後透過社群來一起學習，另外真心期望明年能夠把 GopherCon 辦成，接下來會更專心的來找贊助的機會，希望大家能多多支持摟。</p>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>Golang meetup 也辦到第 45 場了，而且這次還上了 meetup Twitter 的<a href="https://twitter.com/Meetup/status/1193528748857024512" target="_blank" rel="noopener">推</a>，感覺真的是蠻棒的，希望台灣有越來越多寫 Golang 的人和公司，然後透過社群來一起學習，另外真心期望明年能夠把 GopherCon 辦成，接下來會更專心的來找贊助的機會，希望大家能多多支持摟。</p>
 <p><img src="./gophercon.jpeg" alt="gophercon"></p>
 
                 
-
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2020/03/16/s3-latency/" data-toggle="tooltip" data-placement="top" title="How I Analyze S3 Upload Latency Issues">&larr; Previous Post</a>
-                        </li>
+                    <li class="previous">
+                        <a href="/2020/03/16/s3-latency/" data-toggle="tooltip" data-placement="top" title="How I Analyze S3 Upload Latency Issues">&larr; Previous Post</a>
+                    </li>
                     
                     
-                        <li class="next">
-                            <a href="/2019/08/22/coscup-ha-prometheus-solution-thanos/" data-toggle="tooltip" data-placement="top" title="Coscup 分享 - HA Prometheus Solution Thanos">Next Post &rarr;</a>
-                        </li>
+                    <li class="next">
+                        <a href="/2019/08/22/coscup-ha-prometheus-solution-thanos/" data-toggle="tooltip" data-placement="top" title="Coscup 分享 - HA Prometheus Solution Thanos">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- tip start -->
                 
-                <!-- 多说 Share end-->
 
-                <!-- 多说评论框 start -->
                 
-                <!-- 多说评论框 end -->
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
 
                 <!-- disqus comment start -->
                 
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
                 <!-- disqus comment end -->
             </div>
@@ -281,12 +334,17 @@
 
                 <!-- Friends Blog -->
                 
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
             </div>
         </div>
     </div>
 </article>
-
-
 
 
 <!-- disqus embedded js code start (one page only need to embed once) -->
@@ -303,7 +361,6 @@
     })();
 </script>
 <!-- disqus embedded js code start end -->
-
 
 
 
@@ -329,7 +386,9 @@
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
-<style>
+
+
+<style  type="text/css">
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
         .anchorjs-link{
@@ -350,31 +409,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -389,6 +423,32 @@
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -398,34 +458,45 @@
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -439,24 +510,6 @@
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -506,6 +559,13 @@
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -513,10 +573,28 @@
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

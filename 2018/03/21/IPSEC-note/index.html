@@ -2,19 +2,18 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Notes about technology, DevOps, programming, and database">
-    <meta name="keyword" content="AWS, golang, python, DevOps">
-    <meta property="og:title" content="IPSec 筆記 - Kakashi&#39;s Blog">
-    <meta property="og:description" content="undefined">
-    <meta property="og:image" content="http://kkc.github.io/2018/03/21/IPSEC-note/undefined">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <meta name="keyword"  content="AWS, golang, python, DevOps">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
           IPSec 筆記 - Kakashi&#39;s Blog
@@ -24,49 +23,76 @@
     <link rel="canonical" href="http://kkc.github.io/2018/03/21/IPSEC-note/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    
+<link rel="stylesheet" href="/css/widget.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    
+<link rel="stylesheet" href="/css/rocket.css">
 
-    <!-- Custom Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/
-    css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
 
     <!-- ga & ba script hoook -->
     <script></script>
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
 	<!-- Modified by Yu-Hsuan Yen -->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('undefined')
-            /*post*/
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('')
+                /*post*/
+            
         
     }
     
@@ -91,14 +117,30 @@
                             Posted by Kakashi on
                             2018-03-21
                         </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">1.1k</span> and
+                                Reading Time <span class="post-count">4</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
                     </div>
                 
 
-
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
+
+    
 </header>
 
 	
@@ -136,14 +178,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -189,9 +231,7 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
+    <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -202,8 +242,8 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="前言"><a href="# 前言" class="headerlink" title="前言"></a>前言 </h1><p> 這篇筆記是用來記錄 IPSec protocal 的一些細節，前陣子在架設 AWS VPN 的時候，遇到了一些小問題，主要還是防火牆擋到需要走的 port ，而當時就在想自己對於 IPSec protocal 也太不熟悉了，所以才有這篇文章來稍微紀錄一下。</p>
-<h1 id="為什麼需要 -IPSec"><a href="# 為什麼需要 -IPSec" class="headerlink" title="為什麼需要 IPSec"></a>為什麼需要 IPSec</h1><p>IP is not secure，我想這點學過計算機網路的同學應該都會知道這點，而有可能受到以下的風險</p>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>這篇筆記是用來記錄 IPSec protocal 的一些細節，前陣子在架設 AWS VPN 的時候，遇到了一些小問題，主要還是防火牆擋到需要走的 port ，而當時就在想自己對於 IPSec protocal 也太不熟悉了，所以才有這篇文章來稍微紀錄一下。</p>
+<h1 id="為什麼需要-IPSec"><a href="#為什麼需要-IPSec" class="headerlink" title="為什麼需要 IPSec"></a>為什麼需要 IPSec</h1><p>IP is not secure，我想這點學過計算機網路的同學應該都會知道這點，而有可能受到以下的風險</p>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/IP_address_spoofing" target="_blank" rel="noopener">source spoofing</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Replay_attack" target="_blank" rel="noopener">replay packets</a></li>
@@ -226,14 +266,14 @@
 </li>
 </ul>
 <p>基本上我覺得要懂 IPSec，可以先來弄懂 AH &amp; ESP 會比較重要，因為這兩個東西有對 IP packet 動手腳</p>
-<h2 id="Authentication-Header"><a href="#Authentication-Header" class="headerlink" title="Authentication Header"></a>Authentication Header</h2><p>AH 主要提供的是驗證 Data integrity &amp; data origin source，然後沒有提供任何 <em> 加密 </em> 的功能，使用 HMAC 算法，把 payload &amp; header 和 IKE 定義好的 key 一起拿來 hash，但這邊要小心因為 NAT 會改變 header，而被改變的話，另外一邊就沒辦法解析正確，所以基本上 AH 應該是不可能跟 NAT 共存。<br>而其中又分為 Transport mode &amp; Tunnel mode，後面會有介紹有什麼不同。<br>AH 使用 port 51。</p>
+<h2 id="Authentication-Header"><a href="#Authentication-Header" class="headerlink" title="Authentication Header"></a>Authentication Header</h2><p>AH 主要提供的是驗證 Data integrity &amp; data origin source，然後沒有提供任何<em>加密</em>的功能，使用 HMAC 算法，把 payload &amp; header 和 IKE 定義好的 key 一起拿來 hash，但這邊要小心因為 NAT 會改變 header，而被改變的話，另外一邊就沒辦法解析正確，所以基本上 AH 應該是不可能跟 NAT 共存。<br>而其中又分為 Transport mode &amp; Tunnel mode，後面會有介紹有什麼不同。<br>AH 使用 port 51。</p>
 <p><img src="/img/2018-03/AH.png" alt="AH.png"></p>
 <h2 id="Encapsulation-Security-Payload"><a href="#Encapsulation-Security-Payload" class="headerlink" title="Encapsulation Security Payload"></a>Encapsulation Security Payload</h2><p>ESP 的功能比起 AH 強大了許多，confidentiality, authentication, integrity 都包含在其中了，所以真正有提供加密的功能，而在驗證 Data integrity 方面，還是要看是使用 Transport mode 或是 Tunnel mode</p>
 <ul>
 <li>Transport mode: ESP 沒有對 IP header 做 hash ，所以只能保證 Data 是沒有被修改的</li>
 <li>Tunnel mode: 有將 IP header 包進來，所以這點跟 AH 是一致的</li>
 </ul>
-<p>對照下圖可以發現，ESP 和 AH 最大的差別應該是 AH 會對於 Outer IP header 做驗證，所以其實 IPSec 唯有使用 ESP tunnel mode 才能和 NAT 共存。<br>而在 <a href="https://tools.ietf.org/html/rfc3948" target="_blank" rel="noopener">RFC 3948</a> 裡面也有寫道: <code>Because the protection of the outer IP addresses in IPsec AH is inherently incompatible with NAT, the IPsec AH was left out of the scope of this protocol specification.</code> 證實我們的推論應該是無誤的，難怪 AWS 的 NAT 教學裡面都是用 ESP 來做連線啊 QQ。<br>ESP 使用 port 50。</p>
+<p>對照下圖可以發現，ESP 和 AH 最大的差別應該是 AH 會對於 Outer IP header 做驗證，所以其實 IPSec 唯有使用 ESP tunnel mode 才能和 NAT 共存。<br>而在 <a href="https://tools.ietf.org/html/rfc3948" target="_blank" rel="noopener">RFC 3948</a> 裡面也有寫道: <code>Because the protection of the outer IP addresses in IPsec AH is inherently incompatible with NAT, the IPsec AH was left out of the scope of this protocol specification.</code> 證實我們的推論應該是無誤的，難怪 AWS 的 NAT 教學裡面都是用 ESP 來做連線啊QQ。<br>ESP 使用 port 50。</p>
 <p><img src="/img/2018-03/ESP.png" alt="ESP.png"></p>
 <h2 id="Transport-mode-amp-Tunnel-mode"><a href="#Transport-mode-amp-Tunnel-mode" class="headerlink" title="Transport mode &amp; Tunnel mode"></a>Transport mode &amp; Tunnel mode</h2><p>Transport mode: 通常是直接建立在兩台主機上，因為不需要再多加一個 IP header ，整體來說較省頻寬，在這個模式下，兩邊的主機都要安裝 IPSec 的 protocal，而且不能隱藏主機的 IP 位置。<br>Tunnel mode: 針對 Firewall 或是 Gateway proxy，一般來說我們會用這個模式，因為他們不是原本的發送收端。</p>
 <h2 id="Security-Associations"><a href="#Security-Associations" class="headerlink" title="Security Associations"></a>Security Associations</h2><p>IPsec 中最重要的其實是 SA，因為它定義了如何協商，還有要使用哪些 Policy 和參數</p>
@@ -246,7 +286,7 @@
 <p>而基本上 SA 是單向的，所以通常要建立兩條 SA (from A to B and B to A)，然後這些 parameter 會經過 Internet Key Exchange (IKE) protocal 來決定，IKE 主要有分兩個 step</p>
 <p>IKE phase1: 主要做 Authenticate，Authentication 方面常常使用的都是 pre-shared key，基本上就是用同一組密碼，接著透過 Diffie-Hellman 來建立一組 Key，而這組 Key 是要被 Phase2 拿來用的。<br>IKE phase2: 處理 IPsec security 協商，最後 IPSec SA 完成，接下來才會建立 IPSec 的連線。</p>
 <p>** IKE 主要走 port 500</p>
-<h2 id="結論"><a href="# 結論" class="headerlink" title="結論"></a>結論 </h2><p> 這只是一篇小小的筆記，而網路上面有更多詳細的資料，但有了這些基本概念後，對於為什麼 VPN 打不通，會有更多除錯的方法，像是那些 port 是不是沒開，或是 SA 整個設定錯誤，導致雙方協商失敗等等，會讓我們更有方向。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>這只是一篇小小的筆記，而網路上面有更多詳細的資料，但有了這些基本概念後，對於為什麼 VPN 打不通，會有更多除錯的方法，像是那些 port 是不是沒開，或是 SA 整個設定錯誤，導致雙方協商失敗等等，會讓我們更有方向。</p>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
 <li><a href="http://chunchaichang.blogspot.tw/2011/12/ipsec-nat-t.html" target="_blank" rel="noopener">http://chunchaichang.blogspot.tw/2011/12/ipsec-nat-t.html</a></li>
 <li><a href="https://www.jannet.hk/zh-Hant/post/internet-protocol-security-ipsec/" target="_blank" rel="noopener">https://www.jannet.hk/zh-Hant/post/internet-protocol-security-ipsec/</a></li>
@@ -256,35 +296,48 @@
 </ol>
 
                 
-
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2018/04/28/docker-note/" data-toggle="tooltip" data-placement="top" title="用 docker 改善開發流程筆記">&larr; Previous Post</a>
-                        </li>
+                    <li class="previous">
+                        <a href="/2018/04/28/docker-note/" data-toggle="tooltip" data-placement="top" title="用 docker 改善開發流程筆記">&larr; Previous Post</a>
+                    </li>
                     
                     
-                        <li class="next">
-                            <a href="/2018/03/14/AWS-VPN-with-RouterBoard/" data-toggle="tooltip" data-placement="top" title="AWS VPN with RouterBoard">Next Post &rarr;</a>
-                        </li>
+                    <li class="next">
+                        <a href="/2018/03/14/AWS-VPN-with-RouterBoard/" data-toggle="tooltip" data-placement="top" title="AWS VPN with RouterBoard">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- tip start -->
                 
-                <!-- 多说 Share end-->
 
-                <!-- 多说评论框 start -->
                 
-                <!-- 多说评论框 end -->
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
 
                 <!-- disqus comment start -->
                 
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
                 <!-- disqus comment end -->
             </div>
@@ -314,12 +367,17 @@
 
                 <!-- Friends Blog -->
                 
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                </ul>
+                
             </div>
         </div>
     </div>
 </article>
-
-
 
 
 <!-- disqus embedded js code start (one page only need to embed once) -->
@@ -336,7 +394,6 @@
     })();
 </script>
 <!-- disqus embedded js code start end -->
-
 
 
 
@@ -362,7 +419,9 @@
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
-<style>
+
+
+<style  type="text/css">
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
         .anchorjs-link{
@@ -383,31 +442,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                
-                
-                    <li>
-                        <a target="_blank" href="https://twitter.com/kakashiliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
-                
-
-                
-
-                
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/kkcliu">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -422,6 +456,32 @@
 
                 
                     <li>
+                        <a target="_blank" href="https://twitter.com/kakashiliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/kkcliu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
                         <a target="_blank"  href="https://www.linkedin.com/in/kkcliu">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -431,34 +491,45 @@
                     </li>
                 
 
+                
+
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; Kakashi 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
-                    <span style="display: inline-block; margin: 0 5px;">
-                        <i class="fa fa-heart"></i>
-                    </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
                     </iframe>
                 </p>
             </div>
         </div>
     </div>
+
 </footer>
 
 <!-- jQuery -->
+
 <script src="/js/jquery.min.js"></script>
 
+
 <!-- Bootstrap Core JavaScript -->
+
 <script src="/js/bootstrap.min.js"></script>
 
+
 <!-- Custom Theme JavaScript -->
+
 <script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
 
 
 <!-- async load function -->
@@ -472,24 +543,6 @@
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
 
 
 <!-- jquery.tagcloud.js -->
@@ -539,6 +592,13 @@
 <!-- Baidu Tongji -->
 
 
+<!-- Search -->
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
@@ -546,10 +606,28 @@
 	<a id="rocket" href="#top" class=""></a>
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://kkc.github.io/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
