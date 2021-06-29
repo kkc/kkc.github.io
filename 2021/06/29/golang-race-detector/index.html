@@ -16,11 +16,11 @@
     <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
-          Improve CPU Utilization of Go app By Using BPF - Kakashi&#39;s Blog
+          Golang Taipei Gathering 分享 - Golang Race Detector under the hood - Kakashi&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://kkc.github.io/2020/06/05/improve-cpu-utilization-by-using-bpf/">
+    <link rel="canonical" href="http://kkc.github.io/2021/06/29/golang-race-detector/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -90,7 +90,7 @@
     header.intro-header{
         
             
-                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('header.jpg')
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../../../../img/default.jpg')
                 /*post*/
             
         
@@ -110,16 +110,12 @@
                             
                               <a class="tag" href="/tags/#golang" title="golang">golang</a>
                             
-                              <a class="tag" href="/tags/#bpf" title="bpf">bpf</a>
-                            
-                              <a class="tag" href="/tags/#cgo" title="cgo">cgo</a>
-                            
                         </div>
-                        <h1>Improve CPU Utilization of Go app By Using BPF</h1>
+                        <h1>Golang Taipei Gathering 分享 - Golang Race Detector under the hood</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by Kakashi on
-                            2020-06-05
+                            2021-06-29
                         </span>
 
                         
@@ -234,58 +230,40 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>In this post, I’d like to share an experience that how I used BPF to fix a CPU saturation issue in a Go app. Especially this CPU saturation issue happened in the cgo level so that it’s really hard to detect the root cause.</p>
-<h1 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h1><p>A few months ago, I worked on cloud cost reduction and found out the CPU utilization of our streaming services kept 80% ~ 90% no matter how many clients connect to them. This is quite weird because normally the CPU utilization should be decreased when the total number of connections goes down. This also makes us not able to do further improvement like applying instance autoscaling according to different workloads.</p>
-<h1 id="Triage"><a href="#Triage" class="headerlink" title="Triage"></a>Triage</h1><p>Usually, we should be able to use go built-in profiling tool <code>go tool pprof</code> to track the CPU or memory issues. However, because this Go program highly depends on a C library, I was afraid that the bottleneck would be in the C code.</p>
-<p>I recently enjoyed watching Brendan Gregg’s BPF talks and thought if we can use it to solve this issue. If you are not familiar with BPF, there are tons of great talks you can find on the youtube:</p>
-<ul>
-<li><a href="https://www.youtube.com/watch?v=bj3qdEDbCD4" target="_blank" rel="noopener">Velocity 2017: Performance Analysis Superpowers with Linux eBPF</a></li>
-<li><a href="https://www.youtube.com/watch?v=03EC8uA30Pw" target="_blank" rel="noopener">YOW! 2018 Brendan Gregg - Cloud Performance Root Cause Analysis at Netflix</a></li>
-<li><a href="https://www.youtube.com/watch?v=fhBHvsi0Ql0" target="_blank" rel="noopener">LISA19 - Linux Systems Performance</a></li>
+                <h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p>這個月初在 <a href="https://www.meetup.com/golang-taipei-meetup/events/278400349/" target="_blank" rel="noopener">Golang Taipei Gathering</a> 分享了最近的讀書心得，Go race detector 底層到底是怎麼實作的，其實主要是有在追一個大神 <a href="https://twitter.com/dvyukov" target="_blank" rel="noopener">Dmitry Vyukov</a> 的推特，而他一直以來都貢獻了很多 dynamic tools 像是 AddressSanitizer，MemorySanitizer 和 ThreadSanitizer，另外還有一些 run fuzzy tests 的工具，都可以用來找不好找的程式錯誤。基本上 go race detector 也是由 Dmitry 發起，建構在他自己維護的 C++ ThreadSanitizer 上面。另外一點是從 race detector 的文件上面，知道 race detector 不會有 false positive，但是有可能有 false negative (該找到的 race 沒找到)，於是就想研究看看怎麼運作的，研究後覺得很有趣，順手整理整理分享給大家。</p>
+<h2 id="投影片-amp-talk"><a href="#投影片-amp-talk" class="headerlink" title="投影片 &amp; talk"></a>投影片 &amp; talk</h2><ul>
+<li>Slides: <a href="https://speakerdeck.com/kkc/go-race-detector-under-the-hood" target="_blank" rel="noopener">Go Race Detector Under The Hood</a></li>
+<li><a href="https://www.youtube.com/watch?v=Qs4yuL-c0H0&amp;t=1550s" target="_blank" rel="noopener">Talk</a></li>
 </ul>
-<p><a href="https://github.com/iovisor/bcc" target="_blank" rel="noopener">BCC</a> is a toolkit for BPF-based Linux analysis. BCC includes a lot of good tools helping us analyze the current system without writing the BPF program on our own. I’d highly recommend everyone should try to adopt some BCC tools because using those tools is so simple and useful.</p>
-<p>In our case, I used <code>profile.py</code> to profile CPU usage. This profiling tool would take samples of stack tracing at certain timed intervals. It also provides a way to generate a popular Flamegraph format. The most interesting part is it can profile the running process by attaching a given PID. I thought this is really powerful when we need to investigate issues of the online system. I used the following command to generate the Flamegraph.</p>
-<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># ./profile -df -p &lt;pid&gt; 5 &gt; out.profile</span></span><br><span class="line"><span class="meta"># git clone https://github.com/brendangregg/FlameGraph</span></span><br><span class="line"><span class="meta"># ./FlameGraph/flamegraph.pl &lt; out.profile &gt; out.svg</span></span><br></pre></td></tr></table></figure>
-<p>Here is what I got:</p>
-<p><img src="./flamegraph.png" alt="flamegraph"></p>
-<p>Before we dive into this chart, I want to note how to analyze this flamegraph. There are 2 important things when we observe flamegraph according to this book <a href="https://books.google.com.tw/books?id=iNS-DwAAQBAJ&amp;pg=PT73&amp;lpg=PT73&amp;dq=bpf+profile+overhead&amp;source=bl&amp;ots=SVM1q-uwoz&amp;sig=ACfU3U0nr5OXULNKPwdZ8b_pX8aY1DT0wg&amp;hl=en&amp;sa=X&amp;ved=2ahUKEwjuzK_y9erpAhULyosBHf-_D3QQ6AEwA3oECAkQAg#v=onepage&amp;q=bpf%20profile%20overhead&amp;f=false" target="_blank" rel="noopener">Linux Observability with BPF</a>:</p>
-<ul>
-<li>The x-axis is ordered alphabetically. This represents the most frequent code consuming CPU in your system.</li>
-<li>The y-axis shows the stack traces ordered as the profiler reads them, preserving the trace hierarchy.</li>
-</ul>
-<p>With this flame graph, it was now possible to see most CPU time spend on <code>epoll_wait</code>. Because it’s a streaming service, obviously it should adopt epoll to deal with many client connections efficiently. However, I didn’t expect this <code>epoll_wait</code> should be invoked so many times. I also try another BCC tool called <a href="https://github.com/iovisor/bcc/blob/master/tools/syscount_example.txt" target="_blank" rel="noopener">syscount</a> to count syscalls.</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">syscount -p <span class="tag">&lt;<span class="name">my_progrom_pid</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>I saw the result like this.</p>
-<p><img src="./syscount.png" alt="syscount1"></p>
-<p>Then I tried to use <code>strace -p &lt;my_program_pid&gt;</code> to observe what happened in that process. I did see a lot of epoll_wait invokations during process running as following.</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">epoll_wait(<span class="number">4</span>, [], <span class="number">1</span>, <span class="number">0</span>)                  = <span class="number">0</span></span><br><span class="line">epoll_wait(<span class="number">10</span>, [], <span class="number">1</span>, <span class="number">0</span>)                 = <span class="number">0</span></span><br><span class="line">epoll_wait(<span class="number">20</span>, [], <span class="number">1</span>, <span class="number">0</span>)                 = <span class="number">0</span></span><br><span class="line">epoll_wait(<span class="number">4</span>, [], <span class="number">1</span>, <span class="number">20</span>)                 = <span class="number">0</span></span><br><span class="line">epoll_wait(<span class="number">10</span>, [&#123;EPOLLIN, &#123;u32=<span class="number">5</span>, u64=<span class="number">140200617443333</span>&#125;&#125;], <span class="number">1</span>, <span class="number">50</span>) = <span class="number">1</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>I was so curious what’s the meaning of epoll_wait function arguments. I checked the <a href="https://www.man7.org/linux/man-pages/man2/epoll_wait.2.html" target="_blank" rel="noopener">man page</a> and realized the signature of that function.</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> epoll<span class="constructor">_wait(<span class="params">int</span> <span class="params">epfd</span>, <span class="params">struct</span> <span class="params">epoll_event</span> <span class="operator">*</span><span class="params">events</span>, <span class="params">int</span> <span class="params">maxevents</span>, <span class="params">int</span> <span class="params">timeout</span>)</span>;</span><br></pre></td></tr></table></figure>
-<p>It looks to me that the field <code>timeout</code> could be the key to this problem so that I need to figure out the definition of timeout.</p>
+<p>其實很多內容是從下列兩個 talk 來的，其中的範例有問過 kayva 的同意使用：<br><a href="https://www.slideshare.net/InfoQ/looking-inside-a-race-detector" target="_blank" rel="noopener">https://www.slideshare.net/InfoQ/looking-inside-a-race-detector</a><br><a href="https://krakensystems.co/blog/2019/golang-race-detection" target="_blank" rel="noopener">https://krakensystems.co/blog/2019/golang-race-detection</a></p>
+<h3 id="Data-race-vs-Race-condition"><a href="#Data-race-vs-Race-condition" class="headerlink" title="Data race vs Race condition"></a>Data race vs Race condition</h3><p>一開始我是先用這個主題破題，因為很多人其實會把 data race 和 race condition 搞混，data race 是有具體定義的</p>
 <blockquote>
-<p>Specifying a timeout of -1 causes epoll_wait() to block indefinitely, while specifying a timeout equal to zero cause epoll_wait() to return immediately, even if no events are available.</p>
+<p>When 2+ threads concurrently access a shared memory location, at least one access is write.</p>
 </blockquote>
-<p>This is really interesting. I soon went back to check our code. It turns out that the value of timeout is not a fixed number but generated by another function. This function acted too aggressively and set up timeout as 0 in most cases. We also double-checked epoll_wait mostly returned nothing when the timeout is 0. When you write the code using epoll, the pseudo-code might be like</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    n = epoll<span class="constructor">_wait(<span class="params">efd</span>, <span class="params">events</span>, MAXEVENTS, <span class="params">timeout</span>)</span>;</span><br><span class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">/* process activity */</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">/* process inactivity */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>That means when timeout value is 0, it will create a busy loop and CPU time spent on here for nothing.</p>
-<h1 id="Fix"><a href="#Fix" class="headerlink" title="Fix"></a>Fix</h1><p>We did a quick small change to modify the timeout value to 1ms when the timeout value equals to 0. This change should reduce total number of invocation of that epoll_wait and following function blocks. We also deployed this fix both on the staging and production system to make sure video streaming still works smoothly. It was a remarkable moment when we saw the impact it had. We successfully reduced CPU usage from <code>6%</code> to <code>1%</code> on staging server. There was same trend on production services which improvement is around 30% to 70% deponed on different workloads.</p>
-<p><img src="./fix1.png" alt="fix1"></p>
-<p>After applying this fix, we tried to use <code>syscount</code> again to verify our system. As you can see the total number of epoll_wait is close to recvform, which means we save a lot of CPU time.</p>
-<p><img src="./fix2.png" alt="fix2"></p>
-<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><ul>
-<li>BPF is a really good tool that can help us quickly identify the potential root cause of the problem. The benefit of using BPF is it only introduces very small overhead on your system.</li>
-<li><code>strace</code> is a very powerful tool too. Every programmer should learn how to use it. We can use <code>strace</code> to observe system call of your program on the fly which can give us a lot of information to understand how our program works.</li>
-<li>Encourage everyone to try other bcc tools to observe the online system. It’s really fun!</li>
+<p>race condition 則是指更高階的行為，當不同的 threads 在一系列的 operations 後，因為操作的順序(order)不同，導致 program behavior 或是產生的 result 不符合預期。</p>
+<h3 id="一個-Race-condition-的範例"><a href="#一個-Race-condition-的範例" class="headerlink" title="一個 Race condition 的範例"></a>一個 Race condition 的範例</h3><p>從這個<a href="https://blog.regehr.org/archives/490" target="_blank" rel="noopener">文章</a>可以找到一個有趣的範例，裡面的程式沒有 Data race，但是有 Race condition:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">transfer2 (amount, account_from, account_to) &#123;</span><br><span class="line">  atomic &#123;</span><br><span class="line">    bal &#x3D; account_from.balance;</span><br><span class="line">  &#125;</span><br><span class="line">  if (bal &lt; amount) return NOPE;</span><br><span class="line">  atomic &#123;</span><br><span class="line">    account_to.balance +&#x3D; amount;</span><br><span class="line">  &#125;</span><br><span class="line">  atomic &#123;</span><br><span class="line">    account_from.balance -&#x3D; amount;</span><br><span class="line">  &#125;</span><br><span class="line">  return YEP;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到裡面每個 variable 都有用 atomic 去保護，所以不會有多個 threads 讀寫同一個 memory location 的情況，但是在多個 threads 運作下，這個轉帳程式其實是錯的。</p>
+<h2 id="Happens-before"><a href="#Happens-before" class="headerlink" title="Happens-before"></a>Happens-before</h2><p>要了解 Race detector 怎麼運作需要先理解 Golang 的 <a href="https://golang.org/ref/mem" target="_blank" rel="noopener">memory model</a>，<br>尤其是所謂的 happens-before 的關係，一般來說，golang 在單個 goroutine 的情況下比較單純，因為有 ILP (instruction level parallelism) 的情況下，指令是有機會被重排的，這邊只需要保證程式最後的輸出行為不變就好，而在 multiple goroutine 的情況下，則需要透過 built-in 的 synchronization primitives 去建立 happens-before 的關係，這樣可以保證 shared variable 沒有同時有 read/write access 的情況，race detector 也是藉由去 trace 這樣的關係，找到可能的 data race 的 variables。</p>
+<h2 id="Race-detection-algorithm-amp-vector-clock"><a href="#Race-detection-algorithm-amp-vector-clock" class="headerlink" title="Race detection algorithm &amp; vector clock"></a>Race detection algorithm &amp; vector clock</h2><p>其實 Race detection algorithm 一直是個學術問題，過去那麼多年也是蠻多人在研究的，實際上已經被證明是個 <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.40.9765" target="_blank" rel="noopener">NP-Hard</a> 問題，其中又分為 static &amp; dynamic 的分析，static 的分析基本上很花時間，而 golang 的 race dector 採取的是 dynamic 的方法，也就是在程式執行過程中，經由不斷地紀錄 variable 的狀態，去看看有沒有 data race。</p>
+<p>我在 talk 中有分享下其底層 ThreadSanitizer 其實是由 <a href="https://dl.acm.org/doi/10.1145/781498.781529" target="_blank" rel="noopener">DJIT+</a> &amp; <a href="https://dl.acm.org/doi/10.1145/1543135.1542490" target="_blank" rel="noopener">FastTrack</a> 演變而來，這兩個演算法也是蠻久以前就被提出的 (2003 &amp; 2009)，而最值得一提的部分，則是其精神是用分散式系統大神 Lamport 的 <a href="http://lamport.azurewebsites.net/pubs/time-clocks.pdf" target="_blank" rel="noopener">vector clock</a> 去紀錄每個 variable 被 thread access 的時間，並且透過 synchronization primitives 讓 variable 去 sync 不同 thread 間的 vector clock，再從中去分析是否有 data race。</p>
+<p>這部分其實乍看下蠻複雜的，不過其實論文裡面給的證明和例子蠻清楚的，很推薦大家直接去看，反倒是我用寫的還寫不出來，詳情可以參考我的 talk &amp; slides ，裡面有逐步的分解，希望有把這部分講清楚。另外是我在投影片中為了使用 kavya 的例子，所以用了跟論文不同的符號，這方面我還需要再改進改進。</p>
+<h3 id="額外補充"><a href="#額外補充" class="headerlink" title="額外補充"></a>額外補充</h3><ul>
+<li><a href="https://lamport.azurewebsites.net/pubs/time-clocks.pdf" target="_blank" rel="noopener">L.Lamport Time, clocks, and the ordering of events in a distributed system. 1978</a></li>
+<li><a href="https://www.youtube.com/watch?v=ummQWQgkWOA" target="_blank" rel="noopener">Read a paper: Time, clocks, and the ordering of events in a distributed system</a></li>
 </ul>
-<p>after I fixed this issues with BPF, my feeling is like</p>
-<p><img src="./fly.jpg" alt=""></p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a href="https://www.youtube.com/watch?v=bj3qdEDbCD4" target="_blank" rel="noopener">Velocity 2017: Performance Analysis Superpowers with Linux eBPF</a></li>
-<li><a href="https://www.youtube.com/watch?v=03EC8uA30Pw" target="_blank" rel="noopener">YOW! 2018 Brendan Gregg - Cloud Performance Root Cause Analysis at Netflix</a></li>
-<li><a href="https://www.youtube.com/watch?v=fhBHvsi0Ql0" target="_blank" rel="noopener">LISA19 - Linux Systems Performance</a></li>
-<li><a href="https://github.com/iovisor/bcc" target="_blank" rel="noopener">BCC tools</a></li>
-<li><a href="https://medium.com/@copyconstruct/the-method-to-epolls-madness-d9d2d6378642" target="_blank" rel="noopener">https://medium.com/@copyconstruct/the-method-to-epolls-madness-d9d2d6378642</a></li>
-<li><a href="https://jvns.ca/blog/2017/06/03/async-io-on-linux--select--poll--and-epoll/" target="_blank" rel="noopener">https://jvns.ca/blog/2017/06/03/async-io-on-linux--select--poll--and-epoll/</a></li>
+<h2 id="簡單的案例"><a href="#簡單的案例" class="headerlink" title="簡單的案例"></a>簡單的案例</h2><p>在 talk 中我分析了下面這個 case，讓大家想想這個 case ，當 goroutine1 和 goroutine2 同時執行時，會不會有 data race 的情況：</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> count = <span class="number">0</span></span><br><span class="line"><span class="keyword">var</span> mu sync.Mutex </span><br><span class="line"></span><br><span class="line"><span class="comment">// go routine1</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">incrementCount1</span><span class="params">()</span></span> &#123;</span><br><span class="line">  mu.Lock()</span><br><span class="line">  count += <span class="number">1</span></span><br><span class="line">  mu.UnLock()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// go routine2</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">incrementCount2</span><span class="params">()</span></span> &#123;</span><br><span class="line">  mu.Lock()</span><br><span class="line">  mu.UnLock()</span><br><span class="line">  count += <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而其實答案是 it deponds，根據 race detector 的走法，如果先走 go routine1 在走 goroutine2，這個 data race 檢查不出來，因為建立完 happens-before 後，count 這個變數並沒有被 concurrent access，而先走 goroutine2 在走 goroutine1 則是會被 race detector 抓出來，因為演算法檢查 vector clock 就可以知道他們有 concurrent access 的關係。</p>
+<p>而這個情況下，我們就知道 golang 實作的 race detector 為什麼會有 false negative 的情況，而這類的 case 可能就是多跑幾次，在不同的組合下才有可能抓到，但是優點是比其他的 race detection 演算法還要快很多，而且 memory 用量也比較少。</p>
+<h2 id="ThreadSanitizer"><a href="#ThreadSanitizer" class="headerlink" title="ThreadSanitizer"></a>ThreadSanitizer</h2><p>ThreadSanitizer 其實是 C++ library，而透過 compiler instrumentation 的技術，可以將 golang 程式在讀寫變數的地方，插入 instrumentation code 去 invoke ThreadSanitizer 的 functions，主要紀錄狀態和 state machine 的地方都實做在 ThreadSanitizer 裡面了。</p>
+<p>另外是透過 shadow state 的技術，去紀錄 variable 被 access 的狀態，這也是一個經典的地方，這類的技巧廣泛地使用在 valgrind, memory sanitizer 和 address sanitizer，而每個 8 bytes 的 memory location，都額外再使用了 4 個 shadow values 去紀錄狀態， 所以低消就是會比你的程式多吃 4 倍的記憶體，</p>
+<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>第一次線上給 talk 其實感覺蠻奇怪的，好像自言自語，在看不到觀眾情況下，還是不太能拿捏節奏，一般來說我喜歡設計一些小問題，讓觀眾能夠想一下，再藉由觀眾的表情了解我到底有沒有講清楚，尤其中間講到一半還有越來越虛的問題，一直很怕是不是網路不穩大家都沒回應。不過這次的 talk 是利用 google meet 進行，在 Evan 大好心的貼到 twitter 上面分享，希望有更多人可以進來聽的時候，居然混進來一些外國人來亂，原本還擔心我講的一半有人會睡著，沒想到居然發生這個插曲，也是蠻好笑的。</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="https://krakensystems.co/blog/2019/golang-race-detection" target="_blank" rel="noopener">https://krakensystems.co/blog/2019/golang-race-detection</a></li>
+<li><a href="https://www.slideshare.net/InfoQ/looking-inside-a-race-detector" target="_blank" rel="noopener">https://www.slideshare.net/InfoQ/looking-inside-a-race-detector</a></li>
+<li><a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerAlgorithm" target="_blank" rel="noopener">https://github.com/google/sanitizers/wiki/ThreadSanitizerAlgorithm</a></li>
+<li><a href="https://stackoverflow.com/questions/61674317/what-are-shadow-bytes-in-addresssanitizer-and-how-should-i-interpret-them" target="_blank" rel="noopener">https://stackoverflow.com/questions/61674317/what-are-shadow-bytes-in-addresssanitizer-and-how-should-i-interpret-them</a></li>
 </ul>
 
                 
@@ -293,13 +271,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2020/08/19/io-uring/" data-toggle="tooltip" data-placement="top" title="Linux 5.1 的 io_uring">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2020/04/11/aws-ssm-session-manager-note/" data-toggle="tooltip" data-placement="top" title="AWS SSM session manager 筆記">Next Post &rarr;</a>
+                        <a href="/2021/02/16/note-from-werner-vogels-interview/" data-toggle="tooltip" data-placement="top" title="Werner Vogels 談 Amazon 怎麼從 Monolith 到 Service-based Architecture">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -345,7 +319,7 @@
           <strong class="toc-title">Contents</strong>
           
             
-              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Problem"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Problem</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Triage"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Triage</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Fix"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Fix</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Conclusion"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Conclusion</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Preface"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Preface</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#投影片-amp-talk"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">投影片 &amp; talk</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Data-race-vs-Race-condition"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">Data race vs Race condition</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#一個-Race-condition-的範例"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">一個 Race condition 的範例</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Happens-before"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Happens-before</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Race-detection-algorithm-amp-vector-clock"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Race detection algorithm &amp; vector clock</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#額外補充"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">額外補充</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#簡單的案例"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">簡單的案例</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ThreadSanitizer"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">ThreadSanitizer</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#心得"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">心得</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#References"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">References</span></a></li></ol>
             
           
           </div>
@@ -368,10 +342,6 @@
                     <div class="tags">
                        
                           <a class="tag" href="/tags/#golang" title="golang">golang</a>
-                        
-                          <a class="tag" href="/tags/#bpf" title="bpf">bpf</a>
-                        
-                          <a class="tag" href="/tags/#cgo" title="cgo">cgo</a>
                         
                     </div>
                 </section>
@@ -396,8 +366,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "kkcliu";
-    var disqus_identifier = "http://kkc.github.io/2020/06/05/improve-cpu-utilization-by-using-bpf/";
-    var disqus_url = "http://kkc.github.io/2020/06/05/improve-cpu-utilization-by-using-bpf/";
+    var disqus_identifier = "http://kkc.github.io/2021/06/29/golang-race-detector/";
+    var disqus_url = "http://kkc.github.io/2021/06/29/golang-race-detector/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

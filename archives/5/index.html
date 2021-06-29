@@ -335,9 +335,44 @@
 
     
 
+    
+
 
 
 <!-- Main Content -->
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2017/04/24/azure-note/">
+                <h2 class="post-title">
+                    Azure VMSS 的簡略使用筆記
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    在踏入 Azure 領域前，因為原本比較熟悉 AWS，所以從 AWS 的 Service 尋找對應的 Azure Service 算是比較好入門的管道，基本上這個連結 Azure to AWS mapping 算是整理的很不錯，不過也可以看得出來 Azure 也是設定大家都懂 AWS，想要從這邊搶客戶過來。
+而會想試用 Azure，主要是 Azure 有新的 M60 的 GPU instan......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2017-04-24
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#Azure" title="Azure">Azure</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
 
     
 
@@ -644,41 +679,6 @@ G......
 
     
 
-    
-
-        <div class="post-preview">
-
-            <a href="/2016/01/14/docker-registry-installation/">
-                <h2 class="post-title">
-                    docker registry 的簡單安裝紀錄
-                </h2>
-                <h3 class="post-subtitle">
-                    
-                </h3>
-                <div class="post-content-preview">
-                    
-前言最近公司也採用自己搭建 docker registry，完成 CI/CD 的最後一厘路，這邊做個簡單的安裝紀錄。
-安裝安裝 docker registry先把 image 從 dockerhub 上面撈下來，我是用 2.1 這個 version，不過官方版本好像到 2.2.1 了。1docker pull registry:2.1
-先建立好 config，然後主要是要把 images ......
-                </div>
-            </a>
-            
-                <p class="post-meta" style="margin: 10px 0;">
-                    Posted by Kakashi on
-                    2016-01-14
-                </p>
-                <div class="tags">
-                    
-                      <a href="/tags/#docker" title="docker">docker</a>
-                    
-                </div>
-            
-
-        </div>
-        <hr>
-
-    
-
 
 
 <!-- Pager -->
@@ -736,7 +736,7 @@ G......
             
         
             
-            <a href="/tags/#golang" title="golang" rel="6">golang</a>
+            <a href="/tags/#golang" title="golang" rel="7">golang</a>
             
         
             
@@ -828,6 +828,10 @@ G......
     <ul>
       
         <li>
+          <a href="/2021/06/29/golang-race-detector/">Golang Taipei Gathering 分享 - Golang Race Detector under the hood</a>
+        </li>
+      
+        <li>
           <a href="/2021/02/16/note-from-werner-vogels-interview/">Werner Vogels 談 Amazon 怎麼從 Monolith 到 Service-based Architecture</a>
         </li>
       
@@ -843,10 +847,6 @@ G......
           <a href="/2020/11/01/note-for-simd/">學習使用 compiler vector extension 去寫 SIMD 程式</a>
         </li>
       
-        <li>
-          <a href="/2020/10/17/swisstable-hashmap-note/">google 的 swisstable hashmap 筆記</a>
-        </li>
-      
     </ul>
   </div>
 
@@ -855,22 +855,8 @@ G......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
-
-        <hr>
-    
-        
-  <h5>VISITORS</h5>
-  <div class="widget">
-    <span>
-    	Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
-	</span>
-	<br/>
-	<span>
-		<b><i><span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Visitors In Total
-	</span>
-  </div>
 
         <hr>
     

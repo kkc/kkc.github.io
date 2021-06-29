@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kkc.github.io/2021/06/29/golang-race-detector/</loc>
+    
+    <lastmod>2021-06-29T14:04:38.905Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/archive/index.html</loc>
     
     <lastmod>2021-04-20T14:04:05.925Z</lastmod>
