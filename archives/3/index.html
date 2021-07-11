@@ -337,9 +337,53 @@
 
     
 
+    
+
 
 
 <!-- Main Content -->
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2019/02/25/install-prometheus-on-EKS/">
+                <h2 class="post-title">
+                    利用 Helm 在 EKS 上安裝 Prometheus
+                </h2>
+                <h3 class="post-subtitle">
+                    一些踩雷經驗
+                </h3>
+                <div class="post-content-preview">
+                    Preface最近把玩了 EKS 一陣子，基本上 EKS 就是 AWS 提供的 Managed Kubernetes，主要是幫你管理 Kubernetes 的 master node，我們只需要管理 worker node 就好了，所以很多的服務還是可以用原本的 helm chart 裝起來，這篇文章會介紹怎麼在 EKS 上面利用 helm 安裝 Prometheus 相關的套件，還有一些簡......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2019-02-25
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#monitoring" title="monitoring">monitoring</a>
+                    
+                      <a href="/tags/#AWS" title="AWS">AWS</a>
+                    
+                      <a href="/tags/#EKS" title="EKS">EKS</a>
+                    
+                      <a href="/tags/#prometheus" title="prometheus">prometheus</a>
+                    
+                      <a href="/tags/#kubernetes" title="kubernetes">kubernetes</a>
+                    
+                      <a href="/tags/#helm" title="helm">helm</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
 
     
 
@@ -650,41 +694,6 @@ PrefaceThis is a talk I presented at the internal company meeting. It mainly add
 
     
 
-    
-
-        <div class="post-preview">
-
-            <a href="/2018/03/21/IPSEC-note/">
-                <h2 class="post-title">
-                    IPSec 筆記
-                </h2>
-                <h3 class="post-subtitle">
-                    
-                </h3>
-                <div class="post-content-preview">
-                    前言這篇筆記是用來記錄 IPSec protocal 的一些細節，前陣子在架設 AWS VPN 的時候，遇到了一些小問題，主要還是防火牆擋到需要走的 port ，而當時就在想自己對於 IPSec protocal 也太不熟悉了，所以才有這篇文章來稍微紀錄一下。
-為什麼需要 IPSecIP is not secure，我想這點學過計算機網路的同學應該都會知道這點，而有可能受到以下的風險
-
-so......
-                </div>
-            </a>
-            
-                <p class="post-meta" style="margin: 10px 0;">
-                    Posted by Kakashi on
-                    2018-03-21
-                </p>
-                <div class="tags">
-                    
-                      <a href="/tags/#AWS" title="AWS">AWS</a>
-                    
-                </div>
-            
-
-        </div>
-        <hr>
-
-    
-
 
 
 <!-- Pager -->
@@ -742,7 +751,7 @@ so......
             
         
             
-            <a href="/tags/#golang" title="golang" rel="7">golang</a>
+            <a href="/tags/#golang" title="golang" rel="8">golang</a>
             
         
             
@@ -834,6 +843,10 @@ so......
     <ul>
       
         <li>
+          <a href="/2021/07/11/scheduler-note/">Random Scheduler Note</a>
+        </li>
+      
+        <li>
           <a href="/2021/06/29/golang-race-detector/">Golang Taipei Gathering 分享 - Golang Race Detector under the hood</a>
         </li>
       
@@ -849,10 +862,6 @@ so......
           <a href="/2020/12/14/golang-string-interning/">Golang 的 string interning 技巧</a>
         </li>
       
-        <li>
-          <a href="/2020/11/01/note-for-simd/">學習使用 compiler vector extension 去寫 SIMD 程式</a>
-        </li>
-      
     </ul>
   </div>
 
@@ -861,7 +870,7 @@ so......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>
