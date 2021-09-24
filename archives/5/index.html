@@ -339,9 +339,43 @@
 
     
 
+    
+
 
 
 <!-- Main Content -->
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2017/07/07/mysql-partitioning/">
+                <h2 class="post-title">
+                    MySQL partition 筆記
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    最近要處理一件資料量不太大但是又超過 5kw 行的問題，問題是這樣的，需要一張 table 儲存上傳到 S3 影片的 metadata，像是 id, timestamp, s3_url 等等資料，然後過三個月就把之前的資料連同 metadata 砍掉，而想到簡單一點就用 mysql 的分區表來做就夠了，有人會問用 mongodb 分月切就好，但是其實在處理跨月的 range query 就需......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2017-07-07
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#mysql" title="mysql">mysql</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
 
     
 
@@ -644,37 +678,6 @@ continually delivery......
 
     
 
-    
-
-        <div class="post-preview">
-
-            <a href="/2016/08/02/Consistent-Hashing/">
-                <h2 class="post-title">
-                    Consistent Hashing
-                </h2>
-                <h3 class="post-subtitle">
-                    
-                </h3>
-                <div class="post-content-preview">
-                    前言Consistent Hashing 算是前陣子在看的一個分布式演算法，在以往採用 Load Balance 的演算法有許多種，像是 Round Robin，HASH，Least Connection，Response Time，Weighted，而 Consistent Hashing 這種方式可以應用在某個經典場景：
-舉 Cache 的例子來看，假如你有三個 Node {A, B, ......
-                </div>
-            </a>
-            
-                <p class="post-meta" style="margin: 10px 0;">
-                    Posted by Kakashi on
-                    2016-08-02
-                </p>
-                <div class="tags">
-                    
-                </div>
-            
-
-        </div>
-        <hr>
-
-    
-
 
 
 <!-- Pager -->
@@ -824,6 +827,10 @@ continually delivery......
     <ul>
       
         <li>
+          <a href="/2021/09/24/paper-study-the-tail-at-scale/">Paper 閱後心得： The Tail at Scale</a>
+        </li>
+      
+        <li>
           <a href="/2021/07/11/scheduler-note/">Random Scheduler Note</a>
         </li>
       
@@ -839,10 +846,6 @@ continually delivery......
           <a href="/2021/01/30/integer-compression-note/">Integer Encoding Algorithm 筆記</a>
         </li>
       
-        <li>
-          <a href="/2020/12/14/golang-string-interning/">Golang 的 string interning 技巧</a>
-        </li>
-      
     </ul>
   </div>
 
@@ -851,7 +854,7 @@ continually delivery......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>

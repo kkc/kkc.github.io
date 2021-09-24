@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kkc.github.io/2021/09/24/paper-study-the-tail-at-scale/</loc>
+    
+    <lastmod>2021-09-24T14:44:47.742Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kkc.github.io/2021/07/11/scheduler-note/</loc>
     
     <lastmod>2021-07-11T07:58:49.428Z</lastmod>

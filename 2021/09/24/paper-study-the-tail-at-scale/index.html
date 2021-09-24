@@ -16,11 +16,11 @@
     <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
     <title>
         
-          Random Scheduler Note - Kakashi&#39;s Blog
+          Paper 閱後心得： The Tail at Scale - Kakashi&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://kkc.github.io/2021/07/11/scheduler-note/">
+    <link rel="canonical" href="http://kkc.github.io/2021/09/24/paper-study-the-tail-at-scale/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -108,14 +108,12 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#golang" title="golang">golang</a>
-                            
                         </div>
-                        <h1>Random Scheduler Note</h1>
+                        <h1>Paper 閱後心得： The Tail at Scale</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by Kakashi on
-                            2021-07-11
+                            2021-09-24
                         </span>
 
                         
@@ -230,39 +228,80 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h2 id="Random-Scheduler-Note"><a href="#Random-Scheduler-Note" class="headerlink" title="Random Scheduler Note"></a>Random Scheduler Note</h2><h3 id="Golang-Scheduler"><a href="#Golang-Scheduler" class="headerlink" title="Golang Scheduler"></a>Golang Scheduler</h3><p>最近因為 golang 討論區的一篇<a href="https://www.facebook.com/groups/269001993248363/posts/2013529732128905/" target="_blank" rel="noopener">文章</a>，又簡單複習了下 golang scheduler，其實這個 scheduler 設計上面算是蠻簡單的，具體的內容其實很多文章都寫過了，而特點就是讓多個 goroutines 跑在 OS thread 上，是個 M:N 的分配，盡量減少了 OS thread 的建立，進而減少 OS thread 昂貴的 context switches 時間，runtime scheduler 則根據一些規則 (local, global runnable job &amp; work stealing) 負責把 goroutines 分配給對應的 OS thread，並且在特定時機切換 core 的擁有權，讓 goroutines 們看似能夠平行運作。</p>
-<p>不過我其實是知道不同的 goroutine schedule 到同一個 OS thread 上面，還有一個潛在的好處就是，不同 goroutine 間的共享變數，能夠善用 L1/L2 cache，而在現今的 NUMA 架構下的 CPU，這方面對於 scheduler 的效能還是有蠻大的影響，不過查了下其實在 2014 年 google 的 Dmitry Vyukov 就有在提 <a href="https://docs.google.com/document/u/0/d/1d3iI2QWURgDIsSR6G2275vMeQ_X7w-qxM2Vp7iGwwuM/pub" target="_blank" rel="noopener">NUMA-aware scheduler for Go</a>，不過一直沒有完成，也就是說現在的 scheduler 只是被動得到了一些好處，並不是完全考慮硬體架構的 scheduler。</p>
-<h3 id="NUMA-aware-Scheduler"><a href="#NUMA-aware-Scheduler" class="headerlink" title="NUMA-aware Scheduler"></a>NUMA-aware Scheduler</h3><p>而輾轉又看到 Netflix 也有相關的 NUMA-aware scheduler 的<a href="https://netflixtechblog.com/predictive-cpu-isolation-of-containers-at-netflix-91f014d856c7" target="_blank" rel="noopener">文章</a>，不過是針對不同的 heterogeneous workload 去設計，一般來說 Linux 上面的 CFS 只是幫我們很公平的分配 cpu 給不同的 process，剩下的都需要 application owner 自己去手動調整，像是 priority or cpu affinity 之類的設定，這篇文章則是在提了一個範例，如果 container A 是 cpu intensive，container B 是 latency-intensive，則應該把 container A 趕去不同的 NUMA socket，減少 cache thrashin 的機率。</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近常在看一個 youtube <a href="https://www.youtube.com/c/VivekHaldar" target="_blank" rel="noopener">Vivek Haldar</a> 讀 paper 順便幫忙畫重點，正好看他又翻到這篇很有名的 paper: <a href="https://research.google/pubs/pub40801/" target="_blank" rel="noopener">The Tail at Scale</a>，其第一作者更是大名鼎鼎的 Jeff Dean, 事隔多年再加上在這一行也幹了一陣子，其實更佩服 google 的論文裡面提到的一些在實作上面的方法，而不是只有學術上面的數據，重新看了這篇，也讓我回憶起以前為了要消除 tail latency 所做的一些努力，很推薦大家也來重讀這個經典的論文。</p>
+<h2 id="Tail-latency-是什麼"><a href="#Tail-latency-是什麼" class="headerlink" title="Tail latency 是什麼"></a>Tail latency 是什麼</h2><p>現在的我們都知道，建一個線上系統，網頁或是 API 的 response time 對於 customer 是非常重要的，而一個線上系統的 response time distribution 通常會長得像下面這張圖。</p>
+<p><img src="https://i.imgur.com/4j2U45h.png =600x" alt=""><br>Credit: <a href="https://robertovitillo.com/why-you-should-measure-tail-latencies/" target="_blank" rel="noopener">https://robertovitillo.com/why-you-should-measure-tail-latencies/</a></p>
+<p>Tail latency 一般我們會拿來說是 99th and 99.9th percentiles 這個區間的 requests，一般來說在 tail latency 是有機會慢到讓人髮指的，而從上面的圖來看似乎量體不那麼大，不會讓人太擔心。</p>
+<p><img src="https://i.imgur.com/7f0qYWb.png =600x" alt=""><br>Credit: <a href="https://robertovitillo.com/why-you-should-measure-tail-latencies/" target="_blank" rel="noopener">https://robertovitillo.com/why-you-should-measure-tail-latencies/</a></p>
+<p>在 paper 裡面寫到，如果單純只考慮一台 server，其 99th tail latency 是 1s，則 100 個 user requests 裡面只會有 1 個 user request 會受到影響。</p>
 <blockquote>
-<p>For example if we predict that container A is going to become very CPU intensive soon, then maybe we should run it on a different NUMA socket than container B which is very latency-sensitive. This avoids thrashing caches too much for B and evens out the pressure on the L3 caches of the machine.</p>
+<p>consider a system where each server typically responds in 10ms but with a 99th percentile latency of one second. If a user request is handled on just one such server, one user request in 100 will be slow (one second).</p>
 </blockquote>
-<p>而底下這張圖很好的解釋了，該怎麼去 allocate A &amp; B container 才是好的 resource 使用方式。</p>
-<p><img src="https://miro.medium.com/max/1400/1*8zsLvMK0n_Cw2pzauiNf1A.png" alt=""><br>from <a href="https://netflixtechblog.com/predictive-cpu-isolation-of-containers-at-netflix-91f014d856c7" target="_blank" rel="noopener">https://netflixtechblog.com/predictive-cpu-isolation-of-containers-at-netflix-91f014d856c7</a></p>
-<p>而 Netflix 更進一步的去想怎麼樣自動化這件事情，也提到 resource allocation 是個經典的數學問題。</p>
+<p>但是其實事實常常跟直覺有落差，現在的線上服務，常常一個 request，底下不知道有多少 service 被呼叫，這張圖告訴我們如果底下同時呼叫了 100 個 services，這樣的話，會有 63% 的 user requests 會超過 1s。另外一個有趣的例子是，10000 個 requests 的其中 1 個 request 比較慢的情況，如果下面有 2000 台 server，則會有將近 20% 的機率 user request 會超過 1s，所以在複雜的系統中，tail latency 反而是很需要被關照的。</p>
 <blockquote>
-<p>Resource allocation problems can be efficiently solved through a branch of mathematics called combinatorial optimization, used for example for airline scheduling or logistics problems.</p>
+<p>The figure here outlines how service-level latency in this hypothetical scenario is affected by very modest fractions of latency outliers. If a user request must collect responses from 100 such servers in parallel, then 63% of user requests will take more than one second (marked “x” in the figure). Even for services with only one in 10,000 requests experiencing more than one-second latencies at the single-server level, a service with 2,000 such servers will see almost one in five user requests taking more than one second (marked “o” in the figure).</p>
 </blockquote>
-<p>最後 formulate 成線性規劃的問題，也把相關的演算法實作在 cgroups 上面，並且 opensource <a href="https://github.com/Netflix-Skunkworks/titus-isolate" target="_blank" rel="noopener">titus-isolate</a> 了出來。</p>
-<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>其實 Netflix 這篇文的圖文解釋很棒，也告訴我們怎樣的標準來 schedule Numa-aware task 是好的，畢竟很多人都沒有用 data center 那麼大的機器，而有這些知識，去手動調整我們的程式可能也是不錯的解法。</p>
+<p><img src="https://i.imgur.com/TmqsB8N.png =600x" alt=""></p>
+<h2 id="Google-service-真實情況"><a href="#Google-service-真實情況" class="headerlink" title="Google service 真實情況"></a>Google service 真實情況</h2><p>下面這個表格告訴我們，一個 google 內部 service 的真實分佈，對於一個 leaf service，他的 99th latency 是 10ms, 但是通過 fanout 後，對於 95% 請求完成的 99th latency 則是 70ms，100% 則是 140ms，就此我們可以觀察到剩下的 5% 請求，幾乎製造了一半的 latency (70ms)，所以最佳化這些 slow outlier 對於整體系統會有很大的幫助。 </p>
+<blockquote>
+<p>waiting for the slowest 5% of the requests to complete is responsible for half of the total 99%-percentile latency. Techniques that concentrate on these slow outliers can yield dramatic reductions in overall service performance.</p>
+</blockquote>
+<p><img src="https://i.imgur.com/HLFXXq4.png" alt=""></p>
+<h2 id="產生-tail-latency-的原因-Why-Variability-Exists"><a href="#產生-tail-latency-的原因-Why-Variability-Exists" class="headerlink" title="產生 tail latency 的原因 (Why Variability Exists)"></a>產生 tail latency 的原因 (Why Variability Exists)</h2><ul>
+<li><p>軟體方面:</p>
 <ul>
-<li>avoid spreading a container across multiple NUMA sockets (to avoid potentially slow cross-sockets memory accesses or page migrations)</li>
-<li>don’t use hyper-threads unless you need to (to reduce L1/L2 thrashing)</li>
-<li>try to even out pressure on the L3 caches (based on potential measurements of the container’s hardware usage)</li>
+<li>shared resources: 在同台機器上面 CPU, memory, networking 的競爭。</li>
+<li>daemon &amp; maintaince activities: 一些 backgroud processes 不定時的被啟動執行，造成原本的 request response time 受到影響。(e.g data compaction &amp; garbage collection)</li>
 </ul>
-<p>另外是 scheduler 的演算法和論文很多，還是要看解決的問題和 workload 是什麼，找到評量的目標和 loss function，才能真的去設計一個演算法。</p>
+</li>
+<li><p>硬體方面:</p>
+<ul>
+<li>Power limits: CPU 被設計成可以暫時跑超過他的平均功率上，而得到效能提升，但是如果這情況發生太久就會被 throttle 降溫。</li>
+<li>SSD GC: SSD 發生 GC 的時候，也會變慢</li>
+</ul>
+</li>
+</ul>
+<h2 id="解決-tail-latency-的方法"><a href="#解決-tail-latency-的方法" class="headerlink" title="解決 tail latency 的方法"></a>解決 tail latency 的方法</h2><h3 id="Reduce-Component-Variability-Component-內部"><a href="#Reduce-Component-Variability-Component-內部" class="headerlink" title="Reduce Component Variability (Component 內部)"></a>Reduce Component Variability (Component 內部)</h3><ul>
+<li>Differentiating service classes and higher-level queuing: 將請求分類，讓一些需要 interactive 的請求能夠先被處理。</li>
+<li>Reducing head-of-line blocking: 長時間的請求常常會造成 tail latency，我們可以把這種請求，打散成一連串小的請求，這樣可以跟其他的小請求交互執行，讓這些小請求不會被卡在 queue 後面，造成整體的 tail latency 變差。</li>
+<li>Managing background activities and synchronized disruption: 將 background process 拆解成成本較低的操作，並且搭配 throttle 的功能，然後在整體 system loading 比較低的時候再去執行。 </li>
+</ul>
+<p><strong> 這篇論文特別指出他略過 cache 的討論，因為 cache 的情況又更複雜 </strong></p>
+<h3 id="Living-with-Latency-Variability"><a href="#Living-with-Latency-Variability" class="headerlink" title="Living with Latency Variability"></a>Living with Latency Variability</h3><ul>
+<li><p>Hedged requests: 將同樣的 request 發給不同的 servers，然後拿先返回的 response 回傳給 user，一但拿到 response，就把另外未處理完的 request 取消掉，但這件事大家一定有疑問，不是會造成 server loading 加重嗎？其中論文裡面的一個方法是，只有當第一個 request 到 95th 的時間時還沒拿到 response，才再發出第二個 request，這樣的做法約略讓整體的 loading 提升 5%，但是卻可以有效地減低 tail latency。(想法：類似的做法在 map reduce 的論文裡面也可以看到，提升一點 loading 讓整體系統加快，很值得我們去思考類似的解法，下面我還列了一個論文裡面的範例)</p>
+<blockquote>
+<p>For example, in a Google benchmark that reads the values for 1,000 keys stored in a BigTable table distributed across 100 different servers, sending a hedging request after a 10ms delay reduces the 99.9th-percentile latency for retrieving all 1,000 values from 1,800ms to 74ms while sending just 2% more requests.</p>
+</blockquote>
+</li>
+<li><p>Tied requests: 跟 Hedged requests 的做法差不多，只是這裡是直接把 requests 發給多個 server 的 queue，而不是等待一段時間再發，server 做完後會主動取消其他的 server 的 request，不過這件事會增加網路的負擔</p>
+<blockquote>
+<p>instead of delaying before sending out hedged requests, enqueue requests simulateously on multiple servers, but tie them together but telling each server who else also has this in their queue. When the first server processes the request, it tells the others to cancel it from their queues. </p>
+</blockquote>
+</li>
+</ul>
+<h3 id="Cross-Request-Long-Term-Adaptations"><a href="#Cross-Request-Long-Term-Adaptations" class="headerlink" title="Cross-Request Long-Term Adaptations"></a>Cross-Request Long-Term Adaptations</h3><ul>
+<li>Micro-partition: 將一台大 server 切割成多個小 partition，類似一台機器切成 20 個 partition，這樣可以在動態任務分配(dynamic assignment)上面更靈活，主要就是讓 granularity 切得更細。</li>
+<li>Selectively increase replication factors: 當一個 partition 變成 hot 的時候，能夠動態增加 replica 去 share loading。(想法: 這個目前有很多 autoscaling 的技術，著重的就是這個點)</li>
+<li><p>Put slow machines on probation: 當機器變慢的時候，將他隔離起來，這也是 circuit breaker，熔斷讓 machine 的情況不會變更差。</p>
+</li>
+<li><p>Consider ‘good enough’ responses: 服務降級，讓 service 還是有回應，但是給的內容也許不完整。</p>
+</li>
+</ul>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>以上就是這篇論文的閱讀筆記，其實裡面有些概念，目前都被推廣的蠻多的，像是 autoscaling, service degradation, circuit breaker, 不過還是有些其實對於一般大眾來說還不是那麼熟悉，像是 Hedged requests &amp; Tied requests，都蠻有趣的，也被實際證實它的用處，這個方法還在 Rob Pike 的 golang concurrency talk 裡面被拿來當作範例，的確在 google 應該是耳熟能詳的技術，之後在設計多 fan out 的系統，也許可以拿來採用。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://cacm.acm.org/magazines/2013/2/160173-the-tail-at-scale/fulltext" target="_blank" rel="noopener">https://cacm.acm.org/magazines/2013/2/160173-the-tail-at-scale/fulltext</a></li>
+<li><a href="https://www.youtube.com/watch?v=1Qxnrf2pW10" target="_blank" rel="noopener">https://www.youtube.com/watch?v=1Qxnrf2pW10</a></li>
+<li><a href="https://blog.acolyer.org/2015/01/15/the-tail-at-scale/" target="_blank" rel="noopener">https://blog.acolyer.org/2015/01/15/the-tail-at-scale/</a></li>
+</ul>
 
                 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2021/09/24/paper-study-the-tail-at-scale/" data-toggle="tooltip" data-placement="top" title="Paper 閱後心得： The Tail at Scale">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2021/06/29/golang-race-detector/" data-toggle="tooltip" data-placement="top" title="Golang Taipei Gathering 分享 - Golang Race Detector under the hood">Next Post &rarr;</a>
+                        <a href="/2021/07/11/scheduler-note/" data-toggle="tooltip" data-placement="top" title="Random Scheduler Note">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -308,7 +347,7 @@
           <strong class="toc-title">Contents</strong>
           
             
-              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Random-Scheduler-Note"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Random Scheduler Note</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Golang-Scheduler"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Golang Scheduler</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#NUMA-aware-Scheduler"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">NUMA-aware Scheduler</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#心得"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">心得</span></a></li></ol>
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Tail-latency-是什麼"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Tail latency 是什麼</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Google-service-真實情況"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Google service 真實情況</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#產生-tail-latency-的原因-Why-Variability-Exists"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">產生 tail latency 的原因 (Why Variability Exists)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#解決-tail-latency-的方法"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">解決 tail latency 的方法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Reduce-Component-Variability-Component-內部"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">Reduce Component Variability (Component 內部)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Living-with-Latency-Variability"><span class="toc-nav-number">5.2.</span> <span class="toc-nav-text">Living with Latency Variability</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Cross-Request-Long-Term-Adaptations"><span class="toc-nav-number">5.3.</span> <span class="toc-nav-text">Cross-Request Long-Term Adaptations</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Conclusion"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">Conclusion</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Reference"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
             
           
           </div>
@@ -330,8 +369,6 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#golang" title="golang">golang</a>
-                        
                     </div>
                 </section>
                 
@@ -355,8 +392,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "kkcliu";
-    var disqus_identifier = "http://kkc.github.io/2021/07/11/scheduler-note/";
-    var disqus_url = "http://kkc.github.io/2021/07/11/scheduler-note/";
+    var disqus_identifier = "http://kkc.github.io/2021/09/24/paper-study-the-tail-at-scale/";
+    var disqus_url = "http://kkc.github.io/2021/09/24/paper-study-the-tail-at-scale/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
