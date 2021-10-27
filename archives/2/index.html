@@ -341,9 +341,44 @@
 
     
 
+    
+
 
 
 <!-- Main Content -->
+
+    
+
+        <div class="post-preview">
+
+            <a href="/2020/08/22/file-descriptor/">
+                <h2 class="post-title">
+                    Linux 的 file descriptor 筆記
+                </h2>
+                <h3 class="post-subtitle">
+                    FD 真的好重要
+                </h3>
+                <div class="post-content-preview">
+                    前言說來慚愧，一直以來都在跟 Linux 打交道，也瞭解 everything in unix is a file 的概念，卻沒有真的好好理解 file descriptor 的基本結構是怎樣，但是在知乎上面看到這篇 Linux file descriptor 演進史，讓我對於他為什麼長這樣有更進一步的認識。(其實原本想找找英文資料，不過這篇講歷史的還蠻清楚的)
+基本上這篇文章會筆記目前新版......
+                </div>
+            </a>
+            
+                <p class="post-meta" style="margin: 10px 0;">
+                    Posted by Kakashi on
+                    2020-08-22
+                </p>
+                <div class="tags">
+                    
+                      <a href="/tags/#linux" title="linux">linux</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
 
     
 
@@ -659,40 +694,6 @@ io_uring前陣子在寫 ......
 
     
 
-    
-
-        <div class="post-preview">
-
-            <a href="/2019/03/28/learn-loop-invariant-from-binary-search/">
-                <h2 class="post-title">
-                    透過 loop invariant 學習怎麼寫正確的 binary search
-                </h2>
-                <h3 class="post-subtitle">
-                    不容易，怎麼多年後才懂
-                </h3>
-                <div class="post-content-preview">
-                    PrefaceBinary search 記得是我剛入門寫程式的時候，前幾個回家作業，當時寫出來時，覺得整個程式就很直覺，對這個也不太有什麼疑問，直到最近看到 Programming Pearls 這本書裡面，有寫到大概 90% 的 binary search 都是錯誤的，甚至第一版的 binary search (1946 的版本)，直到 1962 年才發現有 Bug。
-
-I’ve ass......
-                </div>
-            </a>
-            
-                <p class="post-meta" style="margin: 10px 0;">
-                    Posted by Kakashi on
-                    2019-03-28
-                </p>
-                <div class="tags">
-                    
-                      <a href="/tags/#algorithm" title="algorithm">algorithm</a>
-                    
-                </div>
-            
-
-        </div>
-        <hr>
-
-    
-
 
 
 <!-- Pager -->
@@ -842,6 +843,10 @@ I’ve ass......
     <ul>
       
         <li>
+          <a href="/2021/10/27/link-time-optimization-note/">Link Time Optimization 小記</a>
+        </li>
+      
+        <li>
           <a href="/2021/09/24/paper-study-the-tail-at-scale/">Paper 閱後心得： The Tail at Scale</a>
         </li>
       
@@ -857,10 +862,6 @@ I’ve ass......
           <a href="/2021/02/16/note-from-werner-vogels-interview/">Werner Vogels 談 Amazon 怎麼從 Monolith 到 Service-based Architecture</a>
         </li>
       
-        <li>
-          <a href="/2021/01/30/integer-compression-note/">Integer Encoding Algorithm 筆記</a>
-        </li>
-      
     </ul>
   </div>
 
@@ -869,7 +870,7 @@ I’ve ass......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
 
         <hr>
@@ -1059,21 +1060,6 @@ I’ve ass......
     
         <script src="/js/ribbonDynamic.js"></script>
     
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
