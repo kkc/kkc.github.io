@@ -229,7 +229,7 @@
                 post-container">
 
                 <h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p>最近一直在鼓搗 Python3 的手動編譯，偶然發現這篇文章介紹 LTO 的文章蠻有趣的，網址在 <a href="https://johnysswlab.com/link-time-optimizations-new-way-to-do-compiler-optimizations/" target="_blank" rel="noopener">https://johnysswlab.com/link-time-optimizations-new-way-to-do-compiler-optimizations/</a> 算是 compiler LTO 概念的入門文章，一開始先跟你說了 compiler 針對一個蠻小的 code snippet 可以做些什麼 optimization，像是 <code>inlining</code> 和 <code>loop merging</code>，以下面這個簡單的程式來說:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">int find_min(const int* array, const int len) &#123;</span><br><span class="line">    int min &#x3D; a[0]; </span><br><span class="line">    for (int i &#x3D; 1; i &lt; len; i++) &#123;</span><br><span class="line">        if (a[i] &lt; min) &#123; min &#x3D; a[i]; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return min;</span><br><span class="line">&#125;</span><br><span class="line">int find_max(const int* array, const int len) &#123;</span><br><span class="line">    int max &#x3D; a[0]; </span><br><span class="line">    for (int i &#x3D; 1; i &lt; len; i++) &#123;</span><br><span class="line">        if (a[i] &gt; max) &#123; max &#x3D; a[i]; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return min;</span><br><span class="line">&#125;</span><br><span class="line">void main() &#123;</span><br><span class="line">    int* array, len, min, max;</span><br><span class="line">    initialize_array(array, &amp;len);</span><br><span class="line">    min &#x3D; find_min(array, len);</span><br><span class="line">    max &#x3D; find_max(array, len);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">int find_min(const int* array, const int len) &#123;</span><br><span class="line">    int min &#x3D; a[0];</span><br><span class="line">    for (int i &#x3D; 1; i &lt; len; i++) &#123;</span><br><span class="line">        if (a[i] &lt; min) &#123; min &#x3D; a[i]; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return min;</span><br><span class="line">&#125;</span><br><span class="line">int find_max(const int* array, const int len) &#123;</span><br><span class="line">    int max &#x3D; a[0];</span><br><span class="line">    for (int i &#x3D; 1; i &lt; len; i++) &#123;</span><br><span class="line">        if (a[i] &gt; max) &#123; max &#x3D; a[i]; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return max;</span><br><span class="line">&#125;</span><br><span class="line">void main() &#123;</span><br><span class="line">    int* array, len, min, max;</span><br><span class="line">    initialize_array(array, &amp;len);</span><br><span class="line">    min &#x3D; find_min(array, len);</span><br><span class="line">    max &#x3D; find_max(array, len);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol>
 <li>第一個能做的就是 inlining, 基本上我們透過 inline，可以減少 function call overhead，也就是把 code body 直接展開擺在呼叫他的地方。</li>
 <li>接下來是 loop merging，可以看到 find_min &amp; find_max 的長相很像，我們可以把他們合成一個 loop, 這樣可以減少 cpu 的工作量還可以提升 data cache 的 utilization。</li>
@@ -570,6 +570,21 @@
     
         <script src="/js/ribbonDynamic.js"></script>
     
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
