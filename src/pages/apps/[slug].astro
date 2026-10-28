@@ -6,6 +6,6 @@ export function getStaticPaths(){return products.map(product=>({params:{slug:pro
 const {product:p}=Astro.props;
 ---
 <Base title={`${p.name} — ${p.category}`} description={p.description} image={p.image}>
-<div class="wrap product-detail"><div class="product-intro"><a class="back-link" href="/apps/">所有作品</a><p class="eyebrow">{p.category}</p><h1>{p.name}<span>。</span></h1><p class="lede">{p.description}</p><p>{p.intro}</p><a class="button" href={p.storeUrl}>前往 App Store<Arrow/></a><p class="product-note">{p.notes}</p><a class="product-support" href={`mailto:${site.email}?subject=${encodeURIComponent(p.name+' 產品支援')}`}>產品支援與回饋</a></div><div class:list={['detail-image',p.slug]}><img src={p.image} alt={`${p.name} 產品操作畫面`} width="1320" height="2868"/></div></div>
+<div class="wrap product-detail"><div class="product-intro"><a class="back-link" href="/apps/">所有作品</a><p class="eyebrow">{p.category}</p><h1>{p.name}<span>。</span></h1><p class="lede">{p.description}</p><p>{p.intro}</p><a class="button" href={p.storeUrl}>{p.ctaLabel ?? '前往 App Store'}<Arrow/></a><p class="product-note">{p.notes}</p><a class="product-support" href={`mailto:${site.email}?subject=${encodeURIComponent(p.name+' 產品支援')}`}>產品支援與回饋</a></div><div class:list={['detail-image',p.slug]}><img src={p.image} alt={`${p.name} 產品操作畫面`} width={p.imageWidth ?? 1320} height={p.imageHeight ?? 2868}/></div></div>
 <section class="wrap feature-list" aria-label="產品特色">{p.features.map(([title,body],i)=><div><span class="eyebrow">0{i+1}</span><h2>{title}</h2><p>{body}</p></div>)}</section>
 </Base>

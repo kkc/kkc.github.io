@@ -2,4 +2,4 @@
 import {products} from '../data/site';
 import Arrow from './Arrow.astro';
 ---
-<div class="product-rows">{products.map(p=><a class="product-row" href={`/apps/${p.slug}/`}><div class:list={['product-image',p.slug]}><img src={p.image} alt={`${p.name} 實際產品畫面`} width="1320" height="2868" loading="lazy"/></div><div class="product-copy"><span class="eyebrow">{p.category}</span><h3>{p.name}</h3><p>{p.description}</p></div><Arrow/></a>)}</div>
+<div class="product-rows">{products.map(p=><a class="product-row" href={`/apps/${p.slug}/`}><div class:list={['product-image',p.slug]}><img src={p.image} alt={`${p.name} 實際產品畫面`} width={p.imageWidth ?? 1320} height={p.imageHeight ?? 2868} loading="lazy"/></div><div class="product-copy"><span class="eyebrow">{p.category}</span><h3>{p.name}</h3><p>{p.description}</p></div><Arrow/></a>)}</div>

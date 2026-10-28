@@ -33,3 +33,8 @@
 @media(min-width:1101px){.home-page .site-header{height:82px}.author-intro{padding-block:35px 42px}.author-intro h1{font-size:48px}.home-page .compact .post-title{font-size:20px}.home-page .product-copy h3{font-size:27px}}
 @media(max-width:1000px){.compact-footer{align-items:flex-start;flex-direction:column;gap:20px}.compact-footer nav{flex-wrap:wrap;gap:20px}.compact-footer>div{gap:20px}}
 @media(max-width:760px){.compact-footer{font-size:12px}.compact-footer nav{gap:18px}.compact-footer nav>span{width:100%;border:0;padding:0}.compact-footer>div{flex-wrap:wrap}.compact-footer small{font-size:12px}}
+/* Landscape Mac app screenshots retain the whole interface. */
+.product-image.scenecap{background:#e6e3de;display:flex;align-items:center;justify-content:center;padding:12px}
+.product-image.scenecap img,.home-columns .product-image.scenecap img,.works-page .product-image.scenecap img{position:static;transform:none;width:100%;height:auto;max-width:100%;object-fit:contain;box-shadow:0 5px 18px #28221c18}
+.detail-image.scenecap{padding:20px;background:#e6e3de;align-items:center}
+.detail-image.scenecap img{width:100%;height:auto;align-self:center}
