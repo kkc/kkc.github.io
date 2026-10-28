@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import {allPosts,topicUrl} from '../data/site';
+import {render} from 'astro:content';
+export async function getStaticPaths(){return (await allPosts()).map(post=>({params:{path:post.data.permalink.replace(/^\//,'').replace(/\/$/,'')},props:{post}}));}
+const {post}=Astro.props;
+const {Content,headings}=await render(post);
+const posts=await allPosts();const index=posts.findIndex(p=>p.id===post.id);const next=posts[index+1];
+const toc=headings.filter(h=>h.depth<=3);
+---
+<Base title={post.data.title} description={post.data.description} article date={post.data.date}>
+<header class="wrap article-heading"><a href="/blog/" class="back-link">技術文章</a><p class="eyebrow"><time datetime={post.data.date}>{post.data.date}</time> · KAKASHI</p><h1>{post.data.title}</h1><div class="article-tags">{post.data.tags.map(t=><a href={topicUrl(t)}>{t}</a>)}</div></header>
+<div class="wrap article-layout"><article class="prose article-body"><Content/><div class="article-end"><p>謝謝閱讀。</p><a href="/blog/">回到所有文章</a>{next&&<a href={next.data.permalink}>繼續閱讀：{next.data.title}</a>}</div></article>{toc.length>0&&<aside class="toc"><p class="eyebrow">本文目錄</p><nav aria-label="本文目錄">{toc.map(h=><a class:list={{sub:h.depth===3}} href={`#${h.slug}`}>{h.text}</a>)}</nav></aside>}</div>
+</Base>

@@ -1,0 +1,7 @@
+---
+import Base from '../layouts/Base.astro';
+import PostRows from '../components/PostRows.astro';
+import {allPosts} from '../data/site';
+const posts=await allPosts();
+---
+<Base title="文章封存"><div class="wrap page-heading"><p class="eyebrow">ARCHIVE</p><h1>所有筆記<span>。</span></h1><p>2015 年開始的技術探索。</p></div><div class="wrap"><PostRows posts={posts}/></div></Base>

@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostRows from '../../components/PostRows.astro';
+import {allPosts,topicUrl} from '../../data/site';
+const posts=await allPosts();
+const tags=[...new Set(posts.flatMap(p=>p.data.tags))].sort((a,b)=>a.localeCompare(b));
+---
+<Base title="技術文章" description="Kakashi 的程式設計、Golang、雲端架構與效能研究筆記。記錄解決問題的過程，也分享閱讀與實作的心得。">
+<div class="wrap page-heading"><p class="eyebrow">NOTES / 思考與實作</p><h1>技術文章<span>。</span></h1><p>把遇到的問題、讀過的論文，和寫過的程式，整理成筆記。</p></div>
+<div class="wrap blog-layout"><div><label class="search-label" for="search">搜尋文章</label><input id="search" class="search" type="search" placeholder="搜尋標題、內容摘要或主題…" autocomplete="off"/><p class="search-count" aria-live="polite">共 {posts.length} 篇文章</p><div id="results"><PostRows posts={posts}/></div><p id="empty" hidden>沒有找到符合的文章。試試其他關鍵字，或清除搜尋。</p></div><aside class="topics"><h2>依主題閱讀</h2><a href="/blog/" aria-current="page">全部文章 <span>{posts.length}</span></a>{tags.map(t=><a href={topicUrl(t)}>{t}<span>{posts.filter(p=>p.data.tags.includes(t)).length}</span></a>)}</aside></div>
+<script>
+const input=document.querySelector<HTMLInputElement>('#search');
+const rows=Array.from(document.querySelectorAll<HTMLElement>('#results .post-row'));
+const searchIndex=rows.map(row=>({row,text:row.dataset.search?.toLocaleLowerCase()||''}));
+input?.addEventListener('input',()=>{const q=input.value.trim().toLocaleLowerCase();let count=0;searchIndex.forEach(({row,text})=>{const show=text.includes(q);row.hidden=!show;if(show)count++;});document.querySelector('.search-count')!.textContent=`${count} 篇文章`;document.querySelector<HTMLElement>('#empty')!.hidden=count!==0;});
+</script>
+</Base>

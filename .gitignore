@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+# Local design evidence and working notes are not website source.
+audit/
+design-qa.md
+docs/product-sources.md
+docs/build-verification.json

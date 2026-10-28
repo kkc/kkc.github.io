@@ -1,0 +1,6 @@
+---
+import Base from '../../layouts/Base.astro';
+import {allPosts,topicUrl} from '../../data/site';
+const posts=await allPosts();const tags=[...new Set(posts.flatMap(p=>p.data.tags))].sort();
+---
+<Base title="文章主題"><div class="wrap page-heading"><p class="eyebrow">TOPICS</p><h1>依主題探索<span>。</span></h1></div><div class="wrap tag-directory">{tags.map(t=><section id={t}><a href={topicUrl(t)}>{t}<span>{posts.filter(p=>p.data.tags.includes(t)).length} 篇文章</span></a></section>)}</div></Base>

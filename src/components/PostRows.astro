@@ -1,0 +1,9 @@
+---
+import Arrow from './Arrow.astro';
+import type {CollectionEntry} from 'astro:content';
+interface Props {posts:CollectionEntry<'posts'>[]; compact?:boolean;}
+const {posts,compact=false}=Astro.props;
+const shortDescriptions:Record<string,string>={"/2021/07/11/scheduler-note/":"記錄 Golang 排程器的設計，以及 goroutine、OS thread 與隨機化排程之間的關係。"};
+const shortTitles:Record<string,string>={"/2021/06/29/golang-race-detector/":"Golang Race Detector 底層實作"};
+---
+<div class:list={['post-rows',{compact}]}>{posts.map(post=><article class="post-row" data-search={`${post.data.title} ${post.data.description} ${post.data.tags.join(' ')}`}><time datetime={post.data.date}>{post.data.date}</time><div><a class="post-title" href={post.data.permalink}>{compact ? shortTitles[post.data.permalink] || post.data.title : post.data.title}</a><p>{compact ? shortDescriptions[post.data.permalink] || post.data.description : post.data.description}</p></div><a class="row-arrow" href={post.data.permalink} aria-label={`閱讀：${post.data.title}`} tabindex="-1"><Arrow/></a></article>)}</div>

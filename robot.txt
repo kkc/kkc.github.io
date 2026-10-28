@@ -1,7 +1,0 @@
-# hexo robots.txt
-User-agent: *
-Allow: /
-Allow: /archives/
-
-Sitemap: http://kkc.github.io/sitemap.xml
-

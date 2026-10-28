@@ -1,0 +1,8 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostRows from '../../components/PostRows.astro';
+import {allPosts} from '../../data/site';
+export async function getStaticPaths(){const posts=await allPosts();return [...new Set(posts.flatMap(p=>p.data.tags))].map(tag=>({params:{tag},props:{tag,posts:posts.filter(p=>p.data.tags.includes(tag))}}));}
+const {tag,posts}=Astro.props;
+---
+<Base title={`${tag} 技術文章`} description={`Kakashi 關於 ${tag} 的技術筆記、實作經驗與閱讀心得。`}><div class="wrap page-heading"><a href="/blog/" class="back-link">所有文章</a><p class="eyebrow">TOPIC / {posts.length} 篇筆記</p><h1>{tag}<span>。</span></h1></div><div class="wrap"><PostRows posts={posts}/></div></Base>

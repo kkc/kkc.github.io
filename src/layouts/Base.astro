@@ -1,0 +1,36 @@
+---
+import '../styles/global.css';
+import {site} from '../data/site';
+interface Props {title?:string; description?:string; image?:string; article?:boolean; date?:string; home?:boolean;}
+const {title=site.title,description=site.description,image='/images/social.jpg',article=false,date,home=false}=Astro.props;
+const canonical=new URL(Astro.url.pathname,site.url).href;
+const current=Astro.url.pathname;
+const schema=article?{'@context':'https://schema.org','@type':'BlogPosting',headline:title,description,datePublished:date,author:{'@type':'Person',name:'Kakashi',url:site.url+'/about/'},mainEntityOfPage:canonical}: {'@context':'https://schema.org','@type':'WebSite',name:site.title,url:site.url,description,inLanguage:'zh-Hant'};
+---
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>{title===site.title?title:`${title} — Kakashi`}</title>
+<meta name="description" content={description}/><meta name="theme-color" content="#f8f6f1"/>
+<link rel="canonical" href={canonical}/><link rel="icon" type="image/png" href="/images/favicon.png"/>
+<link rel="alternate" type="application/atom+xml" title="Kakashi — 技術筆記" href="/atom.xml"/>
+<meta property="og:type" content={article?'article':'website'}/><meta property="og:locale" content="zh_TW"/>
+<meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/><meta property="og:site_name" content="Kakashi · Notes & Works"/><meta property="og:image" content={new URL(image,site.url).href}/>
+<meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/><meta name="twitter:image" content={new URL(image,site.url).href}/>
+{article&&<meta property="article:published_time" content={date}/>}
+<script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g,'\\u003c')}/>
+</head>
+<body class:list={{"home-page":home}}>
+<a class="skip-link" href="#main">跳至主要內容</a>
+<header class="site-header wrap">
+<a class="wordmark" href="/">Kakashi<span>Notes &amp; Works</span></a>
+<nav aria-label="主要導覽">
+<a href="/blog/" aria-current={current.startsWith('/blog')||/^\/\d{4}\//.test(current)?'page':undefined}>文章</a>
+<a href="/apps/" aria-current={current.startsWith('/apps')?'page':undefined}>作品</a>
+<a href="/about/" aria-current={current==='/about/'?'page':undefined}>關於</a>
+</nav>
+</header>
+<main id="main"><slot/></main>
+{home ? <footer class="compact-footer wrap"><nav aria-label="熱門主題"><span>熱門主題</span><a href="/tags/golang/">Golang</a><a href="/tags/AWS/">AWS</a><a href="/tags/performance/">效能</a><a href="/tags/distributed-system/">系統設計</a></nav><div><small>© {new Date().getFullYear()} Kakashi</small><a href={site.github}>GitHub</a><a href="/atom.xml">RSS</a><a href={`mailto:${site.email}`}>聯絡我</a></div></footer> : <footer class="site-footer wrap"><a href="/" class="footer-name">Kakashi</a><p>持續探索，慢慢打造。</p><div><a href={site.github}>GitHub</a><a href="/atom.xml">RSS</a><a href={`mailto:${site.email}`}>聯絡我</a></div><small>© {new Date().getFullYear()} Kakashi</small></footer>}
+</body></html>

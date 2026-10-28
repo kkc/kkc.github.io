@@ -1,0 +1,8 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostRows from '../../components/PostRows.astro';
+import {allPosts} from '../../data/site';
+export async function getStaticPaths(){const posts=await allPosts();const pages=[];for(let i=1;i<=Math.ceil(posts.length/10);i++)pages.push({params:{page:i===1?undefined:String(i)},props:{posts:posts.slice((i-1)*10,i*10),page:i,total:Math.ceil(posts.length/10),year:''}});for(const year of [...new Set(posts.map(p=>p.data.date.slice(0,4)))]){const yearly=posts.filter(p=>p.data.date.startsWith(year));pages.push({params:{page:year},props:{posts:yearly,page:1,total:1,year}});for(const month of [...new Set(yearly.map(p=>p.data.date.slice(5,7)))])pages.push({params:{page:`${year}/${month}`},props:{posts:yearly.filter(p=>p.data.date.slice(5,7)===month),page:1,total:1,year:`${year} / ${month}`}});}return pages;}
+const {posts,page,total,year}=Astro.props;
+---
+<Base title={year?`${year} 文章封存`:`文章封存 · 第 ${page} 頁`}><div class="wrap page-heading"><p class="eyebrow">ARCHIVE</p><h1>{year||'文章封存'}<span>。</span></h1><div class="archive-links">{['2021','2020','2019','2018','2017','2016','2015'].map(y=><a href={`/archives/${y}/`}>{y}</a>)}</div></div><div class="wrap"><PostRows posts={posts}/><nav class="archive-nav" aria-label="封存分頁">{page>1?<a href={page===2?'/archives/':`/archives/${page-1}/`}>上一頁</a>:<span/>}{page<total&&<a href={`/archives/${page+1}/`}>下一頁</a>}</nav></div></Base>

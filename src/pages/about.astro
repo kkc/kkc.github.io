@@ -1,0 +1,6 @@
+---
+import Base from '../layouts/Base.astro';
+import {site} from '../data/site';
+import Arrow from '../components/Arrow.astro';
+---
+<Base title="關於 Kakashi" description="認識 Kakashi：記錄技術探索、分享程式設計與系統架構，也持續打造自己的 App。"><div class="wrap page-heading"><p class="eyebrow">ABOUT / 寫作者，也是開發者</p><h1>嗨，我是 Kakashi<span>。</span></h1></div><div class="wrap about-page"><div class="prose"><p class="lede">寫下探索，做出想法。</p><p>這裡是我的技術筆記，也是獨立開發作品的家。我會把學習、閱讀與實作的過程記錄下來，讓想法有機會被討論，也讓下一次遇到問題的自己有跡可循。</p><h2>把問題想清楚</h2><p>從 Golang、資料庫、雲端基礎設施，到系統效能與論文閱讀，我喜歡理解工具背後的原理，以及它們在真實情境裡的取捨。</p><h2>把想法做出來</h2><p>除了寫文章，我也打造自己的產品。影片剪輯、字幕與貓咪解謎，是目前探索的一部分；從需求出發，把技術變成可以使用的體驗。</p><div class="hero-actions"><a class="button" href="/blog/">閱讀筆記<Arrow/></a><a class="button secondary" href="/apps/">看看作品<Arrow/></a></div><h2>保持聯絡</h2><p>有產品回饋、技術問題，或想交流的想法，歡迎寫信給我。</p><p><a href={`mailto:${site.email}`}>{site.email}</a> · <a href={site.github}>GitHub</a></p></div><img class="about-photo" src="/images/studio.webp" alt="安靜的開發工作桌" width="1536" height="1024"/></div></Base>
