@@ -5,7 +5,7 @@ import PostRows from '../components/PostRows.astro';
 import ProductRows from '../components/ProductRows.astro';
 import {allPosts,site} from '../data/site';
 const posts=await allPosts();
-const featured=['link-time-optimization-note','paper-study-the-tail-at-scale','scheduler-note','golang-race-detector'].map(s=>posts.find(p=>p.data.permalink.includes(s))).filter(Boolean);
+const featured=posts.slice(0,4);
 ---
 <Base home>
 <section class="author-intro wrap" aria-labelledby="intro-heading">
