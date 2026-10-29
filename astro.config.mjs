@@ -3,6 +3,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://kkc.github.io',
   output: 'static',
+  build: {inlineStylesheets: 'always'},
   trailingSlash: 'always',
   integrations: [sitemap({filter: (page) => !page.endsWith('/404/')})],
   markdown: {shikiConfig: {theme: 'github-light'}},

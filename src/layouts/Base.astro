@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import desktopFonts from '../styles/desktop-fonts.css?url';
 import {site} from '../data/site';
 interface Props {title?:string; description?:string; image?:string; article?:boolean; date?:string; home?:boolean;}
 const {title=site.title,description=site.description,image='/images/social.jpg',article=false,date,home=false}=Astro.props;
@@ -12,6 +13,8 @@ const schema=article?{'@context':'https://schema.org','@type':'BlogPosting',head
 <head>
 <meta name="google-site-verification" content="jJnpQjFutFaHT1yZV38mcuySEQjIm1b_DWfx3GfBoII" />
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- Keep the large CJK font stylesheet off the mobile rendering path. -->
+<link rel="stylesheet" href={desktopFonts} media="(min-width: 761px)"/>
 <title>{title===site.title?title:`${title} — Kakashi`}</title>
 <meta name="description" content={description}/><meta name="theme-color" content="#f8f6f1"/>
 <link rel="canonical" href={canonical}/><link rel="icon" type="image/png" href="/images/favicon.png"/>

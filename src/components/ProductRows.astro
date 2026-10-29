@@ -1,5 +1,15 @@
 ---
 import {products} from '../data/site';
 import Arrow from './Arrow.astro';
+import {Image} from 'astro:assets';
+import type {ImageMetadata} from 'astro';
+const images=import.meta.glob<{default:ImageMetadata}>('../../public/images/*.webp',{eager:true});
+interface Props {large?:boolean;}
+const {large=false}=Astro.props;
+const sizes=(slug:string)=>large
+ ? slug==='scenecap' ? '(max-width: 760px) calc(100vw - 64px), (max-width: 1100px) calc(50vw - 81px), 591px' : slug==='kakucut' ? '438px' : '322px'
+ : slug==='scenecap'
+ ? '(max-width: 760px) calc(40vw - 40px), (max-width: 1100px) 16vw, 22vw'
+ : slug==='kakucut' ? '(max-width: 760px) 253px, 438px' : '207px';
 ---
-<div class="product-rows">{products.map(p=><a class="product-row" href={`/apps/${p.slug}/`}><div class:list={['product-image',p.slug]}><img src={p.image} alt={`${p.name} 實際產品畫面`} width={p.imageWidth ?? 1320} height={p.imageHeight ?? 2868} loading="lazy"/></div><div class="product-copy"><span class="eyebrow">{p.category}</span><h3>{p.name}</h3><p>{p.description}</p></div><Arrow/></a>)}</div>
+<div class="product-rows">{products.map(p=><a class="product-row" href={`/apps/${p.slug}/`}><div class:list={['product-image',p.slug]}><Image src={images[`../../public${p.image}`].default} alt={`${p.name} 實際產品畫面`} widths={[160,240,320,480,660,960,1440]} sizes={sizes(p.slug)} format="webp" loading="lazy" decoding="async"/></div><div class="product-copy"><span class="eyebrow">{p.category}</span><h3>{p.name}</h3><p>{p.description}</p></div><Arrow/></a>)}</div>
