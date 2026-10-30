@@ -47,16 +47,18 @@ func main() {
 而在 golang 裡面其實並沒有很多地方有做 interning，但是我們在處理一些資料的時候，其實有機會用到這個技巧，像是第一篇文章裡面有寫到，如果我們要處理大量的 text，如果沒有 interning，可能就需要 allocate 很大量的記憶體去儲存這些資料，另外是像從資料庫讀取東西時，也可以有些數據是一直重複出現的，這時也可以應用同樣的技巧。
 
 而一般來說透過類似 cache 的方式可以自幹 string interning，像是第二篇文章的 code
-```go`
+```go
 func intern(m map[string]string, b []byte) string { 
     // look for an existing string to re-use 
     c, ok := m[string(b)] 
     if ok { 
-        // found an existing string return c 
+        // found an existing string
+        return c 
     } 
     // didn't find one, so make one and store it 
     s := string(b) 
-    m[s] = s return s
+    m[s] = s
+    return s
 }
 ```
 
