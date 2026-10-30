@@ -68,7 +68,7 @@ prometheus-operator should be greater than 0.28.0 to support Thanos 2.0
 ## Thanos Architecture
 
 Official Architecture of Thanos
-![arch](https://raw.githubusercontent.com/improbable-eng/thanos/master/docs/img/arch.jpg)
+![arch](/2019/02/10/prometheus-operator-with-thanos/arch.jpg)
 
 Our deployment steps
 ![arch](https://user-images.githubusercontent.com/17483589/45601152-096aba80-ba11-11e8-8d46-20f666583386.jpg)

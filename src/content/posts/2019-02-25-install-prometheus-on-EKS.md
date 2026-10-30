@@ -406,70 +406,70 @@ templates:
 2. 想要確認 alertmanager template 的語法的話，可以使用下面這個 script 去測試，主要是從這個 [gist](https://gist.github.com/cherti/61ec48deaaab7d288c9fcf17e700853a) 看來的，這樣就可以邊改 template 邊驗證，不用真的去產生一些錯誤條件出來。
 
    ```
-#!/bin/bash
+   #!/bin/bash
+   
+   name=$RANDOM
+   url='http://localhost:9093/api/v1/alerts'
+   
+   echo "firing up alert $name" 
+   
+   # change url o
+   curl -XPOST $url -d "[{ 
+   	\"status\": \"firing\",
+   	\"labels\": {
+   		\"alertname\": \"$name\",
+   		\"service\": \"my-service\",
+   		\"severity\":\"warning\",
+   		\"instance\": \"$name.example.net\"
+   	},
+   	\"annotations\": {
+   		\"summary\": \"High latency is high!\"
+   	},
+   	\"generatorURL\": \"http://prometheus.int.example.net/<generating_expression>\"
+   }]"
+   
+   echo ""
+   
+   echo "press enter to resolve alert"
+   read
+   
+   echo "sending resolve"
+   curl -XPOST $url -d "[{ 
+   	\"status\": \"resolved\",
+   	\"labels\": {
+   		\"alertname\": \"$name\",
+   		\"service\": \"my-service\",
+   		\"severity\":\"warning\",
+   		\"instance\": \"$name.example.net\"
+   	},
+   	\"annotations\": {
+   		\"summary\": \"High latency is high!\"
+   	},
+   	\"generatorURL\": \"http://prometheus.int.example.net/<generating_expression>\"
+   }]"
+   ```
 
-name=$RANDOM
-url='http://localhost:9093/api/v1/alerts'
+   或是用
 
-echo "firing up alert $name" 
-
-# change url o
-curl -XPOST $url -d "[{ 
-	\"status\": \"firing\",
-	\"labels\": {
-		\"alertname\": \"$name\",
-		\"service\": \"my-service\",
-		\"severity\":\"warning\",
-		\"instance\": \"$name.example.net\"
-	},
-	\"annotations\": {
-		\"summary\": \"High latency is high!\"
-	},
-	\"generatorURL\": \"http://prometheus.int.example.net/<generating_expression>\"
-}]"
-
-echo ""
-
-echo "press enter to resolve alert"
-read
-
-echo "sending resolve"
-curl -XPOST $url -d "[{ 
-	\"status\": \"resolved\",
-	\"labels\": {
-		\"alertname\": \"$name\",
-		\"service\": \"my-service\",
-		\"severity\":\"warning\",
-		\"instance\": \"$name.example.net\"
-	},
-	\"annotations\": {
-		\"summary\": \"High latency is high!\"
-	},
-	\"generatorURL\": \"http://prometheus.int.example.net/<generating_expression>\"
-}]"
-  ```
-
-或是用
-
-  ```
-#!/bin/bash
-
-alerts='[
-  {
-    "labels": {
-       "alertname": "instance_down",
-       "instance": "example1"
-     },
-     "annotations": {
-        "info": "The instance example1 is down",
-        "summary": "instance example1 is down"
-      }
-  }
-]'
-
-URL="https://alertmanager.mydomain.com"
-
-curl -XPOST -d"$alerts" $URL/api/v1/alerts
+   ```
+   #!/bin/bash
+   
+   alerts='[
+     {
+       "labels": {
+          "alertname": "instance_down",
+          "instance": "example1"
+        },
+        "annotations": {
+           "info": "The instance example1 is down",
+           "summary": "instance example1 is down"
+         }
+     }
+   ]'
+   
+   URL="https://alertmanager.mydomain.com"
+   
+   curl -XPOST -d"$alerts" $URL/api/v1/alerts
    ```
 
 3. 可以使用看看是否自己的 secret 內容是正確的

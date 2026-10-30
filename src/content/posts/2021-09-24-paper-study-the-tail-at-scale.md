@@ -14,12 +14,12 @@
 
 現在的我們都知道，建一個線上系統，網頁或是 API 的 response time 對於 customer 是非常重要的，而一個線上系統的 response time distribution 通常會長得像下面這張圖。
 
-![](https://i.imgur.com/4j2U45h.png =600x)
+<img src="https://i.imgur.com/4j2U45h.png" alt="" width="600">
 Credit: https://robertovitillo.com/why-you-should-measure-tail-latencies/
 
 Tail latency 一般我們會拿來說是 99th and 99.9th percentiles 這個區間的 requests，一般來說在 tail latency 是有機會慢到讓人髮指的，而從上面的圖來看似乎量體不那麼大，不會讓人太擔心。
 
-![](https://i.imgur.com/7f0qYWb.png =600x)
+<img src="https://i.imgur.com/7f0qYWb.png" alt="" width="600">
 Credit: https://robertovitillo.com/why-you-should-measure-tail-latencies/
 
 在 paper 裡面寫到，如果單純只考慮一台 server，其 99th tail latency 是 1s，則 100 個 user requests 裡面只會有 1 個 user request 會受到影響。
@@ -30,7 +30,7 @@ Credit: https://robertovitillo.com/why-you-should-measure-tail-latencies/
 
 > The figure here outlines how service-level latency in this hypothetical scenario is affected by very modest fractions of latency outliers. If a user request must collect responses from 100 such servers in parallel, then 63% of user requests will take more than one second (marked "x" in the figure). Even for services with only one in 10,000 requests experiencing more than one-second latencies at the single-server level, a service with 2,000 such servers will see almost one in five user requests taking more than one second (marked "o" in the figure).
 
-![](https://i.imgur.com/TmqsB8N.png =600x)
+<img src="https://i.imgur.com/TmqsB8N.png" alt="" width="600">
 
 ## Google service 真實情況
 
@@ -58,7 +58,7 @@ Credit: https://robertovitillo.com/why-you-should-measure-tail-latencies/
 - Reducing head-of-line blocking: 長時間的請求常常會造成 tail latency，我們可以把這種請求，打散成一連串小的請求，這樣可以跟其他的小請求交互執行，讓這些小請求不會被卡在 queue 後面，造成整體的 tail latency 變差。
 - Managing background activities and synchronized disruption: 將 background process 拆解成成本較低的操作，並且搭配 throttle 的功能，然後在整體 system loading 比較低的時候再去執行。 
 
-** 這篇論文特別指出他略過 cache 的討論，因為 cache 的情況又更複雜 **
+**這篇論文特別指出他略過 cache 的討論，因為 cache 的情況又更複雜**
 
 ### Living with Latency Variability
 
