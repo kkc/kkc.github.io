@@ -19,15 +19,15 @@
 
 這邊條列一下歷史，另外是我覺得蠻值得筆記的幾個演算法，主要從這篇論文來的 https://arxiv.org/pdf/1908.10598.pdf
 
-1972: variable-byte (https://en.wikipedia.org/wiki/Variable-length_quantity)
-1998: frame of reference (FOR)
-2006: PForDelta
-2009: Variant-GB
-2010: simple8b
-2011: Variant-G8IU
-2014: Roaring
-2015: SIMD-BP128, SIMD-FastPFor
-2018: Stream-VByte
+- 1972: variable-byte (https://en.wikipedia.org/wiki/Variable-length_quantity)
+- 1998: frame of reference (FOR)
+- 2006: PForDelta
+- 2009: Variant-GB
+- 2010: simple8b
+- 2011: Variant-G8IU
+- 2014: Roaring
+- 2015: SIMD-BP128, SIMD-FastPFor
+- 2018: Stream-VByte
 
 ## 一些常見的 Algorithm
 
@@ -118,7 +118,7 @@ simple family 也是一個很有名的演算法，因為名字的開頭就叫做
 simple8b 的 64 bit 中，後面 60 個 bit 拿來放 data，前 4 個 bit 會被拿來當作 selector，決定有多少的 integer 可以被壓縮在 64 bit 的 word 中，其中的 encoding mode 可以參考下表:
 
 | selector         | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12| 13| 14 |15|
-|----------------- |-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | integer coded    | 240 | 120 | 60|  30| 20 |15 |12| 10| 8 |7| 6| 5 |4 |3 |2 |1|
 | bits per integer |0 |0 |1 |2 |3 |4 |5 |6 |7 |8 |10| 12| 15| 20| 30| 60|
 
