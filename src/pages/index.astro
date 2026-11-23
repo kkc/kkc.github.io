@@ -3,9 +3,12 @@ import Base from '../layouts/Base.astro';
 import Arrow from '../components/Arrow.astro';
 import PostRows from '../components/PostRows.astro';
 import ProductRows from '../components/ProductRows.astro';
+import NoteRows from '../components/NoteRows.astro';
+import {publishedNotes} from '../data/notes';
 import {allPosts,site} from '../data/site';
 const posts=await allPosts();
 const featured=posts.slice(0,4);
+const notes=(await publishedNotes()).slice(0,3);
 ---
 <Base home>
 <section class="author-intro wrap" aria-labelledby="intro-heading">
@@ -16,5 +19,5 @@ const featured=posts.slice(0,4);
 <section aria-labelledby="writing-heading"><div class="section-heading"><h2 id="writing-heading">技術文章</h2><a href="/blog/">查看全部<Arrow/></a></div><PostRows posts={featured as typeof posts} compact/></section>
 <section aria-labelledby="works-heading"><div class="section-heading"><h2 id="works-heading">作品</h2><a href="/apps/">查看全部<Arrow/></a></div><ProductRows/></section>
 </div>
-
+{notes.length > 0 && <section class="home-notes wrap" aria-labelledby="notes-heading"><div class="section-heading"><h2 id="notes-heading">最近的筆記</h2><a href="/notes/">所有筆記</a></div><NoteRows notes={notes}/></section>}
 </Base>

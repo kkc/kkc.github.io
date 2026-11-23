@@ -1,0 +1,29 @@
+---
+import {render} from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import {publishedNotes, noteKinds, noteTopics, noteTopicUrl} from '../../data/notes';
+import {allPosts} from '../../data/site';
+export async function getStaticPaths() {
+  return (await publishedNotes()).map(note => ({params: {slug: note.id}, props: {note}}));
+}
+const {note} = Astro.props;
+const {Content, headings} = await render(note);
+const related = (await allPosts()).filter(post => note.data.relatedPosts.includes(post.data.permalink));
+---
+<Base title={note.data.title} description={note.data.description}>
+  <header class="wrap article-heading note-heading">
+    <a class="back-link" href="/notes/">所有筆記</a>
+    <p class="note-meta"><span>{noteKinds[note.data.kind]}</span><span>整理於 <time datetime={note.data.createdAt}>{note.data.createdAt}</time></span><span>更新於 <time datetime={note.data.updatedAt}>{note.data.updatedAt}</time></span></p>
+    <h1>{note.data.title}</h1><p class="note-description">{note.data.description}</p>
+    <div class="article-tags">{note.data.topics.map(t => <a href={noteTopicUrl(t)}>{noteTopics[t]}</a>)}</div>
+    {note.data.sourceDate && <p class="note-origin">從 {note.data.sourceDate} 的 Facebook 貼文整理。</p>}
+  </header>
+  <div class="wrap article-layout">
+    <article class="prose article-body"><Content/>
+      {note.data.sources.length > 0 && <section class="note-references" aria-labelledby="note-sources"><h2 id="note-sources">閱讀來源</h2><ul>{note.data.sources.map(source => <li><a href={source.url}>{source.label}</a></li>)}</ul></section>}
+      {related.length > 0 && <section><h2>相關文章</h2><ul>{related.map(post => <li><a href={post.data.permalink}>{post.data.title}</a></li>)}</ul></section>}
+      <div class="article-end"><a href="/notes/">回到所有筆記</a></div>
+    </article>
+    {headings.length > 0 && <aside class="toc"><p class="eyebrow">筆記目錄</p><nav aria-label="筆記目錄">{headings.filter(h => h.depth <= 3).map(h => <a class:list={{sub: h.depth === 3}} href={`#${h.slug}`}>{h.text}</a>)}<a href="#note-sources">閱讀來源</a></nav></aside>}
+  </div>
+</Base>

@@ -31,6 +31,7 @@ const schema=article?{'@context':'https://schema.org','@type':'BlogPosting',head
 <a class="wordmark" href="/">Kakashi<span>Notes &amp; Works</span></a>
 <nav aria-label="主要導覽">
 <a href="/blog/" aria-current={current.startsWith('/blog')||/^\/\d{4}\//.test(current)?'page':undefined}>文章</a>
+<a href="/notes/" aria-current={current.startsWith('/notes/')?'page':undefined}>筆記</a>
 <a href="/apps/" aria-current={current.startsWith('/apps')?'page':undefined}>作品</a>
 <a href="/about/" aria-current={current==='/about/'?'page':undefined}>關於</a>
 </nav>

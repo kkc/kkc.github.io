@@ -41,3 +41,23 @@
 
 /* Do not request desktop web fonts on mobile, even if already cached. */
 @media(max-width:760px){:root{--serif:'Songti TC','Noto Serif CJK TC','Source Han Serif TC',Georgia,serif;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang TC','Microsoft JhengHei',sans-serif;}}
+
+/* Living notes share the site's editorial typography, with a smaller reading unit. */
+.notes-layout{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:72px;padding-block:36px 50px}
+.notes-count{font-size:14px;color:var(--muted);margin:12px 0 4px}
+.note-row{padding:28px 0;border-bottom:1px solid var(--line)}.note-row[hidden]{display:none}
+.note-meta{display:flex;align-items:center;gap:12px 22px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.note-row h2{font-size:24px;margin:10px 0}.note-row>p{font-size:16px;line-height:1.9;color:var(--muted)}
+.note-tags{display:flex;gap:8px 16px;flex-wrap:wrap;margin-top:15px;font-size:14px;color:var(--muted)}
+.notes-sidebar h2{font-size:22px;margin-bottom:16px}.notes-sidebar nav{display:grid}
+.notes-sidebar nav>a{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-top:1px solid var(--line);font-size:15px}
+.notes-sidebar nav>a[aria-current]{color:var(--accent)}.notes-sidebar nav span{color:var(--muted)}
+.notes-sidebar>p{margin-top:25px;font-size:15px;line-height:1.9;color:var(--muted)}
+.notes-blog-link{display:inline-block;margin-top:18px;text-decoration:underline;font-size:15px;color:var(--accent)}
+.note-heading .note-description{font-size:18px;line-height:1.9;max-width:760px;color:var(--muted);margin-bottom:20px}
+.note-origin{font-size:14px;color:var(--muted);margin-top:16px}.note-references{margin-top:40px;border-top:1px solid var(--line)}
+.home-notes{padding-block:26px 36px;border-top:1px solid var(--line)}
+.home-notes .note-rows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.home-notes .note-row{border-bottom:0;padding-bottom:0}.home-notes .note-row h2{font-size:21px}
+@media(max-width:760px){.site-header nav{gap:18px}.notes-layout{grid-template-columns:1fr;gap:25px;padding-top:25px}.notes-sidebar{grid-row:1}.notes-sidebar h2{font-size:19px}.notes-sidebar nav{display:flex;flex-wrap:wrap;gap:8px}.notes-sidebar nav>a{padding:5px 10px;border:1px solid var(--line);font-size:14px}.notes-sidebar>p,.notes-blog-link{display:none}.note-row h2{font-size:22px}.note-heading .note-description{font-size:16px}.home-notes .note-rows{grid-template-columns:1fr;gap:0}.home-notes .note-row{border-bottom:1px solid var(--line);padding-block:22px}.home-notes .note-row:last-child{border:0}}
+@media(max-width:380px){.site-header nav{gap:12px}.site-header nav a{font-size:14px}.site-header .wordmark{font-size:25px}}

@@ -1,0 +1,14 @@
+---
+import type {CollectionEntry} from 'astro:content';
+import {noteKinds, noteTopics, noteUrl} from '../data/notes';
+interface Props {notes: CollectionEntry<'notes'>[];}
+const {notes} = Astro.props;
+---
+<div class="note-rows">
+{notes.map(note => <article class="note-row" data-topics={note.data.topics.join(' ')} data-search={`${note.data.title} ${note.data.description} ${note.data.tags.join(' ')} ${note.data.topics.map(t => noteTopics[t]).join(' ')}`}>
+  <div class="note-meta"><span>{noteKinds[note.data.kind]}</span><span>更新 <time datetime={note.data.updatedAt}>{note.data.updatedAt}</time></span></div>
+  <h2><a href={noteUrl(note.id)}>{note.data.title}</a></h2>
+  <p>{note.data.description}</p>
+  <div class="note-tags">{note.data.topics.map(t => <span>{noteTopics[t]}</span>)}{note.data.tags.map(tag => <span>{tag}</span>)}</div>
+</article>)}
+</div>
